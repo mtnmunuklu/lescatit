@@ -1,8 +1,8 @@
 package repository
 
 import (
+	"CWS/authentication/models"
 	"CWS/db"
-	"CWS/models"
 	"fmt"
 	"log"
 	"testing"
