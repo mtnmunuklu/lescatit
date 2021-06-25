@@ -188,3 +188,28 @@ func TestUsersRepositoryDelete(t *testing.T) {
 	assert.EqualError(t, mgo.ErrNotFound, err.Error())
 	assert.Nil(t, found)
 }
+func TestUsersRepositoryGetAll(t *testing.T) {
+	cfg := db.NewConfig()
+	conn, err := db.NewConnection(cfg)
+	assert.NoError(t, err)
+	defer conn.Close()
+
+	id := bson.NewObjectId()
+
+	user := &models.User{
+		Id:       id,
+		Name:     "TEST",
+		Email:    fmt.Sprintf("%s@email.test", id.Hex()),
+		Password: "123456789",
+		Created:  time.Now(),
+		Updated:  time.Now(),
+	}
+
+	r := NewUsersRepository(conn)
+	err = r.Save(user)
+	assert.NoError(t, err)
+
+	users, err := r.GetAll()
+	assert.NoError(t, err)
+	assert.NotEmpty(t, users)
+}
