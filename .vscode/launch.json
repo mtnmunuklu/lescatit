@@ -5,11 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Package",
+            "name": "Authentication Debug",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/authentication/main.go"
+        },
+        {
+            "name": "Api Debug",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/api/main.go"
         }
     ]
 }
