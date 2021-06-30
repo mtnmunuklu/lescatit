@@ -14,6 +14,7 @@ var (
 	ErrEmptyEmail        = errors.New("email can't be empty")
 	ErrEmptyPassword     = errors.New("password can't be empty")
 	ErrEmailAlreadyExist = errors.New("email already exist")
+	ErrSignInFailed      = errors.New("signin failed")
 )
 
 func ValidateSignUp(user *pb.User) error {
