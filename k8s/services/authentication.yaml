@@ -61,7 +61,6 @@ kind: Service
 metadata:
   name: auth-service
 spec:
-  type: NodePort
   ports:
     - protocol: TCP
       port: 9001
