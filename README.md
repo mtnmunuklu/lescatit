@@ -1,2 +1,2 @@
 # CWS
-Correlation Web Service
+Categorization Web Service
