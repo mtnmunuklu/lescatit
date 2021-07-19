@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message Category {
+    string id = 1;
+    string url = 2;
+    string category = 3;
+    int64 created = 4;
+    int64 updated = 5;
+    int64 revision = 6;
+}
+
+message GetCategoryRequest {
+    string url = 1;
+}
+
+message ListUrlsRequest {
+    repeated string category = 1;
+    string count = 2;
+}
+
+message DeleteUrlResponse {
+    string url = 1;
+}
+
+service CategoryService {
+    rpc GetCategory(GetCategoryRequest) returns (Category);
+    rpc ReportMiscategorization(GetCategoryRequest) returns (Category);
+    rpc ListUrls(ListUrlsRequest) returns (stream Category);
+    rpc UpdateCategory(Category) returns (Category);
+    rpc AddUrl(Category) returns (Category);
+    rpc DeleteUrl (GetCategoryRequest) returns (DeleteUrlResponse);
+}
