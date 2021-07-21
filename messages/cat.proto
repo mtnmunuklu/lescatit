@@ -22,15 +22,20 @@ message ListUrlsRequest {
     string count = 2;
 }
 
+message UpdateCategoryRequest {
+    string url = 1;
+    string category = 2;
+}
+
 message DeleteUrlResponse {
     string url = 1;
 }
 
-service CategoryService {
+service CatService {
     rpc GetCategory(GetCategoryRequest) returns (Category);
     rpc ReportMiscategorization(GetCategoryRequest) returns (Category);
     rpc ListUrls(ListUrlsRequest) returns (stream Category);
-    rpc UpdateCategory(Category) returns (Category);
+    rpc UpdateCategory(UpdateCategoryRequest) returns (Category);
     rpc AddUrl(Category) returns (Category);
     rpc DeleteUrl (GetCategoryRequest) returns (DeleteUrlResponse);
 }

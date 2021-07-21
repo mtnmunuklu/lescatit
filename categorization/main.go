@@ -41,14 +41,14 @@ func main() {
 	defer conn.Close()
 
 	categoriesRepository := repository.NewCategoriesRepository(conn)
-	categoryService := service.NewCategorySevice(categoriesRepository)
+	categoryService := service.NewCatSevice(categoriesRepository)
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterCategoryServiceServer(grpcServer, categoryService)
+	pb.RegisterCatServiceServer(grpcServer, categoryService)
 	log.Printf("Categorization service running on [::]:%d\n", port)
 
 	grpcServer.Serve(lis)

@@ -15,7 +15,7 @@ type categoryService struct {
 	categoriesRepository repository.CategoriesRepository
 }
 
-func NewCategorySevice(categoriesRepository repository.CategoriesRepository) pb.CategoryServiceServer {
+func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatServiceServer {
 	return &categoryService{categoriesRepository: categoriesRepository}
 }
 
@@ -53,7 +53,7 @@ func (s *categoryService) ReportMiscategorization(ctx context.Context, req *pb.G
 	return found.ToProtoBuffer(), err
 }
 
-func (s *categoryService) ListUrls(req *pb.ListUrlsRequest, stream pb.CategoryService_ListUrlsServer) error {
+func (s *categoryService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error {
 	err := validators.ValidateCategory(req.Category)
 	if err != nil {
 		return err
@@ -80,7 +80,7 @@ func (s *categoryService) ListUrls(req *pb.ListUrlsRequest, stream pb.CategorySe
 	return nil
 }
 
-func (s *categoryService) UpdateCategory(ctx context.Context, req *pb.Category) (*pb.Category, error) {
+func (s *categoryService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
 		return nil, err
