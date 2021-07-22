@@ -163,8 +163,8 @@ type ListUrlsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Category []string `protobuf:"bytes,1,rep,name=category,proto3" json:"category,omitempty"`
-	Count    string   `protobuf:"bytes,2,opt,name=count,proto3" json:"count,omitempty"`
+	Categories []string `protobuf:"bytes,1,rep,name=categories,proto3" json:"categories,omitempty"`
+	Count      string   `protobuf:"bytes,2,opt,name=count,proto3" json:"count,omitempty"`
 }
 
 func (x *ListUrlsRequest) Reset() {
@@ -199,9 +199,9 @@ func (*ListUrlsRequest) Descriptor() ([]byte, []int) {
 	return file_cat_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ListUrlsRequest) GetCategory() []string {
+func (x *ListUrlsRequest) GetCategories() []string {
 	if x != nil {
-		return x.Category
+		return x.Categories
 	}
 	return nil
 }
@@ -268,6 +268,194 @@ func (x *UpdateCategoryRequest) GetCategory() string {
 	return ""
 }
 
+type AddUrlsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Urls []string `protobuf:"bytes,1,rep,name=urls,proto3" json:"urls,omitempty"`
+}
+
+func (x *AddUrlsRequest) Reset() {
+	*x = AddUrlsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cat_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AddUrlsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddUrlsRequest) ProtoMessage() {}
+
+func (x *AddUrlsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_cat_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddUrlsRequest.ProtoReflect.Descriptor instead.
+func (*AddUrlsRequest) Descriptor() ([]byte, []int) {
+	return file_cat_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *AddUrlsRequest) GetUrls() []string {
+	if x != nil {
+		return x.Urls
+	}
+	return nil
+}
+
+type AddUrlRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+}
+
+func (x *AddUrlRequest) Reset() {
+	*x = AddUrlRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cat_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AddUrlRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddUrlRequest) ProtoMessage() {}
+
+func (x *AddUrlRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_cat_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddUrlRequest.ProtoReflect.Descriptor instead.
+func (*AddUrlRequest) Descriptor() ([]byte, []int) {
+	return file_cat_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *AddUrlRequest) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+type DeleteUrlsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Urls []string `protobuf:"bytes,1,rep,name=urls,proto3" json:"urls,omitempty"`
+}
+
+func (x *DeleteUrlsRequest) Reset() {
+	*x = DeleteUrlsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cat_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteUrlsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUrlsRequest) ProtoMessage() {}
+
+func (x *DeleteUrlsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_cat_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUrlsRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUrlsRequest) Descriptor() ([]byte, []int) {
+	return file_cat_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DeleteUrlsRequest) GetUrls() []string {
+	if x != nil {
+		return x.Urls
+	}
+	return nil
+}
+
+type DeleteUrlRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+}
+
+func (x *DeleteUrlRequest) Reset() {
+	*x = DeleteUrlRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cat_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteUrlRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUrlRequest) ProtoMessage() {}
+
+func (x *DeleteUrlRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_cat_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUrlRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUrlRequest) Descriptor() ([]byte, []int) {
+	return file_cat_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DeleteUrlRequest) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 type DeleteUrlResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -279,7 +467,7 @@ type DeleteUrlResponse struct {
 func (x *DeleteUrlResponse) Reset() {
 	*x = DeleteUrlResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cat_proto_msgTypes[4]
+		mi := &file_cat_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -292,7 +480,7 @@ func (x *DeleteUrlResponse) String() string {
 func (*DeleteUrlResponse) ProtoMessage() {}
 
 func (x *DeleteUrlResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_cat_proto_msgTypes[4]
+	mi := &file_cat_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -305,7 +493,7 @@ func (x *DeleteUrlResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUrlResponse.ProtoReflect.Descriptor instead.
 func (*DeleteUrlResponse) Descriptor() ([]byte, []int) {
-	return file_cat_proto_rawDescGZIP(), []int{4}
+	return file_cat_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteUrlResponse) GetUrl() string {
@@ -331,40 +519,56 @@ var file_cat_proto_rawDesc = []byte{
 	0x52, 0x08, 0x72, 0x65, 0x76, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x26, 0x0a, 0x12, 0x47, 0x65,
 	0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75,
-	0x72, 0x6c, 0x22, 0x43, 0x0a, 0x0f, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x72, 0x6c, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
-	0x79, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
-	0x79, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x45, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75,
-	0x72, 0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x22, 0x25,
-	0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x03, 0x75, 0x72, 0x6c, 0x32, 0xd0, 0x02, 0x0a, 0x0a, 0x43, 0x61, 0x74, 0x53, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x12, 0x33, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67,
-	0x6f, 0x72, 0x79, 0x12, 0x16, 0x2e, 0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65,
-	0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0c, 0x2e, 0x70, 0x62,
-	0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x3f, 0x0a, 0x17, 0x52, 0x65, 0x70,
-	0x6f, 0x72, 0x74, 0x4d, 0x69, 0x73, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x7a, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74,
-	0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0c, 0x2e, 0x70,
-	0x62, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x2f, 0x0a, 0x08, 0x4c, 0x69,
+	0x72, 0x6c, 0x22, 0x47, 0x0a, 0x0f, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x72, 0x6c, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
+	0x69, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x61, 0x74, 0x65, 0x67,
+	0x6f, 0x72, 0x69, 0x65, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x45, 0x0a, 0x15, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f,
+	0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f,
+	0x72, 0x79, 0x22, 0x24, 0x0a, 0x0e, 0x41, 0x64, 0x64, 0x55, 0x72, 0x6c, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x72, 0x6c, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x09, 0x52, 0x04, 0x75, 0x72, 0x6c, 0x73, 0x22, 0x21, 0x0a, 0x0d, 0x41, 0x64, 0x64, 0x55,
+	0x72, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x22, 0x27, 0x0a, 0x11, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x12, 0x0a, 0x04, 0x75, 0x72, 0x6c, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x04,
+	0x75, 0x72, 0x6c, 0x73, 0x22, 0x24, 0x0a, 0x10, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72,
+	0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x22, 0x25, 0x0a, 0x11, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72,
+	0x6c, 0x32, 0xb7, 0x03, 0x0a, 0x0a, 0x43, 0x61, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x12, 0x33, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12,
+	0x16, 0x2e, 0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61, 0x74,
+	0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x39, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43,
+	0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x19, 0x2e, 0x70, 0x62, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79,
+	0x12, 0x3f, 0x0a, 0x17, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x4d, 0x69, 0x73, 0x63, 0x61, 0x74,
+	0x65, 0x67, 0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x70, 0x62,
+	0x2e, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
+	0x79, 0x12, 0x2d, 0x0a, 0x07, 0x41, 0x64, 0x64, 0x55, 0x72, 0x6c, 0x73, 0x12, 0x12, 0x2e, 0x70,
+	0x62, 0x2e, 0x41, 0x64, 0x64, 0x55, 0x72, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x30, 0x01,
+	0x12, 0x29, 0x0a, 0x06, 0x41, 0x64, 0x64, 0x55, 0x72, 0x6c, 0x12, 0x11, 0x2e, 0x70, 0x62, 0x2e,
+	0x41, 0x64, 0x64, 0x55, 0x72, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0c, 0x2e,
+	0x70, 0x62, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x33, 0x0a, 0x0a, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c, 0x73, 0x12, 0x15, 0x2e, 0x70, 0x62, 0x2e, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x30, 0x01,
+	0x12, 0x38, 0x0a, 0x09, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c, 0x12, 0x14, 0x2e,
+	0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55,
+	0x72, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2f, 0x0a, 0x08, 0x4c, 0x69,
 	0x73, 0x74, 0x55, 0x72, 0x6c, 0x73, 0x12, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74,
 	0x55, 0x72, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0c, 0x2e, 0x70, 0x62,
-	0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x30, 0x01, 0x12, 0x39, 0x0a, 0x0e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x19, 0x2e,
-	0x70, 0x62, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
-	0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61,
-	0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x24, 0x0a, 0x06, 0x41, 0x64, 0x64, 0x55, 0x72, 0x6c,
-	0x12, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x1a, 0x0c,
-	0x2e, 0x70, 0x62, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x3a, 0x0a, 0x09,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c, 0x12, 0x16, 0x2e, 0x70, 0x62, 0x2e, 0x47,
-	0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x15, 0x2e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x72, 0x6c,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x70, 0x62,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x30, 0x01, 0x42, 0x06, 0x5a, 0x04, 0x2e,
+	0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -379,29 +583,37 @@ func file_cat_proto_rawDescGZIP() []byte {
 	return file_cat_proto_rawDescData
 }
 
-var file_cat_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_cat_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_cat_proto_goTypes = []interface{}{
 	(*Category)(nil),              // 0: pb.Category
 	(*GetCategoryRequest)(nil),    // 1: pb.GetCategoryRequest
 	(*ListUrlsRequest)(nil),       // 2: pb.ListUrlsRequest
 	(*UpdateCategoryRequest)(nil), // 3: pb.UpdateCategoryRequest
-	(*DeleteUrlResponse)(nil),     // 4: pb.DeleteUrlResponse
+	(*AddUrlsRequest)(nil),        // 4: pb.AddUrlsRequest
+	(*AddUrlRequest)(nil),         // 5: pb.AddUrlRequest
+	(*DeleteUrlsRequest)(nil),     // 6: pb.DeleteUrlsRequest
+	(*DeleteUrlRequest)(nil),      // 7: pb.DeleteUrlRequest
+	(*DeleteUrlResponse)(nil),     // 8: pb.DeleteUrlResponse
 }
 var file_cat_proto_depIdxs = []int32{
 	1, // 0: pb.CatService.GetCategory:input_type -> pb.GetCategoryRequest
-	1, // 1: pb.CatService.ReportMiscategorization:input_type -> pb.GetCategoryRequest
-	2, // 2: pb.CatService.ListUrls:input_type -> pb.ListUrlsRequest
-	3, // 3: pb.CatService.UpdateCategory:input_type -> pb.UpdateCategoryRequest
-	0, // 4: pb.CatService.AddUrl:input_type -> pb.Category
-	1, // 5: pb.CatService.DeleteUrl:input_type -> pb.GetCategoryRequest
-	0, // 6: pb.CatService.GetCategory:output_type -> pb.Category
-	0, // 7: pb.CatService.ReportMiscategorization:output_type -> pb.Category
-	0, // 8: pb.CatService.ListUrls:output_type -> pb.Category
+	3, // 1: pb.CatService.UpdateCategory:input_type -> pb.UpdateCategoryRequest
+	1, // 2: pb.CatService.ReportMiscategorization:input_type -> pb.GetCategoryRequest
+	4, // 3: pb.CatService.AddUrls:input_type -> pb.AddUrlsRequest
+	5, // 4: pb.CatService.AddUrl:input_type -> pb.AddUrlRequest
+	6, // 5: pb.CatService.DeleteUrls:input_type -> pb.DeleteUrlsRequest
+	7, // 6: pb.CatService.DeleteUrl:input_type -> pb.DeleteUrlRequest
+	2, // 7: pb.CatService.ListUrls:input_type -> pb.ListUrlsRequest
+	0, // 8: pb.CatService.GetCategory:output_type -> pb.Category
 	0, // 9: pb.CatService.UpdateCategory:output_type -> pb.Category
-	0, // 10: pb.CatService.AddUrl:output_type -> pb.Category
-	4, // 11: pb.CatService.DeleteUrl:output_type -> pb.DeleteUrlResponse
-	6, // [6:12] is the sub-list for method output_type
-	0, // [0:6] is the sub-list for method input_type
+	0, // 10: pb.CatService.ReportMiscategorization:output_type -> pb.Category
+	0, // 11: pb.CatService.AddUrls:output_type -> pb.Category
+	0, // 12: pb.CatService.AddUrl:output_type -> pb.Category
+	0, // 13: pb.CatService.DeleteUrls:output_type -> pb.Category
+	8, // 14: pb.CatService.DeleteUrl:output_type -> pb.DeleteUrlResponse
+	0, // 15: pb.CatService.ListUrls:output_type -> pb.Category
+	8, // [8:16] is the sub-list for method output_type
+	0, // [0:8] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -462,6 +674,54 @@ func file_cat_proto_init() {
 			}
 		}
 		file_cat_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddUrlsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cat_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddUrlRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cat_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUrlsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cat_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUrlRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cat_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteUrlResponse); i {
 			case 0:
 				return &v.state
@@ -480,7 +740,7 @@ func file_cat_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_cat_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -507,11 +767,13 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type CatServiceClient interface {
 	GetCategory(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*Category, error)
-	ReportMiscategorization(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*Category, error)
-	ListUrls(ctx context.Context, in *ListUrlsRequest, opts ...grpc.CallOption) (CatService_ListUrlsClient, error)
 	UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*Category, error)
-	AddUrl(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
-	DeleteUrl(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*DeleteUrlResponse, error)
+	ReportMiscategorization(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*Category, error)
+	AddUrls(ctx context.Context, in *AddUrlsRequest, opts ...grpc.CallOption) (CatService_AddUrlsClient, error)
+	AddUrl(ctx context.Context, in *AddUrlRequest, opts ...grpc.CallOption) (*Category, error)
+	DeleteUrls(ctx context.Context, in *DeleteUrlsRequest, opts ...grpc.CallOption) (CatService_DeleteUrlsClient, error)
+	DeleteUrl(ctx context.Context, in *DeleteUrlRequest, opts ...grpc.CallOption) (*DeleteUrlResponse, error)
+	ListUrls(ctx context.Context, in *ListUrlsRequest, opts ...grpc.CallOption) (CatService_ListUrlsClient, error)
 }
 
 type catServiceClient struct {
@@ -531,6 +793,15 @@ func (c *catServiceClient) GetCategory(ctx context.Context, in *GetCategoryReque
 	return out, nil
 }
 
+func (c *catServiceClient) UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/pb.CatService/UpdateCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *catServiceClient) ReportMiscategorization(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*Category, error) {
 	out := new(Category)
 	err := c.cc.Invoke(ctx, "/pb.CatService/ReportMiscategorization", in, out, opts...)
@@ -540,8 +811,90 @@ func (c *catServiceClient) ReportMiscategorization(ctx context.Context, in *GetC
 	return out, nil
 }
 
+func (c *catServiceClient) AddUrls(ctx context.Context, in *AddUrlsRequest, opts ...grpc.CallOption) (CatService_AddUrlsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_CatService_serviceDesc.Streams[0], "/pb.CatService/AddUrls", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &catServiceAddUrlsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CatService_AddUrlsClient interface {
+	Recv() (*Category, error)
+	grpc.ClientStream
+}
+
+type catServiceAddUrlsClient struct {
+	grpc.ClientStream
+}
+
+func (x *catServiceAddUrlsClient) Recv() (*Category, error) {
+	m := new(Category)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *catServiceClient) AddUrl(ctx context.Context, in *AddUrlRequest, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/pb.CatService/AddUrl", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catServiceClient) DeleteUrls(ctx context.Context, in *DeleteUrlsRequest, opts ...grpc.CallOption) (CatService_DeleteUrlsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_CatService_serviceDesc.Streams[1], "/pb.CatService/DeleteUrls", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &catServiceDeleteUrlsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CatService_DeleteUrlsClient interface {
+	Recv() (*Category, error)
+	grpc.ClientStream
+}
+
+type catServiceDeleteUrlsClient struct {
+	grpc.ClientStream
+}
+
+func (x *catServiceDeleteUrlsClient) Recv() (*Category, error) {
+	m := new(Category)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *catServiceClient) DeleteUrl(ctx context.Context, in *DeleteUrlRequest, opts ...grpc.CallOption) (*DeleteUrlResponse, error) {
+	out := new(DeleteUrlResponse)
+	err := c.cc.Invoke(ctx, "/pb.CatService/DeleteUrl", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *catServiceClient) ListUrls(ctx context.Context, in *ListUrlsRequest, opts ...grpc.CallOption) (CatService_ListUrlsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_CatService_serviceDesc.Streams[0], "/pb.CatService/ListUrls", opts...)
+	stream, err := c.cc.NewStream(ctx, &_CatService_serviceDesc.Streams[2], "/pb.CatService/ListUrls", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -572,41 +925,16 @@ func (x *catServiceListUrlsClient) Recv() (*Category, error) {
 	return m, nil
 }
 
-func (c *catServiceClient) UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*Category, error) {
-	out := new(Category)
-	err := c.cc.Invoke(ctx, "/pb.CatService/UpdateCategory", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *catServiceClient) AddUrl(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
-	out := new(Category)
-	err := c.cc.Invoke(ctx, "/pb.CatService/AddUrl", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *catServiceClient) DeleteUrl(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*DeleteUrlResponse, error) {
-	out := new(DeleteUrlResponse)
-	err := c.cc.Invoke(ctx, "/pb.CatService/DeleteUrl", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // CatServiceServer is the server API for CatService service.
 type CatServiceServer interface {
 	GetCategory(context.Context, *GetCategoryRequest) (*Category, error)
-	ReportMiscategorization(context.Context, *GetCategoryRequest) (*Category, error)
-	ListUrls(*ListUrlsRequest, CatService_ListUrlsServer) error
 	UpdateCategory(context.Context, *UpdateCategoryRequest) (*Category, error)
-	AddUrl(context.Context, *Category) (*Category, error)
-	DeleteUrl(context.Context, *GetCategoryRequest) (*DeleteUrlResponse, error)
+	ReportMiscategorization(context.Context, *GetCategoryRequest) (*Category, error)
+	AddUrls(*AddUrlsRequest, CatService_AddUrlsServer) error
+	AddUrl(context.Context, *AddUrlRequest) (*Category, error)
+	DeleteUrls(*DeleteUrlsRequest, CatService_DeleteUrlsServer) error
+	DeleteUrl(context.Context, *DeleteUrlRequest) (*DeleteUrlResponse, error)
+	ListUrls(*ListUrlsRequest, CatService_ListUrlsServer) error
 }
 
 // UnimplementedCatServiceServer can be embedded to have forward compatible implementations.
@@ -616,20 +944,26 @@ type UnimplementedCatServiceServer struct {
 func (*UnimplementedCatServiceServer) GetCategory(context.Context, *GetCategoryRequest) (*Category, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCategory not implemented")
 }
-func (*UnimplementedCatServiceServer) ReportMiscategorization(context.Context, *GetCategoryRequest) (*Category, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReportMiscategorization not implemented")
-}
-func (*UnimplementedCatServiceServer) ListUrls(*ListUrlsRequest, CatService_ListUrlsServer) error {
-	return status.Errorf(codes.Unimplemented, "method ListUrls not implemented")
-}
 func (*UnimplementedCatServiceServer) UpdateCategory(context.Context, *UpdateCategoryRequest) (*Category, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
 }
-func (*UnimplementedCatServiceServer) AddUrl(context.Context, *Category) (*Category, error) {
+func (*UnimplementedCatServiceServer) ReportMiscategorization(context.Context, *GetCategoryRequest) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReportMiscategorization not implemented")
+}
+func (*UnimplementedCatServiceServer) AddUrls(*AddUrlsRequest, CatService_AddUrlsServer) error {
+	return status.Errorf(codes.Unimplemented, "method AddUrls not implemented")
+}
+func (*UnimplementedCatServiceServer) AddUrl(context.Context, *AddUrlRequest) (*Category, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddUrl not implemented")
 }
-func (*UnimplementedCatServiceServer) DeleteUrl(context.Context, *GetCategoryRequest) (*DeleteUrlResponse, error) {
+func (*UnimplementedCatServiceServer) DeleteUrls(*DeleteUrlsRequest, CatService_DeleteUrlsServer) error {
+	return status.Errorf(codes.Unimplemented, "method DeleteUrls not implemented")
+}
+func (*UnimplementedCatServiceServer) DeleteUrl(context.Context, *DeleteUrlRequest) (*DeleteUrlResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUrl not implemented")
+}
+func (*UnimplementedCatServiceServer) ListUrls(*ListUrlsRequest, CatService_ListUrlsServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListUrls not implemented")
 }
 
 func RegisterCatServiceServer(s *grpc.Server, srv CatServiceServer) {
@@ -654,6 +988,24 @@ func _CatService_GetCategory_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CatService_UpdateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatServiceServer).UpdateCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.CatService/UpdateCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatServiceServer).UpdateCategory(ctx, req.(*UpdateCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CatService_ReportMiscategorization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetCategoryRequest)
 	if err := dec(in); err != nil {
@@ -668,6 +1020,84 @@ func _CatService_ReportMiscategorization_Handler(srv interface{}, ctx context.Co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CatServiceServer).ReportMiscategorization(ctx, req.(*GetCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatService_AddUrls_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(AddUrlsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CatServiceServer).AddUrls(m, &catServiceAddUrlsServer{stream})
+}
+
+type CatService_AddUrlsServer interface {
+	Send(*Category) error
+	grpc.ServerStream
+}
+
+type catServiceAddUrlsServer struct {
+	grpc.ServerStream
+}
+
+func (x *catServiceAddUrlsServer) Send(m *Category) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _CatService_AddUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddUrlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatServiceServer).AddUrl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.CatService/AddUrl",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatServiceServer).AddUrl(ctx, req.(*AddUrlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatService_DeleteUrls_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(DeleteUrlsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CatServiceServer).DeleteUrls(m, &catServiceDeleteUrlsServer{stream})
+}
+
+type CatService_DeleteUrlsServer interface {
+	Send(*Category) error
+	grpc.ServerStream
+}
+
+type catServiceDeleteUrlsServer struct {
+	grpc.ServerStream
+}
+
+func (x *catServiceDeleteUrlsServer) Send(m *Category) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _CatService_DeleteUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUrlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatServiceServer).DeleteUrl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.CatService/DeleteUrl",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatServiceServer).DeleteUrl(ctx, req.(*DeleteUrlRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -693,60 +1123,6 @@ func (x *catServiceListUrlsServer) Send(m *Category) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _CatService_UpdateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateCategoryRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatServiceServer).UpdateCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.CatService/UpdateCategory",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatServiceServer).UpdateCategory(ctx, req.(*UpdateCategoryRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CatService_AddUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Category)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatServiceServer).AddUrl(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.CatService/AddUrl",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatServiceServer).AddUrl(ctx, req.(*Category))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CatService_DeleteUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCategoryRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatServiceServer).DeleteUrl(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.CatService/DeleteUrl",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatServiceServer).DeleteUrl(ctx, req.(*GetCategoryRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _CatService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.CatService",
 	HandlerType: (*CatServiceServer)(nil),
@@ -756,12 +1132,12 @@ var _CatService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _CatService_GetCategory_Handler,
 		},
 		{
-			MethodName: "ReportMiscategorization",
-			Handler:    _CatService_ReportMiscategorization_Handler,
-		},
-		{
 			MethodName: "UpdateCategory",
 			Handler:    _CatService_UpdateCategory_Handler,
+		},
+		{
+			MethodName: "ReportMiscategorization",
+			Handler:    _CatService_ReportMiscategorization_Handler,
 		},
 		{
 			MethodName: "AddUrl",
@@ -773,6 +1149,16 @@ var _CatService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "AddUrls",
+			Handler:       _CatService_AddUrls_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "DeleteUrls",
+			Handler:       _CatService_DeleteUrls_Handler,
+			ServerStreams: true,
+		},
 		{
 			StreamName:    "ListUrls",
 			Handler:       _CatService_ListUrls_Handler,

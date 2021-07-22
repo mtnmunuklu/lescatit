@@ -18,7 +18,7 @@ message GetCategoryRequest {
 }
 
 message ListUrlsRequest {
-    repeated string category = 1;
+    repeated string categories = 1;
     string count = 2;
 }
 
@@ -27,15 +27,33 @@ message UpdateCategoryRequest {
     string category = 2;
 }
 
+message AddUrlsRequest {
+    repeated string urls = 1;
+}
+
+message AddUrlRequest {
+    string url = 1;
+}
+
+message DeleteUrlsRequest {
+    repeated string urls = 1;
+}
+
+message DeleteUrlRequest {
+    string url = 1;
+}
+
 message DeleteUrlResponse {
     string url = 1;
 }
 
 service CatService {
     rpc GetCategory(GetCategoryRequest) returns (Category);
-    rpc ReportMiscategorization(GetCategoryRequest) returns (Category);
-    rpc ListUrls(ListUrlsRequest) returns (stream Category);
     rpc UpdateCategory(UpdateCategoryRequest) returns (Category);
-    rpc AddUrl(Category) returns (Category);
-    rpc DeleteUrl (GetCategoryRequest) returns (DeleteUrlResponse);
+    rpc ReportMiscategorization(GetCategoryRequest) returns (Category);
+    rpc AddUrls(AddUrlsRequest) returns (stream Category);
+    rpc AddUrl(AddUrlRequest) returns (Category);
+    rpc DeleteUrls(DeleteUrlsRequest) returns (stream Category);
+    rpc DeleteUrl(DeleteUrlRequest) returns (DeleteUrlResponse);
+    rpc ListUrls(ListUrlsRequest) returns (stream Category);
 }
