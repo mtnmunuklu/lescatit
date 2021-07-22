@@ -27,12 +27,30 @@ func NewCatRoutes(catHandlers resthandlers.CatHandlers) []*Route {
 		},
 		{
 			Path:         "/urls",
+			Method:       http.MethodPost,
+			Handler:      catHandlers.AddUrls,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/urls",
+			Method:       http.MethodDelete,
+			Handler:      catHandlers.DeleteUrls,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/urls",
 			Method:       http.MethodGet,
 			Handler:      catHandlers.GetUrls,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/urls",
+			Path:         "/url",
+			Method:       http.MethodPost,
+			Handler:      catHandlers.AddUrl,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/url",
 			Method:       http.MethodDelete,
 			Handler:      catHandlers.DeleteUrl,
 			AuthRequired: true,
