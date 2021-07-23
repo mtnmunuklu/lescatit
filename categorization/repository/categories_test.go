@@ -3,6 +3,7 @@ package repository
 import (
 	"CWS/categorization/models"
 	"CWS/db"
+	"CWS/security"
 	"log"
 	"testing"
 	"time"
@@ -44,6 +45,7 @@ func TestCategoriesRepositorySave(t *testing.T) {
 		Updated:  time.Now(),
 		Revision: 0,
 	}
+	category.Url = security.Base64Encode(category.Url)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -70,6 +72,7 @@ func TestCategoriesRepositoryGetById(t *testing.T) {
 		Updated:  time.Now(),
 		Revision: 0,
 	}
+	category.Url = security.Base64Encode(category.Url)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -104,6 +107,7 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 		Updated:  time.Now(),
 		Revision: 0,
 	}
+	category.Url = security.Base64Encode(category.Url)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -138,6 +142,7 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 		Updated:  time.Now(),
 		Revision: 0,
 	}
+	category.Url = security.Base64Encode(category.Url)
 
 	id2 := bson.NewObjectId()
 
@@ -149,6 +154,7 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 		Updated:  time.Now(),
 		Revision: 0,
 	}
+	category2.Url = security.Base64Encode(category2.Url)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -178,6 +184,7 @@ func TestCategoriesRepositoryUpdate(t *testing.T) {
 		Updated:  time.Now(),
 		Revision: 0,
 	}
+	category.Url = security.Base64Encode(category.Url)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -213,6 +220,7 @@ func TestCategoriesRepositoryDelete(t *testing.T) {
 		Updated:  time.Now(),
 		Revision: 0,
 	}
+	category.Url = security.Base64Encode(category.Url)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)

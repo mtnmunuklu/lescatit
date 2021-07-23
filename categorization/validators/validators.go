@@ -11,7 +11,7 @@ import (
 var (
 	ErrInvalidUrlId    = errors.New("invalid urlId")
 	ErrInvalidUrl      = errors.New("invalid url")
-	ErrEmptyUrl        = errors.New("url can't be empty")
+	ErrEmptyUrls       = errors.New("urls can't be empty")
 	ErrUrlAlreadyExist = errors.New("url already exist")
 	ErrEmptyCategory   = errors.New("category can't be empty")
 	ErrInvalidCount    = errors.New("invalid count")
@@ -26,13 +26,13 @@ func ValidateUrl(reqUrL string) error {
 }
 func ValidateUrls(urls []string) error {
 	if len(urls) == 0 {
-		return ErrEmptyUrl
+		return ErrEmptyUrls
 	}
 	return nil
 }
 
-func ValidateCategory(category []string) error {
-	if len(category) == 0 {
+func ValidateCategories(categories []string) error {
+	if len(categories) == 0 {
 		return ErrEmptyCategory
 	}
 	return nil

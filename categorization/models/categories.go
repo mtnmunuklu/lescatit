@@ -33,4 +33,5 @@ func (c *Category) FromProtoBuffer(category *pb.Category) {
 	c.Category = category.GetCategory()
 	c.Created = time.Unix(category.GetCreated(), 0)
 	c.Updated = time.Unix(category.GetUpdated(), 0)
+	c.Revision = category.GetRevision()
 }

@@ -35,6 +35,30 @@ func (s *catService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 	return found.ToProtoBuffer(), nil
 }
 
+func (s *catService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
+	err := validators.ValidateUrl(req.Url)
+	if err != nil {
+		return nil, err
+	}
+	base64Url := security.Base64Encode(req.Url)
+	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+	if err != nil {
+		return nil, err
+	}
+	if found.Category == req.Category {
+		return found.ToProtoBuffer(), nil
+	}
+	found.Category = req.Category
+	found.Updated = time.Now()
+	found.Revision += 1
+	err = s.categoriesRepository.Update(found)
+	if err != nil {
+		return nil, err
+	}
+	found.Url = req.Url
+	return found.ToProtoBuffer(), nil
+}
+
 func (s *catService) ReportMiscategorization(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
@@ -52,30 +76,6 @@ func (s *catService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 		return found.ToProtoBuffer(), nil
 	}
 	found.Category = category
-	found.Updated = time.Now()
-	found.Revision += 1
-	err = s.categoriesRepository.Update(found)
-	if err != nil {
-		return nil, err
-	}
-	found.Url = req.Url
-	return found.ToProtoBuffer(), nil
-}
-
-func (s *catService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
-	err := validators.ValidateUrl(req.Url)
-	if err != nil {
-		return nil, err
-	}
-	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
-	if err != nil {
-		return nil, err
-	}
-	if found.Category == req.Category {
-		return found.ToProtoBuffer(), nil
-	}
-	found.Category = req.Category
 	found.Updated = time.Now()
 	found.Revision += 1
 	err = s.categoriesRepository.Update(found)
@@ -117,12 +117,13 @@ func (s *catService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 			if err != nil {
 				return err
 			}
-		}
-		if found == nil {
+		} else if found == nil {
 			return err
+		} else {
+			return validators.ErrUrlAlreadyExist
 		}
 	}
-	return validators.ErrUrlAlreadyExist
+	return nil
 }
 
 func (s *catService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Category, error) {
@@ -170,7 +171,7 @@ func (s *catService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_
 		if err != nil {
 			return err
 		}
-		err = s.categoriesRepository.Delete(base64Url)
+		err = s.categoriesRepository.Delete(category.Id.Hex())
 		if err != nil {
 			return err
 		}
@@ -189,7 +190,11 @@ func (s *catService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*
 		return nil, err
 	}
 	base64Url := security.Base64Encode(req.Url)
-	err = s.categoriesRepository.Delete(base64Url)
+	category, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+	if err != nil {
+		return nil, err
+	}
+	err = s.categoriesRepository.Delete(category.Id.Hex())
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +202,7 @@ func (s *catService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*
 }
 
 func (s *catService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error {
-	err := validators.ValidateCategory(req.Categories)
+	err := validators.ValidateCategories(req.Categories)
 	if err != nil {
 		return err
 	}
