@@ -45,8 +45,8 @@ func main() {
 	}
 	defer authConn.Close()
 
-	cetSvcClient := pb.NewCatServiceClient(catConn)
-	catHandlers := resthandlers.NewCatHandlers(cetSvcClient)
+	catSvcClient := pb.NewCatServiceClient(catConn)
+	catHandlers := resthandlers.NewCatHandlers(catSvcClient)
 	catRoutes := routes.NewCatRoutes(catHandlers)
 
 	router := mux.NewRouter().StrictSlash(true)

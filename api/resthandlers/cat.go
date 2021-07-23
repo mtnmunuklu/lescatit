@@ -114,13 +114,13 @@ func (h *catHandlers) AddUrls(w http.ResponseWriter, r *http.Request) {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	category := new(pb.AddUrlsRequest)
-	err = json.Unmarshal(body, category)
+	urls := new(pb.AddUrlsRequest)
+	err = json.Unmarshal(body, urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	stream, err := h.catSvcClient.AddUrls(r.Context(), category)
+	stream, err := h.catSvcClient.AddUrls(r.Context(), urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -151,13 +151,13 @@ func (h *catHandlers) AddUrl(w http.ResponseWriter, r *http.Request) {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	category := new(pb.AddUrlRequest)
-	err = json.Unmarshal(body, category)
+	url := new(pb.AddUrlRequest)
+	err = json.Unmarshal(body, url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	resp, err := h.catSvcClient.AddUrl(r.Context(), category)
+	resp, err := h.catSvcClient.AddUrl(r.Context(), url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -213,13 +213,13 @@ func (h *catHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	category := new(pb.DeleteUrlRequest)
-	err = json.Unmarshal(body, category)
+	url := new(pb.DeleteUrlRequest)
+	err = json.Unmarshal(body, url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	resp, err := h.catSvcClient.DeleteUrl(r.Context(), category)
+	resp, err := h.catSvcClient.DeleteUrl(r.Context(), url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
