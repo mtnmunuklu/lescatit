@@ -23,7 +23,7 @@ func init() {
 	conn, _ := db.NewConnection(cfg)
 	defer conn.Close()
 	r := NewCategoriesRepository(conn)
-	err = r.(*categoriesRepository).DeleteAll()
+	err = r.(*CRepository).DeleteAll()
 	if err != nil && err.Error() != "ns not found" {
 		log.Panicln(err)
 	}

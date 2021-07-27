@@ -13,15 +13,15 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type catService struct {
+type CatService struct {
 	categoriesRepository repository.CategoriesRepository
 }
 
 func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatServiceServer {
-	return &catService{categoriesRepository: categoriesRepository}
+	return &CatService{categoriesRepository: categoriesRepository}
 }
 
-func (s *catService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
+func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *catService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 	return found.ToProtoBuffer(), nil
 }
 
-func (s *catService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
+func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func (s *catService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 	return found.ToProtoBuffer(), nil
 }
 
-func (s *catService) ReportMiscategorization(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
+func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (s *catService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 	return found.ToProtoBuffer(), nil
 }
 
-func (s *catService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrlsServer) error {
+func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrlsServer) error {
 	err := validators.ValidateUrls(req.Urls)
 	if err != nil {
 		return err
@@ -126,7 +126,7 @@ func (s *catService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 	return nil
 }
 
-func (s *catService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Category, error) {
+func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (s *catService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Cat
 	return nil, validators.ErrUrlAlreadyExist
 }
 
-func (s *catService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_DeleteUrlsServer) error {
+func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_DeleteUrlsServer) error {
 	err := validators.ValidateUrls(req.Urls)
 	if err != nil {
 		return err
@@ -184,7 +184,7 @@ func (s *catService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_
 	return nil
 }
 
-func (s *catService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*pb.DeleteUrlResponse, error) {
+func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*pb.DeleteUrlResponse, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
 		return nil, err
@@ -201,7 +201,7 @@ func (s *catService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*
 	return &pb.DeleteUrlResponse{Url: req.Url}, nil
 }
 
-func (s *catService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error {
+func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error {
 	err := validators.ValidateCategories(req.Categories)
 	if err != nil {
 		return err
