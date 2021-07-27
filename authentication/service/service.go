@@ -15,15 +15,15 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type authService struct {
+type AuthService struct {
 	usersRepository repository.UsersRepository
 }
 
 func NewAuthService(usersRepository repository.UsersRepository) pb.AuthServiceServer {
-	return &authService{usersRepository: usersRepository}
+	return &AuthService{usersRepository: usersRepository}
 }
 
-func (s *authService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error) {
+func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error) {
 	err := validators.ValidateSignUp(req)
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *authService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error
 	return nil, validators.ErrEmailAlreadyExist
 }
 
-func (s *authService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
+func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
 	req.Email = validators.NormalizeEmail(req.Email)
 	user, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
@@ -77,7 +77,7 @@ func (s *authService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.Si
 	return &pb.SignInResponse{User: user.ToProtoBuffer(), Token: token}, nil
 }
 
-func (s *authService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error) {
+func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error) {
 	if !bson.IsObjectIdHex(req.Id) {
 		return nil, validators.ErrInvalidUserId
 	}
@@ -88,7 +88,7 @@ func (s *authService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 	return found.ToProtoBuffer(), nil
 }
 
-func (s *authService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error {
+func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error {
 	users, err := s.usersRepository.GetAll()
 	if err != nil {
 		return err
@@ -102,7 +102,7 @@ func (s *authService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_
 	return nil
 }
 
-func (s *authService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, error) {
+func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, error) {
 	if !bson.IsObjectIdHex(req.Id) {
 		return nil, validators.ErrInvalidUserId
 	}
@@ -123,7 +123,7 @@ func (s *authService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, e
 	return user.ToProtoBuffer(), err
 }
 
-func (s *authService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error) {
+func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error) {
 	if !bson.IsObjectIdHex(req.Id) {
 		return nil, validators.ErrInvalidUserId
 	}

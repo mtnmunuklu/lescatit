@@ -19,41 +19,41 @@ type UsersRepository interface {
 	Delete(id string) error
 }
 
-type usersRepository struct {
+type URepository struct {
 	c *mgo.Collection
 }
 
 func NewUsersRepository(conn db.Connection) UsersRepository {
-	return &usersRepository{c: conn.DB().C(UsersCollection)}
+	return &URepository{c: conn.DB().C(UsersCollection)}
 }
 
-func (r *usersRepository) Save(user *models.User) error {
+func (r *URepository) Save(user *models.User) error {
 	return r.c.Insert(user)
 }
 
-func (r *usersRepository) GetById(id string) (user *models.User, err error) {
+func (r *URepository) GetById(id string) (user *models.User, err error) {
 	err = r.c.FindId(bson.ObjectIdHex(id)).One(&user)
 	return user, err
 }
 
-func (r *usersRepository) GetByEmail(email string) (user *models.User, err error) {
+func (r *URepository) GetByEmail(email string) (user *models.User, err error) {
 	err = r.c.Find(bson.M{"email": email}).One(&user)
 	return user, err
 }
 
-func (r *usersRepository) GetAll() (user []*models.User, err error) {
+func (r *URepository) GetAll() (user []*models.User, err error) {
 	err = r.c.Find(bson.M{}).All(&user)
 	return user, err
 }
 
-func (r *usersRepository) Update(user *models.User) error {
+func (r *URepository) Update(user *models.User) error {
 	return r.c.UpdateId(user.Id, user)
 }
 
-func (r *usersRepository) Delete(id string) error {
+func (r *URepository) Delete(id string) error {
 	return r.c.RemoveId(bson.ObjectIdHex(id))
 }
 
-func (r *usersRepository) DeleteAll() error {
+func (r *URepository) DeleteAll() error {
 	return r.c.DropCollection()
 }

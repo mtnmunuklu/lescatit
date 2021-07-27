@@ -23,7 +23,7 @@ func init() {
 	conn, _ := db.NewConnection(cfg)
 	defer conn.Close()
 	r := NewUsersRepository(conn)
-	err = r.(*usersRepository).DeleteAll()
+	err = r.(*URepository).DeleteAll()
 	if err != nil {
 		log.Panicln(err)
 	}
