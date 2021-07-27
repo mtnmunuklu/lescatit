@@ -20,15 +20,15 @@ type CatHandlers interface {
 	GetUrls(w http.ResponseWriter, r *http.Request)
 }
 
-type catHandlers struct {
+type CHandlers struct {
 	catSvcClient pb.CatServiceClient
 }
 
 func NewCatHandlers(catSvcClient pb.CatServiceClient) CatHandlers {
-	return &catHandlers{catSvcClient: catSvcClient}
+	return &CHandlers{catSvcClient: catSvcClient}
 }
 
-func (h *catHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
+func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -53,7 +53,7 @@ func (h *catHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
-func (h *catHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
+func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -78,7 +78,7 @@ func (h *catHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
-func (h *catHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Request) {
+func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -103,7 +103,7 @@ func (h *catHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Req
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
-func (h *catHandlers) AddUrls(w http.ResponseWriter, r *http.Request) {
+func (h *CHandlers) AddUrls(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -140,7 +140,7 @@ func (h *catHandlers) AddUrls(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, categories)
 }
 
-func (h *catHandlers) AddUrl(w http.ResponseWriter, r *http.Request) {
+func (h *CHandlers) AddUrl(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -165,7 +165,7 @@ func (h *catHandlers) AddUrl(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
-func (h *catHandlers) DeleteUrls(w http.ResponseWriter, r *http.Request) {
+func (h *CHandlers) DeleteUrls(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -202,7 +202,7 @@ func (h *catHandlers) DeleteUrls(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, categories)
 }
 
-func (h *catHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
+func (h *CHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -228,7 +228,7 @@ func (h *catHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusNoContent, nil)
 }
 
-func (h *catHandlers) GetUrls(w http.ResponseWriter, r *http.Request) {
+func (h *CHandlers) GetUrls(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return

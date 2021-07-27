@@ -21,15 +21,15 @@ type AuthHandlers interface {
 	DeleteUser(w http.ResponseWriter, r *http.Request)
 }
 
-type authHandlers struct {
+type AHandlers struct {
 	authSvcClient pb.AuthServiceClient
 }
 
 func NewAuthHandlers(authSvcClient pb.AuthServiceClient) AuthHandlers {
-	return &authHandlers{authSvcClient: authSvcClient}
+	return &AHandlers{authSvcClient: authSvcClient}
 }
 
-func (h *authHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
+func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -57,7 +57,7 @@ func (h *authHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusCreated, resp)
 }
 
-func (h *authHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
+func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -82,7 +82,7 @@ func (h *authHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
-func (h *authHandlers) PutUser(w http.ResponseWriter, r *http.Request) {
+func (h *AHandlers) PutUser(w http.ResponseWriter, r *http.Request) {
 	tokenPayload, err := restutil.AuthRequestWithId(r)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
@@ -113,7 +113,7 @@ func (h *authHandlers) PutUser(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
-func (h *authHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
+func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	tokenPayload, err := restutil.AuthRequestWithId(r)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
@@ -127,7 +127,7 @@ func (h *authHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
-func (h *authHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
+func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	stream, err := h.authSvcClient.ListUsers(r.Context(), &pb.ListUsersRequest{})
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
@@ -148,7 +148,7 @@ func (h *authHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, users)
 }
 
-func (h *authHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
+func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	tokenPayload, err := restutil.AuthRequestWithId(r)
 	if err != nil {
