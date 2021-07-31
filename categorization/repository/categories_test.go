@@ -39,7 +39,7 @@ func TestCategoriesRepositorySave(t *testing.T) {
 
 	category := &models.Category{
 		Id:       id,
-		Url:      "https://www.haberler1.com/",
+		Url:      "https://www.example.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -66,7 +66,7 @@ func TestCategoriesRepositoryGetById(t *testing.T) {
 
 	category := &models.Category{
 		Id:       id,
-		Url:      "https://www.haberler2.com/",
+		Url:      "https://www.example2.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -101,7 +101,7 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 
 	category := &models.Category{
 		Id:       id,
-		Url:      "https://www.haberler3.com/",
+		Url:      "https://www.example3.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -136,7 +136,7 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 
 	category := &models.Category{
 		Id:       id,
-		Url:      "https://www.haberler4.com/",
+		Url:      "https://www.example4.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -148,7 +148,7 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 
 	category2 := &models.Category{
 		Id:       id2,
-		Url:      "https://www.haberler5.com/",
+		Url:      "https://www.example5.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -178,7 +178,7 @@ func TestCategoriesRepositoryUpdate(t *testing.T) {
 
 	category := &models.Category{
 		Id:       id,
-		Url:      "https://www.haberler6.com/",
+		Url:      "https://www.example6.com/",
 		Category: "Gambling",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -214,7 +214,7 @@ func TestCategoriesRepositoryDelete(t *testing.T) {
 
 	category := &models.Category{
 		Id:       id,
-		Url:      "https://www.haberler.com/",
+		Url:      "https://www.example7.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),

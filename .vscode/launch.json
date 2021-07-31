@@ -12,6 +12,13 @@
             "program": "${workspaceFolder}/authentication/main.go"
         },
         {
+            "name": "Categorization Debug",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/categorization/main.go"
+        },
+        {
             "name": "Api Debug",
             "type": "go",
             "request": "launch",
