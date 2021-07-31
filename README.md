@@ -1,2 +1,2 @@
-# CWS
-Categorization Web Service
+# Lescatit
+Let's categorized it. Categorization Web Service
