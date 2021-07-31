@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type CatHandlers interface {
@@ -29,22 +30,13 @@ func NewCatHandlers(catSvcClient pb.CatServiceClient) CatHandlers {
 }
 
 func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
-		return
-	}
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+	rUrl := strings.TrimSpace(r.Header.Get("Url"))
+	if rUrl == "" {
+		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
 		return
 	}
 	category := new(pb.GetCategoryRequest)
-	err = json.Unmarshal(body, category)
-	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
+	category.Url = rUrl
 	resp, err := h.catSvcClient.GetCategory(r.Context(), category)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
@@ -166,22 +158,14 @@ func (h *CHandlers) AddUrl(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *CHandlers) DeleteUrls(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+	rUrls := strings.TrimSpace(r.Header.Get("Urls"))
+	if rUrls == "" {
+		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
 		return
 	}
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
+	splittedUrls := strings.Split(rUrls, ",")
 	urls := new(pb.DeleteUrlsRequest)
-	err = json.Unmarshal(body, urls)
-	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
+	urls.Urls = splittedUrls
 	stream, err := h.catSvcClient.DeleteUrls(r.Context(), urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
@@ -203,22 +187,13 @@ func (h *CHandlers) DeleteUrls(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *CHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
-		return
-	}
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+	rUrl := strings.TrimSpace(r.Header.Get("Url"))
+	if rUrl == "" {
+		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
 		return
 	}
 	url := new(pb.DeleteUrlRequest)
-	err = json.Unmarshal(body, url)
-	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
+	url.Url = rUrl
 	resp, err := h.catSvcClient.DeleteUrl(r.Context(), url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
@@ -229,22 +204,16 @@ func (h *CHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *CHandlers) GetUrls(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+	rCategories := strings.TrimSpace(r.Header.Get("Categories"))
+	rCount := strings.TrimSpace(r.Header.Get("Count"))
+	if rCategories == "" || rCount == "" {
+		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
 		return
 	}
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
+	splittedCategories := strings.Split(rCategories, ",")
 	urls := new(pb.ListUrlsRequest)
-	err = json.Unmarshal(body, urls)
-	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
+	urls.Categories = splittedCategories
+	urls.Count = rCount
 	stream, err := h.catSvcClient.ListUrls(r.Context(), urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)

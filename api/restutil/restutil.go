@@ -11,6 +11,7 @@ import (
 
 var (
 	ErrEmptyBody    = errors.New("body can't be empty")
+	ErrEmptyHeader  = errors.New("header can't be empty")
 	ErrUnauthorized = errors.New("unauthorized")
 )
 
