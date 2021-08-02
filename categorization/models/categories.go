@@ -7,6 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Category provides the category instance for categorization job.
 type Category struct {
 	Id       bson.ObjectId `bson:"_id"`
 	Url      string        `bson:"url"`
@@ -16,6 +17,7 @@ type Category struct {
 	Revision int64         `bson:"revision"`
 }
 
+// ToProtoBuffer converts the category structure into a protocol buffer category structure.
 func (c *Category) ToProtoBuffer() *pb.Category {
 	return &pb.Category{
 		Id:       c.Id.Hex(),
@@ -27,6 +29,7 @@ func (c *Category) ToProtoBuffer() *pb.Category {
 	}
 }
 
+// FromProtoBuffer gets category from protocol buffer and converts to the category structure.
 func (c *Category) FromProtoBuffer(category *pb.Category) {
 	c.Id = bson.ObjectIdHex(category.GetId())
 	c.Url = category.GetUrl()

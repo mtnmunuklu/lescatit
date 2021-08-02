@@ -14,17 +14,20 @@ import (
 	"google.golang.org/grpc"
 )
 
+// Contains some variables(port, local) for categorization service.
 var (
 	local bool
 	port  int
 )
 
+// Init initializes the specify options for categorization service.
 func init() {
 	flag.IntVar(&port, "port", 9002, "categorization service port")
 	flag.BoolVar(&local, "local", true, "run categorization service local")
 	flag.Parse()
 }
 
+// Main starts the categorization service.
 func main() {
 	if local {
 		err := godotenv.Load()

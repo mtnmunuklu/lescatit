@@ -13,14 +13,17 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// CatService provides categoriesRepository for categorization service.
 type CatService struct {
 	categoriesRepository repository.CategoriesRepository
 }
 
+// NewCatService creates a new CatService instance.
 func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatServiceServer {
 	return &CatService{categoriesRepository: categoriesRepository}
 }
 
+// GetCategory performs return the category by url.
 func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
@@ -35,6 +38,7 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 	return found.ToProtoBuffer(), nil
 }
 
+// UpdateCategory performs update the category.
 func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
@@ -59,6 +63,7 @@ func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 	return found.ToProtoBuffer(), nil
 }
 
+// ReportMiscategorization reports miscategorization.
 func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
@@ -86,6 +91,7 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 	return found.ToProtoBuffer(), nil
 }
 
+// AddUrls performs add the urls.
 func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrlsServer) error {
 	err := validators.ValidateUrls(req.Urls)
 	if err != nil {
@@ -126,6 +132,7 @@ func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 	return nil
 }
 
+// AddUrl performs add the url.
 func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Category, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
@@ -156,6 +163,7 @@ func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Cat
 	return nil, validators.ErrUrlAlreadyExist
 }
 
+// DeleteUrls performs delete the urls.
 func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_DeleteUrlsServer) error {
 	err := validators.ValidateUrls(req.Urls)
 	if err != nil {
@@ -184,6 +192,7 @@ func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_
 	return nil
 }
 
+// DeleteUrl performs delete the url.
 func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*pb.DeleteUrlResponse, error) {
 	err := validators.ValidateUrl(req.Url)
 	if err != nil {
@@ -201,6 +210,7 @@ func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*
 	return &pb.DeleteUrlResponse{Url: req.Url}, nil
 }
 
+// ListUrls performs list the urls based on categories and count.
 func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error {
 	err := validators.ValidateCategories(req.Categories)
 	if err != nil {

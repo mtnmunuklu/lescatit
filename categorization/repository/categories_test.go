@@ -14,6 +14,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Init initializes the database connection and drops categories collection.
 func init() {
 	err := godotenv.Load("../.env")
 	if err != nil {
@@ -29,6 +30,7 @@ func init() {
 	}
 }
 
+// TestCategoriesRepositorySave tests the operation to url add.
 func TestCategoriesRepositorySave(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -56,6 +58,7 @@ func TestCategoriesRepositorySave(t *testing.T) {
 	assert.NotNil(t, found)
 }
 
+// TestCategoriesRepositoryGetById tests the operation to return url based on id.
 func TestCategoriesRepositoryGetById(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -91,6 +94,7 @@ func TestCategoriesRepositoryGetById(t *testing.T) {
 	assert.Nil(t, found)
 }
 
+// TestCategoriesRepositoryGetCategoryByUrl tests the operation to return category based on url.
 func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -126,6 +130,7 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 	assert.Nil(t, found)
 }
 
+// TestCategoriesRepositoryGetAllUrlsByCategory tests the operation to return all urls based on category.
 func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -168,6 +173,7 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 	assert.NotEmpty(t, founds)
 }
 
+// TestCategoriesRepositoryUpdate tests the operation a category update.
 func TestCategoriesRepositoryUpdate(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -204,6 +210,7 @@ func TestCategoriesRepositoryUpdate(t *testing.T) {
 
 }
 
+// TestCategoriesRepositoryDelete tests the operation a url delete.
 func TestCategoriesRepositoryDelete(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
