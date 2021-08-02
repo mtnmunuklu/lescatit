@@ -8,6 +8,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Contains error codes for authentication service.
 var (
 	ErrInvalidUserId     = errors.New("invalid userId")
 	ErrEmptyName         = errors.New("name can't be empty")
@@ -17,6 +18,7 @@ var (
 	ErrSignInFailed      = errors.New("signin failed")
 )
 
+// ValidateSingnUp validates the user information for user registration process.
 func ValidateSignUp(user *pb.User) error {
 	if !bson.IsObjectIdHex(user.Id) {
 		return ErrInvalidUserId
@@ -30,6 +32,7 @@ func ValidateSignUp(user *pb.User) error {
 	return nil
 }
 
+// NormalizeEmail normalizes the user email address.
 func NormalizeEmail(email string) string {
 	return strings.TrimSpace(strings.ToLower(email))
 }

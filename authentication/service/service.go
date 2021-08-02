@@ -15,14 +15,17 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// AuthService provides usersRepository for authentication service.
 type AuthService struct {
 	usersRepository repository.UsersRepository
 }
 
+// NewAuthService creates a new AuthService instance.
 func NewAuthService(usersRepository repository.UsersRepository) pb.AuthServiceServer {
 	return &AuthService{usersRepository: usersRepository}
 }
 
+// SignUp performs the user registration process.
 func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error) {
 	err := validators.ValidateSignUp(req)
 	if err != nil {
@@ -54,6 +57,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error
 	return nil, validators.ErrEmailAlreadyExist
 }
 
+// SignUp performs the user login process.
 func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
 	req.Email = validators.NormalizeEmail(req.Email)
 	user, err := s.usersRepository.GetByEmail(req.Email)
@@ -77,6 +81,7 @@ func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.Si
 	return &pb.SignInResponse{User: user.ToProtoBuffer(), Token: token}, nil
 }
 
+// GetUser performs return the user by id.
 func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error) {
 	if !bson.IsObjectIdHex(req.Id) {
 		return nil, validators.ErrInvalidUserId
@@ -88,6 +93,7 @@ func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 	return found.ToProtoBuffer(), nil
 }
 
+// ListUser list all users.
 func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error {
 	users, err := s.usersRepository.GetAll()
 	if err != nil {
@@ -102,6 +108,7 @@ func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_
 	return nil
 }
 
+// UpdateUser performs update the user.
 func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, error) {
 	if !bson.IsObjectIdHex(req.Id) {
 		return nil, validators.ErrInvalidUserId
@@ -123,6 +130,7 @@ func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, e
 	return user.ToProtoBuffer(), err
 }
 
+// DeleteUser performs delete the user.
 func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error) {
 	if !bson.IsObjectIdHex(req.Id) {
 		return nil, validators.ErrInvalidUserId

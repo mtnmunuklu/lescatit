@@ -7,6 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// User provides the user instance for authentication job.
 type User struct {
 	Id       bson.ObjectId `bson:"_id"`
 	Name     string        `bson:"name"`
@@ -16,6 +17,7 @@ type User struct {
 	Updated  time.Time     `bson:"updated"`
 }
 
+// ToProtoBuffer converts the user structure into a protocol buffer user structure.
 func (u *User) ToProtoBuffer() *pb.User {
 	return &pb.User{
 		Id:       u.Id.Hex(),
@@ -27,6 +29,7 @@ func (u *User) ToProtoBuffer() *pb.User {
 	}
 }
 
+// FromProtoBuffer gets user from protocol buffer and converts to the user structure.
 func (u *User) FromProtoBuffer(user *pb.User) {
 	u.Id = bson.ObjectIdHex(user.GetId())
 	u.Name = user.GetName()

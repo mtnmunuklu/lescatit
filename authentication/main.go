@@ -14,17 +14,20 @@ import (
 	"google.golang.org/grpc"
 )
 
+// Contains some variables(port, local) for authentication service.
 var (
 	local bool
 	port  int
 )
 
+// Init initializes the specify options for authentication service.
 func init() {
 	flag.IntVar(&port, "port", 9001, "authentication service port")
 	flag.BoolVar(&local, "local", true, "run authentication service local")
 	flag.Parse()
 }
 
+// Main starts the authentication service.
 func main() {
 	if local {
 		err := godotenv.Load()

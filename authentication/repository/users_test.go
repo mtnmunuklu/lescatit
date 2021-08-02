@@ -14,6 +14,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Init initializes the database connection and drops users collection.
 func init() {
 	err := godotenv.Load("../.env")
 	if err != nil {
@@ -30,6 +31,7 @@ func init() {
 
 }
 
+// TestUsersRepositorySave tests the operation to user create.
 func TestUsersRepositorySave(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -55,6 +57,8 @@ func TestUsersRepositorySave(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, found)
 }
+
+// TestUsersRepositoryGetById tests the operation to return user based on id.
 func TestUsersRepositoryGetById(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -88,6 +92,8 @@ func TestUsersRepositoryGetById(t *testing.T) {
 	assert.EqualError(t, mgo.ErrNotFound, err.Error())
 	assert.Nil(t, found)
 }
+
+// TestUsersRepositoryGetByEmail tests the operation to return user based on email.
 func TestUsersRepositoryGetByEmail(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -122,6 +128,7 @@ func TestUsersRepositoryGetByEmail(t *testing.T) {
 	assert.Nil(t, found)
 }
 
+// TestUsersRepositoryUpdate tests the operation a user update.
 func TestUsersRepositoryUpdate(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -155,6 +162,8 @@ func TestUsersRepositoryUpdate(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "UPDATE", found.Name)
 }
+
+// TestUsersRepositoryDelete tests the operation a user delete.
 func TestUsersRepositoryDelete(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -188,6 +197,8 @@ func TestUsersRepositoryDelete(t *testing.T) {
 	assert.EqualError(t, mgo.ErrNotFound, err.Error())
 	assert.Nil(t, found)
 }
+
+// TestUsersRepositoryGetAll tests the operation the return all users.
 func TestUsersRepositoryGetAll(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
