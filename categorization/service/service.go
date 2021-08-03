@@ -7,6 +7,7 @@ import (
 	"CWS/pb"
 	"CWS/security"
 	"context"
+	"strconv"
 	"time"
 
 	"gopkg.in/mgo.v2"
@@ -54,7 +55,12 @@ func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 	}
 	found.Category = req.Category
 	found.Updated = time.Now()
-	found.Revision += 1
+	revision, err := strconv.Atoi(found.Revision)
+	if err == nil {
+		found.Revision = strconv.Itoa((revision + 1))
+	} else {
+		found.Revision = "0"
+	}
 	err = s.categoriesRepository.Update(found)
 	if err != nil {
 		return nil, err
@@ -82,7 +88,12 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 	}
 	found.Category = category
 	found.Updated = time.Now()
-	found.Revision += 1
+	revision, err := strconv.Atoi(found.Revision)
+	if err == nil {
+		found.Revision = strconv.Itoa((revision + 1))
+	} else {
+		found.Revision = "0"
+	}
 	err = s.categoriesRepository.Update(found)
 	if err != nil {
 		return nil, err
@@ -113,7 +124,7 @@ func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 			category.Created = time.Now()
 			category.Updated = time.Now()
 			category.Id = bson.NewObjectId()
-			category.Revision = 0
+			category.Revision = "0"
 			err := s.categoriesRepository.Save(category)
 			if err != nil {
 				return err
@@ -149,7 +160,7 @@ func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Cat
 		category.Created = time.Now()
 		category.Updated = time.Now()
 		category.Id = bson.NewObjectId()
-		category.Revision = 0
+		category.Revision = "0"
 		err := s.categoriesRepository.Save(category)
 		if err != nil {
 			return nil, err

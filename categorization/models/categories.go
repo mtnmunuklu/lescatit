@@ -14,7 +14,7 @@ type Category struct {
 	Category string        `bson:"category"`
 	Created  time.Time     `bson:"created"`
 	Updated  time.Time     `bson:"updated"`
-	Revision int64         `bson:"revision"`
+	Revision string        `bson:"revision"`
 }
 
 // ToProtoBuffer converts the category structure into a protocol buffer category structure.

@@ -10,7 +10,7 @@ message Category {
     string category = 3;
     int64 created = 4;
     int64 updated = 5;
-    int64 revision = 6;
+    string revision = 6;
 }
 
 message GetCategoryRequest {

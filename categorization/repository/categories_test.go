@@ -45,7 +45,7 @@ func TestCategoriesRepositorySave(t *testing.T) {
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
-		Revision: 0,
+		Revision: "0",
 	}
 	category.Url = security.Base64Encode(category.Url)
 
@@ -73,7 +73,7 @@ func TestCategoriesRepositoryGetById(t *testing.T) {
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
-		Revision: 0,
+		Revision: "0",
 	}
 	category.Url = security.Base64Encode(category.Url)
 
@@ -109,7 +109,7 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
-		Revision: 0,
+		Revision: "0",
 	}
 	category.Url = security.Base64Encode(category.Url)
 
@@ -145,7 +145,7 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
-		Revision: 0,
+		Revision: "0",
 	}
 	category.Url = security.Base64Encode(category.Url)
 
@@ -157,7 +157,7 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
-		Revision: 0,
+		Revision: "0",
 	}
 	category2.Url = security.Base64Encode(category2.Url)
 
@@ -188,7 +188,7 @@ func TestCategoriesRepositoryUpdate(t *testing.T) {
 		Category: "Gambling",
 		Created:  time.Now(),
 		Updated:  time.Now(),
-		Revision: 0,
+		Revision: "0",
 	}
 	category.Url = security.Base64Encode(category.Url)
 
@@ -225,7 +225,7 @@ func TestCategoriesRepositoryDelete(t *testing.T) {
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
-		Revision: 0,
+		Revision: "0",
 	}
 	category.Url = security.Base64Encode(category.Url)
 
