@@ -110,34 +110,28 @@ func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 	}
 	for _, url := range req.Urls {
 		err := validators.ValidateUrl(url)
-		if err != nil {
-			return err
-		}
-		base64Url := security.Base64Encode(url)
-		found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
-		if err == mgo.ErrNotFound {
-			//send to categorizer
-			//use returned value to update category
-			category := new(models.Category)
-			category.Url = base64Url
-			category.Category = "NewCategory"
-			category.Created = time.Now()
-			category.Updated = time.Now()
-			category.Id = bson.NewObjectId()
-			category.Revision = "0"
-			err := s.categoriesRepository.Save(category)
-			if err != nil {
-				return err
+		if err == nil {
+			base64Url := security.Base64Encode(url)
+			_, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+			if err == mgo.ErrNotFound {
+				//send to categorizer
+				//use returned value to update category
+				category := new(models.Category)
+				category.Url = base64Url
+				category.Category = "NewCategory"
+				category.Created = time.Now()
+				category.Updated = time.Now()
+				category.Id = bson.NewObjectId()
+				category.Revision = "0"
+				err := s.categoriesRepository.Save(category)
+				if err == nil {
+					category.Url = url
+					err = stream.Send(category.ToProtoBuffer())
+					if err != nil {
+						return err
+					}
+				}
 			}
-			category.Url = url
-			err = stream.Send(category.ToProtoBuffer())
-			if err != nil {
-				return err
-			}
-		} else if found == nil {
-			return err
-		} else {
-			return validators.ErrUrlAlreadyExist
 		}
 	}
 	return nil
@@ -182,22 +176,19 @@ func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_
 	}
 	for _, url := range req.Urls {
 		err := validators.ValidateUrl(url)
-		if err != nil {
-			return err
-		}
-		base64Url := security.Base64Encode(url)
-		category, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
-		if err != nil {
-			return err
-		}
-		err = s.categoriesRepository.Delete(category.Id.Hex())
-		if err != nil {
-			return err
-		}
-		category.Url = url
-		err = stream.Send(category.ToProtoBuffer())
-		if err != nil {
-			return err
+		if err == nil {
+			base64Url := security.Base64Encode(url)
+			category, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+			if err == nil {
+				err = s.categoriesRepository.Delete(category.Id.Hex())
+				if err == nil {
+					category.Url = url
+					err = stream.Send(category.ToProtoBuffer())
+					if err != nil {
+						return err
+					}
+				}
+			}
 		}
 	}
 	return nil
@@ -231,24 +222,19 @@ func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_List
 	if err != nil {
 		return err
 	}
-
 	for _, category := range req.Categories {
-
 		urls, err := s.categoriesRepository.GetAllUrlsByCategory(category, count)
-		if err != nil {
-			return err
-		}
-		for _, url := range urls {
-			url.Url, err = security.Base64Decode(url.Url)
-			if err != nil {
-				return err
-			}
-			err := stream.Send(url.ToProtoBuffer())
-			if err != nil {
-				return err
+		if err == nil {
+			for _, url := range urls {
+				url.Url, err = security.Base64Decode(url.Url)
+				if err == nil {
+					err := stream.Send(url.ToProtoBuffer())
+					if err != nil {
+						return err
+					}
+				}
 			}
 		}
 	}
-
 	return nil
 }
