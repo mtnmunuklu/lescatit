@@ -22,11 +22,12 @@ spec:
         command:
         - sh
         - -c
-        - /app/apisvc -auth_addr=$auth_addr
+        - /app/apisvc -auth_addr=$auth_addr -cat_addr=$cat_addr
         env:
           - name: auth_addr
             value: auth-service:9001
-            
+          - name: cat_addr
+            value: cat-service:9002
           - name: JWT_SECRET_KEY
             valueFrom:
               secretKeyRef:
