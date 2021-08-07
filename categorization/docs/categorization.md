@@ -23,7 +23,7 @@ import "CWS/categorization/models"
   - [func (c *Category) ToProtoBuffer() *pb.Category](<#func-category-toprotobuffer>)
 
 
-## type [Category](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/models/categories.go#L11-L18>)
+## type [Category](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/models/categories.go#L11-L19>)
 
 Category provides the category instance for categorization job\.
 
@@ -34,11 +34,12 @@ type Category struct {
     Category string        `bson:"category"`
     Created  time.Time     `bson:"created"`
     Updated  time.Time     `bson:"updated"`
-    Revision int64         `bson:"revision"`
+    Revision string        `bson:"revision"`
+    Content  string        `bson:"revision"`
 }
 ```
 
-### func \(\*Category\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/models/categories.go#L33>)
+### func \(\*Category\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/models/categories.go#L35>)
 
 ```go
 func (c *Category) FromProtoBuffer(category *pb.Category)
@@ -46,7 +47,7 @@ func (c *Category) FromProtoBuffer(category *pb.Category)
 
 FromProtoBuffer gets category from protocol buffer and converts to the category structure\.
 
-### func \(\*Category\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/models/categories.go#L21>)
+### func \(\*Category\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/models/categories.go#L22>)
 
 ```go
 func (c *Category) ToProtoBuffer() *pb.Category
@@ -190,7 +191,7 @@ import "CWS/categorization/service"
   - [func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error)](<#func-catservice-updatecategory>)
 
 
-## func [NewCatSevice](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L22>)
+## func [NewCatSevice](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L23>)
 
 ```go
 func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatServiceServer
@@ -198,7 +199,7 @@ func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatSe
 
 NewCatService creates a new CatService instance\.
 
-## type [CatService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L17-L19>)
+## type [CatService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L18-L20>)
 
 CatService provides categoriesRepository for categorization service\.
 
@@ -208,7 +209,7 @@ type CatService struct {
 }
 ```
 
-### func \(\*CatService\) [AddUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L136>)
+### func \(\*CatService\) [AddUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L149>)
 
 ```go
 func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Category, error)
@@ -216,7 +217,7 @@ func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Cat
 
 AddUrl performs add the url\.
 
-### func \(\*CatService\) [AddUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L95>)
+### func \(\*CatService\) [AddUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L110>)
 
 ```go
 func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrlsServer) error
@@ -224,7 +225,7 @@ func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 
 AddUrls performs add the urls\.
 
-### func \(\*CatService\) [DeleteUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L196>)
+### func \(\*CatService\) [DeleteUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L211>)
 
 ```go
 func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*pb.DeleteUrlResponse, error)
@@ -232,7 +233,7 @@ func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*
 
 DeleteUrl performs delete the url\.
 
-### func \(\*CatService\) [DeleteUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L167>)
+### func \(\*CatService\) [DeleteUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L186>)
 
 ```go
 func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_DeleteUrlsServer) error
@@ -240,7 +241,7 @@ func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_
 
 DeleteUrls performs delete the urls\.
 
-### func \(\*CatService\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L27>)
+### func \(\*CatService\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L28>)
 
 ```go
 func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error)
@@ -248,7 +249,7 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 
 GetCategory performs return the category by url\.
 
-### func \(\*CatService\) [ListUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L214>)
+### func \(\*CatService\) [ListUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L229>)
 
 ```go
 func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error
@@ -256,7 +257,7 @@ func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_List
 
 ListUrls performs list the urls based on categories and count\.
 
-### func \(\*CatService\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L67>)
+### func \(\*CatService\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L73>)
 
 ```go
 func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error)
@@ -264,7 +265,7 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 
 ReportMiscategorization reports miscategorization\.
 
-### func \(\*CatService\) [UpdateCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L42>)
+### func \(\*CatService\) [UpdateCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L43>)
 
 ```go
 func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error)
