@@ -11,6 +11,7 @@ message Category {
     int64 created = 4;
     int64 updated = 5;
     string revision = 6;
+    string content = 7;
 }
 
 message GetCategoryRequest {
@@ -53,7 +54,7 @@ service CatService {
     rpc ReportMiscategorization(GetCategoryRequest) returns (Category);
     rpc AddUrls(AddUrlsRequest) returns (stream Category);
     rpc AddUrl(AddUrlRequest) returns (Category);
-    rpc DeleteUrls(DeleteUrlsRequest) returns (stream Category);
+    rpc DeleteUrls(DeleteUrlsRequest) returns (stream DeleteUrlResponse);
     rpc DeleteUrl(DeleteUrlRequest) returns (DeleteUrlResponse);
     rpc ListUrls(ListUrlsRequest) returns (stream Category);
 }

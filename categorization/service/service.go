@@ -80,7 +80,10 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 	if err != nil {
 		return nil, err
 	}
-	//send to categorizer
+	//if update time is not current send url to crawler
+	//get content of the url
+	content := "Content"
+	//send content of the url to categorizer
 	//use returned value to update category
 	category := "NewCategory"
 	if found.Category == category {
@@ -94,6 +97,7 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 	} else {
 		found.Revision = "0"
 	}
+	found.Content = security.Base64Encode(content)
 	err = s.categoriesRepository.Update(found)
 	if err != nil {
 		return nil, err
@@ -114,15 +118,19 @@ func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 			base64Url := security.Base64Encode(url)
 			_, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
 			if err == mgo.ErrNotFound {
-				//send to categorizer
-				//use returned value to update category
 				category := new(models.Category)
 				category.Url = base64Url
-				category.Category = "NewCategory"
+				//send url to crawler
+				//get content of the url
+				content := "Content"
+				//send content of the url to categorizer
+				//use returned value to update category
+				category.Category = "Category"
 				category.Created = time.Now()
 				category.Updated = time.Now()
 				category.Id = bson.NewObjectId()
 				category.Revision = "0"
+				category.Content = security.Base64Encode(content)
 				err := s.categoriesRepository.Save(category)
 				if err == nil {
 					category.Url = url
@@ -148,19 +156,25 @@ func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Cat
 	if err == mgo.ErrNotFound {
 		//send to categorizer
 		//use returned value to update category
-		category := new(models.Category)
-		category.Url = base64Url
-		category.Category = "NewCategory"
-		category.Created = time.Now()
-		category.Updated = time.Now()
-		category.Id = bson.NewObjectId()
-		category.Revision = "0"
-		err := s.categoriesRepository.Save(category)
+		url := new(models.Category)
+		url.Url = base64Url
+		//send url to crawler
+		//get content of the url
+		content := "Content"
+		//send content of the url to categorizer
+		//use returned value to update category
+		url.Category = "Category"
+		url.Created = time.Now()
+		url.Updated = time.Now()
+		url.Id = bson.NewObjectId()
+		url.Revision = "0"
+		url.Content = security.Base64Encode(content)
+		err := s.categoriesRepository.Save(url)
 		if err != nil {
 			return nil, err
 		}
-		category.Url = req.Url
-		return category.ToProtoBuffer(), nil
+		url.Url = req.Url
+		return url.ToProtoBuffer(), nil
 	}
 	if found == nil {
 		return nil, err
@@ -178,12 +192,11 @@ func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_
 		err := validators.ValidateUrl(url)
 		if err == nil {
 			base64Url := security.Base64Encode(url)
-			category, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+			found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
 			if err == nil {
-				err = s.categoriesRepository.Delete(category.Id.Hex())
+				err = s.categoriesRepository.Delete(found.Id.Hex())
 				if err == nil {
-					category.Url = url
-					err = stream.Send(category.ToProtoBuffer())
+					err = stream.Send(&pb.DeleteUrlResponse{Url: url})
 					if err != nil {
 						return err
 					}
@@ -201,11 +214,11 @@ func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*
 		return nil, err
 	}
 	base64Url := security.Base64Encode(req.Url)
-	category, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
 	if err != nil {
 		return nil, err
 	}
-	err = s.categoriesRepository.Delete(category.Id.Hex())
+	err = s.categoriesRepository.Delete(found.Id.Hex())
 	if err != nil {
 		return nil, err
 	}
