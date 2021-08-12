@@ -81,9 +81,9 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 		return nil, err
 	}
 	//if update time is not current send url to crawler
-	//get content of the url
-	content := "Content"
-	//send content of the url to categorizer
+	//get data of the url
+	data := "Data"
+	//send data of the url to categorizer
 	//use returned value to update category
 	category := "NewCategory"
 	if found.Category == category {
@@ -97,7 +97,7 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 	} else {
 		found.Revision = "0"
 	}
-	found.Content = security.Base64Encode(content)
+	found.Data = security.Base64Encode(data)
 	err = s.categoriesRepository.Update(found)
 	if err != nil {
 		return nil, err
@@ -121,16 +121,16 @@ func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 				category := new(models.Category)
 				category.Url = base64Url
 				//send url to crawler
-				//get content of the url
-				content := "Content"
-				//send content of the url to categorizer
+				//get data of the url
+				data := "Data"
+				//send data of the url to categorizer
 				//use returned value to update category
 				category.Category = "Category"
 				category.Created = time.Now()
 				category.Updated = time.Now()
 				category.Id = bson.NewObjectId()
 				category.Revision = "0"
-				category.Content = security.Base64Encode(content)
+				category.Data = security.Base64Encode(data)
 				err := s.categoriesRepository.Save(category)
 				if err == nil {
 					category.Url = url
@@ -154,21 +154,19 @@ func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Cat
 	base64Url := security.Base64Encode(req.Url)
 	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
 	if err == mgo.ErrNotFound {
-		//send to categorizer
-		//use returned value to update category
 		url := new(models.Category)
 		url.Url = base64Url
 		//send url to crawler
-		//get content of the url
-		content := "Content"
-		//send content of the url to categorizer
+		//get data of the url
+		data := "Data"
+		//send data of the url to categorizer
 		//use returned value to update category
 		url.Category = "Category"
 		url.Created = time.Now()
 		url.Updated = time.Now()
 		url.Id = bson.NewObjectId()
 		url.Revision = "0"
-		url.Content = security.Base64Encode(content)
+		url.Data = security.Base64Encode(data)
 		err := s.categoriesRepository.Save(url)
 		if err != nil {
 			return nil, err

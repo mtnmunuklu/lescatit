@@ -46,10 +46,10 @@ func TestCategoriesRepositorySave(t *testing.T) {
 		Created:  time.Now(),
 		Updated:  time.Now(),
 		Revision: "0",
-		Content:  "Content",
+		Data:     "Data",
 	}
 	category.Url = security.Base64Encode(category.Url)
-	category.Content = security.Base64Encode(category.Content)
+	category.Data = security.Base64Encode(category.Data)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -76,10 +76,10 @@ func TestCategoriesRepositoryGetById(t *testing.T) {
 		Created:  time.Now(),
 		Updated:  time.Now(),
 		Revision: "0",
-		Content:  "Content",
+		Data:     "Data",
 	}
 	category.Url = security.Base64Encode(category.Url)
-	category.Content = security.Base64Encode(category.Content)
+	category.Data = security.Base64Encode(category.Data)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -91,7 +91,7 @@ func TestCategoriesRepositoryGetById(t *testing.T) {
 	assert.Equal(t, category.Url, found.Url)
 	assert.Equal(t, category.Category, found.Category)
 	assert.Equal(t, category.Revision, found.Revision)
-	assert.Equal(t, category.Content, found.Content)
+	assert.Equal(t, category.Data, found.Data)
 
 	found, err = r.GetById(bson.NewObjectId().Hex())
 	assert.Error(t, err)
@@ -115,10 +115,10 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 		Created:  time.Now(),
 		Updated:  time.Now(),
 		Revision: "0",
-		Content:  "Content",
+		Data:     "Data",
 	}
 	category.Url = security.Base64Encode(category.Url)
-	category.Content = security.Base64Encode(category.Content)
+	category.Data = security.Base64Encode(category.Data)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -130,7 +130,7 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 	assert.Equal(t, category.Url, found.Url)
 	assert.Equal(t, category.Category, found.Category)
 	assert.Equal(t, category.Revision, found.Revision)
-	assert.Equal(t, category.Content, found.Content)
+	assert.Equal(t, category.Data, found.Data)
 
 	found, err = r.GetCategoryByUrl("")
 	assert.Error(t, err)
@@ -154,10 +154,10 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 		Created:  time.Now(),
 		Updated:  time.Now(),
 		Revision: "0",
-		Content:  "Content",
+		Data:     "Data",
 	}
 	category.Url = security.Base64Encode(category.Url)
-	category.Content = security.Base64Encode(category.Content)
+	category.Data = security.Base64Encode(category.Data)
 
 	id2 := bson.NewObjectId()
 
@@ -168,10 +168,10 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 		Created:  time.Now(),
 		Updated:  time.Now(),
 		Revision: "0",
-		Content:  "Content",
+		Data:     "Data",
 	}
 	category2.Url = security.Base64Encode(category2.Url)
-	category2.Content = security.Base64Encode(category2.Content)
+	category2.Data = security.Base64Encode(category2.Data)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -201,10 +201,10 @@ func TestCategoriesRepositoryUpdate(t *testing.T) {
 		Created:  time.Now(),
 		Updated:  time.Now(),
 		Revision: "0",
-		Content:  "Content",
+		Data:     "Data",
 	}
 	category.Url = security.Base64Encode(category.Url)
-	category.Content = security.Base64Encode(category.Content)
+	category.Data = security.Base64Encode(category.Data)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)
@@ -240,10 +240,10 @@ func TestCategoriesRepositoryDelete(t *testing.T) {
 		Created:  time.Now(),
 		Updated:  time.Now(),
 		Revision: "0",
-		Content:  "Content",
+		Data:     "Data",
 	}
 	category.Url = security.Base64Encode(category.Url)
-	category.Content = security.Base64Encode(category.Content)
+	category.Data = security.Base64Encode(category.Data)
 
 	r := NewCategoriesRepository(conn)
 	err = r.Save(category)

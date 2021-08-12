@@ -15,7 +15,7 @@ type Category struct {
 	Created  time.Time     `bson:"created"`
 	Updated  time.Time     `bson:"updated"`
 	Revision string        `bson:"revision"`
-	Content  string        `bson:"content"`
+	Data     string        `bson:"data"`
 }
 
 // ToProtoBuffer converts the category structure into a protocol buffer category structure.
@@ -27,7 +27,7 @@ func (c *Category) ToProtoBuffer() *pb.Category {
 		Created:  c.Created.Unix(),
 		Updated:  c.Updated.Unix(),
 		Revision: c.Revision,
-		Content:  c.Content,
+		Data:     c.Data,
 	}
 }
 
@@ -39,5 +39,5 @@ func (c *Category) FromProtoBuffer(category *pb.Category) {
 	c.Created = time.Unix(category.GetCreated(), 0)
 	c.Updated = time.Unix(category.GetUpdated(), 0)
 	c.Revision = category.GetRevision()
-	c.Content = category.GetContent()
+	c.Data = category.GetData()
 }
