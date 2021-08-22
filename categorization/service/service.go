@@ -30,8 +30,8 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 	if err != nil {
 		return nil, err
 	}
-	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
+	base64URL := security.Base64Encode(req.Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 	if err != nil {
 		return nil, err
 	}
@@ -45,8 +45,8 @@ func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 	if err != nil {
 		return nil, err
 	}
-	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
+	base64URL := security.Base64Encode(req.Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 	if err != nil {
 		return nil, err
 	}
@@ -75,8 +75,8 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 	if err != nil {
 		return nil, err
 	}
-	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
+	base64URL := security.Base64Encode(req.Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 	if err != nil {
 		return nil, err
 	}
@@ -115,11 +115,11 @@ func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURL
 	for _, url := range req.Urls {
 		err := validators.ValidateURL(url)
 		if err == nil {
-			base64Url := security.Base64Encode(url)
-			_, err := s.categoriesRepository.GetCategoryByURL(base64Url)
+			base64URL := security.Base64Encode(url)
+			_, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 			if err == mgo.ErrNotFound {
 				category := new(models.Category)
-				category.Url = base64Url
+				category.Url = base64URL
 				//send url to crawler
 				//get data of the url
 				data := "Data"
@@ -151,11 +151,11 @@ func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Cat
 	if err != nil {
 		return nil, err
 	}
-	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
+	base64URL := security.Base64Encode(req.Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 	if err == mgo.ErrNotFound {
 		url := new(models.Category)
-		url.Url = base64Url
+		url.Url = base64URL
 		//send url to crawler
 		//get data of the url
 		data := "Data"
@@ -189,8 +189,8 @@ func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_
 	for _, url := range req.Urls {
 		err := validators.ValidateURL(url)
 		if err == nil {
-			base64Url := security.Base64Encode(url)
-			found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
+			base64URL := security.Base64Encode(url)
+			found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 			if err == nil {
 				err = s.categoriesRepository.Delete(found.Id.Hex())
 				if err == nil {
@@ -211,8 +211,8 @@ func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*
 	if err != nil {
 		return nil, err
 	}
-	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
+	base64URL := security.Base64Encode(req.Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 	if err != nil {
 		return nil, err
 	}

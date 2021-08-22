@@ -99,8 +99,8 @@ func TestCategoriesRepositoryGetById(t *testing.T) {
 	assert.Nil(t, found)
 }
 
-// TestCategoriesRepositoryGetCategoryByUrl tests the operation to return category based on url.
-func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
+// TestCategoriesRepositoryGetCategoryByURL tests the operation to return category based on url.
+func TestCategoriesRepositoryGetCategoryByURL(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
 	assert.NoError(t, err)
@@ -138,8 +138,8 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 	assert.Nil(t, found)
 }
 
-// TestCategoriesRepositoryGetAllUrlsByCategory tests the operation to return all urls based on category.
-func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
+// TestCategoriesRepositoryGetAllURLsByCategory tests the operation to return all urls based on category.
+func TestCategoriesRepositoryGetAllURLsByCategory(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
 	assert.NoError(t, err)

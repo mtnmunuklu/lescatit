@@ -19,8 +19,8 @@ var (
 )
 
 // ValidateURLs validates if it's a real url.
-func ValidateURL(reqUrL string) error {
-	_, err := url.ParseRequestURI(reqUrL)
+func ValidateURL(reqURL string) error {
+	_, err := url.ParseRequestURI(reqURL)
 	if err != nil {
 		return ErrInvalidURL
 	}

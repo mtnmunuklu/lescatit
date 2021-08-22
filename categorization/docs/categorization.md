@@ -3,7 +3,7 @@
 # categorization
 
 ```go
-import "CWS/categorization"
+import "Lescatit/categorization"
 ```
 
 ## Index
@@ -13,7 +13,7 @@ import "CWS/categorization"
 # models
 
 ```go
-import "CWS/categorization/models"
+import "Lescatit/categorization/models"
 ```
 
 ## Index
@@ -35,7 +35,7 @@ type Category struct {
     Created  time.Time     `bson:"created"`
     Updated  time.Time     `bson:"updated"`
     Revision string        `bson:"revision"`
-    Content  string        `bson:"content"`
+    Data     string        `bson:"data"`
 }
 ```
 
@@ -58,7 +58,7 @@ ToProtoBuffer converts the category structure into a protocol buffer category st
 # repository
 
 ```go
-import "CWS/categorization/repository"
+import "Lescatit/categorization/repository"
 ```
 
 ## Index
@@ -67,9 +67,9 @@ import "CWS/categorization/repository"
 - [type CRepository](<#type-crepository>)
   - [func (r *CRepository) Delete(id string) error](<#func-crepository-delete>)
   - [func (r *CRepository) DeleteAll() error](<#func-crepository-deleteall>)
-  - [func (r *CRepository) GetAllUrlsByCategory(category string, count int) (url []*models.Category, err error)](<#func-crepository-getallurlsbycategory>)
+  - [func (r *CRepository) GetAllURLsByCategory(category string, count int) (url []*models.Category, err error)](<#func-crepository-getallurlsbycategory>)
   - [func (r *CRepository) GetById(id string) (url *models.Category, err error)](<#func-crepository-getbyid>)
-  - [func (r *CRepository) GetCategoryByUrl(url string) (category *models.Category, err error)](<#func-crepository-getcategorybyurl>)
+  - [func (r *CRepository) GetCategoryByURL(url string) (category *models.Category, err error)](<#func-crepository-getcategorybyurl>)
   - [func (r *CRepository) Save(url *models.Category) error](<#func-crepository-save>)
   - [func (r *CRepository) Update(category *models.Category) error](<#func-crepository-update>)
 - [type CategoriesRepository](<#type-categoriesrepository>)
@@ -108,13 +108,13 @@ func (r *CRepository) DeleteAll() error
 
 DeleteAll drops categories collection\.
 
-### func \(\*CRepository\) [GetAllUrlsByCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/repository/categories.go#L51>)
+### func \(\*CRepository\) [GetAllURLsByCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/repository/categories.go#L51>)
 
 ```go
-func (r *CRepository) GetAllUrlsByCategory(category string, count int) (url []*models.Category, err error)
+func (r *CRepository) GetAllURLsByCategory(category string, count int) (url []*models.Category, err error)
 ```
 
-GetAllUrlsByCategory returns all urls based on category\.
+GetAllURLsByCategory returns all urls based on category\.
 
 ### func \(\*CRepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/repository/categories.go#L39>)
 
@@ -124,13 +124,13 @@ func (r *CRepository) GetById(id string) (url *models.Category, err error)
 
 GetById returns the url based on id\.
 
-### func \(\*CRepository\) [GetCategoryByUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/repository/categories.go#L45>)
+### func \(\*CRepository\) [GetCategoryByURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/repository/categories.go#L45>)
 
 ```go
-func (r *CRepository) GetCategoryByUrl(url string) (category *models.Category, err error)
+func (r *CRepository) GetCategoryByURL(url string) (category *models.Category, err error)
 ```
 
-GetCategoryByUrl returns the category based on url\.
+GetCategoryByURL returns the category based on url\.
 
 ### func \(\*CRepository\) [Save](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/repository/categories.go#L34>)
 
@@ -156,8 +156,8 @@ CategoriesRepository is the interface of the categorization backend\.
 type CategoriesRepository interface {
     Save(url *models.Category) error
     GetById(id string) (url *models.Category, err error)
-    GetCategoryByUrl(url string) (category *models.Category, err error)
-    GetAllUrlsByCategory(category string, count int) (url []*models.Category, err error)
+    GetCategoryByURL(url string) (category *models.Category, err error)
+    GetAllURLsByCategory(category string, count int) (url []*models.Category, err error)
     Update(category *models.Category) error
     Delete(id string) error
 }
@@ -174,19 +174,19 @@ NewCategoriesRepository creates a new CategoriesRepository instance\.
 # service
 
 ```go
-import "CWS/categorization/service"
+import "Lescatit/categorization/service"
 ```
 
 ## Index
 
 - [func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatServiceServer](<#func-newcatsevice>)
 - [type CatService](<#type-catservice>)
-  - [func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Category, error)](<#func-catservice-addurl>)
-  - [func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrlsServer) error](<#func-catservice-addurls>)
-  - [func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*pb.DeleteUrlResponse, error)](<#func-catservice-deleteurl>)
-  - [func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_DeleteUrlsServer) error](<#func-catservice-deleteurls>)
+  - [func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error)](<#func-catservice-addurl>)
+  - [func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error](<#func-catservice-addurls>)
+  - [func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*pb.DeleteURLResponse, error)](<#func-catservice-deleteurl>)
+  - [func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error](<#func-catservice-deleteurls>)
   - [func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error)](<#func-catservice-getcategory>)
-  - [func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error](<#func-catservice-listurls>)
+  - [func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_ListURLsServer) error](<#func-catservice-listurls>)
   - [func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error)](<#func-catservice-reportmiscategorization>)
   - [func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error)](<#func-catservice-updatecategory>)
 
@@ -209,37 +209,37 @@ type CatService struct {
 }
 ```
 
-### func \(\*CatService\) [AddUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L149>)
+### func \(\*CatService\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L149>)
 
 ```go
-func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Category, error)
+func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error)
 ```
 
-AddUrl performs add the url\.
+AddURL performs add the url\.
 
-### func \(\*CatService\) [AddUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L110>)
+### func \(\*CatService\) [AddURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L110>)
 
 ```go
-func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrlsServer) error
+func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error
 ```
 
-AddUrls performs add the urls\.
+AddURLs performs add the urls\.
 
-### func \(\*CatService\) [DeleteUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L211>)
+### func \(\*CatService\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L209>)
 
 ```go
-func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*pb.DeleteUrlResponse, error)
+func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*pb.DeleteURLResponse, error)
 ```
 
-DeleteUrl performs delete the url\.
+DeleteURL performs delete the url\.
 
-### func \(\*CatService\) [DeleteUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L186>)
+### func \(\*CatService\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L184>)
 
 ```go
-func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_DeleteUrlsServer) error
+func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error
 ```
 
-DeleteUrls performs delete the urls\.
+DeleteURLs performs delete the urls\.
 
 ### func \(\*CatService\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L28>)
 
@@ -249,13 +249,13 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 
 GetCategory performs return the category by url\.
 
-### func \(\*CatService\) [ListUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L229>)
+### func \(\*CatService\) [ListURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L227>)
 
 ```go
-func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error
+func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_ListURLsServer) error
 ```
 
-ListUrls performs list the urls based on categories and count\.
+ListURLs performs list the urls based on categories and count\.
 
 ### func \(\*CatService\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L73>)
 
@@ -276,7 +276,7 @@ UpdateCategory performs update the category\.
 # validators
 
 ```go
-import "CWS/categorization/validators"
+import "Lescatit/categorization/validators"
 ```
 
 ## Index
@@ -285,8 +285,8 @@ import "CWS/categorization/validators"
 - [func ValidateCategories(categories []string) error](<#func-validatecategories>)
 - [func ValidateCount(count string) (int, error)](<#func-validatecount>)
 - [func ValidateId(id string) error](<#func-validateid>)
-- [func ValidateUrl(reqUrL string) error](<#func-validateurl>)
-- [func ValidateUrls(urls []string) error](<#func-validateurls>)
+- [func ValidateURL(reqURL string) error](<#func-validateurl>)
+- [func ValidateURLs(urls []string) error](<#func-validateurls>)
 
 
 ## Variables
@@ -295,10 +295,10 @@ Contains error codes for categorization service\.
 
 ```go
 var (
-    ErrInvalidUrlId    = errors.New("invalid urlId")
-    ErrInvalidUrl      = errors.New("invalid url")
-    ErrEmptyUrls       = errors.New("urls can't be empty")
-    ErrUrlAlreadyExist = errors.New("url already exist")
+    ErrInvalidURLId    = errors.New("invalid url id")
+    ErrInvalidURL      = errors.New("invalid url")
+    ErrEmptyURLs       = errors.New("urls can't be empty")
+    ErrURLAlreadyExist = errors.New("url already exist")
     ErrEmptyCategory   = errors.New("category can't be empty")
     ErrInvalidCount    = errors.New("invalid count")
 )
@@ -318,7 +318,7 @@ ValidateCategories validates the category count\.
 func ValidateCount(count string) (int, error)
 ```
 
-ValidateUrls validates if it's a integer count\.
+ValidateCount validates if it's a integer count\.
 
 ## func [ValidateId](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L56>)
 
@@ -328,21 +328,21 @@ func ValidateId(id string) error
 
 ValidateId validates if it's a valid url id\.
 
-## func [ValidateUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L22>)
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L22>)
 
 ```go
-func ValidateUrl(reqUrL string) error
+func ValidateURL(reqURL string) error
 ```
 
-ValidateUrls validates if it's a real url\.
+ValidateURLs validates if it's a real url\.
 
-## func [ValidateUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L31>)
+## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L31>)
 
 ```go
-func ValidateUrls(urls []string) error
+func ValidateURLs(urls []string) error
 ```
 
-ValidateUrls validates the url count\.
+ValidateURLs validates the url count\.
 
 
 

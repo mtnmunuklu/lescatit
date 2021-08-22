@@ -41,13 +41,13 @@ func (r *CRepository) GetById(id string) (url *models.Category, err error) {
 	return url, err
 }
 
-// GetCategoryByUrl returns the category based on url.
+// GetCategoryByURL returns the category based on url.
 func (r *CRepository) GetCategoryByURL(url string) (category *models.Category, err error) {
 	err = r.c.Find(bson.M{"url": url}).One(&category)
 	return category, err
 }
 
-// GetAllUrlsByCategory returns all urls based on category.
+// GetAllURLsByCategory returns all urls based on category.
 func (r *CRepository) GetAllURLsByCategory(category string, count int) (url []*models.Category, err error) {
 	err = r.c.Find(bson.M{"category": category}).Limit(count).All(&url)
 	return url, err
