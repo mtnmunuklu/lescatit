@@ -1,8 +1,8 @@
 package resthandlers
 
 import (
-	"CWS/api/restutil"
-	"CWS/pb"
+	"Lescatit/api/restutil"
+	"Lescatit/pb"
 	"encoding/json"
 	"io"
 	"io/ioutil"
@@ -106,13 +106,13 @@ func (h *CHandlers) AddUrls(w http.ResponseWriter, r *http.Request) {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	urls := new(pb.AddUrlsRequest)
+	urls := new(pb.AddURLsRequest)
 	err = json.Unmarshal(body, urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	stream, err := h.catSvcClient.AddUrls(r.Context(), urls)
+	stream, err := h.catSvcClient.AddURLs(r.Context(), urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -143,13 +143,13 @@ func (h *CHandlers) AddUrl(w http.ResponseWriter, r *http.Request) {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	url := new(pb.AddUrlRequest)
+	url := new(pb.AddURLRequest)
 	err = json.Unmarshal(body, url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	addedUrl, err := h.catSvcClient.AddUrl(r.Context(), url)
+	addedUrl, err := h.catSvcClient.AddURL(r.Context(), url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -164,14 +164,14 @@ func (h *CHandlers) DeleteUrls(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	splittedUrls := strings.Split(rUrls, ",")
-	urls := new(pb.DeleteUrlsRequest)
+	urls := new(pb.DeleteURLsRequest)
 	urls.Urls = splittedUrls
-	stream, err := h.catSvcClient.DeleteUrls(r.Context(), urls)
+	stream, err := h.catSvcClient.DeleteURLs(r.Context(), urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	var deletedUrls []*pb.DeleteUrlResponse
+	var deletedUrls []*pb.DeleteURLResponse
 	for {
 		deletedUrl, err := stream.Recv()
 		if err == io.EOF {
@@ -192,9 +192,9 @@ func (h *CHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
 		return
 	}
-	url := new(pb.DeleteUrlRequest)
+	url := new(pb.DeleteURLRequest)
 	url.Url = rUrl
-	deletedUrl, err := h.catSvcClient.DeleteUrl(r.Context(), url)
+	deletedUrl, err := h.catSvcClient.DeleteURL(r.Context(), url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
@@ -211,10 +211,10 @@ func (h *CHandlers) GetUrls(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	splittedCategories := strings.Split(rCategories, ",")
-	urls := new(pb.ListUrlsRequest)
+	urls := new(pb.ListURLsRequest)
 	urls.Categories = splittedCategories
 	urls.Count = rCount
-	stream, err := h.catSvcClient.ListUrls(r.Context(), urls)
+	stream, err := h.catSvcClient.ListURLs(r.Context(), urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return

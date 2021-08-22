@@ -1,7 +1,7 @@
 package models
 
 import (
-	"CWS/pb"
+	"Lescatit/pb"
 	"time"
 
 	"gopkg.in/mgo.v2/bson"

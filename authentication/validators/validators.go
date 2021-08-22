@@ -1,7 +1,7 @@
 package validators
 
 import (
-	"CWS/pb"
+	"Lescatit/pb"
 	"errors"
 	"strings"
 

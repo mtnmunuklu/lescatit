@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"CWS/api/middlewares"
+	"Lescatit/api/middlewares"
 	"net/http"
 
 	"github.com/gorilla/handlers"

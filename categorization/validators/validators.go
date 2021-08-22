@@ -10,27 +10,27 @@ import (
 
 // Contains error codes for categorization service.
 var (
-	ErrInvalidUrlId    = errors.New("invalid urlId")
-	ErrInvalidUrl      = errors.New("invalid url")
-	ErrEmptyUrls       = errors.New("urls can't be empty")
-	ErrUrlAlreadyExist = errors.New("url already exist")
+	ErrInvalidURLId    = errors.New("invalid url id")
+	ErrInvalidURL      = errors.New("invalid url")
+	ErrEmptyURLs       = errors.New("urls can't be empty")
+	ErrURLAlreadyExist = errors.New("url already exist")
 	ErrEmptyCategory   = errors.New("category can't be empty")
 	ErrInvalidCount    = errors.New("invalid count")
 )
 
-// ValidateUrls validates if it's a real url.
-func ValidateUrl(reqUrL string) error {
+// ValidateURLs validates if it's a real url.
+func ValidateURL(reqUrL string) error {
 	_, err := url.ParseRequestURI(reqUrL)
 	if err != nil {
-		return ErrInvalidUrl
+		return ErrInvalidURL
 	}
 	return nil
 }
 
-// ValidateUrls validates the url count.
-func ValidateUrls(urls []string) error {
+// ValidateURLs validates the url count.
+func ValidateURLs(urls []string) error {
 	if len(urls) == 0 {
-		return ErrEmptyUrls
+		return ErrEmptyURLs
 	}
 	return nil
 }
@@ -43,7 +43,7 @@ func ValidateCategories(categories []string) error {
 	return nil
 }
 
-// ValidateUrls validates if it's a integer count.
+// ValidateCount validates if it's a integer count.
 func ValidateCount(count string) (int, error) {
 	newCount, err := strconv.Atoi(count)
 	if err != nil {
@@ -55,7 +55,7 @@ func ValidateCount(count string) (int, error) {
 // ValidateId validates if it's a valid url id.
 func ValidateId(id string) error {
 	if !bson.IsObjectIdHex(id) {
-		return ErrInvalidUrlId
+		return ErrInvalidURLId
 	}
 	return nil
 }

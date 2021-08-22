@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"CWS/api/resthandlers"
+	"Lescatit/api/resthandlers"
 	"net/http"
 )
 

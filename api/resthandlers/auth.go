@@ -1,8 +1,8 @@
 package resthandlers
 
 import (
-	"CWS/api/restutil"
-	"CWS/pb"
+	"Lescatit/api/restutil"
+	"Lescatit/pb"
 	"encoding/json"
 	"io"
 	"io/ioutil"

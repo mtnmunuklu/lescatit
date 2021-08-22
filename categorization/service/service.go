@@ -1,11 +1,11 @@
 package service
 
 import (
-	"CWS/categorization/models"
-	"CWS/categorization/repository"
-	"CWS/categorization/validators"
-	"CWS/pb"
-	"CWS/security"
+	"Lescatit/categorization/models"
+	"Lescatit/categorization/repository"
+	"Lescatit/categorization/validators"
+	"Lescatit/pb"
+	"Lescatit/security"
 	"context"
 	"strconv"
 	"time"
@@ -26,12 +26,12 @@ func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatSe
 
 // GetCategory performs return the category by url.
 func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
-	err := validators.ValidateUrl(req.Url)
+	err := validators.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
 	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
 	if err != nil {
 		return nil, err
 	}
@@ -41,12 +41,12 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 
 // UpdateCategory performs update the category.
 func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
-	err := validators.ValidateUrl(req.Url)
+	err := validators.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
 	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
 	if err != nil {
 		return nil, err
 	}
@@ -71,12 +71,12 @@ func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 
 // ReportMiscategorization reports miscategorization.
 func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
-	err := validators.ValidateUrl(req.Url)
+	err := validators.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
 	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
 	if err != nil {
 		return nil, err
 	}
@@ -106,17 +106,17 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCat
 	return found.ToProtoBuffer(), nil
 }
 
-// AddUrls performs add the urls.
-func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrlsServer) error {
-	err := validators.ValidateUrls(req.Urls)
+// AddURLs performs add the urls.
+func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error {
+	err := validators.ValidateURLs(req.Urls)
 	if err != nil {
 		return err
 	}
 	for _, url := range req.Urls {
-		err := validators.ValidateUrl(url)
+		err := validators.ValidateURL(url)
 		if err == nil {
 			base64Url := security.Base64Encode(url)
-			_, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+			_, err := s.categoriesRepository.GetCategoryByURL(base64Url)
 			if err == mgo.ErrNotFound {
 				category := new(models.Category)
 				category.Url = base64Url
@@ -145,14 +145,14 @@ func (s *CatService) AddUrls(req *pb.AddUrlsRequest, stream pb.CatService_AddUrl
 	return nil
 }
 
-// AddUrl performs add the url.
-func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Category, error) {
-	err := validators.ValidateUrl(req.Url)
+// AddURL performs add the url.
+func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error) {
+	err := validators.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
 	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
 	if err == mgo.ErrNotFound {
 		url := new(models.Category)
 		url.Url = base64Url
@@ -177,24 +177,24 @@ func (s *CatService) AddUrl(ctx context.Context, req *pb.AddUrlRequest) (*pb.Cat
 	if found == nil {
 		return nil, err
 	}
-	return nil, validators.ErrUrlAlreadyExist
+	return nil, validators.ErrURLAlreadyExist
 }
 
-// DeleteUrls performs delete the urls.
-func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_DeleteUrlsServer) error {
-	err := validators.ValidateUrls(req.Urls)
+// DeleteURLs performs delete the urls.
+func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error {
+	err := validators.ValidateURLs(req.Urls)
 	if err != nil {
 		return err
 	}
 	for _, url := range req.Urls {
-		err := validators.ValidateUrl(url)
+		err := validators.ValidateURL(url)
 		if err == nil {
 			base64Url := security.Base64Encode(url)
-			found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+			found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
 			if err == nil {
 				err = s.categoriesRepository.Delete(found.Id.Hex())
 				if err == nil {
-					err = stream.Send(&pb.DeleteUrlResponse{Url: url})
+					err = stream.Send(&pb.DeleteURLResponse{Url: url})
 					if err != nil {
 						return err
 					}
@@ -205,14 +205,14 @@ func (s *CatService) DeleteUrls(req *pb.DeleteUrlsRequest, stream pb.CatService_
 	return nil
 }
 
-// DeleteUrl performs delete the url.
-func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*pb.DeleteUrlResponse, error) {
-	err := validators.ValidateUrl(req.Url)
+// DeleteURL performs delete the url.
+func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*pb.DeleteURLResponse, error) {
+	err := validators.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
 	base64Url := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByUrl(base64Url)
+	found, err := s.categoriesRepository.GetCategoryByURL(base64Url)
 	if err != nil {
 		return nil, err
 	}
@@ -220,11 +220,11 @@ func (s *CatService) DeleteUrl(ctx context.Context, req *pb.DeleteUrlRequest) (*
 	if err != nil {
 		return nil, err
 	}
-	return &pb.DeleteUrlResponse{Url: req.Url}, nil
+	return &pb.DeleteURLResponse{Url: req.Url}, nil
 }
 
-// ListUrls performs list the urls based on categories and count.
-func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_ListUrlsServer) error {
+// ListURLs performs list the urls based on categories and count.
+func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_ListURLsServer) error {
 	err := validators.ValidateCategories(req.Categories)
 	if err != nil {
 		return err
@@ -234,7 +234,7 @@ func (s *CatService) ListUrls(req *pb.ListUrlsRequest, stream pb.CatService_List
 		return err
 	}
 	for _, category := range req.Categories {
-		urls, err := s.categoriesRepository.GetAllUrlsByCategory(category, count)
+		urls, err := s.categoriesRepository.GetAllURLsByCategory(category, count)
 		if err == nil {
 			for _, url := range urls {
 				url.Url, err = security.Base64Decode(url.Url)

@@ -1,11 +1,11 @@
 package service
 
 import (
-	"CWS/authentication/models"
-	"CWS/authentication/repository"
-	"CWS/authentication/validators"
-	"CWS/pb"
-	"CWS/security"
+	"Lescatit/authentication/models"
+	"Lescatit/authentication/repository"
+	"Lescatit/authentication/validators"
+	"Lescatit/pb"
+	"Lescatit/security"
 	"context"
 	"log"
 	"strings"

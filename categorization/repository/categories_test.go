@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"CWS/categorization/models"
-	"CWS/db"
-	"CWS/security"
+	"Lescatit/categorization/models"
+	"Lescatit/db"
+	"Lescatit/security"
 	"log"
 	"testing"
 	"time"
@@ -124,7 +124,7 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 	err = r.Save(category)
 	assert.NoError(t, err)
 
-	found, err := r.GetCategoryByUrl(category.Url)
+	found, err := r.GetCategoryByURL(category.Url)
 	assert.NoError(t, err)
 	assert.Equal(t, category.Id, found.Id)
 	assert.Equal(t, category.Url, found.Url)
@@ -132,7 +132,7 @@ func TestCategoriesRepositoryGetCategoryByUrl(t *testing.T) {
 	assert.Equal(t, category.Revision, found.Revision)
 	assert.Equal(t, category.Data, found.Data)
 
-	found, err = r.GetCategoryByUrl("")
+	found, err = r.GetCategoryByURL("")
 	assert.Error(t, err)
 	assert.EqualError(t, mgo.ErrNotFound, err.Error())
 	assert.Nil(t, found)
@@ -180,7 +180,7 @@ func TestCategoriesRepositoryGetAllUrlsByCategory(t *testing.T) {
 	err = r.Save(category2)
 	assert.NoError(t, err)
 
-	founds, err := r.GetAllUrlsByCategory(category.Category, 10)
+	founds, err := r.GetAllURLsByCategory(category.Category, 10)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, founds)
 }

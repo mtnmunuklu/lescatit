@@ -1,9 +1,9 @@
 package main
 
 import (
-	"CWS/api/resthandlers"
-	"CWS/api/routes"
-	"CWS/pb"
+	"Lescatit/api/resthandlers"
+	"Lescatit/api/routes"
+	"Lescatit/pb"
 	"flag"
 	"fmt"
 	"log"

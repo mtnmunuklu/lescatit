@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"CWS/authentication/models"
-	"CWS/db"
+	"Lescatit/authentication/models"
+	"Lescatit/db"
 	"fmt"
 	"log"
 	"testing"

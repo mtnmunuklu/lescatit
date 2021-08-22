@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"CWS/api/restutil"
-	"CWS/security"
+	"Lescatit/api/restutil"
+	"Lescatit/security"
 	"log"
 	"net/http"
 	"time"

@@ -1,7 +1,7 @@
 package restutil
 
 import (
-	"CWS/security"
+	"Lescatit/security"
 	"encoding/json"
 	"errors"
 	"net/http"

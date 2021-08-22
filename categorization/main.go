@@ -1,10 +1,10 @@
 package main
 
 import (
-	"CWS/categorization/repository"
-	"CWS/categorization/service"
-	"CWS/db"
-	"CWS/pb"
+	"Lescatit/categorization/repository"
+	"Lescatit/categorization/service"
+	"Lescatit/db"
+	"Lescatit/pb"
 	"flag"
 	"fmt"
 	"log"

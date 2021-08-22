@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"CWS/authentication/models"
-	"CWS/db"
+	"Lescatit/authentication/models"
+	"Lescatit/db"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

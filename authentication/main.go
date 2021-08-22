@@ -1,10 +1,10 @@
 package main
 
 import (
-	"CWS/authentication/repository"
-	"CWS/authentication/service"
-	"CWS/db"
-	"CWS/pb"
+	"Lescatit/authentication/repository"
+	"Lescatit/authentication/service"
+	"Lescatit/db"
+	"Lescatit/pb"
 	"flag"
 	"fmt"
 	"log"
