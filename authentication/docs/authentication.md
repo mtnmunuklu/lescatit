@@ -3,7 +3,7 @@
 # authentication
 
 ```go
-import "CWS/authentication"
+import "Lescatit/authentication"
 ```
 
 ## Index
@@ -13,7 +13,7 @@ import "CWS/authentication"
 # models
 
 ```go
-import "CWS/authentication/models"
+import "Lescatit/authentication/models"
 ```
 
 ## Index
@@ -57,7 +57,7 @@ ToProtoBuffer converts the user structure into a protocol buffer user structure\
 # repository
 
 ```go
-import "CWS/authentication/repository"
+import "Lescatit/authentication/repository"
 ```
 
 ## Index
@@ -173,7 +173,7 @@ NewUsersRepository creates a new UsersRepository instance\.
 # service
 
 ```go
-import "CWS/authentication/service"
+import "Lescatit/authentication/service"
 ```
 
 ## Index
@@ -236,7 +236,7 @@ ListUser list all users\.
 func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error)
 ```
 
-SignUp performs the user login process\.
+SignIn performs the user login process\.
 
 ### func \(\*AuthService\) [SignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L29>)
 
@@ -257,7 +257,7 @@ UpdateUser performs update the user\.
 # validators
 
 ```go
-import "CWS/authentication/validators"
+import "Lescatit/authentication/validators"
 ```
 
 ## Index
