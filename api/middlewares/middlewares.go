@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// LogRequests provides logging of incoming requests.
 func LogRequests(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		t := time.Now()
@@ -16,6 +17,7 @@ func LogRequests(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+// Authenticate provides the authentication process.
 func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokenString, err := security.ExtractToken(r)

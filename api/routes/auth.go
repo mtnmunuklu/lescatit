@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// NewAuthRoutes provides the routing process for authentication.
 func NewAuthRoutes(authHandlers resthandlers.AuthHandlers) []*Route {
 	return []*Route{
 		{

@@ -12,6 +12,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// AuthHandlers is the interface of the authentication operation.
 type AuthHandlers interface {
 	SignUp(w http.ResponseWriter, r *http.Request)
 	SignIn(w http.ResponseWriter, r *http.Request)
@@ -21,14 +22,17 @@ type AuthHandlers interface {
 	DeleteUser(w http.ResponseWriter, r *http.Request)
 }
 
+// AHandlers provides a connection with authentication service over proto buffer.
 type AHandlers struct {
 	authSvcClient pb.AuthServiceClient
 }
 
+// NewAuthHandlers creates a new AuthHandlers instance.
 func NewAuthHandlers(authSvcClient pb.AuthServiceClient) AuthHandlers {
 	return &AHandlers{authSvcClient: authSvcClient}
 }
 
+// SignUp performs the user registration process.
 func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
@@ -57,6 +61,7 @@ func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusCreated, resp)
 }
 
+// SignIn performs the user login process.
 func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
@@ -82,6 +87,7 @@ func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
+// PutUser performs update the user.
 func (h *AHandlers) PutUser(w http.ResponseWriter, r *http.Request) {
 	tokenPayload, err := restutil.AuthRequestWithId(r)
 	if err != nil {
@@ -113,6 +119,7 @@ func (h *AHandlers) PutUser(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
+// GetUser performs return the user by id.
 func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	tokenPayload, err := restutil.AuthRequestWithId(r)
 	if err != nil {
@@ -127,6 +134,7 @@ func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, resp)
 }
 
+// GetUsers list all users.
 func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	stream, err := h.authSvcClient.ListUsers(r.Context(), &pb.ListUsersRequest{})
 	if err != nil {
@@ -148,6 +156,7 @@ func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, users)
 }
 
+// DeleteUser performs delete the user.
 func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	tokenPayload, err := restutil.AuthRequestWithId(r)

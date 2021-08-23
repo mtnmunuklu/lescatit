@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// NewCatRoutes provides the routing process for categorization.
 func NewCatRoutes(catHandlers resthandlers.CatHandlers) []*Route {
 	return []*Route{
 		{
@@ -28,31 +29,31 @@ func NewCatRoutes(catHandlers resthandlers.CatHandlers) []*Route {
 		{
 			Path:         "/urls",
 			Method:       http.MethodPost,
-			Handler:      catHandlers.AddUrls,
+			Handler:      catHandlers.AddURLs,
 			AuthRequired: true,
 		},
 		{
 			Path:         "/urls",
 			Method:       http.MethodDelete,
-			Handler:      catHandlers.DeleteUrls,
+			Handler:      catHandlers.DeleteURLs,
 			AuthRequired: true,
 		},
 		{
 			Path:         "/urls",
 			Method:       http.MethodGet,
-			Handler:      catHandlers.GetUrls,
+			Handler:      catHandlers.GetURLs,
 			AuthRequired: true,
 		},
 		{
 			Path:         "/url",
 			Method:       http.MethodPost,
-			Handler:      catHandlers.AddUrl,
+			Handler:      catHandlers.AddURL,
 			AuthRequired: true,
 		},
 		{
 			Path:         "/url",
 			Method:       http.MethodDelete,
-			Handler:      catHandlers.DeleteUrl,
+			Handler:      catHandlers.DeleteURL,
 			AuthRequired: true,
 		},
 	}

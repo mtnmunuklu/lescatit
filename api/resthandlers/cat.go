@@ -10,25 +10,29 @@ import (
 	"strings"
 )
 
+// CatHandlers is the interface of the categorization operation.
 type CatHandlers interface {
 	GetCategory(w http.ResponseWriter, r *http.Request)
 	UpdateCategory(w http.ResponseWriter, r *http.Request)
 	ReportMiscategorization(w http.ResponseWriter, r *http.Request)
-	AddUrls(w http.ResponseWriter, r *http.Request)
-	AddUrl(w http.ResponseWriter, r *http.Request)
-	DeleteUrls(w http.ResponseWriter, r *http.Request)
-	DeleteUrl(w http.ResponseWriter, r *http.Request)
-	GetUrls(w http.ResponseWriter, r *http.Request)
+	AddURLs(w http.ResponseWriter, r *http.Request)
+	AddURL(w http.ResponseWriter, r *http.Request)
+	DeleteURLs(w http.ResponseWriter, r *http.Request)
+	DeleteURL(w http.ResponseWriter, r *http.Request)
+	GetURLs(w http.ResponseWriter, r *http.Request)
 }
 
+// CHandlers provides a connection with categorization service over proto buffer.
 type CHandlers struct {
 	catSvcClient pb.CatServiceClient
 }
 
+// NewCatHandlers creates a new CatHandlers instance.
 func NewCatHandlers(catSvcClient pb.CatServiceClient) CatHandlers {
 	return &CHandlers{catSvcClient: catSvcClient}
 }
 
+// GetCategory performs return the category by url.
 func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
 	rUrl := strings.TrimSpace(r.Header.Get("Url"))
 	if rUrl == "" {
@@ -45,6 +49,7 @@ func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, fetchedUrl)
 }
 
+// UpdateCategory performs update the category.
 func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
@@ -70,6 +75,7 @@ func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, updatedUrl)
 }
 
+// ReportMiscategorization reports miscategorization.
 func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
@@ -95,7 +101,8 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 	restutil.WriteAsJson(w, http.StatusOK, reportedUrl)
 }
 
-func (h *CHandlers) AddUrls(w http.ResponseWriter, r *http.Request) {
+// AddURLs performs add the urls.
+func (h *CHandlers) AddURLs(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -132,7 +139,8 @@ func (h *CHandlers) AddUrls(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, addedUrls)
 }
 
-func (h *CHandlers) AddUrl(w http.ResponseWriter, r *http.Request) {
+// AddURL performs add the url.
+func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
 		return
@@ -157,7 +165,8 @@ func (h *CHandlers) AddUrl(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, addedUrl)
 }
 
-func (h *CHandlers) DeleteUrls(w http.ResponseWriter, r *http.Request) {
+// DeleteURLs performs delete the urls.
+func (h *CHandlers) DeleteURLs(w http.ResponseWriter, r *http.Request) {
 	rUrls := strings.TrimSpace(r.Header.Get("Urls"))
 	if rUrls == "" {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
@@ -186,7 +195,8 @@ func (h *CHandlers) DeleteUrls(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusOK, deletedUrls)
 }
 
-func (h *CHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
+// DeleteURL performs delete the url.
+func (h *CHandlers) DeleteURL(w http.ResponseWriter, r *http.Request) {
 	rUrl := strings.TrimSpace(r.Header.Get("Url"))
 	if rUrl == "" {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
@@ -203,7 +213,8 @@ func (h *CHandlers) DeleteUrl(w http.ResponseWriter, r *http.Request) {
 	restutil.WriteAsJson(w, http.StatusNoContent, nil)
 }
 
-func (h *CHandlers) GetUrls(w http.ResponseWriter, r *http.Request) {
+// GetURLs performs list the urls based on categories and count.
+func (h *CHandlers) GetURLs(w http.ResponseWriter, r *http.Request) {
 	rCategories := strings.TrimSpace(r.Header.Get("Categories"))
 	rCount := strings.TrimSpace(r.Header.Get("Count"))
 	if rCategories == "" || rCount == "" {

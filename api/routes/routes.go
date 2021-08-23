@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Route provides the route instance for routing operation.
 type Route struct {
 	Method       string
 	Path         string
@@ -15,6 +16,7 @@ type Route struct {
 	AuthRequired bool
 }
 
+// Install registers a new route with a matcher for the URL path.
 func Install(router *mux.Router, routeList []*Route) {
 	for _, route := range routeList {
 		if route.AuthRequired {
@@ -31,6 +33,7 @@ func Install(router *mux.Router, routeList []*Route) {
 	}
 }
 
+// WithCORS provides Cross-Origin Resource Sharing middleware.
 func WithCORS(router *mux.Router) http.Handler {
 	headers := handlers.AllowedHeaders([]string{"X-Requested-with", "Content-Type", "Accept", "Authorization"})
 	origins := handlers.AllowedOrigins([]string{"*"})

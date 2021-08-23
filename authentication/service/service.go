@@ -57,7 +57,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error
 	return nil, validators.ErrEmailAlreadyExist
 }
 
-// SignUp performs the user login process.
+// SignIn performs the user login process.
 func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
 	req.Email = validators.NormalizeEmail(req.Email)
 	user, err := s.usersRepository.GetByEmail(req.Email)

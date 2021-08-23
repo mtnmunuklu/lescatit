@@ -43,7 +43,7 @@ func main() {
 	if err != nil {
 		log.Panicln(err)
 	}
-	defer authConn.Close()
+	defer catConn.Close()
 
 	catSvcClient := pb.NewCatServiceClient(catConn)
 	catHandlers := resthandlers.NewCatHandlers(catSvcClient)
