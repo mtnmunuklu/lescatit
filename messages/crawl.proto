@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message Crawler {
+    string id = 1;
+    string url = 2;
+    string category = 3;
+    int64 created = 4;
+    int64 updated = 5;
+    string revision = 6;
+    string data = 7;
+}
+
+message GetURLDataRequest {
+    string url = 1;
+}
+
+message GetURLsDataRequest {
+    repeated string urls = 1;
+}
+
+message GetURLDataResponse {
+    string url = 1;
+    string data = 2;
+}
+
+message CrawlRequest{
+    // UserAgent is the User-Agent string used by HTTP requests
+    string userAgent = 2;
+    // MaxDepth limits the recursion depth of visited URLs.
+    // Set it to 0 for infinite recursion (default).
+    int64 maxDepth = 3;
+    // AllowedDomains is a domain whitelist.
+    // Leave it blank to allow any domains to be visited
+    repeated string allowedDomains = 4;
+    // DisallowedDomains is a domain blacklist.
+    repeated string disallowedDomains = 5;
+    // DisallowedURLFilters is a list of regular expressions which restricts
+    // visiting URLs. If any of the rules matches to a URL the
+    // request will be stopped. DisallowedURLFilters will
+    // be evaluated before URLFilters
+    // Leave it blank to allow any URLs to be visited
+    repeated string disallowedUrlFilters = 6;
+    // URLFilters is a list of regular expressions which restricts
+    // visiting URLs. If any of the rules matches to a URL the
+    // request won't be stopped. DisallowedURLFilters will
+    // be evaluated before URLFilters
+    // Leave it blank to allow any URLs to be visited
+    repeated string urlFilters = 7;
+    // URLRevisit allows multiple downloads of the same URL
+    bool urlRevisit = 8;
+    // MaxBodySize is the limit of the retrieved response body in bytes.
+    // 0 means unlimited.
+    // The default value for MaxBodySize is 10MB (10 * 1024 * 1024 bytes).
+    int64 maxBodySize = 9;
+    // robotsTxt allows the Collector to ignore any restrictions set by
+    // the target host's robots.txt file.  See http://www.robotstxt.org/ for more
+    // information.
+    bool robotsTxt = 10;
+}
+
+message CrawlURLRequest {
+    string url = 1;
+    CrawlRequest crawlRequest = 2;
+}
+
+message CrawlURLsRequest {
+    repeated string urls = 1;
+    CrawlRequest crawlRequest = 2;
+}
+
+message CrawlURLResponse {
+    string url = 1;
+    repeated string links = 2;
+}
+
+service CrawlService {
+    rpc GetURLData(GetURLDataRequest) returns (GetURLDataResponse);
+    rpc GetURLsData(GetURLsDataRequest) returns (stream GetURLDataResponse);
+    rpc CrawlURL(CrawlURLRequest) returns (CrawlURLResponse);
+    rpc CrawlURLs(CrawlURLsRequest) returns (stream CrawlURLResponse);
+} 
