@@ -158,7 +158,7 @@ func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Cat
 		url.Url = base64URL
 		//send url to crawler
 		//get data of the url
-		data := "Data"
+		data := "ZGF0YQ=="
 		//send data of the url to categorizer
 		//use returned value to update category
 		url.Category = "Category"
@@ -166,7 +166,7 @@ func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Cat
 		url.Updated = time.Now()
 		url.Id = bson.NewObjectId()
 		url.Revision = "0"
-		url.Data = security.Base64Encode(data)
+		url.Data = data
 		err := s.categoriesRepository.Save(url)
 		if err != nil {
 			return nil, err
