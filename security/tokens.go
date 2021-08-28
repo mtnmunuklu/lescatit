@@ -73,5 +73,3 @@ func NewTokenPayload(tokenString string) (*TokenPayload, error) {
 		ExpiresAt: time.Unix(int64(expiresAt), 0),
 	}, nil
 }
-
-//3.17
