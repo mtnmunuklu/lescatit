@@ -19,6 +19,13 @@
             "program": "${workspaceFolder}/categorization/main.go"
         },
         {
+            "name": "Crawler Debug",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/crawler/main.go"
+        },
+        {
             "name": "Api Debug",
             "type": "go",
             "request": "launch",

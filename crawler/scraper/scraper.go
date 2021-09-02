@@ -103,6 +103,11 @@ func (cs *CScraper) GetData(url string) (string, error) {
 		}
 	})
 
+	err := collector.Visit(url)
+	if err != nil {
+		return "", err
+	}
+
 	return strings.Join(data, " "), nil
 }
 

@@ -27,7 +27,8 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 	if err != nil {
 		return nil, err
 	}
-	data, err := s.crawlersRepository.GetDataByURL(req.Url)
+	base64URL := security.Base64Encode(req.Url)
+	data, err := s.crawlersRepository.GetDataByURL(base64URL)
 	if err != nil {
 		currentData, err := s.collyScraper.GetData(req.Url)
 		if err != nil {
@@ -57,7 +58,8 @@ func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlSe
 	for _, url := range req.Urls {
 		err := validators.ValidateURL(url)
 		if err == nil {
-			data, err := s.crawlersRepository.GetDataByURL(url)
+			base64URL := security.Base64Encode(url)
+			data, err := s.crawlersRepository.GetDataByURL(base64URL)
 			if err != nil {
 				currentData, err := s.collyScraper.GetData(url)
 				if err == nil {
