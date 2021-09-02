@@ -66,6 +66,13 @@ import "Lescatit/api/resthandlers"
   - [func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request)](<#func-chandlers-updatecategory>)
 - [type CatHandlers](<#type-cathandlers>)
   - [func NewCatHandlers(catSvcClient pb.CatServiceClient) CatHandlers](<#func-newcathandlers>)
+- [type CrawlHandlers](<#type-crawlhandlers>)
+  - [func NewCrawlHandlers(crawlSvcClient pb.CrawlServiceClient) CrawlHandlers](<#func-newcrawlhandlers>)
+- [type CwlHandlers](<#type-cwlhandlers>)
+  - [func (h *CwlHandlers) CrawlURL(w http.ResponseWriter, r *http.Request)](<#func-cwlhandlers-crawlurl>)
+  - [func (h *CwlHandlers) CrawlURLs(w http.ResponseWriter, r *http.Request)](<#func-cwlhandlers-crawlurls>)
+  - [func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request)](<#func-cwlhandlers-geturldata>)
+  - [func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request)](<#func-cwlhandlers-geturlsdata>)
 
 
 ## type [AHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/resthandlers/auth.go#L26-L28>)
@@ -248,6 +255,69 @@ func NewCatHandlers(catSvcClient pb.CatServiceClient) CatHandlers
 
 NewCatHandlers creates a new CatHandlers instance\.
 
+## type [CrawlHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/resthandlers/crawl.go#L14-L19>)
+
+CrawlHandlers is the interface of the crawler operation
+
+```go
+type CrawlHandlers interface {
+    GetURLData(w http.ResponseWriter, r *http.Request)
+    GetURLsData(w http.ResponseWriter, r *http.Request)
+    CrawlURL(w http.ResponseWriter, r *http.Request)
+    CrawlURLs(w http.ResponseWriter, r *http.Request)
+}
+```
+
+### func [NewCrawlHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/resthandlers/crawl.go#L27>)
+
+```go
+func NewCrawlHandlers(crawlSvcClient pb.CrawlServiceClient) CrawlHandlers
+```
+
+NewCrawlHandlers creates a new CrawlHandlers instance\.
+
+## type [CwlHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/resthandlers/crawl.go#L22-L24>)
+
+CwlHandlers provides a connection with categorization service over proto buffer\.
+
+```go
+type CwlHandlers struct {
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*CwlHandlers\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/resthandlers/crawl.go#L79>)
+
+```go
+func (h *CwlHandlers) CrawlURL(w http.ResponseWriter, r *http.Request)
+```
+
+CrawlURL performs crawl the url
+
+### func \(\*CwlHandlers\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/resthandlers/crawl.go#L105>)
+
+```go
+func (h *CwlHandlers) CrawlURLs(w http.ResponseWriter, r *http.Request)
+```
+
+CrawlURLs performs crawl the urls
+
+### func \(\*CwlHandlers\) [GetURLData](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/resthandlers/crawl.go#L32>)
+
+```go
+func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request)
+```
+
+GetURLData provides to get the content in the url address\.
+
+### func \(\*CwlHandlers\) [GetURLsData](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/resthandlers/crawl.go#L49>)
+
+```go
+func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request)
+```
+
+GetURLsData provides to get the content in the url addresses\.
+
 # restutil
 
 ```go
@@ -322,6 +392,7 @@ import "Lescatit/api/routes"
 - [type Route](<#type-route>)
   - [func NewAuthRoutes(authHandlers resthandlers.AuthHandlers) []*Route](<#func-newauthroutes>)
   - [func NewCatRoutes(catHandlers resthandlers.CatHandlers) []*Route](<#func-newcatroutes>)
+  - [func NewCrawlRoutes(crawlHandlers resthandlers.CrawlHandlers) []*Route](<#func-newcrawlroutes>)
 
 
 ## func [Install](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/routes/routes.go#L20>)
@@ -365,6 +436,14 @@ NewAuthRoutes provides the routing process for authentication\.
 
 ```go
 func NewCatRoutes(catHandlers resthandlers.CatHandlers) []*Route
+```
+
+NewCatRoutes provides the routing process for categorization\.
+
+### func [NewCrawlRoutes](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/routes/crawl.go#L9>)
+
+```go
+func NewCrawlRoutes(crawlHandlers resthandlers.CrawlHandlers) []*Route
 ```
 
 NewCatRoutes provides the routing process for categorization\.

@@ -14,15 +14,17 @@ import (
 )
 
 var (
-	port     int
-	authAddr string
-	catAddr  string
+	port      int
+	authAddr  string
+	catAddr   string
+	crawlAddr string
 )
 
 func init() {
 	flag.IntVar(&port, "port", 9000, "api service port")
 	flag.StringVar(&authAddr, "auth_addr", "localhost:9001", "authentication service address")
 	flag.StringVar(&catAddr, "cat_addr", "localhost:9002", "categorization service address")
+	flag.StringVar(&crawlAddr, "crawl_addr", "localhost:9003", "crawler service address")
 	flag.Parse()
 }
 
@@ -49,9 +51,21 @@ func main() {
 	catHandlers := resthandlers.NewCatHandlers(catSvcClient)
 	catRoutes := routes.NewCatRoutes(catHandlers)
 
+	// for crawler service
+	crawlConn, err := grpc.Dial(crawlAddr, grpc.WithInsecure())
+	if err != nil {
+		log.Panicln(err)
+	}
+	defer authConn.Close()
+
+	crawlSvcClient := pb.NewCrawlServiceClient(crawlConn)
+	crawlHandlers := resthandlers.NewCrawlHandlers(crawlSvcClient)
+	crawlRoutes := routes.NewCrawlRoutes(crawlHandlers)
+
 	router := mux.NewRouter().StrictSlash(true)
 	routes.Install(router, authRoutes)
 	routes.Install(router, catRoutes)
+	routes.Install(router, crawlRoutes)
 
 	log.Printf("API service running on [::]:%d\n", port)
 
