@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cp ../../authentication/authsvc .
+cp ../../crawler/crawlsvc .
 cp ../../categorization/catsvc .
 cp ../../api/apisvc .
 
