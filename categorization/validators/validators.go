@@ -10,12 +10,11 @@ import (
 
 // Contains error codes for categorization service.
 var (
-	ErrInvalidURLId    = errors.New("invalid url id")
-	ErrInvalidURL      = errors.New("invalid url")
-	ErrEmptyURLs       = errors.New("urls can't be empty")
-	ErrURLAlreadyExist = errors.New("url already exist")
-	ErrEmptyCategory   = errors.New("category can't be empty")
-	ErrInvalidCount    = errors.New("invalid count")
+	ErrInvalidURLId  = errors.New("invalid url id")
+	ErrInvalidURL    = errors.New("invalid url")
+	ErrEmptyURLs     = errors.New("urls can't be empty")
+	ErrEmptyCategory = errors.New("category can't be empty")
+	ErrInvalidCount  = errors.New("invalid count")
 )
 
 // ValidateURLs validates if it's a real url.

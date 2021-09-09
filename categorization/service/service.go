@@ -10,7 +10,6 @@ import (
 	"strconv"
 	"time"
 
-	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -70,71 +69,73 @@ func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 }
 
 // ReportMiscategorization reports miscategorization.
-func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
-	err := validators.ValidateURL(req.Url)
+func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.ReportMiscategorizationRequest) (*pb.Category, error) {
+	base64URL := security.Base64Encode(req.GetUrl())
+	reportedURL, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 	if err != nil {
 		return nil, err
 	}
-	base64URL := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
-	if err != nil {
-		return nil, err
+	if reportedURL.Category == req.GetCategory() {
+		return reportedURL.ToProtoBuffer(), nil
 	}
-	//if update time is not current send url to crawler
-	//get data of the url
-	data := "Data"
-	//send data of the url to categorizer
-	//use returned value to update category
-	category := "NewCategory"
-	if found.Category == category {
-		return found.ToProtoBuffer(), nil
-	}
-	found.Category = category
-	found.Updated = time.Now()
-	revision, err := strconv.Atoi(found.Revision)
+	reportedURL.Category = req.GetCategory()
+	reportedURL.Updated = time.Now()
+	revision, err := strconv.Atoi(reportedURL.Revision)
 	if err == nil {
-		found.Revision = strconv.Itoa((revision + 1))
+		reportedURL.Revision = strconv.Itoa((revision + 1))
 	} else {
-		found.Revision = "0"
+		reportedURL.Revision = "0"
 	}
-	found.Data = security.Base64Encode(data)
-	err = s.categoriesRepository.Update(found)
+	reportedURL.Data = req.GetData()
+	err = s.categoriesRepository.Update(reportedURL)
 	if err != nil {
 		return nil, err
 	}
-	found.Url = req.Url
-	return found.ToProtoBuffer(), nil
+	reportedURL.Url = req.Url
+	return reportedURL.ToProtoBuffer(), nil
 }
 
 // AddURLs performs add the urls.
 func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error {
-	err := validators.ValidateURLs(req.Urls)
-	if err != nil {
-		return err
-	}
-	for _, url := range req.Urls {
-		err := validators.ValidateURL(url)
-		if err == nil {
-			base64URL := security.Base64Encode(url)
-			_, err := s.categoriesRepository.GetCategoryByURL(base64URL)
-			if err == mgo.ErrNotFound {
-				category := new(models.Category)
-				category.Url = base64URL
-				//send url to crawler
-				//get data of the url
-				data := "Data"
-				//send data of the url to categorizer
-				//use returned value to update category
-				category.Category = "Category"
-				category.Created = time.Now()
-				category.Updated = time.Now()
-				category.Id = bson.NewObjectId()
-				category.Revision = "0"
-				category.Data = security.Base64Encode(data)
-				err := s.categoriesRepository.Save(category)
+	for _, url := range req.AddURLRequest {
+		base64URL := security.Base64Encode(url.Url)
+		//New url
+		if url.GetStatus() == "New" {
+			addedURL := new(models.Category)
+			addedURL.Url = base64URL
+			//send data of the url to categorizer
+			//use returned value to update category
+			addedURL.Category = url.GetCategory()
+			addedURL.Created = time.Now()
+			addedURL.Updated = time.Now()
+			addedURL.Id = bson.NewObjectId()
+			addedURL.Revision = "0"
+			addedURL.Data = url.GetData()
+			err := s.categoriesRepository.Save(addedURL)
+			if err == nil {
+				addedURL.Url = url.GetUrl()
+				err = stream.Send(addedURL.ToProtoBuffer())
+				if err != nil {
+					return err
+				}
+			}
+		} else if url.GetStatus() == "Updated" {
+			//Updated url
+			updatedURL, err := s.categoriesRepository.GetCategoryByURL(base64URL)
+			if err == nil {
+				updatedURL.Category = url.GetCategory()
+				updatedURL.Updated = time.Now()
+				revision, err := strconv.Atoi(updatedURL.Revision)
 				if err == nil {
-					category.Url = url
-					err = stream.Send(category.ToProtoBuffer())
+					updatedURL.Revision = strconv.Itoa((revision + 1))
+				} else {
+					updatedURL.Revision = "0"
+				}
+				updatedURL.Data = url.GetData()
+				err = s.categoriesRepository.Update(updatedURL)
+				if err == nil {
+					updatedURL.Url = url.GetUrl()
+					err = stream.Send(updatedURL.ToProtoBuffer())
 					if err != nil {
 						return err
 					}
@@ -147,37 +148,45 @@ func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURL
 
 // AddURL performs add the url.
 func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error) {
-	err := validators.ValidateURL(req.Url)
-	if err != nil {
-		return nil, err
-	}
-	base64URL := security.Base64Encode(req.Url)
-	found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
-	if err == mgo.ErrNotFound {
-		url := new(models.Category)
-		url.Url = base64URL
-		//send url to crawler
-		//get data of the url
-		data := "ZGF0YQ=="
-		//send data of the url to categorizer
-		//use returned value to update category
-		url.Category = "Category"
-		url.Created = time.Now()
-		url.Updated = time.Now()
-		url.Id = bson.NewObjectId()
-		url.Revision = "0"
-		url.Data = data
-		err := s.categoriesRepository.Save(url)
+
+	base64URL := security.Base64Encode(req.GetUrl())
+	// New url
+	if req.GetStatus() == "New" {
+		addedURL := new(models.Category)
+		addedURL.Url = base64URL
+		addedURL.Category = req.GetCategory()
+		addedURL.Created = time.Now()
+		addedURL.Updated = time.Now()
+		addedURL.Id = bson.NewObjectId()
+		addedURL.Revision = "0"
+		addedURL.Data = req.GetData()
+		err := s.categoriesRepository.Save(addedURL)
 		if err != nil {
 			return nil, err
 		}
-		url.Url = req.Url
-		return url.ToProtoBuffer(), nil
+		addedURL.Url = req.GetUrl()
+		return addedURL.ToProtoBuffer(), nil
 	}
-	if found == nil {
+	// Updated url
+	updatedURL, err := s.categoriesRepository.GetCategoryByURL(base64URL)
+	if err != nil {
 		return nil, err
 	}
-	return nil, validators.ErrURLAlreadyExist
+	updatedURL.Category = req.GetCategory()
+	updatedURL.Updated = time.Now()
+	revision, err := strconv.Atoi(updatedURL.Revision)
+	if err == nil {
+		updatedURL.Revision = strconv.Itoa((revision + 1))
+	} else {
+		updatedURL.Revision = "0"
+	}
+	updatedURL.Data = req.GetData()
+	err = s.categoriesRepository.Update(updatedURL)
+	if err != nil {
+		return nil, err
+	}
+	updatedURL.Url = req.GetUrl()
+	return updatedURL.ToProtoBuffer(), nil
 }
 
 // DeleteURLs performs delete the urls.
