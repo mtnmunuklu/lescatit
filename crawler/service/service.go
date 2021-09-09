@@ -30,21 +30,27 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 	base64URL := security.Base64Encode(req.Url)
 	data, err := s.crawlersRepository.GetDataByURL(base64URL)
 	if err != nil {
-		currentData, err := s.collyScraper.GetData(req.Url)
-		if err != nil {
-			return nil, err
+		if req.GetType() == "notnew" {
+			return nil, validators.ErrURLNotExist
+		} else {
+			currentData, err := s.collyScraper.GetData(req.Url)
+			if err != nil {
+				return nil, err
+			}
+			base64Data := security.Base64Encode(currentData)
+			return &pb.GetURLDataResponse{Url: req.Url, Data: base64Data, Status: "New"}, nil
 		}
-		base64Data := security.Base64Encode(currentData)
-		return &pb.GetURLDataResponse{Url: req.Url, Data: base64Data}, nil
-	}
-	currentTime := time.Now()
-	diff := currentTime.Sub(data.Updated).Hours()
-	if diff > 720 {
-		currentData, err := s.collyScraper.GetData(req.Url)
-		if err != nil {
-			return nil, err
+	} else if data != nil {
+		currentTime := time.Now()
+		diff := currentTime.Sub(data.Updated).Hours()
+		if diff > 720 {
+			currentData, err := s.collyScraper.GetData(req.Url)
+			if err != nil {
+				return nil, err
+			}
+			base64Data := security.Base64Encode(currentData)
+			return &pb.GetURLDataResponse{Url: req.Url, Data: base64Data, Status: "Updated"}, nil
 		}
-		data.Data = security.Base64Encode(currentData)
 	}
 	return &pb.GetURLDataResponse{Url: req.Url, Data: data.Data}, nil
 }
@@ -61,21 +67,27 @@ func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlSe
 			base64URL := security.Base64Encode(url)
 			data, err := s.crawlersRepository.GetDataByURL(base64URL)
 			if err != nil {
-				currentData, err := s.collyScraper.GetData(url)
-				if err == nil {
-					base64Data := security.Base64Encode(currentData)
-					err = stream.Send(&pb.GetURLDataResponse{Url: url, Data: base64Data})
-					if err != nil {
-						return err
+				if req.GetType() != "notnew" {
+					currentData, err := s.collyScraper.GetData(url)
+					if err == nil {
+						base64Data := security.Base64Encode(currentData)
+						err = stream.Send(&pb.GetURLDataResponse{Url: url, Data: base64Data, Status: "New"})
+						if err != nil {
+							return err
+						}
 					}
 				}
-			} else {
+			} else if data != nil {
 				currentTime := time.Now()
 				diff := currentTime.Sub(data.Updated).Hours()
 				if diff > 720 {
 					currentData, err := s.collyScraper.GetData(url)
 					if err == nil {
-						data.Data = security.Base64Encode(currentData)
+						base64Data := security.Base64Encode(currentData)
+						err = stream.Send(&pb.GetURLDataResponse{Url: url, Data: base64Data, Status: "Updated"})
+						if err != nil {
+							return err
+						}
 					}
 				}
 				err = stream.Send(&pb.GetURLDataResponse{Url: url, Data: data.Data})

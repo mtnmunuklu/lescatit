@@ -7,8 +7,9 @@ import (
 
 // Contains error codes for crawler service.
 var (
-	ErrInvalidURL = errors.New("invalid url")
-	ErrEmptyURLs  = errors.New("urls can't be empty")
+	ErrInvalidURL  = errors.New("invalid url")
+	ErrEmptyURLs   = errors.New("urls can't be empty")
+	ErrURLNotExist = errors.New("url does not exist")
 )
 
 // ValidateURLs validates if it's a real url.
