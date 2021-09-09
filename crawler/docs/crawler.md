@@ -166,7 +166,7 @@ type CScraper struct {
 }
 ```
 
-### func \(\*CScraper\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/scraper/scraper.go#L110>)
+### func \(\*CScraper\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/scraper/scraper.go#L115>)
 
 ```go
 func (cs *CScraper) FromProtoBuffer(crawler *pb.CrawlRequest)
@@ -250,7 +250,7 @@ type CrawlService struct {
 }
 ```
 
-### func \(\*CrawlService\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L90>)
+### func \(\*CrawlService\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L104>)
 
 ```go
 func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*pb.CrawlURLResponse, error)
@@ -258,7 +258,7 @@ func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*
 
 CrawlURL performs crawl the url
 
-### func \(\*CrawlService\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L104>)
+### func \(\*CrawlService\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L118>)
 
 ```go
 func (s *CrawlService) CrawlURLs(req *pb.CrawlURLsRequest, stream pb.CrawlService_CrawlURLsServer) error
@@ -274,7 +274,7 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 
 GetURLData provides to get the content in the url address\.
 
-### func \(\*CrawlService\) [GetURLsData](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L52>)
+### func \(\*CrawlService\) [GetURLsData](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L59>)
 
 ```go
 func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlService_GetURLsDataServer) error
@@ -301,12 +301,13 @@ Contains error codes for crawler service\.
 
 ```go
 var (
-    ErrInvalidURL = errors.New("invalid url")
-    ErrEmptyURLs  = errors.New("urls can't be empty")
+    ErrInvalidURL  = errors.New("invalid url")
+    ErrEmptyURLs   = errors.New("urls can't be empty")
+    ErrURLNotExist = errors.New("url does not exist")
 )
 ```
 
-## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/validators/validators.go#L15>)
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/validators/validators.go#L16>)
 
 ```go
 func ValidateURL(reqURL string) error
@@ -314,7 +315,7 @@ func ValidateURL(reqURL string) error
 
 ValidateURLs validates if it's a real url\.
 
-## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/validators/validators.go#L24>)
+## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/validators/validators.go#L25>)
 
 ```go
 func ValidateURLs(urls []string) error
