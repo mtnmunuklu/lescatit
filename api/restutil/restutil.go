@@ -11,9 +11,10 @@ import (
 
 // Contains error codes for api.
 var (
-	ErrEmptyBody    = errors.New("body can't be empty")
-	ErrEmptyHeader  = errors.New("header can't be empty")
-	ErrUnauthorized = errors.New("unauthorized")
+	ErrEmptyBody       = errors.New("body can't be empty")
+	ErrEmptyHeader     = errors.New("header can't be empty")
+	ErrURLAlreadyExist = errors.New("url already exist")
+	ErrUnauthorized    = errors.New("unauthorized")
 )
 
 // Error

@@ -40,17 +40,6 @@ func main() {
 	authHandlers := resthandlers.NewAuthHandlers(autSvcClient)
 	authRoutes := routes.NewAuthRoutes(authHandlers)
 
-	// for categorization service
-	catConn, err := grpc.Dial(catAddr, grpc.WithInsecure())
-	if err != nil {
-		log.Panicln(err)
-	}
-	defer catConn.Close()
-
-	catSvcClient := pb.NewCatServiceClient(catConn)
-	catHandlers := resthandlers.NewCatHandlers(catSvcClient)
-	catRoutes := routes.NewCatRoutes(catHandlers)
-
 	// for crawler service
 	crawlConn, err := grpc.Dial(crawlAddr, grpc.WithInsecure())
 	if err != nil {
@@ -62,10 +51,21 @@ func main() {
 	crawlHandlers := resthandlers.NewCrawlHandlers(crawlSvcClient)
 	crawlRoutes := routes.NewCrawlRoutes(crawlHandlers)
 
+	// for categorization service
+	catConn, err := grpc.Dial(catAddr, grpc.WithInsecure())
+	if err != nil {
+		log.Panicln(err)
+	}
+	defer catConn.Close()
+
+	catSvcClient := pb.NewCatServiceClient(catConn)
+	catHandlers := resthandlers.NewCatHandlers(catSvcClient, crawlSvcClient)
+	catRoutes := routes.NewCatRoutes(catHandlers)
+
 	router := mux.NewRouter().StrictSlash(true)
 	routes.Install(router, authRoutes)
-	routes.Install(router, catRoutes)
 	routes.Install(router, crawlRoutes)
+	routes.Install(router, catRoutes)
 
 	log.Printf("API service running on [::]:%d\n", port)
 

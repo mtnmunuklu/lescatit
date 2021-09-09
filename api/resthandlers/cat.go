@@ -24,12 +24,13 @@ type CatHandlers interface {
 
 // CHandlers provides a connection with categorization service over proto buffer.
 type CHandlers struct {
-	catSvcClient pb.CatServiceClient
+	catSvcClient   pb.CatServiceClient
+	crawlSvcClient pb.CrawlServiceClient
 }
 
 // NewCatHandlers creates a new CatHandlers instance.
-func NewCatHandlers(catSvcClient pb.CatServiceClient) CatHandlers {
-	return &CHandlers{catSvcClient: catSvcClient}
+func NewCatHandlers(catSvcClient pb.CatServiceClient, crawlSvcClient pb.CrawlServiceClient) CatHandlers {
+	return &CHandlers{catSvcClient: catSvcClient, crawlSvcClient: crawlSvcClient}
 }
 
 // GetCategory performs return the category by url.
@@ -87,13 +88,26 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	url := new(pb.GetCategoryRequest)
+	url := new(pb.GetURLDataRequest)
 	err = json.Unmarshal(body, url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	reportedURL, err := h.catSvcClient.ReportMiscategorization(r.Context(), url)
+	url.Type = "notnew" //ReportMiscategorization
+	fetchedURLData, err := h.crawlSvcClient.GetURLData(r.Context(), url)
+	if err != nil {
+		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	fetchedData := new(pb.ReportMiscategorizationRequest)
+	fetchedData.Url = fetchedURLData.GetUrl()
+	fetchedData.Data = fetchedURLData.GetData()
+	fetchedData.Status = fetchedURLData.GetStatus()
+	//send data of the url to categorizer
+	//use returned value to update category
+	fetchedData.Category = "uncategorized"
+	reportedURL, err := h.catSvcClient.ReportMiscategorization(r.Context(), fetchedData)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -113,13 +127,45 @@ func (h *CHandlers) AddURLs(w http.ResponseWriter, r *http.Request) {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	urls := new(pb.AddURLsRequest)
+	urls := new(pb.GetURLsDataRequest)
 	err = json.Unmarshal(body, urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	stream, err := h.catSvcClient.AddURLs(r.Context(), urls)
+	// get urls data
+	streamURLData, err := h.crawlSvcClient.GetURLsData(r.Context(), urls)
+	if err != nil {
+		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	addURLsRequest := new(pb.AddURLsRequest)
+
+	for {
+
+		fetchedURLData, err := streamURLData.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			restutil.WriteError(w, http.StatusBadRequest, err)
+			return
+		}
+
+		if fetchedURLData.GetStatus() != "" {
+			addURLRequest := new(pb.AddURLRequest)
+			addURLRequest.Url = fetchedURLData.GetUrl()
+			addURLRequest.Data = fetchedURLData.GetData()
+			addURLRequest.Status = fetchedURLData.GetStatus()
+			//send data of the url to categorizer
+			//use returned value to update category
+			addURLRequest.Category = "uncategorized"
+			addURLsRequest.AddURLRequest = append(addURLsRequest.AddURLRequest, addURLRequest)
+		}
+	}
+
+	// add urls
+	stream, err := h.catSvcClient.AddURLs(r.Context(), addURLsRequest)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -151,18 +197,35 @@ func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request) {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	url := new(pb.AddURLRequest)
+	url := new(pb.GetURLDataRequest)
 	err = json.Unmarshal(body, url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	addedURL, err := h.catSvcClient.AddURL(r.Context(), url)
+	fetchedURLData, err := h.crawlSvcClient.GetURLData(r.Context(), url)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	restutil.WriteAsJson(w, http.StatusOK, addedURL)
+	if fetchedURLData.GetStatus() != "" {
+		fetchedData := new(pb.AddURLRequest)
+		fetchedData.Url = fetchedURLData.GetUrl()
+		fetchedData.Data = fetchedURLData.GetData()
+		fetchedData.Status = fetchedURLData.GetStatus()
+		//send data of the url to categorizer
+		//use returned value to update category
+		fetchedData.Category = "uncategorized"
+		addedURL, err := h.catSvcClient.AddURL(r.Context(), fetchedData)
+		if err != nil {
+			restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+			return
+		}
+		restutil.WriteAsJson(w, http.StatusOK, addedURL)
+	} else {
+		restutil.WriteError(w, http.StatusUnprocessableEntity, restutil.ErrURLAlreadyExist)
+		return
+	}
 }
 
 // DeleteURLs performs delete the urls.
