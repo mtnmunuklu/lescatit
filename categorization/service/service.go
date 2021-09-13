@@ -76,6 +76,7 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.Report
 		return nil, err
 	}
 	if reportedURL.Category == req.GetCategory() {
+		reportedURL.Url = req.Url
 		return reportedURL.ToProtoBuffer(), nil
 	}
 	reportedURL.Category = req.GetCategory()
@@ -97,7 +98,7 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.Report
 
 // AddURLs performs add the urls.
 func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error {
-	for _, url := range req.AddURLRequest {
+	for _, url := range req.AddURLsRequest {
 		base64URL := security.Base64Encode(url.Url)
 		//New url
 		if url.GetStatus() == "New" {

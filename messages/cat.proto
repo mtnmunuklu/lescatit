@@ -36,7 +36,7 @@ message ReportMiscategorizationRequest {
 }
 
 message AddURLsRequest {
-    repeated AddURLRequest addURLRequest = 1;
+    repeated AddURLRequest addURLsRequest = 1;
 }
 
 message AddURLRequest {
