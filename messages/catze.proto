@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message Categorizer {
+    string id = 1;
+    string url = 2;
+    string category = 3;
+    int64 created = 4;
+    int64 updated = 5;
+    string revision = 6;
+    string data = 7;
+}
+
+message CategorizeURLRequest {
+    string url = 1;
+    string data = 2;
+}
+
+message CategorizeURLsRequest {
+    repeated CategorizeURLRequest categorizeURLRequest = 1;
+}
+
+message CategorizeURLResponse {
+    string url = 1;
+    string category = 2;
+}
+
+service CatzeService {
+    rpc CategorizeURL(CategorizeURLRequest) returns (CategorizeURLResponse);
+    rpc CategorizeURLs(CategorizeURLsRequest) returns (stream CategorizeURLResponse);
+}
