@@ -57,21 +57,18 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 
 //GetURLsData provides to get the content in the url addresses.
 func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlService_GetURLsDataServer) error {
-	err := validators.ValidateURLs(req.Urls)
-	if err != nil {
-		return err
-	}
-	for _, url := range req.Urls {
-		err := validators.ValidateURL(url)
+
+	for _, url := range req.GetURLsDataRequest {
+		err := validators.ValidateURL(url.GetUrl())
 		if err == nil {
-			base64URL := security.Base64Encode(url)
+			base64URL := security.Base64Encode(url.GetUrl())
 			data, err := s.crawlersRepository.GetDataByURL(base64URL)
 			if err != nil {
-				if req.GetType() != "notnew" {
-					currentData, err := s.collyScraper.GetData(url)
+				if url.GetType() != "notnew" {
+					currentData, err := s.collyScraper.GetData(url.GetUrl())
 					if err == nil {
 						base64Data := security.Base64Encode(currentData)
-						err = stream.Send(&pb.GetURLDataResponse{Url: url, Data: base64Data, Status: "New"})
+						err = stream.Send(&pb.GetURLDataResponse{Url: url.GetUrl(), Data: base64Data, Status: "New"})
 						if err != nil {
 							return err
 						}
@@ -81,16 +78,16 @@ func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlSe
 				currentTime := time.Now()
 				diff := currentTime.Sub(data.Updated).Hours()
 				if diff > 720 {
-					currentData, err := s.collyScraper.GetData(url)
+					currentData, err := s.collyScraper.GetData(url.GetUrl())
 					if err == nil {
 						base64Data := security.Base64Encode(currentData)
-						err = stream.Send(&pb.GetURLDataResponse{Url: url, Data: base64Data, Status: "Updated"})
+						err = stream.Send(&pb.GetURLDataResponse{Url: url.GetUrl(), Data: base64Data, Status: "Updated"})
 						if err != nil {
 							return err
 						}
 					}
 				}
-				err = stream.Send(&pb.GetURLDataResponse{Url: url, Data: data.Data})
+				err = stream.Send(&pb.GetURLDataResponse{Url: url.GetUrl(), Data: data.Data})
 				if err != nil {
 					return err
 				}

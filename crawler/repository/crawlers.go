@@ -22,7 +22,7 @@ type CRepository struct {
 	c *mgo.Collection
 }
 
-// NewCrawlersRepository creates a new CategoriesRepository instance.
+// NewCrawlersRepository creates a new CrawlersRepository instance.
 func NewCrawlersRepository(conn db.Connection) CrawlersRepository {
 	return &CRepository{c: conn.DB().C(CrawlersCollection)}
 }
@@ -44,7 +44,7 @@ func (r *CRepository) GetDataByURL(url string) (data *models.Crawler, err error)
 	return data, err
 }
 
-// DeleteAll drops categories collection.
+// DeleteAll drops crawlers collection.
 func (r *CRepository) DeleteAll() error {
 	return r.c.DropCollection()
 }

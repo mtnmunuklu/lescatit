@@ -100,7 +100,7 @@ func TestCrawlersRepositoryGetById(t *testing.T) {
 }
 
 // TestCrawlersRepositoryGetDataByURL tests the operation to return data based on url.
-func TestCrawlersRepositoryGetCategoryByURL(t *testing.T) {
+func TestCrawlersRepositoryGetDataByURL(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
 	assert.NoError(t, err)
