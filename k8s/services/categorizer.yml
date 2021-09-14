@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catze-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc
+      role: catze
+  template:
+    metadata:
+      labels:
+        app: svc
+        role: catze
+    spec:
+      containers:
+      - name: catze-svc
+        image: cws:v1
+        ports:
+        - containerPort: 9003
+        command:
+          - sh
+          - -c
+          - /app/catzesvc -local=false
+        env:
+          - name: DATABASE_USER
+            valueFrom:
+              secretKeyRef:
+                name: svc-secrets
+                key: dbUser
+          - name: DATABASE_PASS
+            valueFrom:
+              secretKeyRef:
+                name: svc-secrets
+                key: dbPass
+          - name: JWT_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: svc-secrets
+                key: JwtSecretKey
+
+          - name: DATABASE_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: db_host
+          - name: DATABASE_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: db_port
+          - name: DATABASE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: db_name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catze-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 9004
+      targetPort: 9004
+  selector:
+    app: svc
+    role: catze

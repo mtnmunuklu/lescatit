@@ -2,6 +2,7 @@
 
 cp ../../authentication/authsvc .
 cp ../../crawler/crawlsvc .
+cp ../../categorizer/catzesvc
 cp ../../categorization/catsvc .
 cp ../../api/apisvc .
 

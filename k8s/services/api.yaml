@@ -22,14 +22,16 @@ spec:
         command:
         - sh
         - -c
-        - /app/apisvc -auth_addr=$auth_addr -cat_addr=$cat_addr -crawl_addr=$crawl_addr
+        - /app/apisvc -auth_addr=$auth_addr -crawl_addr=$crawl_addr -catze_addr=$catze_addr -cat_addr=$cat_addr
         env:
           - name: auth_addr
             value: auth-service:9001
-          - name: cat_addr
-            value: cat-service:9002
           - name: crawl_addr
             value: crawl-service:9003
+          - name: catze_addr
+            value: catze-service:9004
+          - name: cat_addr
+            value: cat-service:9002
           - name: JWT_SECRET_KEY
             valueFrom:
               secretKeyRef:
