@@ -24,13 +24,14 @@ type CatHandlers interface {
 
 // CHandlers provides a connection with categorization service over proto buffer.
 type CHandlers struct {
-	catSvcClient   pb.CatServiceClient
 	crawlSvcClient pb.CrawlServiceClient
+	catzeSvcClient pb.CatzeServiceClient
+	catSvcClient   pb.CatServiceClient
 }
 
 // NewCatHandlers creates a new CatHandlers instance.
-func NewCatHandlers(catSvcClient pb.CatServiceClient, crawlSvcClient pb.CrawlServiceClient) CatHandlers {
-	return &CHandlers{catSvcClient: catSvcClient, crawlSvcClient: crawlSvcClient}
+func NewCatHandlers(crawlSvcClient pb.CrawlServiceClient, catzeSvcClient pb.CatzeServiceClient, catSvcClient pb.CatServiceClient) CatHandlers {
+	return &CHandlers{crawlSvcClient: crawlSvcClient, catzeSvcClient: catzeSvcClient, catSvcClient: catSvcClient}
 }
 
 // GetCategory performs return the category by url.
@@ -94,8 +95,14 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 		restutil.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	url.Type = "notnew" //ReportMiscategorization
+	url.Type = "notnew"
 	fetchedURLData, err := h.crawlSvcClient.GetURLData(r.Context(), url)
+	if err != nil {
+		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(),
+		&pb.CategorizeURLRequest{Url: fetchedURLData.GetUrl(), Data: fetchedURLData.GetData()})
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -104,9 +111,7 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 	fetchedData.Url = fetchedURLData.GetUrl()
 	fetchedData.Data = fetchedURLData.GetData()
 	fetchedData.Status = fetchedURLData.GetStatus()
-	//send data of the url to categorizer
-	//use returned value to update category
-	fetchedData.Category = "uncategorized"
+	fetchedData.Category = categorizedURL.GetCategory()
 	reportedURL, err := h.catSvcClient.ReportMiscategorization(r.Context(), fetchedData)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
@@ -153,14 +158,16 @@ func (h *CHandlers) AddURLs(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if fetchedURLData.GetStatus() != "" {
-			addURLRequest := new(pb.AddURLRequest)
-			addURLRequest.Url = fetchedURLData.GetUrl()
-			addURLRequest.Data = fetchedURLData.GetData()
-			addURLRequest.Status = fetchedURLData.GetStatus()
-			//send data of the url to categorizer
-			//use returned value to update category
-			addURLRequest.Category = "uncategorized"
-			addURLsRequest.AddURLRequest = append(addURLsRequest.AddURLRequest, addURLRequest)
+			categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(),
+				&pb.CategorizeURLRequest{Url: fetchedURLData.Url, Data: fetchedURLData.Data})
+			if err == nil {
+				addURLRequest := new(pb.AddURLRequest)
+				addURLRequest.Url = fetchedURLData.GetUrl()
+				addURLRequest.Data = fetchedURLData.GetData()
+				addURLRequest.Status = fetchedURLData.GetStatus()
+				addURLRequest.Category = categorizedURL.GetCategory()
+				addURLsRequest.AddURLsRequest = append(addURLsRequest.AddURLsRequest, addURLRequest)
+			}
 		}
 	}
 
@@ -209,13 +216,17 @@ func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if fetchedURLData.GetStatus() != "" {
+		categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(),
+			&pb.CategorizeURLRequest{Url: fetchedURLData.Url, Data: fetchedURLData.Data})
+		if err != nil {
+			restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+			return
+		}
 		fetchedData := new(pb.AddURLRequest)
 		fetchedData.Url = fetchedURLData.GetUrl()
 		fetchedData.Data = fetchedURLData.GetData()
 		fetchedData.Status = fetchedURLData.GetStatus()
-		//send data of the url to categorizer
-		//use returned value to update category
-		fetchedData.Category = "uncategorized"
+		fetchedData.Category = categorizedURL.GetCategory()
 		addedURL, err := h.catSvcClient.AddURL(r.Context(), fetchedData)
 		if err != nil {
 			restutil.WriteError(w, http.StatusUnprocessableEntity, err)

@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// NewCatRoutes provides the routing process for categorization.
+// NewCrawlRoutes provides the routing process for crawl.
 func NewCrawlRoutes(crawlHandlers resthandlers.CrawlHandlers) []*Route {
 	return []*Route{
 		{

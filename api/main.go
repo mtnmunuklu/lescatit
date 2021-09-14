@@ -18,6 +18,7 @@ var (
 	authAddr  string
 	catAddr   string
 	crawlAddr string
+	catzeAddr string
 )
 
 func init() {
@@ -25,6 +26,7 @@ func init() {
 	flag.StringVar(&authAddr, "auth_addr", "localhost:9001", "authentication service address")
 	flag.StringVar(&catAddr, "cat_addr", "localhost:9002", "categorization service address")
 	flag.StringVar(&crawlAddr, "crawl_addr", "localhost:9003", "crawler service address")
+	flag.StringVar(&catzeAddr, "catze_addr", "localhost:9004", "categorizer service address")
 	flag.Parse()
 }
 
@@ -51,6 +53,17 @@ func main() {
 	crawlHandlers := resthandlers.NewCrawlHandlers(crawlSvcClient)
 	crawlRoutes := routes.NewCrawlRoutes(crawlHandlers)
 
+	// for categorizer service
+	catzeConn, err := grpc.Dial(catzeAddr, grpc.WithInsecure())
+	if err != nil {
+		log.Panicln(err)
+	}
+	defer authConn.Close()
+
+	catzeSvcClient := pb.NewCatzeServiceClient(catzeConn)
+	catzeHandlers := resthandlers.NewCatzeHandlers(catzeSvcClient)
+	catzeRoutes := routes.NewCatzeRoutes(catzeHandlers)
+
 	// for categorization service
 	catConn, err := grpc.Dial(catAddr, grpc.WithInsecure())
 	if err != nil {
@@ -59,12 +72,13 @@ func main() {
 	defer catConn.Close()
 
 	catSvcClient := pb.NewCatServiceClient(catConn)
-	catHandlers := resthandlers.NewCatHandlers(catSvcClient, crawlSvcClient)
+	catHandlers := resthandlers.NewCatHandlers(crawlSvcClient, catzeSvcClient, catSvcClient)
 	catRoutes := routes.NewCatRoutes(catHandlers)
 
 	router := mux.NewRouter().StrictSlash(true)
 	routes.Install(router, authRoutes)
 	routes.Install(router, crawlRoutes)
+	routes.Install(router, catzeRoutes)
 	routes.Install(router, catRoutes)
 
 	log.Printf("API service running on [::]:%d\n", port)

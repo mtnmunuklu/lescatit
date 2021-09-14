@@ -47,14 +47,23 @@ func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request) {
 
 //GetURLsData provides to get the content in the url addresses.
 func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
-	rUrls := strings.TrimSpace(r.Header.Get("Urls"))
-	if rUrls == "" {
+	rURLs := strings.TrimSpace(r.Header.Get("Urls"))
+	rTypes := strings.TrimSpace(r.Header.Get("Types"))
+	if rURLs == "" {
 		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
 		return
 	}
-	splittedUrls := strings.Split(rUrls, ",")
+	splittedURLs := strings.Split(rURLs, ",")
+	splittedTypes := strings.Split(rTypes, ",")
 	urls := new(pb.GetURLsDataRequest)
-	urls.Urls = splittedUrls
+	for index, splittedURL := range splittedURLs {
+		url := new(pb.GetURLDataRequest)
+		url.Url = splittedURL
+		if len(splittedTypes) > index {
+			url.Type = splittedTypes[index]
+		}
+		urls.GetURLsDataRequest = append(urls.GetURLsDataRequest, url)
+	}
 	stream, err := h.crawlSvcClient.GetURLsData(r.Context(), urls)
 	if err != nil {
 		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
