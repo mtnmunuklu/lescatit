@@ -20,7 +20,7 @@ message CategorizeURLRequest {
 }
 
 message CategorizeURLsRequest {
-    repeated CategorizeURLRequest categorizeURLRequest = 1;
+    repeated CategorizeURLRequest categorizeURLsRequest = 1;
 }
 
 message CategorizeURLResponse {
