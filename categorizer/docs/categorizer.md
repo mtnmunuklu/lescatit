@@ -21,6 +21,10 @@ import "Lescatit/categorizer/models"
 - [type Categorizer](<#type-categorizer>)
   - [func (c *Categorizer) FromProtoBuffer(category *pb.Categorizer)](<#func-categorizer-fromprotobuffer>)
   - [func (c *Categorizer) ToProtoBuffer() *pb.Categorizer](<#func-categorizer-toprotobuffer>)
+- [type NBCategorizer](<#type-nbcategorizer>)
+  - [func (nbs *NBCategorizer) Learn(model map[string][]string) error](<#func-nbcategorizer-learn>)
+- [type NaiveBayesianCategorizer](<#type-naivebayesiancategorizer>)
+  - [func NewNaiveBayesianCategorizer() NaiveBayesianCategorizer](<#func-newnaivebayesiancategorizer>)
 
 
 ## type [Categorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/categorizers.go#L11-L19>)
@@ -55,6 +59,42 @@ func (c *Categorizer) ToProtoBuffer() *pb.Categorizer
 
 ToProtoBuffer converts the categorizer structure into a protocol buffer categorizer structure\.
 
+## type [NBCategorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/naivebayesian.go#L13-L16>)
+
+NBCategorizer provides categorizer and classes for naive bayesian categorizer\.
+
+```go
+type NBCategorizer struct {
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*NBCategorizer\) [Learn](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/naivebayesian.go#L24>)
+
+```go
+func (nbs *NBCategorizer) Learn(model map[string][]string) error
+```
+
+Learn provides to create a new categorizer model\.
+
+## type [NaiveBayesianCategorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/naivebayesian.go#L8-L10>)
+
+CrawlersRepository is the interface of the naive bayesian categorizer\.
+
+```go
+type NaiveBayesianCategorizer interface {
+    Learn(model map[string][]string) error
+}
+```
+
+### func [NewNaiveBayesianCategorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/naivebayesian.go#L19>)
+
+```go
+func NewNaiveBayesianCategorizer() NaiveBayesianCategorizer
+```
+
+NewCrawlService creates a new NaiveBayesianCategorizer instance\.
+
 # repository
 
 ```go
@@ -79,7 +119,9 @@ import "Lescatit/categorizer/repository"
 const CategorizersCollection = "categories"
 ```
 
-## type [CRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L20-L22>)
+## type [CRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L21-L23>)
+
+CRepository provides a mongo collection for categorizer job\.
 
 ```go
 type CRepository struct {
@@ -87,7 +129,7 @@ type CRepository struct {
 }
 ```
 
-### func \(\*CRepository\) [DeleteAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L46>)
+### func \(\*CRepository\) [DeleteAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L47>)
 
 ```go
 func (r *CRepository) DeleteAll() error
@@ -95,7 +137,7 @@ func (r *CRepository) DeleteAll() error
 
 DeleteAll drops categorizers collection\.
 
-### func \(\*CRepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L35>)
+### func \(\*CRepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L36>)
 
 ```go
 func (r *CRepository) GetById(id string) (url *models.Categorizer, err error)
@@ -103,7 +145,7 @@ func (r *CRepository) GetById(id string) (url *models.Categorizer, err error)
 
 GetById returns the url based on id\.
 
-### func \(\*CRepository\) [Save](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L30>)
+### func \(\*CRepository\) [Save](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L31>)
 
 ```go
 func (r *CRepository) Save(url *models.Categorizer) error
@@ -111,7 +153,7 @@ func (r *CRepository) Save(url *models.Categorizer) error
 
 Save adds url to database\.
 
-### func \(\*CRepository\) [Update](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L41>)
+### func \(\*CRepository\) [Update](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L42>)
 
 ```go
 func (r *CRepository) Update(category *models.Categorizer) error
@@ -121,7 +163,7 @@ Update updates the category\.
 
 ## type [CategorizersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L14-L18>)
 
-CrawlersRepository is the interface of the crawler backend\.
+CategorizersRepository is the interface of the categorizer backend\.
 
 ```go
 type CategorizersRepository interface {
@@ -131,7 +173,7 @@ type CategorizersRepository interface {
 }
 ```
 
-### func [NewCategorizersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L25>)
+### func [NewCategorizersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L26>)
 
 ```go
 func NewCategorizersRepository(conn db.Connection) CategorizersRepository
@@ -147,21 +189,22 @@ import "Lescatit/categorizer/service"
 
 ## Index
 
-- [func NewCatzeService(categorizersRepository repository.CategorizersRepository) pb.CatzeServiceServer](<#func-newcatzeservice>)
+- [func NewCatzeService(categorizersRepository repository.CategorizersRepository, tokenizer tokenizer.Tokenizer, nbCategorizer models.NaiveBayesianCategorizer) pb.CatzeServiceServer](<#func-newcatzeservice>)
 - [type CatzeService](<#type-catzeservice>)
   - [func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLRequest) (*pb.CategorizeURLResponse, error)](<#func-catzeservice-categorizeurl>)
   - [func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error](<#func-catzeservice-categorizeurls>)
+  - [func (s *CatzeService) CreateCategorizationModel(ctx context.Context, req *pb.CreateCategorizationModelRequest) (*pb.CreateCategorizationModelResponse, error)](<#func-catzeservice-createcategorizationmodel>)
 
 
-## func [NewCatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L16>)
+## func [NewCatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L22>)
 
 ```go
-func NewCatzeService(categorizersRepository repository.CategorizersRepository) pb.CatzeServiceServer
+func NewCatzeService(categorizersRepository repository.CategorizersRepository, tokenizer tokenizer.Tokenizer, nbCategorizer models.NaiveBayesianCategorizer) pb.CatzeServiceServer
 ```
 
 NewCatzeService creates a new CatzeService instance\.
 
-## type [CatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L11-L13>)
+## type [CatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L15-L19>)
 
 CatzeService provides categorizersRepository for categorizer service\.
 
@@ -171,7 +214,7 @@ type CatzeService struct {
 }
 ```
 
-### func \(\*CatzeService\) [CategorizeURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L21>)
+### func \(\*CatzeService\) [CategorizeURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L27>)
 
 ```go
 func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLRequest) (*pb.CategorizeURLResponse, error)
@@ -179,7 +222,7 @@ func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLR
 
 CategorizeURL provides to categorize the url\.
 
-### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L29>)
+### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L50>)
 
 ```go
 func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error
@@ -187,15 +230,155 @@ func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.C
 
 CategorizeURLs provides to categorize the urls\.
 
-# validators
+### func \(\*CatzeService\) [CreateCategorizationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L75>)
 
 ```go
-import "Lescatit/categorizer/validators"
+func (s *CatzeService) CreateCategorizationModel(ctx context.Context, req *pb.CreateCategorizationModelRequest) (*pb.CreateCategorizationModelResponse, error)
+```
+
+# tokenizer
+
+```go
+import "Lescatit/categorizer/tokenizer"
+```
+
+## Index
+
+- [func Filter(vs chan string, filters ...Predicate) chan string](<#func-filter>)
+- [func IsNotStopWord(v string) bool](<#func-isnotstopword>)
+- [func IsStopWord(v string) bool](<#func-isstopword>)
+- [func Map(vs chan string, f ...Mapper) chan string](<#func-map>)
+- [type Mapper](<#type-mapper>)
+- [type Predicate](<#type-predicate>)
+- [type StdOption](<#type-stdoption>)
+  - [func BufferSize(size int) StdOption](<#func-buffersize>)
+  - [func Filters(f ...Predicate) StdOption](<#func-filters>)
+  - [func Transforms(m ...Mapper) StdOption](<#func-transforms>)
+- [type StdTokenizer](<#type-stdtokenizer>)
+  - [func (t *StdTokenizer) Tokenize(r io.Reader) chan string](<#func-stdtokenizer-tokenize>)
+- [type Tokenizer](<#type-tokenizer>)
+  - [func NewTokenizer(opts ...StdOption) Tokenizer](<#func-newtokenizer>)
+
+
+## func [Filter](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/func.go#L31>)
+
+```go
+func Filter(vs chan string, filters ...Predicate) chan string
+```
+
+Filter removes elements from the input channel where the supplied predicate is satisfied Filter is a Predicate aggregation
+
+## func [IsNotStopWord](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/stopwords.go#L30>)
+
+```go
+func IsNotStopWord(v string) bool
+```
+
+IsNotStopWord is the inverse function of IsStopWord
+
+## func [IsStopWord](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/stopwords.go#L23>)
+
+```go
+func IsStopWord(v string) bool
+```
+
+IsStopWord performs a binary search against a list of known english stop words returns true if v is a stop word; false otherwise
+
+## func [Map](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/func.go#L12>)
+
+```go
+func Map(vs chan string, f ...Mapper) chan string
+```
+
+Map applies f to each element of the supplied input channel
+
+## type [Mapper](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/func.go#L9>)
+
+Mapper provides a map function
+
+```go
+type Mapper func(string) string
+```
+
+## type [Predicate](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/func.go#L6>)
+
+Predicate provides a predicate function
+
+```go
+type Predicate func(string) bool
+```
+
+## type [StdOption](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L16>)
+
+StdOption provides configuration settings for a StdTokenizer
+
+```go
+type StdOption func(*StdTokenizer)
+```
+
+### func [BufferSize](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L62>)
+
+```go
+func BufferSize(size int) StdOption
+```
+
+### func [Filters](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L74>)
+
+```go
+func Filters(f ...Predicate) StdOption
+```
+
+### func [Transforms](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L68>)
+
+```go
+func Transforms(m ...Mapper) StdOption
+```
+
+## type [StdTokenizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L20-L24>)
+
+StdTokenizer provides a common document tokenizer that splits a document by word boundaries
+
+```go
+type StdTokenizer struct {
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*StdTokenizer\) [Tokenize](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L43>)
+
+```go
+func (t *StdTokenizer) Tokenize(r io.Reader) chan string
+```
+
+## type [Tokenizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L10-L13>)
+
+Tokenizer provides a common interface to tokenize documents
+
+```go
+type Tokenizer interface {
+    // Tokenize breaks the provided document into a channel of tokens
+    Tokenize(io.Reader) chan string
+}
+```
+
+### func [NewTokenizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L27>)
+
+```go
+func NewTokenizer(opts ...StdOption) Tokenizer
+```
+
+NewTokenizer initializes a new standard Tokenizer instance
+
+# util
+
+```go
+import "Lescatit/categorizer/util"
 ```
 
 ## Index
 
 - [Variables](<#variables>)
+- [func ValidateURL(reqURL string) error](<#func-validateurl>)
 
 
 ## Variables
@@ -204,9 +387,20 @@ Contains error codes for categorizer service\.
 
 ```go
 var (
-    ErrEmptyData = errors.New("data can't be empty")
+    ErrEmptyData                  = errors.New("data can't be empty")
+    ErrInvalidURL                 = errors.New("invalid url")
+    ErrInvalidCategorizationModel = errors.New("invalid categorization model")
+    ErrFailedCreateModel          = errors.New("failed to create categorization model")
 )
 ```
+
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L17>)
+
+```go
+func ValidateURL(reqURL string) error
+```
+
+ValidateURLs validates if it's a real url\.
 
 
 

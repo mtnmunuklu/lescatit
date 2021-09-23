@@ -254,10 +254,10 @@ func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, e
 
 UpdateUser performs update the user\.
 
-# validators
+# util
 
 ```go
-import "Lescatit/authentication/validators"
+import "Lescatit/authentication/util"
 ```
 
 ## Index
@@ -282,7 +282,7 @@ var (
 )
 ```
 
-## func [NormalizeEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/validators/validators.go#L36>)
+## func [NormalizeEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L36>)
 
 ```go
 func NormalizeEmail(email string) string
@@ -290,7 +290,7 @@ func NormalizeEmail(email string) string
 
 NormalizeEmail normalizes the user email address\.
 
-## func [ValidateSignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/validators/validators.go#L22>)
+## func [ValidateSignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L22>)
 
 ```go
 func ValidateSignUp(user *pb.User) error

@@ -95,7 +95,7 @@ type CRepository struct {
 func (r *CRepository) DeleteAll() error
 ```
 
-DeleteAll drops categories collection\.
+DeleteAll drops crawlers collection\.
 
 ### func \(\*CRepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/repository/crawlers.go#L36>)
 
@@ -139,7 +139,7 @@ type CrawlersRepository interface {
 func NewCrawlersRepository(conn db.Connection) CrawlersRepository
 ```
 
-NewCrawlersRepository creates a new CategoriesRepository instance\.
+NewCrawlersRepository creates a new CrawlersRepository instance\.
 
 # scraper
 
@@ -242,7 +242,7 @@ NewCrawlService creates a new CrawlService instance\.
 
 ## type [CrawlService](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L14-L17>)
 
-CrawlService provides crawlersRepository for crawler service\.
+CrawlService provides crawlersRepository and collyScraper for crawler service\.
 
 ```go
 type CrawlService struct {
@@ -250,7 +250,7 @@ type CrawlService struct {
 }
 ```
 
-### func \(\*CrawlService\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L104>)
+### func \(\*CrawlService\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L101>)
 
 ```go
 func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*pb.CrawlURLResponse, error)
@@ -258,7 +258,7 @@ func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*
 
 CrawlURL performs crawl the url
 
-### func \(\*CrawlService\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L118>)
+### func \(\*CrawlService\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L115>)
 
 ```go
 func (s *CrawlService) CrawlURLs(req *pb.CrawlURLsRequest, stream pb.CrawlService_CrawlURLsServer) error
@@ -282,10 +282,10 @@ func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlSe
 
 GetURLsData provides to get the content in the url addresses\.
 
-# validators
+# util
 
 ```go
-import "Lescatit/crawler/validators"
+import "Lescatit/crawler/util"
 ```
 
 ## Index
@@ -307,7 +307,7 @@ var (
 )
 ```
 
-## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/validators/validators.go#L16>)
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/util/util.go#L16>)
 
 ```go
 func ValidateURL(reqURL string) error
@@ -315,7 +315,7 @@ func ValidateURL(reqURL string) error
 
 ValidateURLs validates if it's a real url\.
 
-## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/validators/validators.go#L25>)
+## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/util/util.go#L25>)
 
 ```go
 func ValidateURLs(urls []string) error

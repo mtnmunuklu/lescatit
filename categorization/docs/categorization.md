@@ -209,7 +209,7 @@ type CatService struct {
 }
 ```
 
-### func \(\*CatService\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L150>)
+### func \(\*CatService\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L151>)
 
 ```go
 func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error)
@@ -217,7 +217,7 @@ func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Cat
 
 AddURL performs add the url\.
 
-### func \(\*CatService\) [AddURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L99>)
+### func \(\*CatService\) [AddURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L100>)
 
 ```go
 func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error
@@ -225,7 +225,7 @@ func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURL
 
 AddURLs performs add the urls\.
 
-### func \(\*CatService\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L218>)
+### func \(\*CatService\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L219>)
 
 ```go
 func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*pb.DeleteURLResponse, error)
@@ -233,7 +233,7 @@ func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*
 
 DeleteURL performs delete the url\.
 
-### func \(\*CatService\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L193>)
+### func \(\*CatService\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L194>)
 
 ```go
 func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error
@@ -249,7 +249,7 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 
 GetCategory performs return the category by url\.
 
-### func \(\*CatService\) [ListURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L236>)
+### func \(\*CatService\) [ListURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L237>)
 
 ```go
 func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_ListURLsServer) error
@@ -273,10 +273,10 @@ func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 
 UpdateCategory performs update the category\.
 
-# validators
+# util
 
 ```go
-import "Lescatit/categorization/validators"
+import "Lescatit/categorization/util"
 ```
 
 ## Index
@@ -303,7 +303,7 @@ var (
 )
 ```
 
-## func [ValidateCategories](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L38>)
+## func [ValidateCategories](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/util/util.go#L38>)
 
 ```go
 func ValidateCategories(categories []string) error
@@ -311,7 +311,7 @@ func ValidateCategories(categories []string) error
 
 ValidateCategories validates the category count\.
 
-## func [ValidateCount](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L46>)
+## func [ValidateCount](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/util/util.go#L46>)
 
 ```go
 func ValidateCount(count string) (int, error)
@@ -319,7 +319,7 @@ func ValidateCount(count string) (int, error)
 
 ValidateCount validates if it's a integer count\.
 
-## func [ValidateId](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L55>)
+## func [ValidateId](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/util/util.go#L55>)
 
 ```go
 func ValidateId(id string) error
@@ -327,7 +327,7 @@ func ValidateId(id string) error
 
 ValidateId validates if it's a valid url id\.
 
-## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L21>)
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/util/util.go#L21>)
 
 ```go
 func ValidateURL(reqURL string) error
@@ -335,7 +335,7 @@ func ValidateURL(reqURL string) error
 
 ValidateURLs validates if it's a real url\.
 
-## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/validators/validators.go#L30>)
+## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/util/util.go#L30>)
 
 ```go
 func ValidateURLs(urls []string) error
