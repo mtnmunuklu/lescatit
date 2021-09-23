@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"Lescatit/api/resthandlers"
+	"Lescatit/api/handlers"
 	"net/http"
 )
 
 // NewAuthRoutes provides the routing process for authentication.
-func NewAuthRoutes(authHandlers resthandlers.AuthHandlers) []*Route {
+func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 	return []*Route{
 		{
 			Path:    "/signup",

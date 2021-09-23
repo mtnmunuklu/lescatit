@@ -1,7 +1,7 @@
-package resthandlers
+package handlers
 
 import (
-	"Lescatit/api/restutil"
+	"Lescatit/api/util"
 	"Lescatit/pb"
 	"encoding/json"
 	"io"
@@ -35,19 +35,19 @@ func NewAuthHandlers(authSvcClient pb.AuthServiceClient) AuthHandlers {
 // SignUp performs the user registration process.
 func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	user := new(pb.User)
 	err = json.Unmarshal(body, user)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	user.Created = time.Now().Unix()
@@ -55,90 +55,90 @@ func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
 	user.Id = bson.NewObjectId().Hex()
 	resp, err := h.authSvcClient.SignUp(r.Context(), user)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	restutil.WriteAsJson(w, http.StatusCreated, resp)
+	util.WriteAsJson(w, http.StatusCreated, resp)
 }
 
 // SignIn performs the user login process.
 func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	input := new(pb.SignInRequest)
 	err = json.Unmarshal(body, input)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	resp, err := h.authSvcClient.SignIn(r.Context(), input)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	restutil.WriteAsJson(w, http.StatusOK, resp)
+	util.WriteAsJson(w, http.StatusOK, resp)
 }
 
 // PutUser performs update the user.
 func (h *AHandlers) PutUser(w http.ResponseWriter, r *http.Request) {
-	tokenPayload, err := restutil.AuthRequestWithId(r)
+	tokenPayload, err := util.AuthRequestWithId(r)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	user := new(pb.User)
 	err = json.Unmarshal(body, user)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	user.Id = tokenPayload.UserId
 	resp, err := h.authSvcClient.UpdateUser(r.Context(), user)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	restutil.WriteAsJson(w, http.StatusOK, resp)
+	util.WriteAsJson(w, http.StatusOK, resp)
 }
 
 // GetUser performs return the user by id.
 func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
-	tokenPayload, err := restutil.AuthRequestWithId(r)
+	tokenPayload, err := util.AuthRequestWithId(r)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	resp, err := h.authSvcClient.GetUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	restutil.WriteAsJson(w, http.StatusOK, resp)
+	util.WriteAsJson(w, http.StatusOK, resp)
 }
 
 // GetUsers list all users.
 func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	stream, err := h.authSvcClient.ListUsers(r.Context(), &pb.ListUsersRequest{})
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	var users []*pb.User
@@ -148,27 +148,27 @@ func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		if err != nil {
-			restutil.WriteError(w, http.StatusBadRequest, err)
+			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
 		users = append(users, user)
 	}
-	restutil.WriteAsJson(w, http.StatusOK, users)
+	util.WriteAsJson(w, http.StatusOK, users)
 }
 
 // DeleteUser performs delete the user.
 func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
-	tokenPayload, err := restutil.AuthRequestWithId(r)
+	tokenPayload, err := util.AuthRequestWithId(r)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	resp, err := h.authSvcClient.DeleteUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.Header().Set("Entity", resp.Id)
-	restutil.WriteAsJson(w, http.StatusNoContent, nil)
+	util.WriteAsJson(w, http.StatusNoContent, nil)
 }

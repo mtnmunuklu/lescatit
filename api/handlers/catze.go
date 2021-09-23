@@ -1,7 +1,7 @@
-package resthandlers
+package handlers
 
 import (
-	"Lescatit/api/restutil"
+	"Lescatit/api/util"
 	"Lescatit/pb"
 	"encoding/json"
 	"io"
@@ -27,49 +27,49 @@ func NewCatzeHandlers(catzeSvcClient pb.CatzeServiceClient) CatzeHandlers {
 
 func (h *CzHandlers) CategorizeURL(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	url := new(pb.CategorizeURLRequest)
 	err = json.Unmarshal(body, url)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(), url)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	restutil.WriteAsJson(w, http.StatusOK, categorizedURL)
+	util.WriteAsJson(w, http.StatusOK, categorizedURL)
 }
 
 func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	urls := new(pb.CategorizeURLsRequest)
 	err = json.Unmarshal(body, urls)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	stream, err := h.catzeSvcClient.CategorizeURLs(r.Context(), urls)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	var categorizedURLs []*pb.CategorizeURLResponse
@@ -79,10 +79,10 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		if err != nil {
-			restutil.WriteError(w, http.StatusBadRequest, err)
+			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
 		categorizedURLs = append(categorizedURLs, categorizedURL)
 	}
-	restutil.WriteAsJson(w, http.StatusOK, categorizedURLs)
+	util.WriteAsJson(w, http.StatusOK, categorizedURLs)
 }

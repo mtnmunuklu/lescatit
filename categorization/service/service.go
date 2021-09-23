@@ -3,7 +3,7 @@ package service
 import (
 	"Lescatit/categorization/models"
 	"Lescatit/categorization/repository"
-	"Lescatit/categorization/validators"
+	"Lescatit/categorization/util"
 	"Lescatit/pb"
 	"Lescatit/security"
 	"context"
@@ -25,7 +25,7 @@ func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatSe
 
 // GetCategory performs return the category by url.
 func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error) {
-	err := validators.ValidateURL(req.Url)
+	err := util.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 
 // UpdateCategory performs update the category.
 func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
-	err := validators.ValidateURL(req.Url)
+	err := util.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
@@ -192,12 +192,12 @@ func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Cat
 
 // DeleteURLs performs delete the urls.
 func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error {
-	err := validators.ValidateURLs(req.Urls)
+	err := util.ValidateURLs(req.Urls)
 	if err != nil {
 		return err
 	}
 	for _, url := range req.Urls {
-		err := validators.ValidateURL(url)
+		err := util.ValidateURL(url)
 		if err == nil {
 			base64URL := security.Base64Encode(url)
 			found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
@@ -217,7 +217,7 @@ func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_
 
 // DeleteURL performs delete the url.
 func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*pb.DeleteURLResponse, error) {
-	err := validators.ValidateURL(req.Url)
+	err := util.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
@@ -235,11 +235,11 @@ func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*
 
 // ListURLs performs list the urls based on categories and count.
 func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_ListURLsServer) error {
-	err := validators.ValidateCategories(req.Categories)
+	err := util.ValidateCategories(req.Categories)
 	if err != nil {
 		return err
 	}
-	count, err := validators.ValidateCount(req.Count)
+	count, err := util.ValidateCount(req.Count)
 	if err != nil {
 		return err
 	}

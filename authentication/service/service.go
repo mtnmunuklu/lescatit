@@ -3,7 +3,7 @@ package service
 import (
 	"Lescatit/authentication/models"
 	"Lescatit/authentication/repository"
-	"Lescatit/authentication/validators"
+	"Lescatit/authentication/util"
 	"Lescatit/pb"
 	"Lescatit/security"
 	"context"
@@ -27,7 +27,7 @@ func NewAuthService(usersRepository repository.UsersRepository) pb.AuthServiceSe
 
 // SignUp performs the user registration process.
 func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error) {
-	err := validators.ValidateSignUp(req)
+	err := util.ValidateSignUp(req)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error
 		return nil, err
 	}
 	req.Name = strings.TrimSpace(req.Name)
-	req.Email = validators.NormalizeEmail(req.Email)
+	req.Email = util.NormalizeEmail(req.Email)
 	found, err := s.usersRepository.GetByEmail(req.Email)
 
 	if err == mgo.ErrNotFound {
@@ -54,28 +54,28 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error
 		return nil, err
 	}
 
-	return nil, validators.ErrEmailAlreadyExist
+	return nil, util.ErrEmailAlreadyExist
 }
 
 // SignIn performs the user login process.
 func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
-	req.Email = validators.NormalizeEmail(req.Email)
+	req.Email = util.NormalizeEmail(req.Email)
 	user, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
 		log.Println("signin failed:", err.Error())
-		return nil, validators.ErrSignInFailed
+		return nil, util.ErrSignInFailed
 	}
 
 	err = security.VerifyPassword(user.Password, req.Password)
 	if err != nil {
 		log.Println("signin failed:", err.Error())
-		return nil, validators.ErrSignInFailed
+		return nil, util.ErrSignInFailed
 	}
 
 	token, err := security.NewToken(user.Id.Hex())
 	if err != nil {
 		log.Println("signin failed:", err.Error())
-		return nil, validators.ErrSignInFailed
+		return nil, util.ErrSignInFailed
 	}
 
 	return &pb.SignInResponse{User: user.ToProtoBuffer(), Token: token}, nil
@@ -84,7 +84,7 @@ func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.Si
 // GetUser performs return the user by id.
 func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error) {
 	if !bson.IsObjectIdHex(req.Id) {
-		return nil, validators.ErrInvalidUserId
+		return nil, util.ErrInvalidUserId
 	}
 	found, err := s.usersRepository.GetById(req.Id)
 	if err != nil {
@@ -111,7 +111,7 @@ func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_
 // UpdateUser performs update the user.
 func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, error) {
 	if !bson.IsObjectIdHex(req.Id) {
-		return nil, validators.ErrInvalidUserId
+		return nil, util.ErrInvalidUserId
 	}
 	user, err := s.usersRepository.GetById(req.Id)
 	if err != nil {
@@ -119,7 +119,7 @@ func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, e
 	}
 	req.Name = strings.TrimSpace(req.Name)
 	if req.Name == "" {
-		return nil, validators.ErrEmptyName
+		return nil, util.ErrEmptyName
 	}
 	if req.Name == user.Name {
 		return user.ToProtoBuffer(), nil
@@ -133,7 +133,7 @@ func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, e
 // DeleteUser performs delete the user.
 func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error) {
 	if !bson.IsObjectIdHex(req.Id) {
-		return nil, validators.ErrInvalidUserId
+		return nil, util.ErrInvalidUserId
 	}
 	err := s.usersRepository.Delete(req.Id)
 	if err != nil {

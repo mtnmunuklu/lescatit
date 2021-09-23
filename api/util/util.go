@@ -1,4 +1,4 @@
-package restutil
+package util
 
 import (
 	"Lescatit/security"

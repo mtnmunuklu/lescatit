@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"Lescatit/api/restutil"
+	"Lescatit/api/util"
 	"Lescatit/security"
 	"log"
 	"net/http"
@@ -22,18 +22,18 @@ func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokenString, err := security.ExtractToken(r)
 		if err != nil {
-			restutil.WriteError(w, http.StatusUnauthorized, restutil.ErrUnauthorized)
+			util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
 			return
 		}
 		token, err := security.ParseToken(tokenString)
 		if err != nil {
 			log.Println("error on parse token:", err.Error())
-			restutil.WriteError(w, http.StatusUnauthorized, restutil.ErrUnauthorized)
+			util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
 			return
 		}
 		if !token.Valid {
 			log.Println("invalid token:", tokenString)
-			restutil.WriteError(w, http.StatusUnauthorized, restutil.ErrUnauthorized)
+			util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
 			return
 		}
 

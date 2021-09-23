@@ -3,14 +3,14 @@ package service
 import (
 	"Lescatit/crawler/repository"
 	"Lescatit/crawler/scraper"
-	"Lescatit/crawler/validators"
+	"Lescatit/crawler/util"
 	"Lescatit/pb"
 	"Lescatit/security"
 	"context"
 	"time"
 )
 
-// CrawlService provides crawlersRepository for crawler service.
+// CrawlService provides crawlersRepository and collyScraper for crawler service.
 type CrawlService struct {
 	crawlersRepository repository.CrawlersRepository
 	collyScraper       scraper.CollyScraper
@@ -23,7 +23,7 @@ func NewCrawlService(crawlersRepository repository.CrawlersRepository, collyScra
 
 //GetURLData provides to get the content in the url address.
 func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest) (*pb.GetURLDataResponse, error) {
-	err := validators.ValidateURL(req.Url)
+	err := util.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 	data, err := s.crawlersRepository.GetDataByURL(base64URL)
 	if err != nil {
 		if req.GetType() == "notnew" {
-			return nil, validators.ErrURLNotExist
+			return nil, util.ErrURLNotExist
 		} else {
 			currentData, err := s.collyScraper.GetData(req.Url)
 			if err != nil {
@@ -59,7 +59,7 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlService_GetURLsDataServer) error {
 
 	for _, url := range req.GetURLsDataRequest {
-		err := validators.ValidateURL(url.GetUrl())
+		err := util.ValidateURL(url.GetUrl())
 		if err == nil {
 			base64URL := security.Base64Encode(url.GetUrl())
 			data, err := s.crawlersRepository.GetDataByURL(base64URL)
@@ -99,7 +99,7 @@ func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlSe
 
 // CrawlURL performs crawl the url
 func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*pb.CrawlURLResponse, error) {
-	err := validators.ValidateURL(req.Url)
+	err := util.ValidateURL(req.Url)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +113,7 @@ func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*
 
 // CrawlUrls performs crawl the urls
 func (s *CrawlService) CrawlURLs(req *pb.CrawlURLsRequest, stream pb.CrawlService_CrawlURLsServer) error {
-	err := validators.ValidateURLs(req.Urls)
+	err := util.ValidateURLs(req.Urls)
 	if err != nil {
 		return err
 	}

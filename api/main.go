@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Lescatit/api/resthandlers"
+	"Lescatit/api/handlers"
 	"Lescatit/api/routes"
 	"Lescatit/pb"
 	"flag"
@@ -39,7 +39,7 @@ func main() {
 	defer authConn.Close()
 
 	autSvcClient := pb.NewAuthServiceClient(authConn)
-	authHandlers := resthandlers.NewAuthHandlers(autSvcClient)
+	authHandlers := handlers.NewAuthHandlers(autSvcClient)
 	authRoutes := routes.NewAuthRoutes(authHandlers)
 
 	// for crawler service
@@ -50,7 +50,7 @@ func main() {
 	defer authConn.Close()
 
 	crawlSvcClient := pb.NewCrawlServiceClient(crawlConn)
-	crawlHandlers := resthandlers.NewCrawlHandlers(crawlSvcClient)
+	crawlHandlers := handlers.NewCrawlHandlers(crawlSvcClient)
 	crawlRoutes := routes.NewCrawlRoutes(crawlHandlers)
 
 	// for categorizer service
@@ -61,7 +61,7 @@ func main() {
 	defer authConn.Close()
 
 	catzeSvcClient := pb.NewCatzeServiceClient(catzeConn)
-	catzeHandlers := resthandlers.NewCatzeHandlers(catzeSvcClient)
+	catzeHandlers := handlers.NewCatzeHandlers(catzeSvcClient)
 	catzeRoutes := routes.NewCatzeRoutes(catzeHandlers)
 
 	// for categorization service
@@ -72,7 +72,7 @@ func main() {
 	defer catConn.Close()
 
 	catSvcClient := pb.NewCatServiceClient(catConn)
-	catHandlers := resthandlers.NewCatHandlers(crawlSvcClient, catzeSvcClient, catSvcClient)
+	catHandlers := handlers.NewCatHandlers(crawlSvcClient, catzeSvcClient, catSvcClient)
 	catRoutes := routes.NewCatRoutes(catHandlers)
 
 	router := mux.NewRouter().StrictSlash(true)

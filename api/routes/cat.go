@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"Lescatit/api/resthandlers"
+	"Lescatit/api/handlers"
 	"net/http"
 )
 
 // NewCatRoutes provides the routing process for categorization.
-func NewCatRoutes(catHandlers resthandlers.CatHandlers) []*Route {
+func NewCatRoutes(catHandlers handlers.CatHandlers) []*Route {
 	return []*Route{
 		{
 			Path:         "/category",

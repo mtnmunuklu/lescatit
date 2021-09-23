@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"Lescatit/api/resthandlers"
+	"Lescatit/api/handlers"
 	"net/http"
 )
 
 // NewCatzeRoutes provides the routing process for categorize.
-func NewCatzeRoutes(crawlHandlers resthandlers.CatzeHandlers) []*Route {
+func NewCatzeRoutes(crawlHandlers handlers.CatzeHandlers) []*Route {
 	return []*Route{
 		{
 			Path:         "/url_catze",

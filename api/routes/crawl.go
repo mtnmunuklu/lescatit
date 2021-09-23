@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"Lescatit/api/resthandlers"
+	"Lescatit/api/handlers"
 	"net/http"
 )
 
 // NewCrawlRoutes provides the routing process for crawl.
-func NewCrawlRoutes(crawlHandlers resthandlers.CrawlHandlers) []*Route {
+func NewCrawlRoutes(crawlHandlers handlers.CrawlHandlers) []*Route {
 	return []*Route{
 		{
 			Path:         "/url_data",

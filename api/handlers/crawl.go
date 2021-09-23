@@ -1,7 +1,7 @@
-package resthandlers
+package handlers
 
 import (
-	"Lescatit/api/restutil"
+	"Lescatit/api/util"
 	"Lescatit/pb"
 	"encoding/json"
 	"io"
@@ -32,17 +32,17 @@ func NewCrawlHandlers(crawlSvcClient pb.CrawlServiceClient) CrawlHandlers {
 func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request) {
 	rUrl := strings.TrimSpace(r.Header.Get("Url"))
 	if rUrl == "" {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
 		return
 	}
 	url := new(pb.GetURLDataRequest)
 	url.Url = rUrl
 	data, err := h.crawlSvcClient.GetURLData(r.Context(), url)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	restutil.WriteAsJson(w, http.StatusOK, data)
+	util.WriteAsJson(w, http.StatusOK, data)
 }
 
 //GetURLsData provides to get the content in the url addresses.
@@ -50,7 +50,7 @@ func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
 	rURLs := strings.TrimSpace(r.Header.Get("Urls"))
 	rTypes := strings.TrimSpace(r.Header.Get("Types"))
 	if rURLs == "" {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyHeader)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
 		return
 	}
 	splittedURLs := strings.Split(rURLs, ",")
@@ -66,7 +66,7 @@ func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
 	}
 	stream, err := h.crawlSvcClient.GetURLsData(r.Context(), urls)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	var data []*pb.GetURLDataResponse
@@ -76,61 +76,61 @@ func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		if err != nil {
-			restutil.WriteError(w, http.StatusBadRequest, err)
+			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
 		data = append(data, fetchedData)
 	}
-	restutil.WriteAsJson(w, http.StatusOK, data)
+	util.WriteAsJson(w, http.StatusOK, data)
 }
 
 // CrawlURL performs crawl the url
 func (h *CwlHandlers) CrawlURL(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	url := new(pb.CrawlURLRequest)
 	err = json.Unmarshal(body, url)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	crawledURL, err := h.crawlSvcClient.CrawlURL(r.Context(), url)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	restutil.WriteAsJson(w, http.StatusOK, crawledURL)
+	util.WriteAsJson(w, http.StatusOK, crawledURL)
 }
 
 // CrawlURLs performs crawl the urls
 func (h *CwlHandlers) CrawlURLs(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
-		restutil.WriteError(w, http.StatusBadRequest, restutil.ErrEmptyBody)
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	urls := new(pb.CrawlURLsRequest)
 	err = json.Unmarshal(body, urls)
 	if err != nil {
-		restutil.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	stream, err := h.crawlSvcClient.CrawlURLs(r.Context(), urls)
 	if err != nil {
-		restutil.WriteError(w, http.StatusUnprocessableEntity, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	var crawledURLs []*pb.CrawlURLResponse
@@ -140,10 +140,10 @@ func (h *CwlHandlers) CrawlURLs(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		if err != nil {
-			restutil.WriteError(w, http.StatusBadRequest, err)
+			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
 		crawledURLs = append(crawledURLs, crawledURL)
 	}
-	restutil.WriteAsJson(w, http.StatusOK, crawledURLs)
+	util.WriteAsJson(w, http.StatusOK, crawledURLs)
 }
