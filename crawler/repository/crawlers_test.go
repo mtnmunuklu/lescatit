@@ -41,7 +41,7 @@ func TestCrawlersRepositorySave(t *testing.T) {
 
 	url := &models.Crawler{
 		Id:       id,
-		Url:      "https://www.example.com/",
+		Url:      "https://www.examplecw.com/",
 		Category: "NotCategorized",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -71,7 +71,7 @@ func TestCrawlersRepositoryGetById(t *testing.T) {
 
 	url := &models.Crawler{
 		Id:       id,
-		Url:      "https://www.example2.com/",
+		Url:      "https://www.examplecw2.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -110,7 +110,7 @@ func TestCrawlersRepositoryGetDataByURL(t *testing.T) {
 
 	url := &models.Crawler{
 		Id:       id,
-		Url:      "https://www.example3.com/",
+		Url:      "https://www.examplecw3.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
