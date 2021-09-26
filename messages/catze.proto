@@ -13,14 +13,24 @@ message Categorizer {
     string revision = 6;
     string data = 7;
 }
+message Classifier {
+    string id = 1;
+    string name = 2;
+    string category = 3;
+    int64 created = 4;
+    int64 updated = 5;
+    string revision = 6;
+    string data = 7;
+}
 
 message CategorizeURLRequest {
     string url = 1;
     string data = 2;
+    string cmodel = 3;
 }
 
 message CategorizeURLsRequest {
-    repeated CategorizeURLRequest categorizeURLsRequest = 1;
+    repeated CategorizeURLRequest urls = 1;
 }
 
 message CategorizeURLResponse {
@@ -28,7 +38,18 @@ message CategorizeURLResponse {
     string category = 2;
 }
 
+message ClassificationModel {
+    string class = 1;
+    string data = 2;
+}
+
+message GenerateClassificationModelRequest {
+    string category = 1;    
+    repeated ClassificationModel model = 2;
+}
+
 service CatzeService {
     rpc CategorizeURL(CategorizeURLRequest) returns (CategorizeURLResponse);
     rpc CategorizeURLs(CategorizeURLsRequest) returns (stream CategorizeURLResponse);
+    rpc GenerateClassificationModel(GenerateClassificationModelRequest) returns (Classifier);
 }

@@ -1,4 +1,4 @@
-package models
+package classifiersmdl
 
 import (
 	"Lescatit/pb"
@@ -7,10 +7,10 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// Categorizer provides the categorizer instance for categorize job.
-type Categorizer struct {
+// Classifier provides the cmodel instance for classifer job.
+type Classifier struct {
 	Id       bson.ObjectId `bson:"_id"`
-	Url      string        `bson:"url"`
+	Name     string        `bson:"name"`
 	Category string        `bson:"category"`
 	Created  time.Time     `bson:"created"`
 	Updated  time.Time     `bson:"updated"`
@@ -18,11 +18,11 @@ type Categorizer struct {
 	Data     string        `bson:"data"`
 }
 
-// ToProtoBuffer converts the categorizer structure into a protocol buffer categorizer structure.
-func (c *Categorizer) ToProtoBuffer() *pb.Categorizer {
-	return &pb.Categorizer{
+// ToProtoBuffer converts the classifier structure into a protocol buffer classifer structure.
+func (c *Classifier) ToProtoBuffer() *pb.Classifier {
+	return &pb.Classifier{
 		Id:       c.Id.Hex(),
-		Url:      c.Url,
+		Name:     c.Name,
 		Category: c.Category,
 		Created:  c.Created.Unix(),
 		Updated:  c.Updated.Unix(),
@@ -31,10 +31,10 @@ func (c *Categorizer) ToProtoBuffer() *pb.Categorizer {
 	}
 }
 
-// FromProtoBuffer gets data from protocol buffer and converts to the categorizer structure.
-func (c *Categorizer) FromProtoBuffer(category *pb.Categorizer) {
+// FromProtoBuffer gets data from protocol buffer and converts to the classifer structure.
+func (c *Classifier) FromProtoBuffer(category *pb.Classifier) {
 	c.Id = bson.ObjectIdHex(category.GetId())
-	c.Url = category.GetUrl()
+	c.Name = category.GetName()
 	c.Category = category.GetCategory()
 	c.Created = time.Unix(category.GetCreated(), 0)
 	c.Updated = time.Unix(category.GetUpdated(), 0)

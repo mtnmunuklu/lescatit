@@ -1,8 +1,11 @@
 package main
 
 import (
-	"Lescatit/categorizer/repository"
+	"Lescatit/categorizer/classifiers"
+	"Lescatit/categorizer/repositories/categorizersrps"
+	"Lescatit/categorizer/repositories/classifiersrps"
 	"Lescatit/categorizer/service"
+	"Lescatit/categorizer/tokenizer"
 	"Lescatit/db"
 	"Lescatit/pb"
 	"flag"
@@ -43,8 +46,11 @@ func main() {
 	}
 	defer conn.Close()
 
-	categorizersRepository := repository.NewCategorizersRepository(conn)
-	catzeService := service.NewCatzeService(categorizersRepository)
+	categorizersRepository := categorizersrps.NewCategorizersRepository(conn)
+	classifiersRepository := classifiersrps.NewClassifiersRepository(conn)
+	tokenizer := tokenizer.NewTokenizer()
+	nbCategorizer := classifiers.NewNaiveBayesianClassifer()
+	catzeService := service.NewCatzeService(categorizersRepository, classifiersRepository, tokenizer, nbCategorizer)
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

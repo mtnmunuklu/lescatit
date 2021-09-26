@@ -1,7 +1,7 @@
-package repository
+package categorizersrps
 
 import (
-	"Lescatit/categorizer/models"
+	"Lescatit/categorizer/models/categorizersmdl"
 	"Lescatit/db"
 	"Lescatit/security"
 	"log"
@@ -39,9 +39,9 @@ func TestCategorizersRepositorySave(t *testing.T) {
 
 	id := bson.NewObjectId()
 
-	url := &models.Categorizer{
+	url := &categorizersmdl.Categorizer{
 		Id:       id,
-		Url:      "https://www.example.com/",
+		Url:      "https://www.examplecz.com/",
 		Category: "NotCategorized",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -69,9 +69,9 @@ func TestCategorizersRepositoryGetById(t *testing.T) {
 
 	id := bson.NewObjectId()
 
-	url := &models.Categorizer{
+	url := &categorizersmdl.Categorizer{
 		Id:       id,
-		Url:      "https://www.example2.com/",
+		Url:      "https://www.examplecz2.com/",
 		Category: "News",
 		Created:  time.Now(),
 		Updated:  time.Now(),
@@ -108,9 +108,9 @@ func TestCategorizersRepositoryUpdate(t *testing.T) {
 
 	id := bson.NewObjectId()
 
-	category := &models.Categorizer{
+	category := &categorizersmdl.Categorizer{
 		Id:       id,
-		Url:      "https://www.example3.com/",
+		Url:      "https://www.examplecz3.com/",
 		Category: "Gambling",
 		Created:  time.Now(),
 		Updated:  time.Now(),

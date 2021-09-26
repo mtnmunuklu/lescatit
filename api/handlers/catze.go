@@ -13,6 +13,7 @@ import (
 type CatzeHandlers interface {
 	CategorizeURL(w http.ResponseWriter, r *http.Request)
 	CategorizeURLs(w http.ResponseWriter, r *http.Request)
+	GenerateClassificationModel(w http.ResponseWriter, r *http.Request)
 }
 
 // CzHandlers provides a connection with categorization service over proto buffer.
@@ -85,4 +86,29 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 		categorizedURLs = append(categorizedURLs, categorizedURL)
 	}
 	util.WriteAsJson(w, http.StatusOK, categorizedURLs)
+}
+
+func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
+		return
+	}
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	model := new(pb.GenerateClassificationModelRequest)
+	err = json.Unmarshal(body, model)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	createdModel, err := h.catzeSvcClient.GenerateClassificationModel(r.Context(), model)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, createdModel)
 }

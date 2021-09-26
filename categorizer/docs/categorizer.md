@@ -10,6 +10,72 @@ import "Lescatit/categorizer"
 
 
 
+# classifiers
+
+```go
+import "Lescatit/categorizer/classifiers"
+```
+
+## Index
+
+- [type NBClassifier](<#type-nbclassifier>)
+  - [func (c *NBClassifier) Learn(model map[string][]string) (string, error)](<#func-nbclassifier-learn>)
+  - [func (c *NBClassifier) Predict(tokens []string) string](<#func-nbclassifier-predict>)
+  - [func (c *NBClassifier) ReadClassifier(data string) error](<#func-nbclassifier-readclassifier>)
+- [type NaiveBayesianClassifier](<#type-naivebayesianclassifier>)
+  - [func NewNaiveBayesianClassifer() NaiveBayesianClassifier](<#func-newnaivebayesianclassifer>)
+
+
+## type [NBClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L18-L21>)
+
+NBCategorizer provides categorizer and classes for naive bayesian classifier\.
+
+```go
+type NBClassifier struct {
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*NBClassifier\) [Learn](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L29>)
+
+```go
+func (c *NBClassifier) Learn(model map[string][]string) (string, error)
+```
+
+Learn provides to create a new classifer model\.
+
+### func \(\*NBClassifier\) [Predict](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L46>)
+
+```go
+func (c *NBClassifier) Predict(tokens []string) string
+```
+
+### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L59>)
+
+```go
+func (c *NBClassifier) ReadClassifier(data string) error
+```
+
+## type [NaiveBayesianClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L11-L15>)
+
+NaiveBayesianClassifier is the interface of the naive bayesian classifer\.
+
+```go
+type NaiveBayesianClassifier interface {
+    Learn(model map[string][]string) (string, error)
+    Predict(tokens []string) string
+    ReadClassifier(filename string) error
+}
+```
+
+### func [NewNaiveBayesianClassifer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L24>)
+
+```go
+func NewNaiveBayesianClassifer() NaiveBayesianClassifier
+```
+
+NewNaiveBayesianClassifer creates a new NaiveBayesianClassifier instance\.
+
 # models
 
 ```go
@@ -18,168 +84,45 @@ import "Lescatit/categorizer/models"
 
 ## Index
 
-- [type Categorizer](<#type-categorizer>)
-  - [func (c *Categorizer) FromProtoBuffer(category *pb.Categorizer)](<#func-categorizer-fromprotobuffer>)
-  - [func (c *Categorizer) ToProtoBuffer() *pb.Categorizer](<#func-categorizer-toprotobuffer>)
-- [type NBCategorizer](<#type-nbcategorizer>)
-  - [func (nbs *NBCategorizer) Learn(model map[string][]string) error](<#func-nbcategorizer-learn>)
-- [type NaiveBayesianCategorizer](<#type-naivebayesiancategorizer>)
-  - [func NewNaiveBayesianCategorizer() NaiveBayesianCategorizer](<#func-newnaivebayesiancategorizer>)
+- [type Result](<#type-result>)
+- [type Results](<#type-results>)
+  - [func (slice Results) Len() int](<#func-results-len>)
+  - [func (slice Results) Less(i, j int) bool](<#func-results-less>)
+  - [func (slice Results) Swap(i, j int)](<#func-results-swap>)
 
 
-## type [Categorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/categorizers.go#L11-L19>)
-
-Categorizer provides the categorizer instance for categorize job\.
+## type [Result](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/results.go#L3-L6>)
 
 ```go
-type Categorizer struct {
-    Id       bson.ObjectId `bson:"_id"`
-    Url      string        `bson:"url"`
-    Category string        `bson:"category"`
-    Created  time.Time     `bson:"created"`
-    Updated  time.Time     `bson:"updated"`
-    Revision string        `bson:"revision"`
-    Data     string        `bson:"data"`
+type Result struct {
+    ID    int
+    Score float64
 }
 ```
 
-### func \(\*Categorizer\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/categorizers.go#L35>)
+## type [Results](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/results.go#L8>)
 
 ```go
-func (c *Categorizer) FromProtoBuffer(category *pb.Categorizer)
+type Results []Result
 ```
 
-FromProtoBuffer gets data from protocol buffer and converts to the categorizer structure\.
-
-### func \(\*Categorizer\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/categorizers.go#L22>)
+### func \(Results\) [Len](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/results.go#L10>)
 
 ```go
-func (c *Categorizer) ToProtoBuffer() *pb.Categorizer
+func (slice Results) Len() int
 ```
 
-ToProtoBuffer converts the categorizer structure into a protocol buffer categorizer structure\.
-
-## type [NBCategorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/naivebayesian.go#L13-L16>)
-
-NBCategorizer provides categorizer and classes for naive bayesian categorizer\.
+### func \(Results\) [Less](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/results.go#L14>)
 
 ```go
-type NBCategorizer struct {
-    // contains filtered or unexported fields
-}
+func (slice Results) Less(i, j int) bool
 ```
 
-### func \(\*NBCategorizer\) [Learn](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/naivebayesian.go#L24>)
+### func \(Results\) [Swap](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/results.go#L18>)
 
 ```go
-func (nbs *NBCategorizer) Learn(model map[string][]string) error
+func (slice Results) Swap(i, j int)
 ```
-
-Learn provides to create a new categorizer model\.
-
-## type [NaiveBayesianCategorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/naivebayesian.go#L8-L10>)
-
-CrawlersRepository is the interface of the naive bayesian categorizer\.
-
-```go
-type NaiveBayesianCategorizer interface {
-    Learn(model map[string][]string) error
-}
-```
-
-### func [NewNaiveBayesianCategorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/naivebayesian.go#L19>)
-
-```go
-func NewNaiveBayesianCategorizer() NaiveBayesianCategorizer
-```
-
-NewCrawlService creates a new NaiveBayesianCategorizer instance\.
-
-# repository
-
-```go
-import "Lescatit/categorizer/repository"
-```
-
-## Index
-
-- [Constants](<#constants>)
-- [type CRepository](<#type-crepository>)
-  - [func (r *CRepository) DeleteAll() error](<#func-crepository-deleteall>)
-  - [func (r *CRepository) GetById(id string) (url *models.Categorizer, err error)](<#func-crepository-getbyid>)
-  - [func (r *CRepository) Save(url *models.Categorizer) error](<#func-crepository-save>)
-  - [func (r *CRepository) Update(category *models.Categorizer) error](<#func-crepository-update>)
-- [type CategorizersRepository](<#type-categorizersrepository>)
-  - [func NewCategorizersRepository(conn db.Connection) CategorizersRepository](<#func-newcategorizersrepository>)
-
-
-## Constants
-
-```go
-const CategorizersCollection = "categories"
-```
-
-## type [CRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L21-L23>)
-
-CRepository provides a mongo collection for categorizer job\.
-
-```go
-type CRepository struct {
-    // contains filtered or unexported fields
-}
-```
-
-### func \(\*CRepository\) [DeleteAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L47>)
-
-```go
-func (r *CRepository) DeleteAll() error
-```
-
-DeleteAll drops categorizers collection\.
-
-### func \(\*CRepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L36>)
-
-```go
-func (r *CRepository) GetById(id string) (url *models.Categorizer, err error)
-```
-
-GetById returns the url based on id\.
-
-### func \(\*CRepository\) [Save](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L31>)
-
-```go
-func (r *CRepository) Save(url *models.Categorizer) error
-```
-
-Save adds url to database\.
-
-### func \(\*CRepository\) [Update](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L42>)
-
-```go
-func (r *CRepository) Update(category *models.Categorizer) error
-```
-
-Update updates the category\.
-
-## type [CategorizersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L14-L18>)
-
-CategorizersRepository is the interface of the categorizer backend\.
-
-```go
-type CategorizersRepository interface {
-    Save(url *models.Categorizer) error
-    GetById(id string) (url *models.Categorizer, err error)
-    Update(category *models.Categorizer) error
-}
-```
-
-### func [NewCategorizersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repository/categorizers.go#L26>)
-
-```go
-func NewCategorizersRepository(conn db.Connection) CategorizersRepository
-```
-
-NewCategorizersRepository creates a new CategorizersRepository instance\.
 
 # service
 
@@ -189,22 +132,22 @@ import "Lescatit/categorizer/service"
 
 ## Index
 
-- [func NewCatzeService(categorizersRepository repository.CategorizersRepository, tokenizer tokenizer.Tokenizer, nbCategorizer models.NaiveBayesianCategorizer) pb.CatzeServiceServer](<#func-newcatzeservice>)
+- [func NewCatzeService(categorizersRepository categorizersrps.CategorizersRepository, classifiersRepository classifiersrps.ClassifiersRepository, tokenizer tokenizer.Tokenizer, nbClassifier classifiers.NaiveBayesianClassifier) pb.CatzeServiceServer](<#func-newcatzeservice>)
 - [type CatzeService](<#type-catzeservice>)
   - [func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLRequest) (*pb.CategorizeURLResponse, error)](<#func-catzeservice-categorizeurl>)
   - [func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error](<#func-catzeservice-categorizeurls>)
-  - [func (s *CatzeService) CreateCategorizationModel(ctx context.Context, req *pb.CreateCategorizationModelRequest) (*pb.CreateCategorizationModelResponse, error)](<#func-catzeservice-createcategorizationmodel>)
+  - [func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.GenerateClassificationModelRequest) (*pb.Classifier, error)](<#func-catzeservice-generateclassificationmodel>)
 
 
-## func [NewCatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L22>)
+## func [NewCatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L29>)
 
 ```go
-func NewCatzeService(categorizersRepository repository.CategorizersRepository, tokenizer tokenizer.Tokenizer, nbCategorizer models.NaiveBayesianCategorizer) pb.CatzeServiceServer
+func NewCatzeService(categorizersRepository categorizersrps.CategorizersRepository, classifiersRepository classifiersrps.ClassifiersRepository, tokenizer tokenizer.Tokenizer, nbClassifier classifiers.NaiveBayesianClassifier) pb.CatzeServiceServer
 ```
 
 NewCatzeService creates a new CatzeService instance\.
 
-## type [CatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L15-L19>)
+## type [CatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L21-L26>)
 
 CatzeService provides categorizersRepository for categorizer service\.
 
@@ -214,7 +157,7 @@ type CatzeService struct {
 }
 ```
 
-### func \(\*CatzeService\) [CategorizeURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L27>)
+### func \(\*CatzeService\) [CategorizeURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L34>)
 
 ```go
 func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLRequest) (*pb.CategorizeURLResponse, error)
@@ -222,7 +165,7 @@ func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLR
 
 CategorizeURL provides to categorize the url\.
 
-### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L50>)
+### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L71>)
 
 ```go
 func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error
@@ -230,10 +173,10 @@ func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.C
 
 CategorizeURLs provides to categorize the urls\.
 
-### func \(\*CatzeService\) [CreateCategorizationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L75>)
+### func \(\*CatzeService\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L107>)
 
 ```go
-func (s *CatzeService) CreateCategorizationModel(ctx context.Context, req *pb.CreateCategorizationModelRequest) (*pb.CreateCategorizationModelResponse, error)
+func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.GenerateClassificationModelRequest) (*pb.Classifier, error)
 ```
 
 # tokenizer
@@ -378,6 +321,7 @@ import "Lescatit/categorizer/util"
 ## Index
 
 - [Variables](<#variables>)
+- [func GenerateRandomFileName(prefix, suffix string) string](<#func-generaterandomfilename>)
 - [func ValidateURL(reqURL string) error](<#func-validateurl>)
 
 
@@ -390,17 +334,321 @@ var (
     ErrEmptyData                  = errors.New("data can't be empty")
     ErrInvalidURL                 = errors.New("invalid url")
     ErrInvalidCategorizationModel = errors.New("invalid categorization model")
-    ErrFailedCreateModel          = errors.New("failed to create categorization model")
+    ErrFailedModelCreate          = errors.New("failed to create categorization model")
+    ErrFailedModelLearn           = errors.New("failed to learn categorization model")
+    ErrFailedModelSave            = errors.New("failed to save categorization model to database")
+    ErrFailedModelGet             = errors.New("failed to get categorization model from database")
+    ErrFailedModelRead            = errors.New("failed to read categorization model")
 )
 ```
 
-## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L17>)
+## func [GenerateRandomFileName](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L32>)
+
+```go
+func GenerateRandomFileName(prefix, suffix string) string
+```
+
+GenerateRandomFileName generates a random filename for use in testing or whatever
+
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L23>)
 
 ```go
 func ValidateURL(reqURL string) error
 ```
 
 ValidateURLs validates if it's a real url\.
+
+# categorizersmdl
+
+```go
+import "Lescatit/categorizer/models/categorizersmdl"
+```
+
+## Index
+
+- [type Categorizer](<#type-categorizer>)
+  - [func (c *Categorizer) FromProtoBuffer(category *pb.Categorizer)](<#func-categorizer-fromprotobuffer>)
+  - [func (c *Categorizer) ToProtoBuffer() *pb.Categorizer](<#func-categorizer-toprotobuffer>)
+
+
+## type [Categorizer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/categorizersmdl/categorizers.go#L11-L19>)
+
+Categorizer provides the categorizer instance for categorize job\.
+
+```go
+type Categorizer struct {
+    Id       bson.ObjectId `bson:"_id"`
+    Url      string        `bson:"url"`
+    Category string        `bson:"category"`
+    Created  time.Time     `bson:"created"`
+    Updated  time.Time     `bson:"updated"`
+    Revision string        `bson:"revision"`
+    Data     string        `bson:"data"`
+}
+```
+
+### func \(\*Categorizer\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/categorizersmdl/categorizers.go#L35>)
+
+```go
+func (c *Categorizer) FromProtoBuffer(category *pb.Categorizer)
+```
+
+FromProtoBuffer gets data from protocol buffer and converts to the categorizer structure\.
+
+### func \(\*Categorizer\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/categorizersmdl/categorizers.go#L22>)
+
+```go
+func (c *Categorizer) ToProtoBuffer() *pb.Categorizer
+```
+
+ToProtoBuffer converts the categorizer structure into a protocol buffer categorizer structure\.
+
+# classifiersmdl
+
+```go
+import "Lescatit/categorizer/models/classifiersmdl"
+```
+
+## Index
+
+- [type Classifier](<#type-classifier>)
+  - [func (c *Classifier) FromProtoBuffer(category *pb.Classifier)](<#func-classifier-fromprotobuffer>)
+  - [func (c *Classifier) ToProtoBuffer() *pb.Classifier](<#func-classifier-toprotobuffer>)
+
+
+## type [Classifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifers.go#L11-L19>)
+
+Classifier provides the cmodel instance for classifer job\.
+
+```go
+type Classifier struct {
+    Id       bson.ObjectId `bson:"_id"`
+    Name     string        `bson:"name"`
+    Category string        `bson:"category"`
+    Created  time.Time     `bson:"created"`
+    Updated  time.Time     `bson:"updated"`
+    Revision string        `bson:"revision"`
+    Data     string        `bson:"data"`
+}
+```
+
+### func \(\*Classifier\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifers.go#L35>)
+
+```go
+func (c *Classifier) FromProtoBuffer(category *pb.Classifier)
+```
+
+FromProtoBuffer gets data from protocol buffer and converts to the classifer structure\.
+
+### func \(\*Classifier\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifers.go#L22>)
+
+```go
+func (c *Classifier) ToProtoBuffer() *pb.Classifier
+```
+
+ToProtoBuffer converts the classifier structure into a protocol buffer classifer structure\.
+
+# categorizersrps
+
+```go
+import "Lescatit/categorizer/repositories/categorizersrps"
+```
+
+## Index
+
+- [Constants](<#constants>)
+- [type CRepository](<#type-crepository>)
+  - [func (r *CRepository) DeleteAll() error](<#func-crepository-deleteall>)
+  - [func (r *CRepository) GetById(id string) (url *categorizersmdl.Categorizer, err error)](<#func-crepository-getbyid>)
+  - [func (r *CRepository) Save(url *categorizersmdl.Categorizer) error](<#func-crepository-save>)
+  - [func (r *CRepository) Update(category *categorizersmdl.Categorizer) error](<#func-crepository-update>)
+- [type CategorizersRepository](<#type-categorizersrepository>)
+  - [func NewCategorizersRepository(conn db.Connection) CategorizersRepository](<#func-newcategorizersrepository>)
+
+
+## Constants
+
+```go
+const CategorizersCollection = "categories"
+```
+
+## type [CRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/categorizersrps/categorizers.go#L21-L23>)
+
+CRepository provides a mongo collection for categorizer job\.
+
+```go
+type CRepository struct {
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*CRepository\) [DeleteAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/categorizersrps/categorizers.go#L47>)
+
+```go
+func (r *CRepository) DeleteAll() error
+```
+
+DeleteAll drops categorizers collection\.
+
+### func \(\*CRepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/categorizersrps/categorizers.go#L36>)
+
+```go
+func (r *CRepository) GetById(id string) (url *categorizersmdl.Categorizer, err error)
+```
+
+GetById returns the url based on id\.
+
+### func \(\*CRepository\) [Save](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/categorizersrps/categorizers.go#L31>)
+
+```go
+func (r *CRepository) Save(url *categorizersmdl.Categorizer) error
+```
+
+Save adds url to database\.
+
+### func \(\*CRepository\) [Update](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/categorizersrps/categorizers.go#L42>)
+
+```go
+func (r *CRepository) Update(category *categorizersmdl.Categorizer) error
+```
+
+Update updates the category\.
+
+## type [CategorizersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/categorizersrps/categorizers.go#L14-L18>)
+
+CategorizersRepository is the interface of the categorizer backend\.
+
+```go
+type CategorizersRepository interface {
+    Save(url *categorizersmdl.Categorizer) error
+    GetById(id string) (url *categorizersmdl.Categorizer, err error)
+    Update(category *categorizersmdl.Categorizer) error
+}
+```
+
+### func [NewCategorizersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/categorizersrps/categorizers.go#L26>)
+
+```go
+func NewCategorizersRepository(conn db.Connection) CategorizersRepository
+```
+
+NewCategorizersRepository creates a new CategorizersRepository instance\.
+
+# classifiersrps
+
+```go
+import "Lescatit/categorizer/repositories/classifiersrps"
+```
+
+## Index
+
+- [Constants](<#constants>)
+- [type CRepository](<#type-crepository>)
+  - [func (r *CRepository) Delete(id string) error](<#func-crepository-delete>)
+  - [func (r *CRepository) DeleteAll() error](<#func-crepository-deleteall>)
+  - [func (r *CRepository) GetAllClassifiersByCategory(category string, count int) (classifer []*classifiersmdl.Classifier, err error)](<#func-crepository-getallclassifiersbycategory>)
+  - [func (r *CRepository) GetById(id string) (classifer *classifiersmdl.Classifier, err error)](<#func-crepository-getbyid>)
+  - [func (r *CRepository) GetByName(name string) (classifer *classifiersmdl.Classifier, err error)](<#func-crepository-getbyname>)
+  - [func (r *CRepository) Save(classifer *classifiersmdl.Classifier) error](<#func-crepository-save>)
+  - [func (r *CRepository) Update(classifer *classifiersmdl.Classifier) error](<#func-crepository-update>)
+- [type ClassifiersRepository](<#type-classifiersrepository>)
+  - [func NewClassifiersRepository(conn db.Connection) ClassifiersRepository](<#func-newclassifiersrepository>)
+
+
+## Constants
+
+```go
+const ClassifiersCollection = "classifiers"
+```
+
+## type [CRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L24-L26>)
+
+ClRepository provides a mongo collection for classifier job\.
+
+```go
+type CRepository struct {
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*CRepository\) [Delete](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L62>)
+
+```go
+func (r *CRepository) Delete(id string) error
+```
+
+Delete deletes the classifer based on id\.
+
+### func \(\*CRepository\) [DeleteAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L67>)
+
+```go
+func (r *CRepository) DeleteAll() error
+```
+
+DeleteAll drops classifier collection\.
+
+### func \(\*CRepository\) [GetAllClassifiersByCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L51>)
+
+```go
+func (r *CRepository) GetAllClassifiersByCategory(category string, count int) (classifer []*classifiersmdl.Classifier, err error)
+```
+
+GetAllClassifiersByCategory returns all classifiers based on category\.
+
+### func \(\*CRepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L39>)
+
+```go
+func (r *CRepository) GetById(id string) (classifer *classifiersmdl.Classifier, err error)
+```
+
+GetById returns the classifer based on id\.
+
+### func \(\*CRepository\) [GetByName](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L45>)
+
+```go
+func (r *CRepository) GetByName(name string) (classifer *classifiersmdl.Classifier, err error)
+```
+
+GetByName returns the classifier based on name\.
+
+### func \(\*CRepository\) [Save](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L34>)
+
+```go
+func (r *CRepository) Save(classifer *classifiersmdl.Classifier) error
+```
+
+Save adds classifier to database\.
+
+### func \(\*CRepository\) [Update](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L57>)
+
+```go
+func (r *CRepository) Update(classifer *classifiersmdl.Classifier) error
+```
+
+Update updates the classifer\.
+
+## type [ClassifiersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L14-L21>)
+
+ClassifierRepository is the interface of the classifer backend\.
+
+```go
+type ClassifiersRepository interface {
+    Save(classifer *classifiersmdl.Classifier) error
+    GetById(id string) (classifer *classifiersmdl.Classifier, err error)
+    GetByName(name string) (classifer *classifiersmdl.Classifier, err error)
+    GetAllClassifiersByCategory(category string, count int) (classifer []*classifiersmdl.Classifier, err error)
+    Update(classifer *classifiersmdl.Classifier) error
+    Delete(id string) error
+}
+```
+
+### func [NewClassifiersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L29>)
+
+```go
+func NewClassifiersRepository(conn db.Connection) ClassifiersRepository
+```
+
+NewClassifiersRepository creates a new ClassifiersRepository instance\.
 
 
 
