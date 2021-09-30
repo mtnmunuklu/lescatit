@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 // CatzeHandlers is the interface of the categorize operation.
@@ -14,6 +15,11 @@ type CatzeHandlers interface {
 	CategorizeURL(w http.ResponseWriter, r *http.Request)
 	CategorizeURLs(w http.ResponseWriter, r *http.Request)
 	GenerateClassificationModel(w http.ResponseWriter, r *http.Request)
+	GetClassificationModel(w http.ResponseWriter, r *http.Request)
+	UpdateClassificationModel(w http.ResponseWriter, r *http.Request)
+	DeleteClassificationModel(w http.ResponseWriter, r *http.Request)
+	DeleteClassificationModels(w http.ResponseWriter, r *http.Request)
+	ListClassificationModels(w http.ResponseWriter, r *http.Request)
 }
 
 // CzHandlers provides a connection with categorization service over proto buffer.
@@ -111,4 +117,122 @@ func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, createdModel)
+}
+
+func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Request) {
+	name := strings.TrimSpace(r.Header.Get("Name"))
+	if name == "" {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+		return
+	}
+	cmodel := new(pb.GetClassificationModelRequest)
+	cmodel.Name = name
+	fetchedCModel, err := h.catzeSvcClient.GetClassificationModel(r.Context(), cmodel)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, fetchedCModel)
+}
+
+func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
+		return
+	}
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	cmodel := new(pb.UpdateClassificationModelRequest)
+	err = json.Unmarshal(body, cmodel)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	updatedCModel, err := h.catzeSvcClient.UpdateClassificationModel(r.Context(), cmodel)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, updatedCModel)
+}
+
+func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Request) {
+	name := strings.TrimSpace(r.Header.Get("Name"))
+	if name == "" {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+		return
+	}
+	cmodel := new(pb.DeleteClassificationModelRequest)
+	cmodel.Name = name
+	deletedCModel, err := h.catzeSvcClient.DeleteClassificationModel(r.Context(), cmodel)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	w.Header().Set("Entity", deletedCModel.Name)
+	util.WriteAsJson(w, http.StatusNoContent, nil)
+}
+
+func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.Request) {
+	names := strings.TrimSpace(r.Header.Get("Names"))
+	if names == "" {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+		return
+	}
+	splittedNames := strings.Split(names, ",")
+	cmodels := new(pb.DeleteClassificationModelsRequest)
+	cmodels.Names = splittedNames
+	stream, err := h.catzeSvcClient.DeleteClassificationModels(r.Context(), cmodels)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	var deletedCModels []*pb.DeleteClassificationModelResponse
+	for {
+		deletedCModel, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			util.WriteError(w, http.StatusBadRequest, err)
+			return
+		}
+		deletedCModels = append(deletedCModels, deletedCModel)
+	}
+	util.WriteAsJson(w, http.StatusOK, deletedCModels)
+}
+
+func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Request) {
+	categories := strings.TrimSpace(r.Header.Get("Categories"))
+	count := strings.TrimSpace(r.Header.Get("Count"))
+	if categories == "" || count == "" {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+		return
+	}
+	splittedCategories := strings.Split(categories, ",")
+	cmodels := new(pb.ListClassificationModelsRequest)
+	cmodels.Categories = splittedCategories
+	cmodels.Count = count
+	stream, err := h.catzeSvcClient.ListClassificationModels(r.Context(), cmodels)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	var fetchedCModels []*pb.Classifier
+	for {
+		fetchedCModel, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			util.WriteError(w, http.StatusBadRequest, err)
+			return
+		}
+		fetchedCModels = append(fetchedCModels, fetchedCModel)
+	}
+	util.WriteAsJson(w, http.StatusOK, fetchedCModels)
 }

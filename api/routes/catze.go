@@ -21,9 +21,39 @@ func NewCatzeRoutes(catzeHandlers handlers.CatzeHandlers) []*Route {
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel_generate",
+			Path:         "/cmodel",
 			Method:       http.MethodPost,
 			Handler:      catzeHandlers.GenerateClassificationModel,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/cmodel",
+			Method:       http.MethodGet,
+			Handler:      catzeHandlers.GetClassificationModel,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/cmodel",
+			Method:       http.MethodPut,
+			Handler:      catzeHandlers.UpdateClassificationModel,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/cmodel",
+			Method:       http.MethodDelete,
+			Handler:      catzeHandlers.DeleteClassificationModel,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/cmodels",
+			Method:       http.MethodDelete,
+			Handler:      catzeHandlers.DeleteClassificationModels,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/cmodels",
+			Method:       http.MethodGet,
+			Handler:      catzeHandlers.ListClassificationModels,
 			AuthRequired: true,
 		},
 	}
