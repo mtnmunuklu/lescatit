@@ -17,7 +17,7 @@ import (
 
 // Init initializes the database connection and drops classifiers collection.
 func init() {
-	err := godotenv.Load("../.env")
+	err := godotenv.Load("../../.env")
 	if err != nil {
 		log.Panicln(err)
 	}

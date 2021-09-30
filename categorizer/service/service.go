@@ -11,6 +11,7 @@ import (
 	"Lescatit/security"
 	"bytes"
 	"context"
+	"strconv"
 	"strings"
 	"time"
 
@@ -27,7 +28,7 @@ type CatzeService struct {
 
 // NewCatzeService creates a new CatzeService instance.
 func NewCatzeService(categorizersRepository categorizersrps.CategorizersRepository, classifiersRepository classifiersrps.ClassifiersRepository, tokenizer tokenizer.Tokenizer, nbClassifier classifiers.NaiveBayesianClassifier) pb.CatzeServiceServer {
-	return &CatzeService{categorizersRepository: categorizersRepository, tokenizer: tokenizer, nbClassifier: nbClassifier}
+	return &CatzeService{categorizersRepository: categorizersRepository, classifiersRepository: classifiersRepository, tokenizer: tokenizer, nbClassifier: nbClassifier}
 }
 
 // CategorizeURL provides to categorize the url.
@@ -36,39 +37,45 @@ func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLR
 	if err != nil {
 		return nil, err
 	}
-	if len(req.GetData()) > 0 {
-		base64DecodedData, err := security.Base64Decode(req.GetData())
+	err = util.ValidateData(req.GetData())
+	if err != nil {
+		return nil, err
+	}
+	base64DecodedData, err := security.Base64Decode(req.GetData())
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasSuffix(req.GetCmodel(), ".nbc") {
+		bytesData := bytes.NewBuffer([]byte(base64DecodedData))
+		tokenize := s.tokenizer.Tokenize(bytesData)
+		tokens := make([]string, 0)
+		for token := range tokenize {
+			tokens = append(tokens, token)
+		}
+		classifer, err := s.classifiersRepository.GetByName(req.GetCmodel())
+		if err != nil {
+			return nil, util.ErrFailedModelGet
+		}
+		classifer.Data, err = security.Base64Decode(classifer.Data)
 		if err != nil {
 			return nil, err
 		}
-		if strings.HasSuffix(req.GetCmodel(), ".nbc") {
-			bytesData := bytes.NewBuffer([]byte(base64DecodedData))
-			tokenize := s.tokenizer.Tokenize(bytesData)
-			tokens := make([]string, 0)
-			for token := range tokenize {
-				tokens = append(tokens, token)
-			}
-			classifer, err := s.classifiersRepository.GetByName(req.GetCmodel())
-			if err != nil {
-				return nil, util.ErrFailedModelGet
-			}
-			classifer.Data, err = security.Base64Decode(classifer.Data)
-			if err != nil {
-				return nil, err
-			}
-			err = s.nbClassifier.ReadClassifier(classifer.Data)
-			if err != nil {
-				return nil, util.ErrFailedModelRead
-			}
-			category := s.nbClassifier.Predict(tokens)
-			return &pb.CategorizeURLResponse{Url: req.GetUrl(), Category: category}, nil
+		err = s.nbClassifier.ReadClassifier(classifer.Data)
+		if err != nil {
+			return nil, util.ErrFailedModelRead
 		}
+		category := s.nbClassifier.Predict(tokens)
+		return &pb.CategorizeURLResponse{Url: req.GetUrl(), Category: category}, nil
 	}
-	return nil, util.ErrEmptyData
+	return nil, util.ErrInvalidCategorizationModel
 }
 
 // CategorizeURLs provides to categorize the urls.
 func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error {
+	err := util.ValidateURLs(req.GetUrls())
+	if err != nil {
+		return err
+	}
 	for _, url := range req.GetUrls() {
 		err := util.ValidateURL(url.GetUrl())
 		if err == nil {
@@ -137,4 +144,99 @@ func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.
 		return classifier.ToProtoBuffer(), nil
 	}
 	return nil, util.ErrInvalidCategorizationModel
+}
+
+func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetClassificationModelRequest) (*pb.Classifier, error) {
+	if req.GetName() == "" {
+		return nil, util.ErrEmptyModelName
+	}
+	classifier, err := s.classifiersRepository.GetByName(req.GetName())
+	if err != nil {
+		return nil, util.ErrFailedModelFind
+	}
+	return classifier.ToProtoBuffer(), nil
+}
+
+func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.UpdateClassificationModelRequest) (*pb.Classifier, error) {
+	if req.GetName() == "" {
+		return nil, util.ErrEmptyModelName
+	}
+	if req.GetCategory() == "" {
+		return nil, util.ErrEmptyModelCategory
+	}
+	classifier, err := s.classifiersRepository.GetByName(req.GetName())
+	if err != nil {
+		return nil, util.ErrFailedModelFind
+	}
+	classifier.Category = req.GetCategory()
+	classifier.Updated = time.Now()
+	revision, err := strconv.Atoi(classifier.Revision)
+	if err == nil {
+		classifier.Revision = strconv.Itoa((revision + 1))
+	} else {
+		classifier.Revision = "0"
+	}
+	err = s.classifiersRepository.Update(classifier)
+	if err != nil {
+		return nil, util.ErrFailedModelUpdate
+	}
+	return classifier.ToProtoBuffer(), nil
+}
+
+func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.DeleteClassificationModelRequest) (*pb.DeleteClassificationModelResponse, error) {
+	if req.GetName() == "" {
+		return nil, util.ErrEmptyModelName
+	}
+	classifier, err := s.classifiersRepository.GetByName(req.GetName())
+	if err != nil {
+		return nil, util.ErrFailedModelFind
+	}
+	err = s.classifiersRepository.Delete(classifier.Id.Hex())
+	if err != nil {
+		return nil, util.ErrFailedModelDelete
+	}
+	return &pb.DeleteClassificationModelResponse{Name: classifier.Name}, nil
+}
+
+func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationModelsRequest, stream pb.CatzeService_DeleteClassificationModelsServer) error {
+	err := util.ValidateNames(req.GetNames())
+	if err != nil {
+		return err
+	}
+	for _, name := range req.GetNames() {
+		classifier, err := s.classifiersRepository.GetByName(name)
+		if err == nil {
+			err = s.classifiersRepository.Delete(classifier.Id.Hex())
+			if err == nil {
+				err = stream.Send(&pb.DeleteClassificationModelResponse{Name: name})
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
+}
+
+func (s *CatzeService) ListClassificationModels(req *pb.ListClassificationModelsRequest, stream pb.CatzeService_ListClassificationModelsServer) error {
+	err := util.ValidateCategories(req.GetCategories())
+	if err != nil {
+		return err
+	}
+	count, err := util.ValidateCount(req.GetCount())
+	if err != nil {
+		return err
+	}
+	for _, category := range req.GetCategories() {
+		classifiers, err := s.classifiersRepository.GetAllClassifiersByCategory(category, count)
+		if err == nil {
+			for _, classifier := range classifiers {
+				err = stream.Send(classifier.ToProtoBuffer())
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
 }

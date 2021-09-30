@@ -13,7 +13,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.3.0
 	github.com/kennygrant/sanitize v1.2.4 // indirect
-	github.com/navossoc/bayesian v0.0.0-20171203014413-18fc5ea11e24 // indirect
+	github.com/navossoc/bayesian v0.0.0-20171203014413-18fc5ea11e24 
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/stretchr/testify v1.7.0
 	github.com/temoto/robotstxt v1.1.2 // indirect

@@ -48,8 +48,39 @@ message GenerateClassificationModelRequest {
     repeated ClassificationModel model = 2;
 }
 
+message GetClassificationModelRequest {
+    string name = 1;
+}
+
+message UpdateClassificationModelRequest {
+    string name = 1;
+    string category = 2;
+}
+
+message DeleteClassificationModelRequest {
+    string name = 1;
+}
+
+message DeleteClassificationModelsRequest {
+    repeated string names = 1;
+}
+
+message DeleteClassificationModelResponse {
+    string name = 1;
+}
+
+message ListClassificationModelsRequest {
+    repeated string categories = 1;
+    string count = 2;
+}
+
 service CatzeService {
     rpc CategorizeURL(CategorizeURLRequest) returns (CategorizeURLResponse);
     rpc CategorizeURLs(CategorizeURLsRequest) returns (stream CategorizeURLResponse);
     rpc GenerateClassificationModel(GenerateClassificationModelRequest) returns (Classifier);
+    rpc GetClassificationModel(GetClassificationModelRequest) returns (Classifier);
+    rpc UpdateClassificationModel(UpdateClassificationModelRequest) returns (Classifier);
+    rpc DeleteClassificationModel(DeleteClassificationModelRequest) returns (DeleteClassificationModelResponse);
+    rpc DeleteClassificationModels(DeleteClassificationModelsRequest) returns (stream DeleteClassificationModelResponse);
+    rpc ListClassificationModels(ListClassificationModelsRequest) returns (stream Classifier);
 }
