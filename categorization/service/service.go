@@ -96,57 +96,6 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.Report
 	return reportedURL.ToProtoBuffer(), nil
 }
 
-// AddURLs performs add the urls.
-func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error {
-	for _, url := range req.AddURLsRequest {
-		base64URL := security.Base64Encode(url.Url)
-		//New url
-		if url.GetStatus() == "New" {
-			addedURL := new(models.Category)
-			addedURL.Url = base64URL
-			//send data of the url to categorizer
-			//use returned value to update category
-			addedURL.Category = url.GetCategory()
-			addedURL.Created = time.Now()
-			addedURL.Updated = time.Now()
-			addedURL.Id = bson.NewObjectId()
-			addedURL.Revision = "0"
-			addedURL.Data = url.GetData()
-			err := s.categoriesRepository.Save(addedURL)
-			if err == nil {
-				addedURL.Url = url.GetUrl()
-				err = stream.Send(addedURL.ToProtoBuffer())
-				if err != nil {
-					return err
-				}
-			}
-		} else if url.GetStatus() == "Updated" {
-			//Updated url
-			updatedURL, err := s.categoriesRepository.GetCategoryByURL(base64URL)
-			if err == nil {
-				updatedURL.Category = url.GetCategory()
-				updatedURL.Updated = time.Now()
-				revision, err := strconv.Atoi(updatedURL.Revision)
-				if err == nil {
-					updatedURL.Revision = strconv.Itoa((revision + 1))
-				} else {
-					updatedURL.Revision = "0"
-				}
-				updatedURL.Data = url.GetData()
-				err = s.categoriesRepository.Update(updatedURL)
-				if err == nil {
-					updatedURL.Url = url.GetUrl()
-					err = stream.Send(updatedURL.ToProtoBuffer())
-					if err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
 // AddURL performs add the url.
 func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error) {
 

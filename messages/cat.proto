@@ -35,15 +35,17 @@ message ReportMiscategorizationRequest {
     string category = 4;
 }
 
-message AddURLsRequest {
-    repeated AddURLRequest addURLsRequest = 1;
-}
-
 message AddURLRequest {
     string url = 1;
     string data = 2;
     string status = 3;
     string category = 4;
+}
+
+message AddURLRequestCC {
+    string url = 1;
+    string type = 2;
+    string cmodel = 3;
 }
 
 message DeleteURLsRequest {
@@ -62,7 +64,6 @@ service CatService {
     rpc GetCategory(GetCategoryRequest) returns (Category);
     rpc UpdateCategory(UpdateCategoryRequest) returns (Category);
     rpc ReportMiscategorization(ReportMiscategorizationRequest) returns (Category);
-    rpc AddURLs(AddURLsRequest) returns (stream Category);
     rpc AddURL(AddURLRequest) returns (Category);
     rpc DeleteURLs(DeleteURLsRequest) returns (stream DeleteURLResponse);
     rpc DeleteURL(DeleteURLRequest) returns (DeleteURLResponse);

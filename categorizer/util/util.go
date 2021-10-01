@@ -80,6 +80,13 @@ func ValidateData(data string) error {
 	return nil
 }
 
+func ValidateCModel(name string) string {
+	if name == "" {
+		return "4bebec0441951ad46595bce09bd68686.nbc"
+	}
+	return name
+}
+
 // GenerateRandomFileName generates a random filename
 func GenerateRandomFileName(prefix, suffix string) string {
 	randBytes := make([]byte, 16)

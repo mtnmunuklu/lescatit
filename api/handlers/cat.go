@@ -15,7 +15,6 @@ type CatHandlers interface {
 	GetCategory(w http.ResponseWriter, r *http.Request)
 	UpdateCategory(w http.ResponseWriter, r *http.Request)
 	ReportMiscategorization(w http.ResponseWriter, r *http.Request)
-	AddURLs(w http.ResponseWriter, r *http.Request)
 	AddURL(w http.ResponseWriter, r *http.Request)
 	DeleteURLs(w http.ResponseWriter, r *http.Request)
 	DeleteURL(w http.ResponseWriter, r *http.Request)
@@ -89,20 +88,21 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	url := new(pb.GetURLDataRequest)
+	url := new(pb.AddURLRequestCC)
 	err = json.Unmarshal(body, url)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 	url.Type = "notnew"
-	fetchedURLData, err := h.crawlSvcClient.GetURLData(r.Context(), url)
+	fetchedURLData, err := h.crawlSvcClient.GetURLData(r.Context(),
+		&pb.GetURLDataRequest{Url: url.Url, Type: url.Type})
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(),
-		&pb.CategorizeURLRequest{Url: fetchedURLData.GetUrl(), Data: fetchedURLData.GetData()})
+		&pb.CategorizeURLRequest{Url: fetchedURLData.GetUrl(), Data: fetchedURLData.GetData(), Cmodel: url.Cmodel})
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -120,78 +120,6 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 	util.WriteAsJson(w, http.StatusOK, reportedURL)
 }
 
-// AddURLs performs add the urls.
-func (h *CHandlers) AddURLs(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
-	}
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-	urls := new(pb.GetURLsDataRequest)
-	err = json.Unmarshal(body, urls)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-	// get urls data
-	streamURLData, err := h.crawlSvcClient.GetURLsData(r.Context(), urls)
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	addURLsRequest := new(pb.AddURLsRequest)
-
-	for {
-
-		fetchedURLData, err := streamURLData.Recv()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			util.WriteError(w, http.StatusBadRequest, err)
-			return
-		}
-
-		if fetchedURLData.GetStatus() != "" {
-			categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(),
-				&pb.CategorizeURLRequest{Url: fetchedURLData.Url, Data: fetchedURLData.Data})
-			if err == nil {
-				addURLRequest := new(pb.AddURLRequest)
-				addURLRequest.Url = fetchedURLData.GetUrl()
-				addURLRequest.Data = fetchedURLData.GetData()
-				addURLRequest.Status = fetchedURLData.GetStatus()
-				addURLRequest.Category = categorizedURL.GetCategory()
-				addURLsRequest.AddURLsRequest = append(addURLsRequest.AddURLsRequest, addURLRequest)
-			}
-		}
-	}
-
-	// add urls
-	stream, err := h.catSvcClient.AddURLs(r.Context(), addURLsRequest)
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	var addedURLs []*pb.Category
-	for {
-		addedURL, err := stream.Recv()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			util.WriteError(w, http.StatusBadRequest, err)
-			return
-		}
-		addedURLs = append(addedURLs, addedURL)
-	}
-	util.WriteAsJson(w, http.StatusOK, addedURLs)
-}
-
 // AddURL performs add the url.
 func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
@@ -204,20 +132,21 @@ func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	url := new(pb.GetURLDataRequest)
+	url := new(pb.AddURLRequestCC)
 	err = json.Unmarshal(body, url)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	fetchedURLData, err := h.crawlSvcClient.GetURLData(r.Context(), url)
+	fetchedURLData, err := h.crawlSvcClient.GetURLData(r.Context(),
+		&pb.GetURLDataRequest{Url: url.Url, Type: url.Type})
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	if fetchedURLData.GetStatus() != "" {
 		categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(),
-			&pb.CategorizeURLRequest{Url: fetchedURLData.Url, Data: fetchedURLData.Data})
+			&pb.CategorizeURLRequest{Url: fetchedURLData.Url, Data: fetchedURLData.Data, Cmodel: url.Cmodel})
 		if err != nil {
 			util.WriteError(w, http.StatusUnprocessableEntity, err)
 			return

@@ -94,6 +94,7 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, categorizedURLs)
 }
 
+//DeleteClassificationModel performs generate a classification model
 func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
@@ -119,6 +120,7 @@ func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.
 	util.WriteAsJson(w, http.StatusOK, createdModel)
 }
 
+//DeleteClassificationModel performs return the classification model
 func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimSpace(r.Header.Get("Name"))
 	if name == "" {
@@ -135,6 +137,7 @@ func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Reque
 	util.WriteAsJson(w, http.StatusOK, fetchedCModel)
 }
 
+//DeleteClassificationModel performs update the classification model
 func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
@@ -160,6 +163,7 @@ func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Re
 	util.WriteAsJson(w, http.StatusOK, updatedCModel)
 }
 
+//DeleteClassificationModel performs delete the classification model
 func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimSpace(r.Header.Get("Name"))
 	if name == "" {
@@ -177,6 +181,7 @@ func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Re
 	util.WriteAsJson(w, http.StatusNoContent, nil)
 }
 
+//DeleteClassificationModels performs delete the classification models
 func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.Request) {
 	names := strings.TrimSpace(r.Header.Get("Names"))
 	if names == "" {
@@ -206,6 +211,7 @@ func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.R
 	util.WriteAsJson(w, http.StatusOK, deletedCModels)
 }
 
+//DeleteClassificationModels performs liste all the classification models
 func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Request) {
 	categories := strings.TrimSpace(r.Header.Get("Categories"))
 	count := strings.TrimSpace(r.Header.Get("Count"))
