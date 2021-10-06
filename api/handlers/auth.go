@@ -7,16 +7,13 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"time"
-
-	"gopkg.in/mgo.v2/bson"
 )
 
 // AuthHandlers is the interface of the authentication operation.
 type AuthHandlers interface {
 	SignUp(w http.ResponseWriter, r *http.Request)
 	SignIn(w http.ResponseWriter, r *http.Request)
-	PutUser(w http.ResponseWriter, r *http.Request)
+	UpdateUser(w http.ResponseWriter, r *http.Request)
 	GetUser(w http.ResponseWriter, r *http.Request)
 	GetUsers(w http.ResponseWriter, r *http.Request)
 	DeleteUser(w http.ResponseWriter, r *http.Request)
@@ -44,21 +41,18 @@ func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	user := new(pb.User)
-	err = json.Unmarshal(body, user)
+	signUpRequest := new(pb.SignUpRequest)
+	err = json.Unmarshal(body, signUpRequest)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	user.Created = time.Now().Unix()
-	user.Updated = time.Now().Unix()
-	user.Id = bson.NewObjectId().Hex()
-	resp, err := h.authSvcClient.SignUp(r.Context(), user)
+	signUpResponse, err := h.authSvcClient.SignUp(r.Context(), signUpRequest)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	util.WriteAsJson(w, http.StatusCreated, resp)
+	util.WriteAsJson(w, http.StatusCreated, signUpResponse)
 }
 
 // SignIn performs the user login process.
@@ -73,22 +67,22 @@ func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	input := new(pb.SignInRequest)
-	err = json.Unmarshal(body, input)
+	signInRequest := new(pb.SignInRequest)
+	err = json.Unmarshal(body, signInRequest)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	resp, err := h.authSvcClient.SignIn(r.Context(), input)
+	signInResponse, err := h.authSvcClient.SignIn(r.Context(), signInRequest)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	util.WriteAsJson(w, http.StatusOK, resp)
+	util.WriteAsJson(w, http.StatusOK, signInResponse)
 }
 
-// PutUser performs update the user.
-func (h *AHandlers) PutUser(w http.ResponseWriter, r *http.Request) {
+// UpdateUser performs update the user.
+func (h *AHandlers) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	tokenPayload, err := util.AuthRequestWithId(r)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
@@ -104,19 +98,19 @@ func (h *AHandlers) PutUser(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	user := new(pb.User)
-	err = json.Unmarshal(body, user)
+	updateUserRequest := new(pb.UpdateUserRequest)
+	err = json.Unmarshal(body, updateUserRequest)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	user.Id = tokenPayload.UserId
-	resp, err := h.authSvcClient.UpdateUser(r.Context(), user)
+	updateUserRequest.Id = tokenPayload.UserId
+	updateUserResponse, err := h.authSvcClient.UpdateUser(r.Context(), updateUserRequest)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	util.WriteAsJson(w, http.StatusOK, resp)
+	util.WriteAsJson(w, http.StatusOK, updateUserResponse)
 }
 
 // GetUser performs return the user by id.
@@ -126,12 +120,12 @@ func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	resp, err := h.authSvcClient.GetUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
+	getUserResponse, err := h.authSvcClient.GetUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	util.WriteAsJson(w, http.StatusOK, resp)
+	util.WriteAsJson(w, http.StatusOK, getUserResponse)
 }
 
 // GetUsers list all users.
@@ -164,11 +158,11 @@ func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	resp, err := h.authSvcClient.DeleteUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
+	deleteUserResponse, err := h.authSvcClient.DeleteUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	w.Header().Set("Entity", resp.Id)
+	w.Header().Set("Entity", deleteUserResponse.Id)
 	util.WriteAsJson(w, http.StatusNoContent, nil)
 }

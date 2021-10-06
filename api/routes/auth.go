@@ -10,7 +10,7 @@ func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 	return []*Route{
 		{
 			Path:    "/signup",
-			Method:  http.MethodPost,
+			Method:  http.MethodPut,
 			Handler: authHandlers.SignUp,
 		},
 		{
@@ -32,8 +32,8 @@ func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 		},
 		{
 			Path:         "/users/{id}",
-			Method:       http.MethodPut,
-			Handler:      authHandlers.PutUser,
+			Method:       http.MethodPost,
+			Handler:      authHandlers.UpdateUser,
 			AuthRequired: true,
 		},
 		{

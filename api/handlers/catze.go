@@ -32,6 +32,7 @@ func NewCatzeHandlers(catzeSvcClient pb.CatzeServiceClient) CatzeHandlers {
 	return &CzHandlers{catzeSvcClient: catzeSvcClient}
 }
 
+// CategorizeURL performs categorize the url.
 func (h *CzHandlers) CategorizeURL(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
@@ -57,6 +58,7 @@ func (h *CzHandlers) CategorizeURL(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, categorizedURL)
 }
 
+// CategorizeURLs performs categorize the urls.
 func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
@@ -211,7 +213,7 @@ func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.R
 	util.WriteAsJson(w, http.StatusOK, deletedCModels)
 }
 
-//DeleteClassificationModels performs liste all the classification models
+//DeleteClassificationModels performs list all classification models
 func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Request) {
 	categories := strings.TrimSpace(r.Header.Get("Categories"))
 	count := strings.TrimSpace(r.Header.Get("Count"))

@@ -16,7 +16,7 @@ func NewCatRoutes(catHandlers handlers.CatHandlers) []*Route {
 		},
 		{
 			Path:         "/category",
-			Method:       http.MethodPut,
+			Method:       http.MethodPost,
 			Handler:      catHandlers.UpdateCategory,
 			AuthRequired: true,
 		},
@@ -40,7 +40,7 @@ func NewCatRoutes(catHandlers handlers.CatHandlers) []*Route {
 		},
 		{
 			Path:         "/url",
-			Method:       http.MethodPost,
+			Method:       http.MethodPut,
 			Handler:      catHandlers.AddURL,
 			AuthRequired: true,
 		},

@@ -22,7 +22,7 @@ func NewCatzeRoutes(catzeHandlers handlers.CatzeHandlers) []*Route {
 		},
 		{
 			Path:         "/cmodel",
-			Method:       http.MethodPost,
+			Method:       http.MethodPut,
 			Handler:      catzeHandlers.GenerateClassificationModel,
 			AuthRequired: true,
 		},
@@ -34,7 +34,7 @@ func NewCatzeRoutes(catzeHandlers handlers.CatzeHandlers) []*Route {
 		},
 		{
 			Path:         "/cmodel",
-			Method:       http.MethodPut,
+			Method:       http.MethodPost,
 			Handler:      catzeHandlers.UpdateClassificationModel,
 			AuthRequired: true,
 		},
