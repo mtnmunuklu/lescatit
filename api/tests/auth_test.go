@@ -35,7 +35,7 @@ func TestSignUp(t *testing.T) {
 	payload := strings.NewReader(string(jsonSignInByte))
 
 	client := &http.Client{}
-	request, err := http.NewRequest("POST", url, payload)
+	request, err := http.NewRequest("PUT", url, payload)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 	request.Header.Add("Content-Type", "application/json")
@@ -89,7 +89,7 @@ func TestSignIn(t *testing.T) {
 	err = json.Unmarshal(body, signInResponse)
 	assert.NoError(t, err)
 	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
+	assert.NotEmpty(t, signInResponse.GetToken())
 	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
 	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
 }
@@ -125,8 +125,8 @@ func TestGetUser(t *testing.T) {
 	err = json.Unmarshal(body, signInResponse)
 	assert.NoError(t, err)
 	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.User.GetId())
-	assert.NotNil(t, signInResponse.GetToken())
+	assert.NotEmpty(t, signInResponse.User.GetId())
+	assert.NotEmpty(t, signInResponse.GetToken())
 
 	// get user
 	url = authAddr + "/users/" + signInResponse.User.GetId()
@@ -188,7 +188,7 @@ func TestGetUsers(t *testing.T) {
 	err = json.Unmarshal(body, signInResponse)
 	assert.NoError(t, err)
 	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
+	assert.NotEmpty(t, signInResponse.GetToken())
 
 	// get all users
 	url = authAddr + "/users"
@@ -243,8 +243,8 @@ func TestUpdateUser(t *testing.T) {
 	err = json.Unmarshal(body, signInResponse)
 	assert.NoError(t, err)
 	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.User.GetId())
-	assert.NotNil(t, signInResponse.GetToken())
+	assert.NotEmpty(t, signInResponse.User.GetId())
+	assert.NotEmpty(t, signInResponse.GetToken())
 
 	// update user
 	url = authAddr + "/users/" + signInResponse.User.GetId()
@@ -255,10 +255,11 @@ func TestUpdateUser(t *testing.T) {
 	assert.NoError(t, err)
 	payload = strings.NewReader(string(jsonUpdateUserByte))
 
-	request, err = http.NewRequest("PUT", url, payload)
+	request, err = http.NewRequest("POST", url, payload)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
+	request.Header.Add("Content-Type", "application/json")
 	authorization := "Bearer" + signInResponse.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
@@ -307,8 +308,8 @@ func TestDeleteUser(t *testing.T) {
 	err = json.Unmarshal(body, signInResponse)
 	assert.NoError(t, err)
 	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.User.GetId())
-	assert.NotNil(t, signInResponse.GetToken())
+	assert.NotEmpty(t, signInResponse.User.GetId())
+	assert.NotEmpty(t, signInResponse.GetToken())
 
 	// delete user
 	url = authAddr + "/users/" + signInResponse.User.GetId()
