@@ -26,23 +26,25 @@ func NewAuthService(usersRepository repository.UsersRepository) pb.AuthServiceSe
 }
 
 // SignUp performs the user registration process.
-func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error) {
+func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.User, error) {
 	err := util.ValidateSignUp(req)
 	if err != nil {
 		return nil, err
 	}
-
-	req.Password, err = security.EncryptPassword(req.Password)
-	if err != nil {
-		return nil, err
-	}
-	req.Name = strings.TrimSpace(req.Name)
-	req.Email = util.NormalizeEmail(req.Email)
-	found, err := s.usersRepository.GetByEmail(req.Email)
+	normalizedEmail := util.NormalizeEmail(req.Email)
+	found, err := s.usersRepository.GetByEmail(normalizedEmail)
 
 	if err == mgo.ErrNotFound {
 		user := new(models.User)
-		user.FromProtoBuffer(req)
+		user.Id = bson.NewObjectId()
+		user.Name = strings.TrimSpace(req.Name)
+		user.Email = normalizedEmail
+		user.Password, err = security.EncryptPassword(req.Password)
+		if err != nil {
+			return nil, err
+		}
+		user.Created = time.Now()
+		user.Updated = time.Now()
 		err := s.usersRepository.Save(user)
 		if err != nil {
 			return nil, err
@@ -109,7 +111,7 @@ func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_
 }
 
 // UpdateUser performs update the user.
-func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, error) {
+func (s *AuthService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.User, error) {
 	if !bson.IsObjectIdHex(req.Id) {
 		return nil, util.ErrInvalidUserId
 	}

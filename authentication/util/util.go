@@ -4,8 +4,6 @@ import (
 	"Lescatit/pb"
 	"errors"
 	"strings"
-
-	"gopkg.in/mgo.v2/bson"
 )
 
 // Contains error codes for authentication service.
@@ -19,10 +17,8 @@ var (
 )
 
 // ValidateSingnUp validates the user information for user registration process.
-func ValidateSignUp(user *pb.User) error {
-	if !bson.IsObjectIdHex(user.Id) {
-		return ErrInvalidUserId
-	} else if user.Email == "" {
+func ValidateSignUp(user *pb.SignUpRequest) error {
+	if user.Email == "" {
 		return ErrEmptyEmail
 	} else if user.Name == "" {
 		return ErrEmptyName

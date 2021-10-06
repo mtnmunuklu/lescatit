@@ -19,8 +19,19 @@ message GetUserRequest {
 
 message ListUsersRequest {}
 
+message UpdateUserRequest {
+    string name = 1;
+    string id = 2;
+}
+
 message DeleteUserResponse {
     string id = 1;
+}
+
+message SignUpRequest {
+    string name = 1;
+    string email = 2;
+    string password = 3;
 }
 
 message SignInRequest {
@@ -34,10 +45,10 @@ message SignInResponse {
 }
 
 service AuthService {
-    rpc SignUp(User) returns (User);
+    rpc SignUp(SignUpRequest) returns (User);
     rpc SignIn(SignInRequest) returns (SignInResponse);
     rpc GetUser(GetUserRequest) returns (User);
     rpc ListUsers(ListUsersRequest) returns (stream User);
-    rpc UpdateUser(User) returns (User);
+    rpc UpdateUser(UpdateUserRequest) returns (User);
     rpc DeleteUser(GetUserRequest) returns (DeleteUserResponse);
 }
