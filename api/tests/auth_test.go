@@ -25,7 +25,7 @@ func init() {
 // TestSignUp tests the user registration process.
 func TestSignUp(t *testing.T) {
 	url := authAddr + "/signup"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -62,7 +62,7 @@ func TestSignUp(t *testing.T) {
 // TestSignIn tests the user login process.
 func TestSignIn(t *testing.T) {
 	url := authAddr + "/signin"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -98,7 +98,7 @@ func TestSignIn(t *testing.T) {
 func TestGetUser(t *testing.T) {
 	// get token
 	url := authAddr + "/signin"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -134,7 +134,7 @@ func TestGetUser(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer" + signInResponse.GetToken()
+	authorization := "Bearer " + signInResponse.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
 	assert.NoError(t, err)
@@ -161,7 +161,7 @@ func TestGetUser(t *testing.T) {
 func TestGetUsers(t *testing.T) {
 	// get token
 	url := authAddr + "/signin"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -196,7 +196,7 @@ func TestGetUsers(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer" + signInResponse.GetToken()
+	authorization := "Bearer " + signInResponse.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
 	assert.NoError(t, err)
@@ -216,7 +216,7 @@ func TestGetUsers(t *testing.T) {
 func TestUpdateUser(t *testing.T) {
 	// get token
 	url := authAddr + "/signin"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -260,7 +260,7 @@ func TestUpdateUser(t *testing.T) {
 	assert.NotNil(t, request)
 
 	request.Header.Add("Content-Type", "application/json")
-	authorization := "Bearer" + signInResponse.GetToken()
+	authorization := "Bearer " + signInResponse.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
 	assert.NoError(t, err)
@@ -281,7 +281,7 @@ func TestDeleteUser(t *testing.T) {
 
 	// get token
 	url := authAddr + "/signin"
-	jsonRaw := map[string]interface{}{
+	jsonRaw := map[string]string{
 		"Name":     "New Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -317,7 +317,7 @@ func TestDeleteUser(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer" + signInResponse.GetToken()
+	authorization := "Bearer " + signInResponse.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
 	assert.NoError(t, err)

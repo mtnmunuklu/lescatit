@@ -24,7 +24,7 @@ func init() {
 func TestGetURLData(t *testing.T) {
 	//get token
 	url := crawlAddr + "/signin"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "New Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -61,7 +61,7 @@ func TestGetURLData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer" + signInResponse.GetToken()
+	authorization := "Bearer " + signInResponse.GetToken()
 	request.Header.Add("Authorization", authorization)
 	request.Header.Add("Url", "https://sozcu.com.tr/")
 	response, err = client.Do(request)
@@ -72,19 +72,19 @@ func TestGetURLData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	getURLData := new(pb.GetURLDataResponse)
-	err = json.Unmarshal(body, getURLData)
+	getedURLData := new(pb.GetURLDataResponse)
+	err = json.Unmarshal(body, getedURLData)
 	assert.NoError(t, err)
-	assert.NotNil(t, getURLData)
-	assert.NotEmpty(t, getURLData.GetUrl())
-	assert.NotEmpty(t, getURLData.GetData())
+	assert.NotNil(t, getedURLData)
+	assert.NotEmpty(t, getedURLData.GetUrl())
+	assert.NotEmpty(t, getedURLData.GetData())
 }
 
 // TestGetURLsData tests retrieving the content in the url addresses.
 func TestGetURLsData(t *testing.T) {
 	//get token
 	url := crawlAddr + "/signin"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "New Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -121,7 +121,7 @@ func TestGetURLsData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer" + signInResponse.GetToken()
+	authorization := "Bearer " + signInResponse.GetToken()
 	request.Header.Add("Authorization", authorization)
 	request.Header.Add("Urls", "https://sozcu.com.tr/,https://www.haberler.com/")
 	response, err = client.Do(request)
@@ -132,17 +132,17 @@ func TestGetURLsData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	getURLsData := new([]pb.GetURLDataResponse)
-	err = json.Unmarshal(body, getURLsData)
+	getedURLsData := new([]pb.GetURLDataResponse)
+	err = json.Unmarshal(body, getedURLsData)
 	assert.NoError(t, err)
-	assert.NotNil(t, getURLsData)
+	assert.NotNil(t, getedURLsData)
 }
 
 // TestCrawlURL tests crawl the url
 func TestCrawlURL(t *testing.T) {
 	//get token
 	url := crawlAddr + "/signin"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "New Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -196,7 +196,7 @@ func TestCrawlURL(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer" + signInResponse.GetToken()
+	authorization := "Bearer " + signInResponse.GetToken()
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
@@ -207,10 +207,10 @@ func TestCrawlURL(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	getURLsData := new([]pb.GetURLDataResponse)
-	err = json.Unmarshal(body, getURLsData)
+	crawledURL := new(pb.CrawlURLResponse)
+	err = json.Unmarshal(body, crawledURL)
 	assert.NoError(t, err)
-	assert.NotNil(t, getURLsData)
+	assert.NotNil(t, crawledURL)
 
 }
 
@@ -218,7 +218,7 @@ func TestCrawlURL(t *testing.T) {
 func TestCrawlURLs(t *testing.T) {
 	//get token
 	url := crawlAddr + "/signin"
-	jsonSignIn := map[string]interface{}{
+	jsonSignIn := map[string]string{
 		"Name":     "New Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
@@ -249,9 +249,9 @@ func TestCrawlURLs(t *testing.T) {
 	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
 	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
 
-	// crawl url
-	url = crawlAddr + "/url_crawl"
-	jsonCrawlURL := map[string]interface{}{
+	// crawl urls
+	url = crawlAddr + "/urls_crawl"
+	jsonCrawlURLs := map[string]interface{}{
 		"Url": []string{"https://sozcu.com.tr/", "https://www.haberler.com/"},
 		"CrawlRequest": map[string]interface{}{
 			"UserAgent":            "colly - https://github.com/gocolly/colly",
@@ -265,14 +265,14 @@ func TestCrawlURLs(t *testing.T) {
 			"RobotsTxt":            true,
 		},
 	}
-	jsonCrawlURLByte, err := json.Marshal(jsonCrawlURL)
+	jsonCrawlURLsByte, err := json.Marshal(jsonCrawlURLs)
 	assert.NoError(t, err)
-	payload = strings.NewReader(string(jsonCrawlURLByte))
+	payload = strings.NewReader(string(jsonCrawlURLsByte))
 	request, err = http.NewRequest("POST", url, payload)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer" + signInResponse.GetToken()
+	authorization := "Bearer " + signInResponse.GetToken()
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
@@ -283,8 +283,8 @@ func TestCrawlURLs(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	getURLsData := new([]pb.GetURLDataResponse)
-	err = json.Unmarshal(body, getURLsData)
+	crawledURLs := new([]pb.CrawlURLResponse)
+	err = json.Unmarshal(body, crawledURLs)
 	assert.NoError(t, err)
-	assert.NotNil(t, getURLsData)
+	assert.NotNil(t, crawledURLs)
 }
