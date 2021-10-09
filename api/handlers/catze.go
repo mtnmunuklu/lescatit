@@ -179,8 +179,7 @@ func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Re
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	w.Header().Set("Entity", deletedCModel.Name)
-	util.WriteAsJson(w, http.StatusNoContent, nil)
+	util.WriteAsJson(w, http.StatusOK, deletedCModel)
 }
 
 //DeleteClassificationModels performs delete the classification models
