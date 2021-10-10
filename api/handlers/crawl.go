@@ -37,12 +37,12 @@ func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request) {
 	}
 	url := new(pb.GetURLDataRequest)
 	url.Url = rUrl
-	data, err := h.crawlSvcClient.GetURLData(r.Context(), url)
+	getedURLData, err := h.crawlSvcClient.GetURLData(r.Context(), url)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	util.WriteAsJson(w, http.StatusOK, data)
+	util.WriteAsJson(w, http.StatusOK, getedURLData)
 }
 
 //GetURLsData provides to get the content in the url addresses.
@@ -69,9 +69,9 @@ func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	var data []*pb.GetURLDataResponse
+	var getedURLsData []*pb.GetURLDataResponse
 	for {
-		fetchedData, err := stream.Recv()
+		getedURLData, err := stream.Recv()
 		if err == io.EOF {
 			break
 		}
@@ -79,9 +79,9 @@ func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
 			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
-		data = append(data, fetchedData)
+		getedURLsData = append(getedURLsData, getedURLData)
 	}
-	util.WriteAsJson(w, http.StatusOK, data)
+	util.WriteAsJson(w, http.StatusOK, getedURLsData)
 }
 
 // CrawlURL performs crawl the url

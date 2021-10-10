@@ -114,12 +114,12 @@ func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	createdModel, err := h.catzeSvcClient.GenerateClassificationModel(r.Context(), model)
+	generatedModel, err := h.catzeSvcClient.GenerateClassificationModel(r.Context(), model)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	util.WriteAsJson(w, http.StatusOK, createdModel)
+	util.WriteAsJson(w, http.StatusOK, generatedModel)
 }
 
 //DeleteClassificationModel performs return the classification model
@@ -131,12 +131,12 @@ func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Reque
 	}
 	cmodel := new(pb.GetClassificationModelRequest)
 	cmodel.Name = name
-	fetchedCModel, err := h.catzeSvcClient.GetClassificationModel(r.Context(), cmodel)
+	getedCModel, err := h.catzeSvcClient.GetClassificationModel(r.Context(), cmodel)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	util.WriteAsJson(w, http.StatusOK, fetchedCModel)
+	util.WriteAsJson(w, http.StatusOK, getedCModel)
 }
 
 //DeleteClassificationModel performs update the classification model
@@ -229,9 +229,9 @@ func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Req
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	var fetchedCModels []*pb.Classifier
+	var getedCModels []*pb.Classifier
 	for {
-		fetchedCModel, err := stream.Recv()
+		getedCModel, err := stream.Recv()
 		if err == io.EOF {
 			break
 		}
@@ -239,7 +239,7 @@ func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Req
 			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
-		fetchedCModels = append(fetchedCModels, fetchedCModel)
+		getedCModels = append(getedCModels, getedCModel)
 	}
-	util.WriteAsJson(w, http.StatusOK, fetchedCModels)
+	util.WriteAsJson(w, http.StatusOK, getedCModels)
 }

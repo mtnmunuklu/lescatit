@@ -21,7 +21,7 @@ func NewCatRoutes(catHandlers handlers.CatHandlers) []*Route {
 			AuthRequired: true,
 		},
 		{
-			Path:         "/report",
+			Path:         "/url_report",
 			Method:       http.MethodPost,
 			Handler:      catHandlers.ReportMiscategorization,
 			AuthRequired: true,
