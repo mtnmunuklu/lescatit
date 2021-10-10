@@ -47,13 +47,13 @@ func TestGetURLData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// get data of the url
 	url = crawlAddr + "/url_data"
@@ -61,7 +61,7 @@ func TestGetURLData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	request.Header.Add("Url", "https://sozcu.com.tr/")
 	response, err = client.Do(request)
@@ -107,13 +107,13 @@ func TestGetURLsData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// get data of the urls
 	url = crawlAddr + "/urls_data"
@@ -121,7 +121,7 @@ func TestGetURLsData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	request.Header.Add("Urls", "https://sozcu.com.tr/,https://www.haberler.com/")
 	response, err = client.Do(request)
@@ -165,13 +165,13 @@ func TestCrawlURL(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// crawl url
 	url = crawlAddr + "/url_crawl"
@@ -196,7 +196,7 @@ func TestCrawlURL(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
@@ -241,13 +241,13 @@ func TestCrawlURLs(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// crawl urls
 	url = crawlAddr + "/urls_crawl"
@@ -272,7 +272,7 @@ func TestCrawlURLs(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)

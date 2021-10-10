@@ -49,14 +49,14 @@ func TestSignUp(t *testing.T) {
 	assert.NotNil(t, body)
 
 	current := time.Now().Unix()
-	signUpResponse := new(pb.User)
-	err = json.Unmarshal(body, signUpResponse)
+	signUp := new(pb.User)
+	err = json.Unmarshal(body, signUp)
 	assert.NoError(t, err)
-	assert.NotNil(t, signUpResponse)
-	assert.Equal(t, jsonSignIn["Name"], signUpResponse.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signUpResponse.GetEmail())
-	assert.Greater(t, current, signUpResponse.GetCreated())
-	assert.Greater(t, current, signUpResponse.GetUpdated())
+	assert.NotNil(t, signUp)
+	assert.Equal(t, jsonSignIn["Name"], signUp.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signUp.GetEmail())
+	assert.Greater(t, current, signUp.GetCreated())
+	assert.Greater(t, current, signUp.GetUpdated())
 }
 
 // TestSignIn tests the user login process.
@@ -85,13 +85,13 @@ func TestSignIn(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotEmpty(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 }
 
 // TestGetUser tests pull user by id.
@@ -121,20 +121,20 @@ func TestGetUser(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotEmpty(t, signInResponse.User.GetId())
-	assert.NotEmpty(t, signInResponse.GetToken())
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.User.GetId())
+	assert.NotEmpty(t, signIn.GetToken())
 
 	// get user
-	url = authAddr + "/users/" + signInResponse.User.GetId()
+	url = authAddr + "/users/" + signIn.User.GetId()
 	request, err = http.NewRequest("GET", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
 	assert.NoError(t, err)
@@ -148,12 +148,12 @@ func TestGetUser(t *testing.T) {
 	err = json.Unmarshal(body, getUserResponse)
 	assert.NoError(t, err)
 	assert.NotNil(t, getUserResponse)
-	assert.Equal(t, signInResponse.User.GetId(), getUserResponse.GetId())
-	assert.Equal(t, signInResponse.User.GetName(), getUserResponse.GetName())
-	assert.Equal(t, signInResponse.User.GetEmail(), getUserResponse.GetEmail())
-	assert.Equal(t, signInResponse.User.GetPassword(), getUserResponse.GetPassword())
-	assert.Equal(t, signInResponse.User.GetCreated(), getUserResponse.GetCreated())
-	assert.Equal(t, signInResponse.User.GetUpdated(), getUserResponse.GetUpdated())
+	assert.Equal(t, signIn.User.GetId(), getUserResponse.GetId())
+	assert.Equal(t, signIn.User.GetName(), getUserResponse.GetName())
+	assert.Equal(t, signIn.User.GetEmail(), getUserResponse.GetEmail())
+	assert.Equal(t, signIn.User.GetPassword(), getUserResponse.GetPassword())
+	assert.Equal(t, signIn.User.GetCreated(), getUserResponse.GetCreated())
+	assert.Equal(t, signIn.User.GetUpdated(), getUserResponse.GetUpdated())
 
 }
 
@@ -184,11 +184,11 @@ func TestGetUsers(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotEmpty(t, signInResponse.GetToken())
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.GetToken())
 
 	// get all users
 	url = authAddr + "/users"
@@ -196,7 +196,7 @@ func TestGetUsers(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
 	assert.NoError(t, err)
@@ -206,10 +206,10 @@ func TestGetUsers(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	getUsersResponse := new([]pb.User)
-	err = json.Unmarshal(body, getUsersResponse)
+	getedUsers := new([]pb.User)
+	err = json.Unmarshal(body, getedUsers)
 	assert.NoError(t, err)
-	assert.NotNil(t, getUsersResponse)
+	assert.NotNil(t, getedUsers)
 }
 
 // TestUpdateUser tests update the user.
@@ -239,15 +239,15 @@ func TestUpdateUser(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotEmpty(t, signInResponse.User.GetId())
-	assert.NotEmpty(t, signInResponse.GetToken())
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.User.GetId())
+	assert.NotEmpty(t, signIn.GetToken())
 
 	// update user
-	url = authAddr + "/users/" + signInResponse.User.GetId()
+	url = authAddr + "/users/" + signIn.User.GetId()
 	jsonUpdateUser := map[string]interface{}{
 		"Name": "New Test User",
 	}
@@ -260,7 +260,7 @@ func TestUpdateUser(t *testing.T) {
 	assert.NotNil(t, request)
 
 	request.Header.Add("Content-Type", "application/json")
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
 	assert.NoError(t, err)
@@ -270,10 +270,10 @@ func TestUpdateUser(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	deleteUserResponse := new(pb.DeleteUserResponse)
-	err = json.Unmarshal(body, deleteUserResponse)
+	updatedUser := new(pb.User)
+	err = json.Unmarshal(body, updatedUser)
 	assert.NoError(t, err)
-	assert.NotNil(t, deleteUserResponse)
+	assert.NotNil(t, updatedUser)
 }
 
 // TestDeleteUser tests delete the user.
@@ -281,14 +281,14 @@ func TestDeleteUser(t *testing.T) {
 
 	// get token
 	url := authAddr + "/signin"
-	jsonRaw := map[string]string{
+	jsonSignIn := map[string]string{
 		"Name":     "New Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
-	jsonRawByte, err := json.Marshal(jsonRaw)
+	jsonSignInByte, err := json.Marshal(jsonSignIn)
 	assert.NoError(t, err)
-	payload := strings.NewReader(string(jsonRawByte))
+	payload := strings.NewReader(string(jsonSignInByte))
 
 	client := &http.Client{}
 	request, err := http.NewRequest("POST", url, payload)
@@ -304,20 +304,20 @@ func TestDeleteUser(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotEmpty(t, signInResponse.User.GetId())
-	assert.NotEmpty(t, signInResponse.GetToken())
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.User.GetId())
+	assert.NotEmpty(t, signIn.GetToken())
 
 	// delete user
-	url = authAddr + "/users/" + signInResponse.User.GetId()
+	url = authAddr + "/users/" + signIn.User.GetId()
 	request, err = http.NewRequest("DELETE", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
 	assert.NoError(t, err)
@@ -327,8 +327,8 @@ func TestDeleteUser(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	deleteUserResponse := new(pb.DeleteUserResponse)
-	err = json.Unmarshal(body, deleteUserResponse)
+	deletedUser := new(pb.DeleteUserResponse)
+	err = json.Unmarshal(body, deletedUser)
 	assert.NoError(t, err)
-	assert.NotNil(t, deleteUserResponse)
+	assert.NotNil(t, deletedUser)
 }

@@ -47,29 +47,29 @@ func TestCategorizeURL(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// categorize url
 	url = catzeAddr + "/url_catze"
-	jsonCatzeURL := map[string]string{
+	jsonCategorizeURL := map[string]string{
 		"Url":    "https://sozcu.com.tr/",
 		"Data":   "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2c=",
 		"Cmodel": "d94087aec23fbbd167374555adfee686.nbc",
 	}
-	jsonCatzeURLByte, err := json.Marshal(jsonCatzeURL)
+	jsonCategorizeURLByte, err := json.Marshal(jsonCategorizeURL)
 	assert.NoError(t, err)
-	payload = strings.NewReader(string(jsonCatzeURLByte))
+	payload = strings.NewReader(string(jsonCategorizeURLByte))
 	request, err = http.NewRequest("POST", url, payload)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
@@ -84,6 +84,7 @@ func TestCategorizeURL(t *testing.T) {
 	err = json.Unmarshal(body, categorizedURL)
 	assert.NoError(t, err)
 	assert.NotNil(t, categorizedURL)
+	assert.Equal(t, jsonCategorizeURL["Url"], categorizedURL.GetUrl())
 }
 
 // TestCategorizeURLs tests to categorize the urls.
@@ -113,17 +114,17 @@ func TestCategorizeURLs(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// categorize urls
 	url = catzeAddr + "/urls_catze"
-	jsonCatzeURLs := map[string]interface{}{
+	jsonCategorizeURLs := map[string]interface{}{
 		"Urls": []interface{}{
 			map[string]string{
 				"Url":    "https://sozcu.com.tr/",
@@ -137,14 +138,14 @@ func TestCategorizeURLs(t *testing.T) {
 			},
 		},
 	}
-	jsonCatzeURLsByte, err := json.Marshal(jsonCatzeURLs)
+	jsonCategorizeURLsByte, err := json.Marshal(jsonCategorizeURLs)
 	assert.NoError(t, err)
-	payload = strings.NewReader(string(jsonCatzeURLsByte))
+	payload = strings.NewReader(string(jsonCategorizeURLsByte))
 	request, err = http.NewRequest("POST", url, payload)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
@@ -188,13 +189,13 @@ func TestGenerateClassificationModel(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// generate classification model
 	url = catzeAddr + "/cmodel"
@@ -218,7 +219,7 @@ func TestGenerateClassificationModel(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
@@ -266,13 +267,13 @@ func TestGetClassificationModel(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// get classification model
 	url = catzeAddr + "/cmodel"
@@ -280,7 +281,7 @@ func TestGetClassificationModel(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	request.Header.Add("Name", "3cbee7d6a2137387f86edee975f68e3f.nbc")
 	response, err = client.Do(request)
@@ -328,28 +329,28 @@ func TestUpdateClassificationModel(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// update classification model
 	url = catzeAddr + "/cmodel"
-	jsonGCModel := map[string]string{
+	jsonUpdateCModel := map[string]string{
 		"Name":     "9ebf5a938a7df5c198e792df0ff7dfd3.nbc",
 		"Category": "KNN",
 	}
-	jsonGCModelByte, err := json.Marshal(jsonGCModel)
+	jsonUpdateCModelByte, err := json.Marshal(jsonUpdateCModel)
 	assert.NoError(t, err)
-	payload = strings.NewReader(string(jsonGCModelByte))
+	payload = strings.NewReader(string(jsonUpdateCModelByte))
 	request, err = http.NewRequest("POST", url, payload)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Authorization", authorization)
 	response, err = client.Do(request)
@@ -368,6 +369,8 @@ func TestUpdateClassificationModel(t *testing.T) {
 	assert.NotEmpty(t, updatedCModel.GetName())
 	assert.NotEmpty(t, updatedCModel.GetCategory())
 	assert.NotEmpty(t, updatedCModel.GetData())
+	assert.Equal(t, jsonUpdateCModel["Name"], updatedCModel.GetName())
+	assert.Equal(t, jsonUpdateCModel["Category"], updatedCModel.GetCategory())
 
 }
 
@@ -398,13 +401,13 @@ func TestDeleteClassificationModel(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// delete classification model
 	url = catzeAddr + "/cmodel"
@@ -412,7 +415,7 @@ func TestDeleteClassificationModel(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	request.Header.Add("Name", "3cbee7d6a2137387f86edee975f68e3f.nbc")
 	response, err = client.Do(request)
@@ -456,21 +459,21 @@ func TestDeleteClassificationModels(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
-	// delete classification model
+	// delete classification models
 	url = catzeAddr + "/cmodels"
 	request, err = http.NewRequest("DELETE", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	request.Header.Add("Name", "3cbee7d6a2137387f86edee975f68e3f.nbc,3cbee7d6a21334567f86edee975f68e3f.nbc")
 	response, err = client.Do(request)
@@ -481,10 +484,10 @@ func TestDeleteClassificationModels(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	deletedCModel := new(pb.DeleteClassificationModelResponse)
-	err = json.Unmarshal(body, deletedCModel)
+	deletedCModels := new([]pb.DeleteClassificationModelResponse)
+	err = json.Unmarshal(body, deletedCModels)
 	assert.NoError(t, err)
-	assert.NotNil(t, deletedCModel)
+	assert.NotNil(t, deletedCModels)
 }
 
 // TestListClassificationModels tests listing all classification models.
@@ -514,21 +517,21 @@ func TestListClassificationModels(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, body)
 
-	signInResponse := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signInResponse)
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
 	assert.NoError(t, err)
-	assert.NotNil(t, signInResponse)
-	assert.NotNil(t, signInResponse.GetToken())
-	assert.Equal(t, jsonSignIn["Name"], signInResponse.User.GetName())
-	assert.Equal(t, jsonSignIn["Email"], signInResponse.User.GetEmail())
+	assert.NotNil(t, signIn)
+	assert.NotNil(t, signIn.GetToken())
+	assert.Equal(t, jsonSignIn["Name"], signIn.User.GetName())
+	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
-	// get classification model
+	// get all classification models
 	url = catzeAddr + "/cmodels"
 	request, err = http.NewRequest("GET", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
-	authorization := "Bearer " + signInResponse.GetToken()
+	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
 	request.Header.Add("Categories", "NB,KNN")
 	request.Header.Add("Count", "10")
