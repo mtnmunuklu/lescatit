@@ -1,0 +1,75 @@
+swagger: "2.0"
+info:
+  description: "Lescatit allows to categorize web pages."
+  version: "1.0.0"
+  title: "Lescatit API"
+  contact:
+    email: "metinmunuklu@gmail.com"
+  license:
+    name: "MIT"
+    url: "https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE"
+host: "lescatit.com"
+basePath: "/"
+schemes:
+- "https"
+- "http"
+paths:
+  /signup:
+    put:
+      summary: "Performs the user registration process."
+      description: ""
+      operationId: "signup"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "signup object"
+        required: true
+        schema:
+          $ref: "#/definitions/SignUp"
+      responses:
+        "200":
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/User"
+        "400":
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/Error"
+definitions:
+  SignUp:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+    xml:
+      name: "SignUp"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      created:
+        type: "integer"
+        format: "int64"
+      updated:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "SignUp"
+  Error:
+    type: "object"
+    properties:
+      error:
+        type: "string"
