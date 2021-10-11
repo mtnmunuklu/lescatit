@@ -1,4 +1,4 @@
-package tests
+package handlers
 
 import (
 	"Lescatit/pb"
