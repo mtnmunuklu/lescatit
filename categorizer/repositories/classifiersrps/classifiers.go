@@ -10,7 +10,7 @@ import (
 
 const ClassifiersCollection = "classifiers"
 
-// ClassifierRepository is the interface of the classifer backend.
+// ClassifierRepository is the interface of the classifier backend.
 type ClassifiersRepository interface {
 	Save(classifer *classifiersmdl.Classifier) error
 	GetById(id string) (classifer *classifiersmdl.Classifier, err error)
@@ -35,7 +35,7 @@ func (r *CRepository) Save(classifer *classifiersmdl.Classifier) error {
 	return r.c.Insert(classifer)
 }
 
-// GetById returns the classifer based on id.
+// GetById returns the classifier based on id.
 func (r *CRepository) GetById(id string) (classifer *classifiersmdl.Classifier, err error) {
 	err = r.c.FindId(bson.ObjectIdHex(id)).One(&classifer)
 	return classifer, err
@@ -53,12 +53,12 @@ func (r *CRepository) GetAllClassifiersByCategory(category string, count int) (c
 	return classifer, err
 }
 
-// Update updates the classifer.
+// Update updates the classifier.
 func (r *CRepository) Update(classifer *classifiersmdl.Classifier) error {
 	return r.c.UpdateId(classifer.Id, classifer)
 }
 
-// Delete deletes the classifer based on id.
+// Delete deletes the classifier based on id.
 func (r *CRepository) Delete(id string) error {
 	return r.c.RemoveId(bson.ObjectIdHex(id))
 }

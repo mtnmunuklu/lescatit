@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// Classifier provides the cmodel instance for classifer job.
+// Classifier provides the cmodel instance for classifier job.
 type Classifier struct {
 	Id       bson.ObjectId `bson:"_id"`
 	Name     string        `bson:"name"`
@@ -18,7 +18,7 @@ type Classifier struct {
 	Data     string        `bson:"data"`
 }
 
-// ToProtoBuffer converts the classifier structure into a protocol buffer classifer structure.
+// ToProtoBuffer converts the classifier structure into a protocol buffer classifier structure.
 func (c *Classifier) ToProtoBuffer() *pb.Classifier {
 	return &pb.Classifier{
 		Id:       c.Id.Hex(),
@@ -31,7 +31,7 @@ func (c *Classifier) ToProtoBuffer() *pb.Classifier {
 	}
 }
 
-// FromProtoBuffer gets data from protocol buffer and converts to the classifer structure.
+// FromProtoBuffer gets data from protocol buffer and converts to the classifier structure.
 func (c *Classifier) FromProtoBuffer(category *pb.Classifier) {
 	c.Id = bson.ObjectIdHex(category.GetId())
 	c.Name = category.GetName()

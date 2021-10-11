@@ -43,6 +43,7 @@ func (c *NBClassifier) Learn(model map[string][]string) (string, error) {
 	return buffer.String(), nil
 }
 
+// TODO: check it if it gives the correct result
 func (c *NBClassifier) Predict(tokens []string) string {
 	scores, _, _ := c.classifier.LogScores(tokens)
 	results := models.Results{}
