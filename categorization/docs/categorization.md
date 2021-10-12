@@ -182,7 +182,6 @@ import "Lescatit/categorization/service"
 - [func NewCatSevice(categoriesRepository repository.CategoriesRepository) pb.CatServiceServer](<#func-newcatsevice>)
 - [type CatService](<#type-catservice>)
   - [func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error)](<#func-catservice-addurl>)
-  - [func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error](<#func-catservice-addurls>)
   - [func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*pb.DeleteURLResponse, error)](<#func-catservice-deleteurl>)
   - [func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error](<#func-catservice-deleteurls>)
   - [func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.Category, error)](<#func-catservice-getcategory>)
@@ -209,7 +208,7 @@ type CatService struct {
 }
 ```
 
-### func \(\*CatService\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L151>)
+### func \(\*CatService\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L100>)
 
 ```go
 func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error)
@@ -217,15 +216,7 @@ func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Cat
 
 AddURL performs add the url\.
 
-### func \(\*CatService\) [AddURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L100>)
-
-```go
-func (s *CatService) AddURLs(req *pb.AddURLsRequest, stream pb.CatService_AddURLsServer) error
-```
-
-AddURLs performs add the urls\.
-
-### func \(\*CatService\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L219>)
+### func \(\*CatService\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L168>)
 
 ```go
 func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*pb.DeleteURLResponse, error)
@@ -233,7 +224,7 @@ func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*
 
 DeleteURL performs delete the url\.
 
-### func \(\*CatService\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L194>)
+### func \(\*CatService\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L143>)
 
 ```go
 func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error
@@ -249,7 +240,7 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 
 GetCategory performs return the category by url\.
 
-### func \(\*CatService\) [ListURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L237>)
+### func \(\*CatService\) [ListURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L186>)
 
 ```go
 func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_ListURLsServer) error

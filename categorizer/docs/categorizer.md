@@ -44,13 +44,15 @@ func (c *NBClassifier) Learn(model map[string][]string) (string, error)
 
 Learn provides to create a new classifer model\.
 
-### func \(\*NBClassifier\) [Predict](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L46>)
+### func \(\*NBClassifier\) [Predict](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L47>)
 
 ```go
 func (c *NBClassifier) Predict(tokens []string) string
 ```
 
-### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L59>)
+TODO: check it if it gives the correct result
+
+### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L60>)
 
 ```go
 func (c *NBClassifier) ReadClassifier(data string) error
@@ -136,10 +138,15 @@ import "Lescatit/categorizer/service"
 - [type CatzeService](<#type-catzeservice>)
   - [func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLRequest) (*pb.CategorizeURLResponse, error)](<#func-catzeservice-categorizeurl>)
   - [func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error](<#func-catzeservice-categorizeurls>)
+  - [func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.DeleteClassificationModelRequest) (*pb.DeleteClassificationModelResponse, error)](<#func-catzeservice-deleteclassificationmodel>)
+  - [func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationModelsRequest, stream pb.CatzeService_DeleteClassificationModelsServer) error](<#func-catzeservice-deleteclassificationmodels>)
   - [func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.GenerateClassificationModelRequest) (*pb.Classifier, error)](<#func-catzeservice-generateclassificationmodel>)
+  - [func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetClassificationModelRequest) (*pb.Classifier, error)](<#func-catzeservice-getclassificationmodel>)
+  - [func (s *CatzeService) ListClassificationModels(req *pb.ListClassificationModelsRequest, stream pb.CatzeService_ListClassificationModelsServer) error](<#func-catzeservice-listclassificationmodels>)
+  - [func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.UpdateClassificationModelRequest) (*pb.Classifier, error)](<#func-catzeservice-updateclassificationmodel>)
 
 
-## func [NewCatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L29>)
+## func [NewCatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L30>)
 
 ```go
 func NewCatzeService(categorizersRepository categorizersrps.CategorizersRepository, classifiersRepository classifiersrps.ClassifiersRepository, tokenizer tokenizer.Tokenizer, nbClassifier classifiers.NaiveBayesianClassifier) pb.CatzeServiceServer
@@ -147,7 +154,7 @@ func NewCatzeService(categorizersRepository categorizersrps.CategorizersReposito
 
 NewCatzeService creates a new CatzeService instance\.
 
-## type [CatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L21-L26>)
+## type [CatzeService](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L22-L27>)
 
 CatzeService provides categorizersRepository for categorizer service\.
 
@@ -157,7 +164,7 @@ type CatzeService struct {
 }
 ```
 
-### func \(\*CatzeService\) [CategorizeURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L34>)
+### func \(\*CatzeService\) [CategorizeURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L35>)
 
 ```go
 func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLRequest) (*pb.CategorizeURLResponse, error)
@@ -165,7 +172,7 @@ func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLR
 
 CategorizeURL provides to categorize the url\.
 
-### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L71>)
+### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L74>)
 
 ```go
 func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error
@@ -173,10 +180,40 @@ func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.C
 
 CategorizeURLs provides to categorize the urls\.
 
-### func \(\*CatzeService\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L107>)
+### func \(\*CatzeService\) [DeleteClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L186>)
+
+```go
+func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.DeleteClassificationModelRequest) (*pb.DeleteClassificationModelResponse, error)
+```
+
+### func \(\*CatzeService\) [DeleteClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L201>)
+
+```go
+func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationModelsRequest, stream pb.CatzeService_DeleteClassificationModelsServer) error
+```
+
+### func \(\*CatzeService\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L114>)
 
 ```go
 func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.GenerateClassificationModelRequest) (*pb.Classifier, error)
+```
+
+### func \(\*CatzeService\) [GetClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L149>)
+
+```go
+func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetClassificationModelRequest) (*pb.Classifier, error)
+```
+
+### func \(\*CatzeService\) [ListClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L221>)
+
+```go
+func (s *CatzeService) ListClassificationModels(req *pb.ListClassificationModelsRequest, stream pb.CatzeService_ListClassificationModelsServer) error
+```
+
+### func \(\*CatzeService\) [UpdateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L160>)
+
+```go
+func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.UpdateClassificationModelRequest) (*pb.Classifier, error)
 ```
 
 # tokenizer
@@ -322,7 +359,13 @@ import "Lescatit/categorizer/util"
 
 - [Variables](<#variables>)
 - [func GenerateRandomFileName(prefix, suffix string) string](<#func-generaterandomfilename>)
+- [func ValidateCModel(name string) string](<#func-validatecmodel>)
+- [func ValidateCategories(categories []string) error](<#func-validatecategories>)
+- [func ValidateCount(count string) (int, error)](<#func-validatecount>)
+- [func ValidateData(data string) error](<#func-validatedata>)
+- [func ValidateNames(names []string) error](<#func-validatenames>)
 - [func ValidateURL(reqURL string) error](<#func-validateurl>)
+- [func ValidateURLs(urls []*pb.CategorizeURLRequest) error](<#func-validateurls>)
 
 
 ## Variables
@@ -332,28 +375,83 @@ Contains error codes for categorizer service\.
 ```go
 var (
     ErrEmptyData                  = errors.New("data can't be empty")
+    ErrEmptyURLs                  = errors.New("urls can't be empty")
     ErrInvalidURL                 = errors.New("invalid url")
     ErrInvalidCategorizationModel = errors.New("invalid categorization model")
+    ErrInvalidCount               = errors.New("invalid count")
     ErrFailedModelCreate          = errors.New("failed to create categorization model")
     ErrFailedModelLearn           = errors.New("failed to learn categorization model")
     ErrFailedModelSave            = errors.New("failed to save categorization model to database")
     ErrFailedModelGet             = errors.New("failed to get categorization model from database")
     ErrFailedModelRead            = errors.New("failed to read categorization model")
+    ErrFailedModelUpdate          = errors.New("failed to update categorization model")
+    ErrFailedModelDelete          = errors.New("failed to delete categorization model")
+    ErrFailedModelFind            = errors.New("failed to find model")
+    ErrEmptyModelName             = errors.New("model name can't be empty")
+    ErrEmptyModelNames            = errors.New("model names can't be empty")
+    ErrEmptyModelCategory         = errors.New("model category can't be empty")
+    ErrEmptyModelCategories       = errors.New("model categories can't be empty")
 )
 ```
 
-## func [GenerateRandomFileName](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L32>)
+## func [GenerateRandomFileName](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L91>)
 
 ```go
 func GenerateRandomFileName(prefix, suffix string) string
 ```
 
-GenerateRandomFileName generates a random filename for use in testing or whatever
+GenerateRandomFileName generates a random filename
 
-## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L23>)
+## func [ValidateCModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L83>)
+
+```go
+func ValidateCModel(name string) string
+```
+
+## func [ValidateCategories](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L60>)
+
+```go
+func ValidateCategories(categories []string) error
+```
+
+ValidateCategories validates the category count\.
+
+## func [ValidateCount](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L51>)
+
+```go
+func ValidateCount(count string) (int, error)
+```
+
+ValidateCount validates if it's a integer count\.
+
+## func [ValidateData](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L76>)
+
+```go
+func ValidateData(data string) error
+```
+
+ValidateNames validates the names count\.
+
+## func [ValidateNames](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L68>)
+
+```go
+func ValidateNames(names []string) error
+```
+
+ValidateNames validates the names count\.
+
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L34>)
 
 ```go
 func ValidateURL(reqURL string) error
+```
+
+ValidateURLs validates if it's a real url\.
+
+## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L43>)
+
+```go
+func ValidateURLs(urls []*pb.CategorizeURLRequest) error
 ```
 
 ValidateURLs validates if it's a real url\.
@@ -416,9 +514,9 @@ import "Lescatit/categorizer/models/classifiersmdl"
   - [func (c *Classifier) ToProtoBuffer() *pb.Classifier](<#func-classifier-toprotobuffer>)
 
 
-## type [Classifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifers.go#L11-L19>)
+## type [Classifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifiers.go#L11-L19>)
 
-Classifier provides the cmodel instance for classifer job\.
+Classifier provides the cmodel instance for classifier job\.
 
 ```go
 type Classifier struct {
@@ -432,21 +530,21 @@ type Classifier struct {
 }
 ```
 
-### func \(\*Classifier\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifers.go#L35>)
+### func \(\*Classifier\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifiers.go#L35>)
 
 ```go
 func (c *Classifier) FromProtoBuffer(category *pb.Classifier)
 ```
 
-FromProtoBuffer gets data from protocol buffer and converts to the classifer structure\.
+FromProtoBuffer gets data from protocol buffer and converts to the classifier structure\.
 
-### func \(\*Classifier\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifers.go#L22>)
+### func \(\*Classifier\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/models/classifiersmdl/classifiers.go#L22>)
 
 ```go
 func (c *Classifier) ToProtoBuffer() *pb.Classifier
 ```
 
-ToProtoBuffer converts the classifier structure into a protocol buffer classifer structure\.
+ToProtoBuffer converts the classifier structure into a protocol buffer classifier structure\.
 
 # categorizersrps
 
@@ -577,7 +675,7 @@ type CRepository struct {
 func (r *CRepository) Delete(id string) error
 ```
 
-Delete deletes the classifer based on id\.
+Delete deletes the classifier based on id\.
 
 ### func \(\*CRepository\) [DeleteAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L67>)
 
@@ -601,7 +699,7 @@ GetAllClassifiersByCategory returns all classifiers based on category\.
 func (r *CRepository) GetById(id string) (classifer *classifiersmdl.Classifier, err error)
 ```
 
-GetById returns the classifer based on id\.
+GetById returns the classifier based on id\.
 
 ### func \(\*CRepository\) [GetByName](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L45>)
 
@@ -625,11 +723,11 @@ Save adds classifier to database\.
 func (r *CRepository) Update(classifer *classifiersmdl.Classifier) error
 ```
 
-Update updates the classifer\.
+Update updates the classifier\.
 
 ## type [ClassifiersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/repositories/classifiersrps/classifiers.go#L14-L21>)
 
-ClassifierRepository is the interface of the classifer backend\.
+ClassifierRepository is the interface of the classifier backend\.
 
 ```go
 type ClassifiersRepository interface {

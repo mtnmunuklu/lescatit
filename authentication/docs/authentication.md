@@ -184,8 +184,8 @@ import "Lescatit/authentication/service"
   - [func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error)](<#func-authservice-getuser>)
   - [func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error](<#func-authservice-listusers>)
   - [func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error)](<#func-authservice-signin>)
-  - [func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error)](<#func-authservice-signup>)
-  - [func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, error)](<#func-authservice-updateuser>)
+  - [func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.User, error)](<#func-authservice-signup>)
+  - [func (s *AuthService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.User, error)](<#func-authservice-updateuser>)
 
 
 ## func [NewAuthService](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L24>)
@@ -206,7 +206,7 @@ type AuthService struct {
 }
 ```
 
-### func \(\*AuthService\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L134>)
+### func \(\*AuthService\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L136>)
 
 ```go
 func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error)
@@ -214,7 +214,7 @@ func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*
 
 DeleteUser performs delete the user\.
 
-### func \(\*AuthService\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L85>)
+### func \(\*AuthService\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L87>)
 
 ```go
 func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error)
@@ -222,7 +222,7 @@ func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 
 GetUser performs return the user by id\.
 
-### func \(\*AuthService\) [ListUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L97>)
+### func \(\*AuthService\) [ListUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L99>)
 
 ```go
 func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error
@@ -230,7 +230,7 @@ func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_
 
 ListUser list all users\.
 
-### func \(\*AuthService\) [SignIn](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L61>)
+### func \(\*AuthService\) [SignIn](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L63>)
 
 ```go
 func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error)
@@ -241,15 +241,15 @@ SignIn performs the user login process\.
 ### func \(\*AuthService\) [SignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L29>)
 
 ```go
-func (s *AuthService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error)
+func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.User, error)
 ```
 
 SignUp performs the user registration process\.
 
-### func \(\*AuthService\) [UpdateUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L112>)
+### func \(\*AuthService\) [UpdateUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L114>)
 
 ```go
-func (s *AuthService) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, error)
+func (s *AuthService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.User, error)
 ```
 
 UpdateUser performs update the user\.
@@ -264,7 +264,7 @@ import "Lescatit/authentication/util"
 
 - [Variables](<#variables>)
 - [func NormalizeEmail(email string) string](<#func-normalizeemail>)
-- [func ValidateSignUp(user *pb.User) error](<#func-validatesignup>)
+- [func ValidateSignUp(user *pb.SignUpRequest) error](<#func-validatesignup>)
 
 
 ## Variables
@@ -282,7 +282,7 @@ var (
 )
 ```
 
-## func [NormalizeEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L36>)
+## func [NormalizeEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L32>)
 
 ```go
 func NormalizeEmail(email string) string
@@ -290,10 +290,10 @@ func NormalizeEmail(email string) string
 
 NormalizeEmail normalizes the user email address\.
 
-## func [ValidateSignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L22>)
+## func [ValidateSignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L20>)
 
 ```go
-func ValidateSignUp(user *pb.User) error
+func ValidateSignUp(user *pb.SignUpRequest) error
 ```
 
 ValidateSingnUp validates the user information for user registration process\.
