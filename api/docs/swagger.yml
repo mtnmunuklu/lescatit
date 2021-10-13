@@ -9,10 +9,8 @@ info:
     name: "MIT"
     url: "https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE"
 host: "lescatit.com"
-basePath: "/"
 schemes:
 - "https"
-- "http"
 paths:
   /signup:
     put:
@@ -29,14 +27,52 @@ paths:
         schema:
           $ref: "#/definitions/SignUp"
       responses:
-        "200":
-            description: "successful operation"
+        "201":
+            description: "Created"
             schema:
               $ref: "#/definitions/User"
         "400":
-            description: "successful operation"
+            description: "Bad request"
             schema:
               $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+  /signin:
+    post:
+      summary: "Performs the user login process."
+      description: ""
+      operationId: "signin"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "signin object"
+        required: true
+        schema:
+          $ref: "#/definitions/SignIn"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/SignInResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
 definitions:
   SignUp:
     type: "object"
@@ -49,6 +85,15 @@ definitions:
         type: "string"
     xml:
       name: "SignUp"
+  SignIn:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+    xml:
+      name: "SignIn"
   User:
     type: "object"
     properties:
@@ -67,7 +112,16 @@ definitions:
         type: "integer"
         format: "int64"
     xml:
-      name: "SignUp"
+      name: "User"
+  SignInResponse:
+    type: "object"
+    properties:
+      user:
+        $ref: "#/definitions/User"
+      token:
+        type: "string"
+    xml:
+      name: "SignInResponse"
   Error:
     type: "object"
     properties:
