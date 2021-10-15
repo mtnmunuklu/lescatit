@@ -22,7 +22,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "signup object"
+        description: "SignUp object"
         required: true
         schema:
           $ref: "#/definitions/SignUp"
@@ -49,7 +49,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "signin object"
+        description: "SignIn object"
         required: true
         schema:
           $ref: "#/definitions/SignIn"
@@ -68,12 +68,119 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
+  /users/{id}:
+    get:
+      summary: "Performs return the user by id."
+      description: ""
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/User"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    post:
+      summary: "Performs update the user."
+      description: ""
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "User update object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateUser"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/User"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    delete:
+      summary: "Performs delete the user."
+      description: ""
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/DeleteUserResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
 securityDefinitions:
   api_key:
     type: "apiKey"
     name: "Authorization"
     in: "header"
 definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      created:
+        type: "integer"
+        format: "int64"
+      updated:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "User"
   SignUp:
     type: "object"
     properties:
@@ -94,25 +201,6 @@ definitions:
         type: "string"
     xml:
       name: "SignIn"
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      name:
-        type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      created:
-        type: "integer"
-        format: "int64"
-      updated:
-        type: "integer"
-        format: "int64"
-    xml:
-      name: "User"
   SignInResponse:
     type: "object"
     properties:
@@ -122,6 +210,20 @@ definitions:
         type: "string"
     xml:
       name: "SignInResponse"
+  UpdateUser:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+    xml:
+      name: "UpdateUser"
+  DeleteUserResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+    xml:
+      name: "DeleteUserResponse"
   Error:
     type: "object"
     properties:
