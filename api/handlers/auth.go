@@ -122,7 +122,7 @@ func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	}
 	getedUser, err := h.authSvcClient.GetUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, getedUser)
@@ -160,7 +160,7 @@ func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 	deletedUser, err := h.authSvcClient.DeleteUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, deletedUser)
