@@ -9,12 +9,23 @@ info:
     name: "MIT"
     url: "https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE"
 host: "lescatit.com"
+tags:
+- name: "auth"
+  description: "Authentication api"
+- name: "crawl"
+  description: "Crawler api"
+- name: "catze"
+  description: "Categorizer api"
+- name: "cat"
+  description: "Categorization api"
 schemes:
 - "https"
 paths:
   /signup:
     put:
-      summary: "Performs the user registration process."
+      tags:
+      - "auth"
+      summary: "Performs the user registration process"
       description: ""
       operationId: "signup"
       produces:
@@ -22,7 +33,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "SignUp object"
+        description: "Signup object"
         required: true
         schema:
           $ref: "#/definitions/SignUp"
@@ -41,7 +52,9 @@ paths:
               $ref: "#/definitions/Error"
   /signin:
     post:
-      summary: "Performs the user login process."
+      tags:
+      - "auth"
+      summary: "Performs the user login process"
       description: ""
       operationId: "signin"
       produces:
@@ -49,7 +62,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "SignIn object"
+        description: "Signin object"
         required: true
         schema:
           $ref: "#/definitions/SignIn"
@@ -68,9 +81,37 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
+  /users:
+    get:
+      tags:
+      - "auth"
+      summary: "Performs listing all users"
+      description: ""
+      operationId: "getUsers"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/User"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
   /users/{id}:
     get:
-      summary: "Performs return the user by id."
+      tags:
+      - "auth"
+      summary: "Performs return the user by id"
       description: ""
       operationId: "getUser"
       produces:
@@ -97,7 +138,9 @@ paths:
       security:
       - api_key: []
     post:
-      summary: "Performs update the user."
+      tags:
+      - "auth"
+      summary: "Performs update the user"
       description: ""
       operationId: "updateUser"
       produces:
@@ -130,7 +173,9 @@ paths:
       security:
       - api_key: []
     delete:
-      summary: "Performs delete the user."
+      tags:
+      - "auth"
+      summary: "Performs delete the user"
       description: ""
       operationId: "deleteUser"
       produces:
@@ -146,6 +191,132 @@ paths:
             description: "Ok"
             schema:
               $ref: "#/definitions/DeleteUserResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /url_data:
+    get:
+      tags:
+      - "crawl"
+      summary: "Performs getting the content in the url address"
+      description: ""
+      operationId: "getURLData"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "url"
+        in: "header"
+        description: "URL address"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/GetURLDataResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /urls_data:
+    get:
+      tags:
+      - "crawl"
+      summary: "Performs getting the content in the url addresses"
+      description: ""
+      operationId: "getURLsData"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "urls"
+        in: "header"
+        description: "URL addresses separated with virgul"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/GetURLDataResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /url_crawl:
+    post:
+      tags:
+      - "crawl"
+      summary: "Performs crawl the url"
+      description: ""
+      operationId: "crawlURL"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Url crawl object"
+        required: true
+        schema:
+          $ref: "#/definitions/CrawlURL"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/CrawlURLResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /urls_crawl:
+    post:
+      tags:
+      - "crawl"
+      summary: "Performs crawl the urls"
+      description: ""
+      operationId: "crawlURLs"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Urls crawl object"
+        required: true
+        schema:
+          $ref: "#/definitions/CrawlURLs"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/CrawlURLResponse"
         "400":
             description: "Bad request"
             schema:
@@ -179,8 +350,6 @@ definitions:
       updated:
         type: "integer"
         format: "int64"
-    xml:
-      name: "User"
   SignUp:
     type: "object"
     properties:
@@ -190,8 +359,6 @@ definitions:
         type: "string"
       password:
         type: "string"
-    xml:
-      name: "SignUp"
   SignIn:
     type: "object"
     properties:
@@ -199,8 +366,6 @@ definitions:
         type: "string"
       password:
         type: "string"
-    xml:
-      name: "SignIn"
   SignInResponse:
     type: "object"
     properties:
@@ -208,22 +373,81 @@ definitions:
         $ref: "#/definitions/User"
       token:
         type: "string"
-    xml:
-      name: "SignInResponse"
   UpdateUser:
     type: "object"
     properties:
       name:
         type: "string"
-    xml:
-      name: "UpdateUser"
   DeleteUserResponse:
     type: "object"
     properties:
       id:
         type: "string"
-    xml:
-      name: "DeleteUserResponse"
+  GetURLDataResponse:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      data:
+        type: "string"
+      status:
+        type: "string"
+  Crawl:
+    type: "object"
+    properties:
+      userAgent:
+        type: "string"
+      maxDepth:
+        type: "integer"
+        format: "int64"
+      allowedDomains:
+        type: "array"
+        items:
+          type: "string"
+      disallowedDomains:
+        type: "array"
+        items:
+          type: "string"
+      disallowedUrlFilters:
+        type: "array"
+        items:
+          type: "string"
+      urlFilters:
+        type: "array"
+        items:
+          type: "string"
+      urlRevisit:
+        type: "boolean"
+      maxBodySize:
+        type: "integer"
+        format: "int64"
+      robotsTxt:
+        type: "boolean"
+  CrawlURL:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      crawlRequest:
+        $ref: "#/definitions/Crawl"
+  CrawlURLs:
+    type: "object"
+    properties:
+      urls:
+        type: "array"
+        items:
+          type: "string"
+      crawlRequest:
+        $ref: "#/definitions/Crawl"
+  CrawlURLResponse:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      links:
+        type: "array"
+        items:
+          type: "string"
   Error:
     type: "object"
     properties:
