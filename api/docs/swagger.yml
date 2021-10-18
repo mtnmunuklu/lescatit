@@ -327,6 +327,70 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
+  /url_catze:
+    post:
+      tags:
+      - "catze"
+      summary: "Performs categorize the url"
+      description: ""
+      operationId: "catzeURL"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Url categorize object"
+        required: true
+        schema:
+          $ref: "#/definitions/CategorizeURL"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/CategorizeURLResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /urls_catze:
+    post:
+      tags:
+      - "catze"
+      summary: "Performs categorize the urls"
+      description: ""
+      operationId: "catzeURLs"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Urls categorize object"
+        required: true
+        schema:
+          $ref: "#/definitions/CategorizeURLs"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/CategorizeURLResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -448,6 +512,29 @@ definitions:
         type: "array"
         items:
           type: "string"
+  CategorizeURL:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      data:
+        type: "string"
+      model:
+        type: "string"
+  CategorizeURLs:
+    type: "object"
+    properties:
+      urls:
+        type: "array"
+        items:
+          $ref: "#/definitions/CategorizeURL"
+  CategorizeURLResponse:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      category:
+        type: "string"
   Error:
     type: "object"
     properties:
