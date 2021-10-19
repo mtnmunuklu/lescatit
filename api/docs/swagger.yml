@@ -391,6 +391,157 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
+  /cmodel:
+    put:
+      tags:
+      - "catze"
+      summary: "Performs generate a classification model"
+      description: ""
+      operationId: "generateCModel"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Classification model generation object"
+        required: true
+        schema:
+          $ref: "#/definitions/GenerateCModel"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/Classifier"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    get:
+      tags:
+      - "catze"
+      summary: "Performs return the classification model"
+      description: ""
+      operationId: "getCModel"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "header"
+        description: "Classification model name"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/Classifier"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    post:
+      tags:
+      - "catze"
+      summary: "Performs update the classification model"
+      description: ""
+      operationId: "updateCModel"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Classification model generation object"
+        schema:
+          $ref: "#/definitions/UpdateCModel"
+        required: true
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/Classifier"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - "catze"
+      summary: "Performs delete the classification model"
+      description: ""
+      operationId: "deleteCModel"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "header"
+        description: "Classification model"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/DeleteCModel"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /cmodels:
+    delete:
+      tags:
+      - "catze"
+      summary: "Performs delete the classification model"
+      description: ""
+      operationId: "deleteCModels"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "names"
+        in: "header"
+        description: "Classification models separated with virgul"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/DeleteCModel"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -534,6 +685,51 @@ definitions:
       url:
         type: "string"
       category:
+        type: "string"
+  GenerateCModel:
+    type: "object"
+    properties:
+      category:
+        type: "string"
+      Model:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            class:
+              type: "string"
+            data:
+              type: "string"
+  UpdateCModel:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      category:
+        type: "string"
+  DeleteCModel:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+  Classifier:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      category:
+        type: "string"
+      created:
+        type: "integer"
+        format: "int64"
+      updated:
+        type: "integer"
+        format: "int64"
+      revision:
+        type: "string"
+      data:
         type: "string"
   Error:
     type: "object"
