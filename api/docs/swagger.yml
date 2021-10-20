@@ -542,6 +542,97 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
+  /category:
+    get:
+      tags:
+      - "cat"
+      summary: "Performs return the category by url"
+      description: ""
+      operationId: "getCategory"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "url"
+        in: "header"
+        description: "URL adress"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/Category"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    post:
+      tags:
+      - "cat"
+      summary: "Performs update the category."
+      description: ""
+      operationId: "updateCategory"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Category update object"
+        schema:
+          $ref: "#/definitions/UpdateCategory"
+        required: true
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/Category"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /url_report:
+    post:
+      tags:
+      - "cat"
+      summary: "Performs reporting miscategorized urls"
+      description: ""
+      operationId: "reportMisCat"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "MisCategorization report object"
+        schema:
+          $ref: "#/definitions/ReportMisCategorization"
+        required: true
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/Category"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -730,6 +821,39 @@ definitions:
       revision:
         type: "string"
       data:
+        type: "string"
+  Category:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      url:
+        type: "string"
+      category:
+        type: "string"
+      created:
+        type: "integer"
+        format: "int64"
+      updated:
+        type: "integer"
+        format: "int64"
+      revision:
+        type: "string"
+      data:
+        type: "string"
+  UpdateCategory:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      category:
+        type: "string"
+  ReportMisCategorization:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      cmodel:
         type: "string"
   Error:
     type: "object"
