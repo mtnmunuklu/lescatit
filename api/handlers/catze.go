@@ -176,7 +176,7 @@ func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Re
 	cmodel.Name = name
 	deletedCModel, err := h.catzeSvcClient.DeleteClassificationModel(r.Context(), cmodel)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, deletedCModel)

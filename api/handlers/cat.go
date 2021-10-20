@@ -209,7 +209,7 @@ func (h *CHandlers) DeleteURL(w http.ResponseWriter, r *http.Request) {
 	url.Url = rURL
 	deletedURL, err := h.catSvcClient.DeleteURL(r.Context(), url)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, deletedURL)
