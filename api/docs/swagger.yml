@@ -514,7 +514,7 @@ paths:
     delete:
       tags:
       - "catze"
-      summary: "Performs delete the classification model"
+      summary: "Performs delete the classification models"
       description: ""
       operationId: "deleteCModels"
       produces:
@@ -575,7 +575,7 @@ paths:
     post:
       tags:
       - "cat"
-      summary: "Performs update the category."
+      summary: "Performs update the category"
       description: ""
       operationId: "updateCategory"
       produces:
@@ -592,6 +592,66 @@ paths:
             description: "Ok"
             schema:
               $ref: "#/definitions/Category"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /url:
+    put:
+      tags:
+      - "cat"
+      summary: "Performs add the url"
+      description: ""
+      operationId: "addURL"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Url adding object"
+        schema:
+          $ref: "#/definitions/AddURL"
+        required: true
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/Category"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - "cat"
+      summary: "Performs delete the url"
+      description: ""
+      operationId: "deleteURL"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "header"
+        description: "Url adress"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/DeleteURLResponse"
         "400":
             description: "Bad request"
             schema:
@@ -623,6 +683,69 @@ paths:
             description: "Ok"
             schema:
               $ref: "#/definitions/Category"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /urls:
+    get:
+      tags:
+      - "cat"
+      summary: "Performs list the urls"
+      description: ""
+      operationId: "getURLs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "categories"
+        in: "header"
+        description: "Categories separated with virgul"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/Category"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - "cat"
+      summary: "Performs delete the urls."
+      description: ""
+      operationId: "deleteURLs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "urls"
+        in: "header"
+        description: "Url adresses separated with virgul"
+        required: true
+        type: "string"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/DeleteURLResponse"
         "400":
             description: "Bad request"
             schema:
@@ -854,6 +977,18 @@ definitions:
       url:
         type: "string"
       cmodel:
+        type: "string"
+  AddURL:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      cmodel:
+        type: "string"
+  DeleteURLResponse:
+    type: "object"
+    properties:
+      name:
         type: "string"
   Error:
     type: "object"
