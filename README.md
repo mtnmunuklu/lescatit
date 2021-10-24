@@ -48,7 +48,7 @@ It will be written later.
 ## License
 
 This project is licensed under the terms of the **MIT** license.
->You can check out the full license [here](https://github.com/mtnmunuklu/node-chat/blob/master/LICENSE)
+>You can check out the full license [here](https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE)
 
 ## Buy me a coffee
 
