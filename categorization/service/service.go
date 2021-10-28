@@ -50,6 +50,10 @@ func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 		return nil, err
 	}
 	if found.Category == req.Category {
+		found.Url, err = security.Base64Decode(found.Url)
+		if err != nil {
+			return nil, err
+		}
 		return found.ToProtoBuffer(), nil
 	}
 	found.Category = req.Category
