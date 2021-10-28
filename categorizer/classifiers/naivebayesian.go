@@ -27,6 +27,7 @@ func NewNaiveBayesianClassifer() NaiveBayesianClassifier {
 
 // Learn provides to create a new classifer model.
 func (c *NBClassifier) Learn(model map[string][]string) (string, error) {
+	c.classes = make([]bayesian.Class, 0)
 	for class := range model {
 		c.classes = append(c.classes, bayesian.Class(class))
 	}
