@@ -25,7 +25,7 @@ func TestGetURLData(t *testing.T) {
 	//get token
 	url := crawlAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -85,7 +85,7 @@ func TestGetURLsData(t *testing.T) {
 	//get token
 	url := crawlAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -143,7 +143,7 @@ func TestCrawlURL(t *testing.T) {
 	//get token
 	url := crawlAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -219,7 +219,7 @@ func TestCrawlURLs(t *testing.T) {
 	//get token
 	url := crawlAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -252,7 +252,7 @@ func TestCrawlURLs(t *testing.T) {
 	// crawl urls
 	url = crawlAddr + "/urls_crawl"
 	jsonCrawlURLs := map[string]interface{}{
-		"Url": []string{"https://sozcu.com.tr/", "https://www.haberler.com/"},
+		"Urls": []string{"https://sozcu.com.tr/", "https://www.haberler.com/"},
 		"CrawlRequest": map[string]interface{}{
 			"UserAgent":            "colly - https://github.com/gocolly/colly",
 			"MaxDepth":             0,

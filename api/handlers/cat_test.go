@@ -25,7 +25,7 @@ func TestGetCategory(t *testing.T) {
 	// get token
 	url := catAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -63,7 +63,7 @@ func TestGetCategory(t *testing.T) {
 
 	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
-	request.Header.Add("Url", "https://www.examplecw.com/")
+	request.Header.Add("Url", "https://www.examplect.com/")
 	response, err = client.Do(request)
 	assert.NoError(t, err)
 	assert.NotNil(t, response)
@@ -87,7 +87,7 @@ func TestUpdateCategory(t *testing.T) {
 	// get token
 	url := catAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -120,7 +120,7 @@ func TestUpdateCategory(t *testing.T) {
 	// update category
 	url = catzeAddr + "/category"
 	jsonUURL := map[string]string{
-		"Url":      "https://www.hurriyet.com.tr/",
+		"Url":      "https://www.examplect.com/",
 		"Category": "Gaming",
 	}
 	jsonUURLByte, err := json.Marshal(jsonUURL)
@@ -159,7 +159,7 @@ func TestReportMiscategorization(t *testing.T) {
 	// get token
 	url := catAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -190,11 +190,11 @@ func TestReportMiscategorization(t *testing.T) {
 	assert.Equal(t, jsonSignIn["Email"], signIn.User.GetEmail())
 
 	// report miscategorization
-	url = catzeAddr + "/report"
+	url = catzeAddr + "/url_report"
 	jsonReportURL := map[string]string{
-		"Url":    "https://www.hurriyet.com.tr/",
+		"Url":    "https://www.examplect.com/",
 		"Type":   "notnew",
-		"Cmodel": "3cbee7d6a2137387f86edee975f68e3f.nbc",
+		"Cmodel": "63d42860e2980ecbf7eb0d4d7ca9e488.nbc",
 	}
 	jsonReportURLByte, err := json.Marshal(jsonReportURL)
 	assert.NoError(t, err)
@@ -230,7 +230,7 @@ func TestAddURL(t *testing.T) {
 	// get token
 	url := catAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -265,7 +265,7 @@ func TestAddURL(t *testing.T) {
 	jsonAddURL := map[string]string{
 		"Url":    "https://www.hurriyet.com.tr/",
 		"Type":   "",
-		"Cmodel": "3cbee7d6a2137387f86edee975f68e3f.nbc",
+		"Cmodel": "63d42860e2980ecbf7eb0d4d7ca9e488.nbc",
 	}
 	jsonAddURLByte, err := json.Marshal(jsonAddURL)
 	assert.NoError(t, err)
@@ -301,7 +301,7 @@ func TestDeleteURLs(t *testing.T) {
 	// get token
 	url := catAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -339,7 +339,7 @@ func TestDeleteURLs(t *testing.T) {
 
 	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
-	request.Header.Add("Urls", "https://www.example2.com/,https://www.example.com/")
+	request.Header.Add("Urls", "https://www.hurriyet.com.tr/,https://www.example.com/")
 	response, err = client.Do(request)
 	assert.NoError(t, err)
 	assert.NotNil(t, response)
@@ -359,7 +359,7 @@ func TestDeleteURL(t *testing.T) {
 	// get token
 	url := catAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -397,7 +397,7 @@ func TestDeleteURL(t *testing.T) {
 
 	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
-	request.Header.Add("Url", "https://www.example2.com/")
+	request.Header.Add("Url", "https://www.examplect2.com/")
 	response, err = client.Do(request)
 	assert.NoError(t, err)
 	assert.NotNil(t, response)
@@ -417,7 +417,7 @@ func TestGetURLs(t *testing.T) {
 	// get token
 	url := catAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}

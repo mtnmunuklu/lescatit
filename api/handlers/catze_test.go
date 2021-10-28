@@ -25,7 +25,7 @@ func TestCategorizeURL(t *testing.T) {
 	// get token
 	url := catzeAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -60,7 +60,7 @@ func TestCategorizeURL(t *testing.T) {
 	jsonCategorizeURL := map[string]string{
 		"Url":    "https://sozcu.com.tr/",
 		"Data":   "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2c=",
-		"Cmodel": "d94087aec23fbbd167374555adfee686.nbc",
+		"Cmodel": "c966326f7f93e50d66e59a730d51c2c5.nbc",
 	}
 	jsonCategorizeURLByte, err := json.Marshal(jsonCategorizeURL)
 	assert.NoError(t, err)
@@ -92,7 +92,7 @@ func TestCategorizeURLs(t *testing.T) {
 	// get token
 	url := catzeAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -129,12 +129,12 @@ func TestCategorizeURLs(t *testing.T) {
 			map[string]string{
 				"Url":    "https://sozcu.com.tr/",
 				"Data":   "ZGF0YQ==",
-				"Cmodel": "d94087aec23fbbd167374555adfee686.nbc",
+				"Cmodel": "c966326f7f93e50d66e59a730d51c2c5.nbc",
 			},
 			map[string]string{
 				"Url":    "https://www.haberler.com/",
 				"Data":   "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2c=",
-				"Cmodel": "d94087aec23fbbd167374555adfee686.nbc",
+				"Cmodel": "c966326f7f93e50d66e59a730d51c2c5.nbc",
 			},
 		},
 	}
@@ -167,7 +167,7 @@ func TestGenerateClassificationModel(t *testing.T) {
 	// get token
 	url := catzeAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -201,7 +201,7 @@ func TestGenerateClassificationModel(t *testing.T) {
 	url = catzeAddr + "/cmodel"
 	jsonGCModel := map[string]interface{}{
 		"Category": "NB",
-		"Urls": []interface{}{
+		"Model": []interface{}{
 			map[string]string{
 				"Class": "New",
 				"Data":  "ZGF0YQ==",
@@ -245,7 +245,7 @@ func TestGetClassificationModel(t *testing.T) {
 	// get token
 	url := catzeAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -283,7 +283,7 @@ func TestGetClassificationModel(t *testing.T) {
 
 	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
-	request.Header.Add("Name", "3cbee7d6a2137387f86edee975f68e3f.nbc")
+	request.Header.Add("Name", "c966326f7f93e50d66e59a730d51c2c5.nbc")
 	response, err = client.Do(request)
 	assert.NoError(t, err)
 	assert.NotNil(t, response)
@@ -307,7 +307,7 @@ func TestUpdateClassificationModel(t *testing.T) {
 	// get token
 	url := catzeAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -340,7 +340,7 @@ func TestUpdateClassificationModel(t *testing.T) {
 	// update classification model
 	url = catzeAddr + "/cmodel"
 	jsonUpdateCModel := map[string]string{
-		"Name":     "9ebf5a938a7df5c198e792df0ff7dfd3.nbc",
+		"Name":     "c966326f7f93e50d66e59a730d51c2c5.nbc",
 		"Category": "KNN",
 	}
 	jsonUpdateCModelByte, err := json.Marshal(jsonUpdateCModel)
@@ -379,7 +379,7 @@ func TestDeleteClassificationModel(t *testing.T) {
 	// get token
 	url := catzeAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -417,7 +417,7 @@ func TestDeleteClassificationModel(t *testing.T) {
 
 	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
-	request.Header.Add("Name", "3cbee7d6a2137387f86edee975f68e3f.nbc")
+	request.Header.Add("Name", "c966326f7f93e50d66e59a730d51c2c5.nbc")
 	response, err = client.Do(request)
 	assert.NoError(t, err)
 	assert.NotNil(t, response)
@@ -437,7 +437,7 @@ func TestDeleteClassificationModels(t *testing.T) {
 	// get token
 	url := catzeAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
@@ -495,7 +495,7 @@ func TestListClassificationModels(t *testing.T) {
 	// get token
 	url := catzeAddr + "/signin"
 	jsonSignIn := map[string]string{
-		"Name":     "New Test User",
+		"Name":     "Test User",
 		"Email":    "testuser@email.com",
 		"Password": "testuser",
 	}
