@@ -3,6 +3,7 @@ package classifiers
 import (
 	"Lescatit/categorizer/models"
 	"bytes"
+	"sort"
 
 	"github.com/navossoc/bayesian"
 )
@@ -44,13 +45,15 @@ func (c *NBClassifier) Learn(model map[string][]string) (string, error) {
 	return buffer.String(), nil
 }
 
-// TODO: check it if it gives the correct result
 func (c *NBClassifier) Predict(tokens []string) string {
 	scores, _, _ := c.classifier.LogScores(tokens)
 	results := models.Results{}
 	for i := 0; i < len(scores); i++ {
 		results = append(results, models.Result{ID: i, Score: scores[i]})
 	}
+
+	sort.Sort(sort.Reverse(results))
+
 	flags := []string{}
 	for i := 0; i < len(results); i++ {
 		flags = append(flags, string(c.classes[results[i].ID]))
