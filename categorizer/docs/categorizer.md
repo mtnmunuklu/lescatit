@@ -44,7 +44,7 @@ func (c *NBClassifier) Learn(model map[string][]string) (string, error)
 
 Learn provides to create a new classifer model\.
 
-### func \(\*NBClassifier\) [Predict](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L47>)
+### func \(\*NBClassifier\) [Predict](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L48>)
 
 ```go
 func (c *NBClassifier) Predict(tokens []string) string
@@ -52,7 +52,7 @@ func (c *NBClassifier) Predict(tokens []string) string
 
 TODO: check it if it gives the correct result
 
-### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L60>)
+### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L61>)
 
 ```go
 func (c *NBClassifier) ReadClassifier(data string) error

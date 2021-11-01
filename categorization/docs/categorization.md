@@ -208,7 +208,7 @@ type CatService struct {
 }
 ```
 
-### func \(\*CatService\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L100>)
+### func \(\*CatService\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L104>)
 
 ```go
 func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Category, error)
@@ -216,7 +216,7 @@ func (s *CatService) AddURL(ctx context.Context, req *pb.AddURLRequest) (*pb.Cat
 
 AddURL performs add the url\.
 
-### func \(\*CatService\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L168>)
+### func \(\*CatService\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L172>)
 
 ```go
 func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*pb.DeleteURLResponse, error)
@@ -224,7 +224,7 @@ func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*
 
 DeleteURL performs delete the url\.
 
-### func \(\*CatService\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L143>)
+### func \(\*CatService\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L147>)
 
 ```go
 func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error
@@ -240,7 +240,7 @@ func (s *CatService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest
 
 GetCategory performs return the category by url\.
 
-### func \(\*CatService\) [ListURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L186>)
+### func \(\*CatService\) [ListURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L190>)
 
 ```go
 func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_ListURLsServer) error
@@ -248,7 +248,7 @@ func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_List
 
 ListURLs performs list the urls based on categories and count\.
 
-### func \(\*CatService\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L72>)
+### func \(\*CatService\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorization/service/service.go#L76>)
 
 ```go
 func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.ReportMiscategorizationRequest) (*pb.Category, error)
