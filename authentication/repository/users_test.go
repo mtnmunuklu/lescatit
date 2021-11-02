@@ -45,6 +45,7 @@ func TestUsersRepositorySave(t *testing.T) {
 		Name:     "TEST",
 		Email:    fmt.Sprintf("%s@email.test", id.Hex()),
 		Password: "123456789",
+		Role:     "user",
 		Created:  time.Now(),
 		Updated:  time.Now(),
 	}
@@ -72,6 +73,7 @@ func TestUsersRepositoryGetById(t *testing.T) {
 		Name:     "TEST",
 		Email:    fmt.Sprintf("%s@email.test", id.Hex()),
 		Password: "123456789",
+		Role:     "user",
 		Created:  time.Now(),
 		Updated:  time.Now(),
 	}
@@ -107,6 +109,7 @@ func TestUsersRepositoryGetByEmail(t *testing.T) {
 		Name:     "TEST",
 		Email:    fmt.Sprintf("%s@email.test", id.Hex()),
 		Password: "123456789",
+		Role:     "user",
 		Created:  time.Now(),
 		Updated:  time.Now(),
 	}
@@ -142,6 +145,7 @@ func TestUsersRepositoryUpdate(t *testing.T) {
 		Name:     "TEST",
 		Email:    fmt.Sprintf("%s@email.test", id.Hex()),
 		Password: "123456789",
+		Role:     "user",
 		Created:  time.Now(),
 		Updated:  time.Now(),
 	}
@@ -177,6 +181,7 @@ func TestUsersRepositoryDelete(t *testing.T) {
 		Name:     "TEST",
 		Email:    fmt.Sprintf("%s@email.test", id.Hex()),
 		Password: "123456789",
+		Role:     "user",
 		Created:  time.Now(),
 		Updated:  time.Now(),
 	}
@@ -189,7 +194,7 @@ func TestUsersRepositoryDelete(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, found)
 
-	err = r.Delete(user.Id.Hex())
+	err = r.DeleteById(user.Id.Hex())
 	assert.NoError(t, err)
 
 	found, err = r.GetById(user.Id.Hex())
@@ -212,6 +217,7 @@ func TestUsersRepositoryGetAll(t *testing.T) {
 		Name:     "TEST",
 		Email:    fmt.Sprintf("%s@email.test", id.Hex()),
 		Password: "123456789",
+		Role:     "user",
 		Created:  time.Now(),
 		Updated:  time.Now(),
 	}

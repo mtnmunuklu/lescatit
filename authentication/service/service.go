@@ -7,7 +7,6 @@ import (
 	"Lescatit/pb"
 	"Lescatit/security"
 	"context"
-	"log"
 	"strings"
 	"time"
 
@@ -43,6 +42,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.Us
 		if err != nil {
 			return nil, err
 		}
+		user.Role = "user"
 		user.Created = time.Now()
 		user.Updated = time.Now()
 		err := s.usersRepository.Save(user)
@@ -64,31 +64,23 @@ func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.Si
 	req.Email = util.NormalizeEmail(req.Email)
 	user, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
-		log.Println("signin failed:", err.Error())
 		return nil, util.ErrSignInFailed
 	}
-
 	err = security.VerifyPassword(user.Password, req.Password)
 	if err != nil {
-		log.Println("signin failed:", err.Error())
 		return nil, util.ErrSignInFailed
 	}
-
 	token, err := security.NewToken(user.Id.Hex())
 	if err != nil {
-		log.Println("signin failed:", err.Error())
 		return nil, util.ErrSignInFailed
 	}
-
 	return &pb.SignInResponse{User: user.ToProtoBuffer(), Token: token}, nil
 }
 
 // GetUser performs return the user by id.
 func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error) {
-	if !bson.IsObjectIdHex(req.Id) {
-		return nil, util.ErrInvalidUserId
-	}
-	found, err := s.usersRepository.GetById(req.Id)
+	req.Email = util.NormalizeEmail(req.Email)
+	found, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
 		return nil, err
 	}
@@ -110,36 +102,69 @@ func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_
 	return nil
 }
 
-// UpdateUser performs update the user.
+// UpdateUser performs update the user(changing the password or username).
 func (s *AuthService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.User, error) {
-	if !bson.IsObjectIdHex(req.Id) {
-		return nil, util.ErrInvalidUserId
-	}
-	user, err := s.usersRepository.GetById(req.Id)
+	req.Email = util.NormalizeEmail(req.Email)
+	user, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
 		return nil, err
 	}
 	req.Name = strings.TrimSpace(req.Name)
-	if req.Name == "" {
-		return nil, util.ErrEmptyName
-	}
-	if req.Name == user.Name {
+	req.Password = strings.TrimSpace(req.Password)
+	if req.Name == "" && req.Password == "" {
 		return user.ToProtoBuffer(), nil
 	}
-	user.Name = req.Name
+	if req.Name != "" && req.Name != user.Name {
+		user.Name = req.Name
+	}
+	if req.Password != "" {
+		req.Password, err = security.EncryptPassword(req.Password)
+		if err != nil {
+			return nil, err
+		}
+		err = security.VerifyPassword(user.Password, req.Password)
+		if err != nil {
+			user.Password = req.Password
+		}
+	}
 	user.Updated = time.Now()
 	err = s.usersRepository.Update(user)
-	return user.ToProtoBuffer(), err
+	if err != nil {
+		return nil, err
+	}
+	return user.ToProtoBuffer(), nil
 }
 
 // DeleteUser performs delete the user.
 func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error) {
-	if !bson.IsObjectIdHex(req.Id) {
-		return nil, util.ErrInvalidUserId
-	}
-	err := s.usersRepository.Delete(req.Id)
+	req.Email = util.NormalizeEmail(req.Email)
+	user, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
 		return nil, err
 	}
-	return &pb.DeleteUserResponse{Id: req.Id}, nil
+	err = s.usersRepository.DeleteById(user.Id.Hex())
+	if err != nil {
+		return nil, err
+	}
+	return &pb.DeleteUserResponse{Email: user.Email}, nil
+}
+
+// ChangeUserRole performs change the user role.
+func (s *AuthService) ChangeUserRole(ctx context.Context, req *pb.ChangeUserRoleRequest) (*pb.User, error) {
+	req.Email = util.NormalizeEmail(req.GetEmail())
+	user, err := s.usersRepository.GetByEmail(req.GetEmail())
+	if err != nil {
+		return nil, err
+	}
+	req.Role = strings.TrimSpace(req.GetRole())
+	if req.Role == "" || req.Role == user.Role {
+		return user.ToProtoBuffer(), nil
+	}
+	user.Role = req.GetRole()
+	user.Updated = time.Now()
+	err = s.usersRepository.Update(user)
+	if err != nil {
+		return nil, err
+	}
+	return user.ToProtoBuffer(), nil
 }

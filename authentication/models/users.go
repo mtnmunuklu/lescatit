@@ -13,6 +13,7 @@ type User struct {
 	Name     string        `bson:"name"`
 	Email    string        `bson:"email"`
 	Password string        `bson:"password"`
+	Role     string        `bson:"role"`
 	Created  time.Time     `bson:"created"`
 	Updated  time.Time     `bson:"updated"`
 }
@@ -24,6 +25,7 @@ func (u *User) ToProtoBuffer() *pb.User {
 		Name:     u.Name,
 		Email:    u.Email,
 		Password: u.Password,
+		Role:     u.Role,
 		Created:  u.Created.Unix(),
 		Updated:  u.Updated.Unix(),
 	}
@@ -35,6 +37,7 @@ func (u *User) FromProtoBuffer(user *pb.User) {
 	u.Name = user.GetName()
 	u.Email = user.GetEmail()
 	u.Password = user.GetPassword()
+	u.Role = user.GetRole()
 	u.Created = time.Unix(user.GetCreated(), 0)
 	u.Updated = time.Unix(user.GetUpdated(), 0)
 }
