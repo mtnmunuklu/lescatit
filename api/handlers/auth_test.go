@@ -55,6 +55,7 @@ func TestSignUp(t *testing.T) {
 	assert.NotNil(t, signUp)
 	assert.Equal(t, jsonSignIn["Name"], signUp.GetName())
 	assert.Equal(t, jsonSignIn["Email"], signUp.GetEmail())
+	assert.Equal(t, signUp.GetRole(), "user")
 	assert.Greater(t, current, signUp.GetCreated())
 	assert.Greater(t, current, signUp.GetUpdated())
 }
@@ -129,13 +130,14 @@ func TestGetUser(t *testing.T) {
 	assert.NotEmpty(t, signIn.GetToken())
 
 	// get user
-	url = authAddr + "/users/" + signIn.User.GetId()
+	url = authAddr + "/user"
 	request, err = http.NewRequest("GET", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
 	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
+	request.Header.Add("Email", "testuser@email.com")
 	response, err = client.Do(request)
 	assert.NoError(t, err)
 	assert.NotNil(t, response)
@@ -247,9 +249,11 @@ func TestUpdateUser(t *testing.T) {
 	assert.NotEmpty(t, signIn.GetToken())
 
 	// update user
-	url = authAddr + "/users/" + signIn.User.GetId()
+	url = authAddr + "/user"
 	jsonUpdateUser := map[string]interface{}{
-		"Name": "New Test User",
+		"Email":    "testuser@email.com",
+		"Name":     "New Test User",
+		"Password": "",
 	}
 	jsonUpdateUserByte, err := json.Marshal(jsonUpdateUser)
 	assert.NoError(t, err)
@@ -312,13 +316,14 @@ func TestDeleteUser(t *testing.T) {
 	assert.NotEmpty(t, signIn.GetToken())
 
 	// delete user
-	url = authAddr + "/users/" + signIn.User.GetId()
+	url = authAddr + "/user"
 	request, err = http.NewRequest("DELETE", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, request)
 
 	authorization := "Bearer " + signIn.GetToken()
 	request.Header.Add("Authorization", authorization)
+	request.Header.Add("Email", "testuser@email.com")
 	response, err = client.Do(request)
 	assert.NoError(t, err)
 	assert.NotNil(t, response)
@@ -331,4 +336,69 @@ func TestDeleteUser(t *testing.T) {
 	err = json.Unmarshal(body, deletedUser)
 	assert.NoError(t, err)
 	assert.NotNil(t, deletedUser)
+}
+
+// TestChangeUserRole tests change the user role.
+func TestChangeUserRole(t *testing.T) {
+	// get token
+	url := authAddr + "/signin"
+	jsonSignIn := map[string]string{
+		"Name":     "New Test User",
+		"Email":    "testuser@email.com",
+		"Password": "testuser",
+	}
+	jsonSignInByte, err := json.Marshal(jsonSignIn)
+	assert.NoError(t, err)
+	payload := strings.NewReader(string(jsonSignInByte))
+
+	client := &http.Client{}
+	request, err := http.NewRequest("POST", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	response, err := client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err := ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
+	assert.NoError(t, err)
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.User.GetId())
+	assert.NotEmpty(t, signIn.GetToken())
+
+	// change user role
+	url = authAddr + "/user"
+	jsonUpdateUser := map[string]interface{}{
+		"Email": "testuser@email.com",
+		"Role":  "admin",
+	}
+	jsonUpdateUserByte, err := json.Marshal(jsonUpdateUser)
+	assert.NoError(t, err)
+	payload = strings.NewReader(string(jsonUpdateUserByte))
+
+	request, err = http.NewRequest("PATCH", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	authorization := "Bearer " + signIn.GetToken()
+	request.Header.Add("Authorization", authorization)
+	response, err = client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err = ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	changedUser := new(pb.User)
+	err = json.Unmarshal(body, changedUser)
+	assert.NoError(t, err)
+	assert.NotNil(t, changedUser)
 }

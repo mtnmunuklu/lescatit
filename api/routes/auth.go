@@ -25,21 +25,27 @@ func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 			AuthRequired: true,
 		},
 		{
-			Path:         "/users/{id}",
+			Path:         "/user",
 			Method:       http.MethodGet,
 			Handler:      authHandlers.GetUser,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/users/{id}",
+			Path:         "/user",
 			Method:       http.MethodPost,
 			Handler:      authHandlers.UpdateUser,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/users/{id}",
+			Path:         "/user",
 			Method:       http.MethodDelete,
 			Handler:      authHandlers.DeleteUser,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/user",
+			Method:       http.MethodPatch,
+			Handler:      authHandlers.ChangeUserRole,
 			AuthRequired: true,
 		},
 	}

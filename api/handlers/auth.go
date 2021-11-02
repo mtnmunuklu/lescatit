@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 // AuthHandlers is the interface of the authentication operation.
@@ -17,6 +18,7 @@ type AuthHandlers interface {
 	GetUser(w http.ResponseWriter, r *http.Request)
 	GetUsers(w http.ResponseWriter, r *http.Request)
 	DeleteUser(w http.ResponseWriter, r *http.Request)
+	ChangeUserRole(w http.ResponseWriter, r *http.Request)
 }
 
 // AHandlers provides a connection with authentication service over proto buffer.
@@ -83,11 +85,6 @@ func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 
 // UpdateUser performs update the user.
 func (h *AHandlers) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	tokenPayload, err := util.AuthRequestWithId(r)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
@@ -104,7 +101,6 @@ func (h *AHandlers) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	updateUserRequest.Id = tokenPayload.UserId
 	updatedUser, err := h.authSvcClient.UpdateUser(r.Context(), updateUserRequest)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
@@ -113,14 +109,17 @@ func (h *AHandlers) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, updatedUser)
 }
 
+// TODO: Only user that have admin role will use this function.
 // GetUser performs return the user by id.
 func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
-	tokenPayload, err := util.AuthRequestWithId(r)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
+	email := strings.TrimSpace(r.Header.Get("Email"))
+	if email == "" {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
 		return
 	}
-	getedUser, err := h.authSvcClient.GetUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
+	user := new(pb.GetUserRequest)
+	user.Email = email
+	getedUser, err := h.authSvcClient.GetUser(r.Context(), user)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
@@ -128,6 +127,7 @@ func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedUser)
 }
 
+// TODO: Only user that have admin role will use this function.
 // GetUsers list all users.
 func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	stream, err := h.authSvcClient.ListUsers(r.Context(), &pb.ListUsersRequest{})
@@ -150,18 +150,47 @@ func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedUsers)
 }
 
+// TODO: Only user that have admin role will use this function.
 // DeleteUser performs delete the user.
 func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
-
-	tokenPayload, err := util.AuthRequestWithId(r)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
+	email := strings.TrimSpace(r.Header.Get("Email"))
+	if email == "" {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
 		return
 	}
-	deletedUser, err := h.authSvcClient.DeleteUser(r.Context(), &pb.GetUserRequest{Id: tokenPayload.UserId})
+	user := new(pb.GetUserRequest)
+	user.Email = email
+	deletedUser, err := h.authSvcClient.DeleteUser(r.Context(), user)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, deletedUser)
+}
+
+// TODO: Only user that have admin role will use this function.
+// ChangeUserRole performs change the user role.
+func (h *AHandlers) ChangeUserRole(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
+		return
+	}
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	user := new(pb.ChangeUserRoleRequest)
+	err = json.Unmarshal(body, user)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	changedUser, err := h.authSvcClient.ChangeUserRole(r.Context(), user)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, changedUser)
 }
