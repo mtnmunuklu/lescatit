@@ -107,19 +107,19 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /users/{id}:
+  /user:
     get:
       tags:
       - "auth"
-      summary: "Performs return the user by id"
+      summary: "Performs return the user by email"
       description: ""
       operationId: "getUser"
       produces:
       - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the user"
+      - name: "email"
+        in: "header"
+        description: "Email address"
         required: true
         type: "string"
       responses:
@@ -146,11 +146,6 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the user"
-        required: true
-        type: "string"
       - in: "body"
         name: "body"
         description: "User update object"
@@ -181,9 +176,9 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the user"
+      - name: "email"
+        in: "header"
+        description: "Email address"
         required: true
         type: "string"
       responses:
@@ -191,6 +186,36 @@ paths:
             description: "Ok"
             schema:
               $ref: "#/definitions/DeleteUserResponse"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+    patch:
+      tags:
+      - "auth"
+      summary: "Performs change the user role"
+      description: ""
+      operationId: "changeUserRole"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User role change object"
+        required: true
+        schema:
+          $ref: "#/definitions/ChangeUserRole"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/User"
         "400":
             description: "Bad request"
             schema:
@@ -773,6 +798,8 @@ definitions:
         type: "string"
       password:
         type: "string"
+      role:
+        type: "string"
       created:
         type: "integer"
         format: "int64"
@@ -805,12 +832,23 @@ definitions:
   UpdateUser:
     type: "object"
     properties:
+      email:
+        type: "string"
       name:
+        type: "string"
+      password:
         type: "string"
   DeleteUserResponse:
     type: "object"
     properties:
-      id:
+      email:
+        type: "string"
+  ChangeUserRole:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      role:
         type: "string"
   GetURLDataResponse:
     type: "object"
