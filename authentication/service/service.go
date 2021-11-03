@@ -111,21 +111,16 @@ func (s *AuthService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest)
 	}
 	req.Name = strings.TrimSpace(req.Name)
 	req.Password = strings.TrimSpace(req.Password)
-	if req.Name == "" && req.Password == "" {
-		return user.ToProtoBuffer(), nil
+	if req.Name == "" || req.Name == user.Name {
+		return nil, util.ErrEmptyName
 	}
-	if req.Name != "" && req.Name != user.Name {
-		user.Name = req.Name
+	user.Name = req.Name
+	if req.Password == "" {
+		return nil, util.ErrEmptyPassword
 	}
-	if req.Password != "" {
-		req.Password, err = security.EncryptPassword(req.Password)
-		if err != nil {
-			return nil, err
-		}
-		err = security.VerifyPassword(user.Password, req.Password)
-		if err != nil {
-			user.Password = req.Password
-		}
+	err = security.VerifyPassword(user.Password, req.Password)
+	if err != nil {
+		return nil, util.ErrMismatchedPassword
 	}
 	user.Updated = time.Now()
 	err = s.usersRepository.Update(user)
@@ -142,7 +137,7 @@ func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*
 	if err != nil {
 		return nil, err
 	}
-	err = s.usersRepository.DeleteById(user.Id.Hex())
+	err = s.usersRepository.DeleteByEmail(user.Email)
 	if err != nil {
 		return nil, err
 	}
@@ -167,4 +162,16 @@ func (s *AuthService) ChangeUserRole(ctx context.Context, req *pb.ChangeUserRole
 		return nil, err
 	}
 	return user.ToProtoBuffer(), nil
+}
+
+// GetUserRole performs return the user role by id.
+func (s *AuthService) GetUserRole(ctx context.Context, req *pb.GetUserRoleRequest) (*pb.GetUserRoleResponse, error) {
+	if !bson.IsObjectIdHex(req.Id) {
+		return nil, util.ErrInvalidUserId
+	}
+	user, err := s.usersRepository.GetById(req.Id)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetUserRoleResponse{Role: user.Role}, nil
 }

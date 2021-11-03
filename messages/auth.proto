@@ -51,6 +51,14 @@ message ChangeUserRoleRequest {
     string role = 2;
 }
 
+message GetUserRoleRequest {
+    string id = 1;
+}
+
+message GetUserRoleResponse {
+    string role = 1;
+}
+
 service AuthService {
     rpc SignUp(SignUpRequest) returns (User);
     rpc SignIn(SignInRequest) returns (SignInResponse);
@@ -59,4 +67,5 @@ service AuthService {
     rpc UpdateUser(UpdateUserRequest) returns (User);
     rpc DeleteUser(GetUserRequest) returns (DeleteUserResponse);
     rpc ChangeUserRole(ChangeUserRoleRequest) returns (User);
+    rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse);
 }
