@@ -109,9 +109,25 @@ func (h *AHandlers) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, updatedUser)
 }
 
-// TODO: Only user that have admin role will use this function.
 // GetUser performs return the user by id.
 func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// get user
 	email := strings.TrimSpace(r.Header.Get("Email"))
 	if email == "" {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
@@ -127,9 +143,25 @@ func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedUser)
 }
 
-// TODO: Only user that have admin role will use this function.
 // GetUsers list all users.
 func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// get users
 	stream, err := h.authSvcClient.ListUsers(r.Context(), &pb.ListUsersRequest{})
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
@@ -150,9 +182,25 @@ func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedUsers)
 }
 
-// TODO: Only user that have admin role will use this function.
 // DeleteUser performs delete the user.
 func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// delete user
 	email := strings.TrimSpace(r.Header.Get("Email"))
 	if email == "" {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
@@ -168,9 +216,25 @@ func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, deletedUser)
 }
 
-// TODO: Only user that have admin role will use this function.
 // ChangeUserRole performs change the user role.
 func (h *AHandlers) ChangeUserRole(w http.ResponseWriter, r *http.Request) {
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// change user role
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return

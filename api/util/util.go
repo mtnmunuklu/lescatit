@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 // Contains error codes for api.
@@ -38,19 +36,20 @@ func WriteError(w http.ResponseWriter, statusCode int, err error) {
 	WriteAsJson(w, statusCode, JError{e})
 }
 
-// AuthRequestWithId checks for unauthorized access by comparing the id in the token with the id used in the requested transaction.
-func AuthRequestWithId(r *http.Request) (*security.TokenPayload, error) {
+// GetUserIdFromToken provides return the user id in the token.
+func GetUserIdFromToken(r *http.Request) (string, error) {
 	token, err := security.ExtractToken(r)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	payload, err := security.NewTokenPayload(token)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	vars := mux.Vars(r)
-	if payload.UserId != vars["id"] {
-		return nil, ErrUnauthorized
-	}
-	return payload, nil
+	return payload.UserId, nil
+}
+
+// CheckUserIsAdmin checks if user is admin
+func CheckUserIsAdmin(role string) bool {
+	return role == "admin"
 }
