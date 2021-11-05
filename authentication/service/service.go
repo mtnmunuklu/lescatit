@@ -102,34 +102,6 @@ func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_
 	return nil
 }
 
-// UpdateUser performs update the user(changing the password or username).
-func (s *AuthService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.User, error) {
-	req.Email = util.NormalizeEmail(req.Email)
-	user, err := s.usersRepository.GetByEmail(req.Email)
-	if err != nil {
-		return nil, err
-	}
-	req.Name = strings.TrimSpace(req.Name)
-	req.Password = strings.TrimSpace(req.Password)
-	if req.Name == "" || req.Name == user.Name {
-		return nil, util.ErrEmptyName
-	}
-	user.Name = req.Name
-	if req.Password == "" {
-		return nil, util.ErrEmptyPassword
-	}
-	err = security.VerifyPassword(user.Password, req.Password)
-	if err != nil {
-		return nil, util.ErrMismatchedPassword
-	}
-	user.Updated = time.Now()
-	err = s.usersRepository.Update(user)
-	if err != nil {
-		return nil, err
-	}
-	return user.ToProtoBuffer(), nil
-}
-
 // DeleteUser performs delete the user.
 func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error) {
 	req.Email = util.NormalizeEmail(req.Email)
@@ -174,4 +146,110 @@ func (s *AuthService) GetUserRole(ctx context.Context, req *pb.GetUserRoleReques
 		return nil, err
 	}
 	return &pb.GetUserRoleResponse{Role: user.Role}, nil
+}
+
+// UpdateUser performs update the password.
+func (s *AuthService) UpdatePassword(ctx context.Context, req *pb.UpdatePasswordRequest) (*pb.User, error) {
+	req.Email = util.NormalizeEmail(req.Email)
+	if req.Email == "" {
+		return nil, util.ErrEmptyEmail
+	}
+	user, err := s.usersRepository.GetByEmail(req.Email)
+	if err != nil {
+		return nil, err
+	}
+	req.Password = strings.TrimSpace(req.Password)
+	if req.Password == "" {
+		return nil, util.ErrEmptyPassword
+	}
+	req.NewPassword = strings.TrimSpace(req.NewPassword)
+	if req.NewPassword == "" {
+		return nil, util.ErrEmptyNewPassword
+	}
+	req.Password, err = security.EncryptPassword(req.Password)
+	if err != nil {
+		return nil, err
+	}
+	err = security.VerifyPassword(user.Password, req.Password)
+	if err != nil {
+		return nil, util.ErrMismatchedPassword
+	}
+	req.NewPassword, err = security.EncryptPassword(req.NewPassword)
+	if err != nil {
+		return nil, err
+	}
+	user.Password = req.NewPassword
+	user.Updated = time.Now()
+	err = s.usersRepository.Update(user)
+	if err != nil {
+		return nil, err
+	}
+	return user.ToProtoBuffer(), nil
+}
+
+// UpdateUser performs update the password.
+func (s *AuthService) UpdateEmail(ctx context.Context, req *pb.UpdateEmailRequest) (*pb.User, error) {
+	req.Email = util.NormalizeEmail(req.Email)
+	if req.Email == "" {
+		return nil, util.ErrEmptyEmail
+	}
+	user, err := s.usersRepository.GetByEmail(req.Email)
+	if err != nil {
+		return nil, err
+	}
+	req.NewEmail = util.NormalizeEmail(req.NewEmail)
+	if req.NewEmail == "" {
+		return nil, util.ErrEmptyNewEmail
+	}
+	req.Password = strings.TrimSpace(req.Password)
+	if req.Password == "" {
+		return nil, util.ErrEmptyPassword
+	}
+	req.Password, err = security.EncryptPassword(req.Password)
+	if err != nil {
+		return nil, err
+	}
+	err = security.VerifyPassword(user.Password, req.Password)
+	if err != nil {
+		return nil, util.ErrMismatchedPassword
+	}
+	user.Email = req.NewEmail
+	user.Updated = time.Now()
+	err = s.usersRepository.Update(user)
+	if err != nil {
+		return nil, err
+	}
+	return user.ToProtoBuffer(), nil
+}
+
+func (s *AuthService) UpdateName(ctx context.Context, req *pb.UpdateNameRequest) (*pb.User, error) {
+	req.Email = util.NormalizeEmail(req.Email)
+	if req.Email == "" {
+		return nil, util.ErrEmptyEmail
+	}
+	user, err := s.usersRepository.GetByEmail(req.Email)
+	if err != nil {
+		return nil, err
+	}
+	req.Password = strings.TrimSpace(req.Password)
+	if req.Password == "" {
+		return nil, util.ErrEmptyPassword
+	}
+	req.Password, err = security.EncryptPassword(req.Password)
+	if err != nil {
+		return nil, err
+	}
+	err = security.VerifyPassword(user.Password, req.Password)
+	if err != nil {
+		return nil, util.ErrMismatchedPassword
+	}
+	if strings.TrimSpace(req.Name) != "" {
+		user.Name = req.Name
+	}
+	user.Updated = time.Now()
+	err = s.usersRepository.Update(user)
+	if err != nil {
+		return nil, err
+	}
+	return user.ToProtoBuffer(), nil
 }
