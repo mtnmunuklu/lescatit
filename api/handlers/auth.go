@@ -14,11 +14,13 @@ import (
 type AuthHandlers interface {
 	SignUp(w http.ResponseWriter, r *http.Request)
 	SignIn(w http.ResponseWriter, r *http.Request)
-	UpdateUser(w http.ResponseWriter, r *http.Request)
 	GetUser(w http.ResponseWriter, r *http.Request)
 	GetUsers(w http.ResponseWriter, r *http.Request)
 	DeleteUser(w http.ResponseWriter, r *http.Request)
 	ChangeUserRole(w http.ResponseWriter, r *http.Request)
+	UpdateName(w http.ResponseWriter, r *http.Request)
+	UpdatePassword(w http.ResponseWriter, r *http.Request)
+	UpdateEmail(w http.ResponseWriter, r *http.Request)
 }
 
 // AHandlers provides a connection with authentication service over proto buffer.
@@ -81,32 +83,6 @@ func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, signIn)
-}
-
-// UpdateUser performs update the user.
-func (h *AHandlers) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
-	}
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-	updateUserRequest := new(pb.UpdateUserRequest)
-	err = json.Unmarshal(body, updateUserRequest)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-	updatedUser, err := h.authSvcClient.UpdateUser(r.Context(), updateUserRequest)
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	util.WriteAsJson(w, http.StatusOK, updatedUser)
 }
 
 // GetUser performs return the user by id.
@@ -257,4 +233,82 @@ func (h *AHandlers) ChangeUserRole(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, changedUser)
+}
+
+// UpdateUser performs update the user name.
+func (h *AHandlers) UpdateName(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
+		return
+	}
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	updateNameRequest := new(pb.UpdateNameRequest)
+	err = json.Unmarshal(body, updateNameRequest)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	updatedUser, err := h.authSvcClient.UpdateName(r.Context(), updateNameRequest)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, updatedUser)
+}
+
+// UpdateUser performs update the user password.
+func (h *AHandlers) UpdatePassword(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
+		return
+	}
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	updatePasswordRequest := new(pb.UpdatePasswordRequest)
+	err = json.Unmarshal(body, updatePasswordRequest)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	updatedUser, err := h.authSvcClient.UpdatePassword(r.Context(), updatePasswordRequest)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, updatedUser)
+}
+
+// UpdateUser performs update the user email.
+func (h *AHandlers) UpdateEmail(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
+		return
+	}
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	updateEmailRequest := new(pb.UpdateEmailRequest)
+	err = json.Unmarshal(body, updateEmailRequest)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	updatedUser, err := h.authSvcClient.UpdateEmail(r.Context(), updateEmailRequest)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, updatedUser)
 }

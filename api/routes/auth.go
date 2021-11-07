@@ -32,12 +32,6 @@ func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 		},
 		{
 			Path:         "/user",
-			Method:       http.MethodPost,
-			Handler:      authHandlers.UpdateUser,
-			AuthRequired: true,
-		},
-		{
-			Path:         "/user",
 			Method:       http.MethodDelete,
 			Handler:      authHandlers.DeleteUser,
 			AuthRequired: true,
@@ -46,6 +40,24 @@ func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 			Path:         "/user",
 			Method:       http.MethodPatch,
 			Handler:      authHandlers.ChangeUserRole,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/user_nu",
+			Method:       http.MethodPost,
+			Handler:      authHandlers.UpdateName,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/user_pu",
+			Method:       http.MethodPatch,
+			Handler:      authHandlers.UpdatePassword,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/user_eu",
+			Method:       http.MethodPatch,
+			Handler:      authHandlers.UpdateEmail,
 			AuthRequired: true,
 		},
 	}
