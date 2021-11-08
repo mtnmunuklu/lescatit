@@ -19,12 +19,6 @@ func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 			Handler: authHandlers.SignIn,
 		},
 		{
-			Path:         "/users",
-			Method:       http.MethodGet,
-			Handler:      authHandlers.GetUsers,
-			AuthRequired: true,
-		},
-		{
 			Path:         "/user",
 			Method:       http.MethodGet,
 			Handler:      authHandlers.GetUser,
@@ -43,21 +37,27 @@ func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 			AuthRequired: true,
 		},
 		{
-			Path:         "/user_nu",
-			Method:       http.MethodPost,
-			Handler:      authHandlers.UpdateName,
-			AuthRequired: true,
-		},
-		{
 			Path:         "/user_pu",
 			Method:       http.MethodPatch,
-			Handler:      authHandlers.UpdatePassword,
+			Handler:      authHandlers.UpdateUserPassword,
 			AuthRequired: true,
 		},
 		{
 			Path:         "/user_eu",
 			Method:       http.MethodPatch,
-			Handler:      authHandlers.UpdateEmail,
+			Handler:      authHandlers.UpdateUserEmail,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/user_nu",
+			Method:       http.MethodPost,
+			Handler:      authHandlers.UpdateUserName,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/users",
+			Method:       http.MethodGet,
+			Handler:      authHandlers.GetUsers,
 			AuthRequired: true,
 		},
 	}
