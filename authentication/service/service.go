@@ -62,13 +62,16 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.Us
 // SignIn performs the user login process.
 func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
 	req.Email = util.NormalizeEmail(req.Email)
+	if req.Email == "" {
+		return nil, util.ErrEmptyEmail
+	}
 	user, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
-		return nil, util.ErrSignInFailed
+		return nil, util.ErrEmailNotFound
 	}
 	err = security.VerifyPassword(user.Password, req.Password)
 	if err != nil {
-		return nil, util.ErrSignInFailed
+		return nil, util.ErrMismatchedPassword
 	}
 	token, err := security.NewToken(user.Id.Hex())
 	if err != nil {
@@ -80,6 +83,9 @@ func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.Si
 // GetUser performs return the user by id.
 func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error) {
 	req.Email = util.NormalizeEmail(req.Email)
+	if req.Email == "" {
+		return nil, util.ErrEmptyEmail
+	}
 	found, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
 		return nil, err
@@ -87,24 +93,12 @@ func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 	return found.ToProtoBuffer(), nil
 }
 
-// ListUser list all users.
-func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error {
-	users, err := s.usersRepository.GetAll()
-	if err != nil {
-		return err
-	}
-	for _, user := range users {
-		err := stream.Send(user.ToProtoBuffer())
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 // DeleteUser performs delete the user.
 func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error) {
 	req.Email = util.NormalizeEmail(req.Email)
+	if req.Email == "" {
+		return nil, util.ErrEmptyEmail
+	}
 	user, err := s.usersRepository.GetByEmail(req.Email)
 	if err != nil {
 		return nil, err
@@ -119,6 +113,9 @@ func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*
 // ChangeUserRole performs change the user role.
 func (s *AuthService) ChangeUserRole(ctx context.Context, req *pb.ChangeUserRoleRequest) (*pb.User, error) {
 	req.Email = util.NormalizeEmail(req.GetEmail())
+	if req.Email == "" {
+		return nil, util.ErrEmptyEmail
+	}
 	user, err := s.usersRepository.GetByEmail(req.GetEmail())
 	if err != nil {
 		return nil, err
@@ -149,7 +146,7 @@ func (s *AuthService) GetUserRole(ctx context.Context, req *pb.GetUserRoleReques
 }
 
 // UpdateUser performs update the password.
-func (s *AuthService) UpdatePassword(ctx context.Context, req *pb.UpdatePasswordRequest) (*pb.User, error) {
+func (s *AuthService) UpdateUserPassword(ctx context.Context, req *pb.UpdateUserPasswordRequest) (*pb.User, error) {
 	req.Email = util.NormalizeEmail(req.Email)
 	if req.Email == "" {
 		return nil, util.ErrEmptyEmail
@@ -188,7 +185,7 @@ func (s *AuthService) UpdatePassword(ctx context.Context, req *pb.UpdatePassword
 }
 
 // UpdateUser performs update the password.
-func (s *AuthService) UpdateEmail(ctx context.Context, req *pb.UpdateEmailRequest) (*pb.User, error) {
+func (s *AuthService) UpdateUserEmail(ctx context.Context, req *pb.UpdateUserEmailRequest) (*pb.User, error) {
 	req.Email = util.NormalizeEmail(req.Email)
 	if req.Email == "" {
 		return nil, util.ErrEmptyEmail
@@ -222,7 +219,7 @@ func (s *AuthService) UpdateEmail(ctx context.Context, req *pb.UpdateEmailReques
 	return user.ToProtoBuffer(), nil
 }
 
-func (s *AuthService) UpdateName(ctx context.Context, req *pb.UpdateNameRequest) (*pb.User, error) {
+func (s *AuthService) UpdateUserName(ctx context.Context, req *pb.UpdateUserNameRequest) (*pb.User, error) {
 	req.Email = util.NormalizeEmail(req.Email)
 	if req.Email == "" {
 		return nil, util.ErrEmptyEmail
@@ -243,13 +240,29 @@ func (s *AuthService) UpdateName(ctx context.Context, req *pb.UpdateNameRequest)
 	if err != nil {
 		return nil, util.ErrMismatchedPassword
 	}
-	if strings.TrimSpace(req.Name) != "" {
-		user.Name = req.Name
+	if strings.TrimSpace(req.Name) == "" {
+		return nil, util.ErrEmptyName
 	}
+	user.Name = req.Name
 	user.Updated = time.Now()
 	err = s.usersRepository.Update(user)
 	if err != nil {
 		return nil, err
 	}
 	return user.ToProtoBuffer(), nil
+}
+
+// ListUser list all users.
+func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error {
+	users, err := s.usersRepository.GetAll()
+	if err != nil {
+		return err
+	}
+	for _, user := range users {
+		err := stream.Send(user.ToProtoBuffer())
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

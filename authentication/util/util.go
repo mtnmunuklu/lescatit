@@ -15,6 +15,7 @@ var (
 	ErrEmptyPassword      = errors.New("password can't be empty")
 	ErrEmptyNewPassword   = errors.New("new password can't be empty")
 	ErrEmailAlreadyExist  = errors.New("email already exist")
+	ErrEmailNotFound      = errors.New("email did not found")
 	ErrSignInFailed       = errors.New("signin failed")
 	ErrMismatchedPassword = errors.New("password did not match")
 )

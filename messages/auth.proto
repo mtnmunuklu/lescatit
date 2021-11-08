@@ -53,19 +53,19 @@ message GetUserRoleResponse {
     string role = 1;
 }
 
-message UpdatePasswordRequest {
+message UpdateUserPasswordRequest {
     string email = 1;
     string password = 2;
     string newPassword = 3;
 }
 
-message UpdateEmailRequest {
+message UpdateUserEmailRequest {
     string email = 1;
     string newEmail = 2;
     string password = 3;
 }
 
-message UpdateNameRequest {
+message UpdateUserNameRequest {
     string email = 1;
     string name = 2;
     string password = 3;
@@ -75,11 +75,12 @@ service AuthService {
     rpc SignUp(SignUpRequest) returns (User);
     rpc SignIn(SignInRequest) returns (SignInResponse);
     rpc GetUser(GetUserRequest) returns (User);
-    rpc ListUsers(ListUsersRequest) returns (stream User);
-    rpc UpdatePassword(UpdatePasswordRequest) returns (User);
-    rpc UpdateEmail(UpdateEmailRequest) returns (User);
-    rpc UpdateName(UpdateNameRequest) returns (User);
     rpc DeleteUser(GetUserRequest) returns (DeleteUserResponse);
     rpc ChangeUserRole(ChangeUserRoleRequest) returns (User);
     rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse);
+    rpc UpdateUserPassword(UpdateUserPasswordRequest) returns (User);
+    rpc UpdateUserEmail(UpdateUserEmailRequest) returns (User);
+    rpc UpdateUserName(UpdateUserNameRequest) returns (User);
+    rpc ListUsers(ListUsersRequest) returns (stream User);
+    
 }
