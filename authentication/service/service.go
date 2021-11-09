@@ -94,7 +94,7 @@ func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 }
 
 // DeleteUser performs delete the user.
-func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error) {
+func (s *AuthService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest) (*pb.DeleteUserResponse, error) {
 	req.Email = util.NormalizeEmail(req.Email)
 	if req.Email == "" {
 		return nil, util.ErrEmptyEmail
