@@ -159,127 +159,6 @@ func TestGetUser(t *testing.T) {
 
 }
 
-// TestGetUsers test pull all users from database.
-func TestGetUsers(t *testing.T) {
-	// get token
-	url := authAddr + "/signin"
-	jsonSignIn := map[string]string{
-		"Name":     "Test User",
-		"Email":    "testuser@email.com",
-		"Password": "testuser",
-	}
-	jsonSignInByte, err := json.Marshal(jsonSignIn)
-	assert.NoError(t, err)
-	payload := strings.NewReader(string(jsonSignInByte))
-
-	client := &http.Client{}
-	request, err := http.NewRequest("POST", url, payload)
-	assert.NoError(t, err)
-	assert.NotNil(t, request)
-
-	request.Header.Add("Content-Type", "application/json")
-	response, err := client.Do(request)
-	assert.NoError(t, err)
-	assert.NotNil(t, response)
-
-	body, err := ioutil.ReadAll(response.Body)
-	assert.NoError(t, err)
-	assert.NotNil(t, body)
-
-	signIn := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signIn)
-	assert.NoError(t, err)
-	assert.NotNil(t, signIn)
-	assert.NotEmpty(t, signIn.GetToken())
-
-	// get all users
-	url = authAddr + "/users"
-	request, err = http.NewRequest("GET", url, nil)
-	assert.NoError(t, err)
-	assert.NotNil(t, request)
-
-	authorization := "Bearer " + signIn.GetToken()
-	request.Header.Add("Authorization", authorization)
-	response, err = client.Do(request)
-	assert.NoError(t, err)
-	assert.NotNil(t, response)
-
-	body, err = ioutil.ReadAll(response.Body)
-	assert.NoError(t, err)
-	assert.NotNil(t, body)
-
-	getedUsers := new([]pb.User)
-	err = json.Unmarshal(body, getedUsers)
-	assert.NoError(t, err)
-	assert.NotNil(t, getedUsers)
-}
-
-// TestUpdateUser tests update the user.
-func TestUpdateUser(t *testing.T) {
-	// get token
-	url := authAddr + "/signin"
-	jsonSignIn := map[string]string{
-		"Name":     "Test User",
-		"Email":    "testuser@email.com",
-		"Password": "testuser",
-	}
-	jsonSignInByte, err := json.Marshal(jsonSignIn)
-	assert.NoError(t, err)
-	payload := strings.NewReader(string(jsonSignInByte))
-
-	client := &http.Client{}
-	request, err := http.NewRequest("POST", url, payload)
-	assert.NoError(t, err)
-	assert.NotNil(t, request)
-
-	request.Header.Add("Content-Type", "application/json")
-	response, err := client.Do(request)
-	assert.NoError(t, err)
-	assert.NotNil(t, response)
-
-	body, err := ioutil.ReadAll(response.Body)
-	assert.NoError(t, err)
-	assert.NotNil(t, body)
-
-	signIn := new(pb.SignInResponse)
-	err = json.Unmarshal(body, signIn)
-	assert.NoError(t, err)
-	assert.NotNil(t, signIn)
-	assert.NotEmpty(t, signIn.User.GetId())
-	assert.NotEmpty(t, signIn.GetToken())
-
-	// update user
-	url = authAddr + "/user"
-	jsonUpdateUser := map[string]interface{}{
-		"Email":    "testuser@email.com",
-		"Name":     "New Test User",
-		"Password": "",
-	}
-	jsonUpdateUserByte, err := json.Marshal(jsonUpdateUser)
-	assert.NoError(t, err)
-	payload = strings.NewReader(string(jsonUpdateUserByte))
-
-	request, err = http.NewRequest("POST", url, payload)
-	assert.NoError(t, err)
-	assert.NotNil(t, request)
-
-	request.Header.Add("Content-Type", "application/json")
-	authorization := "Bearer " + signIn.GetToken()
-	request.Header.Add("Authorization", authorization)
-	response, err = client.Do(request)
-	assert.NoError(t, err)
-	assert.NotNil(t, response)
-
-	body, err = ioutil.ReadAll(response.Body)
-	assert.NoError(t, err)
-	assert.NotNil(t, body)
-
-	updatedUser := new(pb.User)
-	err = json.Unmarshal(body, updatedUser)
-	assert.NoError(t, err)
-	assert.NotNil(t, updatedUser)
-}
-
 // TestDeleteUser tests delete the user.
 func TestDeleteUser(t *testing.T) {
 
@@ -401,4 +280,257 @@ func TestChangeUserRole(t *testing.T) {
 	err = json.Unmarshal(body, changedUser)
 	assert.NoError(t, err)
 	assert.NotNil(t, changedUser)
+}
+
+// TestUpdateUserPasword tests update the user password.
+func TestUpdateUserPasword(t *testing.T) {
+	// get token
+	url := authAddr + "/signin"
+	jsonSignIn := map[string]string{
+		"Name":     "Test User",
+		"Email":    "testuser@email.com",
+		"Password": "testuser",
+	}
+	jsonSignInByte, err := json.Marshal(jsonSignIn)
+	assert.NoError(t, err)
+	payload := strings.NewReader(string(jsonSignInByte))
+
+	client := &http.Client{}
+	request, err := http.NewRequest("POST", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	response, err := client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err := ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
+	assert.NoError(t, err)
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.User.GetId())
+	assert.NotEmpty(t, signIn.GetToken())
+
+	// update user password
+	url = authAddr + "/user_pu"
+	jsonUpdateUser := map[string]interface{}{
+		"Email":       "testuser@email.com",
+		"Password":    "testuser",
+		"NewPassword": "newtestuser",
+	}
+	jsonUpdateUserByte, err := json.Marshal(jsonUpdateUser)
+	assert.NoError(t, err)
+	payload = strings.NewReader(string(jsonUpdateUserByte))
+
+	request, err = http.NewRequest("POST", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	authorization := "Bearer " + signIn.GetToken()
+	request.Header.Add("Authorization", authorization)
+	response, err = client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err = ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	updatedUser := new(pb.User)
+	err = json.Unmarshal(body, updatedUser)
+	assert.NoError(t, err)
+	assert.NotNil(t, updatedUser)
+}
+
+// TestUpdateUserEmail tests update the user email.
+func TestUpdateUserEmail(t *testing.T) {
+	// get token
+	url := authAddr + "/signin"
+	jsonSignIn := map[string]string{
+		"Name":     "Test User",
+		"Email":    "testuser@email.com",
+		"Password": "testuser",
+	}
+	jsonSignInByte, err := json.Marshal(jsonSignIn)
+	assert.NoError(t, err)
+	payload := strings.NewReader(string(jsonSignInByte))
+
+	client := &http.Client{}
+	request, err := http.NewRequest("POST", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	response, err := client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err := ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
+	assert.NoError(t, err)
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.User.GetId())
+	assert.NotEmpty(t, signIn.GetToken())
+
+	// update user email
+	url = authAddr + "/user_eu"
+	jsonUpdateUser := map[string]interface{}{
+		"Email":    "testuser@email.com",
+		"NewEmail": "newtestuser@email.com",
+		"Password": "testuser",
+	}
+	jsonUpdateUserByte, err := json.Marshal(jsonUpdateUser)
+	assert.NoError(t, err)
+	payload = strings.NewReader(string(jsonUpdateUserByte))
+
+	request, err = http.NewRequest("POST", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	authorization := "Bearer " + signIn.GetToken()
+	request.Header.Add("Authorization", authorization)
+	response, err = client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err = ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	updatedUser := new(pb.User)
+	err = json.Unmarshal(body, updatedUser)
+	assert.NoError(t, err)
+	assert.NotNil(t, updatedUser)
+}
+
+// TestUpdateUserName tests update the user email.
+func TestUpdateUserName(t *testing.T) {
+	// get token
+	url := authAddr + "/signin"
+	jsonSignIn := map[string]string{
+		"Name":     "Test User",
+		"Email":    "testuser@email.com",
+		"Password": "testuser",
+	}
+	jsonSignInByte, err := json.Marshal(jsonSignIn)
+	assert.NoError(t, err)
+	payload := strings.NewReader(string(jsonSignInByte))
+
+	client := &http.Client{}
+	request, err := http.NewRequest("POST", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	response, err := client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err := ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
+	assert.NoError(t, err)
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.User.GetId())
+	assert.NotEmpty(t, signIn.GetToken())
+
+	// update user name
+	url = authAddr + "/user_nu"
+	jsonUpdateUser := map[string]interface{}{
+		"Email":    "testuser@email.com",
+		"Name":     "newtestuser",
+		"Password": "testuser",
+	}
+	jsonUpdateUserByte, err := json.Marshal(jsonUpdateUser)
+	assert.NoError(t, err)
+	payload = strings.NewReader(string(jsonUpdateUserByte))
+
+	request, err = http.NewRequest("POST", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	authorization := "Bearer " + signIn.GetToken()
+	request.Header.Add("Authorization", authorization)
+	response, err = client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err = ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	updatedUser := new(pb.User)
+	err = json.Unmarshal(body, updatedUser)
+	assert.NoError(t, err)
+	assert.NotNil(t, updatedUser)
+}
+
+// TestGetUsers test pull all users from database.
+func TestGetUsers(t *testing.T) {
+	// get token
+	url := authAddr + "/signin"
+	jsonSignIn := map[string]string{
+		"Name":     "Test User",
+		"Email":    "testuser@email.com",
+		"Password": "testuser",
+	}
+	jsonSignInByte, err := json.Marshal(jsonSignIn)
+	assert.NoError(t, err)
+	payload := strings.NewReader(string(jsonSignInByte))
+
+	client := &http.Client{}
+	request, err := http.NewRequest("POST", url, payload)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	request.Header.Add("Content-Type", "application/json")
+	response, err := client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err := ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	signIn := new(pb.SignInResponse)
+	err = json.Unmarshal(body, signIn)
+	assert.NoError(t, err)
+	assert.NotNil(t, signIn)
+	assert.NotEmpty(t, signIn.GetToken())
+
+	// get all users
+	url = authAddr + "/users"
+	request, err = http.NewRequest("GET", url, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, request)
+
+	authorization := "Bearer " + signIn.GetToken()
+	request.Header.Add("Authorization", authorization)
+	response, err = client.Do(request)
+	assert.NoError(t, err)
+	assert.NotNil(t, response)
+
+	body, err = ioutil.ReadAll(response.Body)
+	assert.NoError(t, err)
+	assert.NotNil(t, body)
+
+	getedUsers := new([]pb.User)
+	err = json.Unmarshal(body, getedUsers)
+	assert.NoError(t, err)
+	assert.NotNil(t, getedUsers)
 }

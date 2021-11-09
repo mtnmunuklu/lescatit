@@ -96,6 +96,7 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, categorizedURLs)
 }
 
+//TODO: Only admin user will use this function
 //DeleteClassificationModel performs generate a classification model
 func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
@@ -139,6 +140,7 @@ func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Reque
 	util.WriteAsJson(w, http.StatusOK, getedCModel)
 }
 
+//TODO: Only admin user will use this function
 //DeleteClassificationModel performs update the classification model
 func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
@@ -165,6 +167,7 @@ func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Re
 	util.WriteAsJson(w, http.StatusOK, updatedCModel)
 }
 
+//TODO: Only admin user will use this function
 //DeleteClassificationModel performs delete the classification model
 func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimSpace(r.Header.Get("Name"))
@@ -182,6 +185,7 @@ func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Re
 	util.WriteAsJson(w, http.StatusOK, deletedCModel)
 }
 
+//TODO: Only admin user will use this function
 //DeleteClassificationModels performs delete the classification models
 func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.Request) {
 	names := strings.TrimSpace(r.Header.Get("Names"))

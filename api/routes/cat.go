@@ -21,6 +21,18 @@ func NewCatRoutes(catHandlers handlers.CatHandlers) []*Route {
 			AuthRequired: true,
 		},
 		{
+			Path:         "/url",
+			Method:       http.MethodPut,
+			Handler:      catHandlers.AddURL,
+			AuthRequired: true,
+		},
+		{
+			Path:         "/url",
+			Method:       http.MethodDelete,
+			Handler:      catHandlers.DeleteURL,
+			AuthRequired: true,
+		},
+		{
 			Path:         "/url_report",
 			Method:       http.MethodPost,
 			Handler:      catHandlers.ReportMiscategorization,
@@ -36,18 +48,6 @@ func NewCatRoutes(catHandlers handlers.CatHandlers) []*Route {
 			Path:         "/urls",
 			Method:       http.MethodGet,
 			Handler:      catHandlers.GetURLs,
-			AuthRequired: true,
-		},
-		{
-			Path:         "/url",
-			Method:       http.MethodPut,
-			Handler:      catHandlers.AddURL,
-			AuthRequired: true,
-		},
-		{
-			Path:         "/url",
-			Method:       http.MethodDelete,
-			Handler:      catHandlers.DeleteURL,
 			AuthRequired: true,
 		},
 	}

@@ -84,7 +84,7 @@ func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, signIn)
 }
 
-// GetUser performs return the user by id.
+// GetUser performs return the user by email.
 func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	// check user role
 	userId, err := util.GetUserIdFromToken(r)
@@ -114,7 +114,7 @@ func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedUser)
 }
 
-// DeleteUser performs delete the user.
+// DeleteUser performs delete the user by email.
 func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	// check user role
 	userId, err := util.GetUserIdFromToken(r)
@@ -134,7 +134,7 @@ func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// delete user
 	email := r.Header.Get("Email")
-	user := new(pb.GetUserRequest)
+	user := new(pb.DeleteUserRequest)
 	user.Email = email
 	deletedUser, err := h.authSvcClient.DeleteUser(r.Context(), user)
 	if err != nil {

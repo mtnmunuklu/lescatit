@@ -14,10 +14,10 @@ import (
 type CatHandlers interface {
 	GetCategory(w http.ResponseWriter, r *http.Request)
 	UpdateCategory(w http.ResponseWriter, r *http.Request)
-	ReportMiscategorization(w http.ResponseWriter, r *http.Request)
 	AddURL(w http.ResponseWriter, r *http.Request)
-	DeleteURLs(w http.ResponseWriter, r *http.Request)
 	DeleteURL(w http.ResponseWriter, r *http.Request)
+	ReportMiscategorization(w http.ResponseWriter, r *http.Request)
+	DeleteURLs(w http.ResponseWriter, r *http.Request)
 	GetURLs(w http.ResponseWriter, r *http.Request)
 }
 
@@ -50,6 +50,7 @@ func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedURL)
 }
 
+//TODO: Only admin user will use this function
 // UpdateCategory performs update the category.
 func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
@@ -74,50 +75,6 @@ func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	util.WriteAsJson(w, http.StatusOK, updatedURL)
-}
-
-// ReportMiscategorization reports miscategorization.
-func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
-	}
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-	url := new(pb.AddURLRequestCC)
-	err = json.Unmarshal(body, url)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-	url.Type = "notnew"
-	getedURLData, err := h.crawlSvcClient.GetURLData(r.Context(),
-		&pb.GetURLDataRequest{Url: url.Url, Type: url.Type})
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(),
-		&pb.CategorizeURLRequest{Url: getedURLData.GetUrl(), Data: getedURLData.GetData(), Cmodel: url.Cmodel})
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	getedData := new(pb.ReportMiscategorizationRequest)
-	getedData.Url = getedURLData.GetUrl()
-	getedData.Data = getedURLData.GetData()
-	getedData.Status = getedURLData.GetStatus()
-	getedData.Category = categorizedURL.GetCategory()
-	reportedURL, err := h.catSvcClient.ReportMiscategorization(r.Context(), getedData)
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	util.WriteAsJson(w, http.StatusOK, reportedURL)
 }
 
 // AddURL performs add the url.
@@ -168,6 +125,69 @@ func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//TODO: Only admin user will use this function
+// DeleteURL performs delete the url.
+func (h *CHandlers) DeleteURL(w http.ResponseWriter, r *http.Request) {
+	rURL := strings.TrimSpace(r.Header.Get("Url"))
+	if rURL == "" {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+		return
+	}
+	url := new(pb.DeleteURLRequest)
+	url.Url = rURL
+	deletedURL, err := h.catSvcClient.DeleteURL(r.Context(), url)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, deletedURL)
+}
+
+// ReportMiscategorization reports miscategorization.
+func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
+		return
+	}
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	url := new(pb.AddURLRequestCC)
+	err = json.Unmarshal(body, url)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	url.Type = "notnew"
+	getedURLData, err := h.crawlSvcClient.GetURLData(r.Context(),
+		&pb.GetURLDataRequest{Url: url.Url, Type: url.Type})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(),
+		&pb.CategorizeURLRequest{Url: getedURLData.GetUrl(), Data: getedURLData.GetData(), Cmodel: url.Cmodel})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	getedData := new(pb.ReportMiscategorizationRequest)
+	getedData.Url = getedURLData.GetUrl()
+	getedData.Data = getedURLData.GetData()
+	getedData.Status = getedURLData.GetStatus()
+	getedData.Category = categorizedURL.GetCategory()
+	reportedURL, err := h.catSvcClient.ReportMiscategorization(r.Context(), getedData)
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	util.WriteAsJson(w, http.StatusOK, reportedURL)
+}
+
+//TODO: Only admin user will use this function
 // DeleteURLs performs delete the urls.
 func (h *CHandlers) DeleteURLs(w http.ResponseWriter, r *http.Request) {
 	rURLs := strings.TrimSpace(r.Header.Get("Urls"))
@@ -196,23 +216,6 @@ func (h *CHandlers) DeleteURLs(w http.ResponseWriter, r *http.Request) {
 		deletedURLs = append(deletedURLs, deletedURL)
 	}
 	util.WriteAsJson(w, http.StatusOK, deletedURLs)
-}
-
-// DeleteURL performs delete the url.
-func (h *CHandlers) DeleteURL(w http.ResponseWriter, r *http.Request) {
-	rURL := strings.TrimSpace(r.Header.Get("Url"))
-	if rURL == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
-		return
-	}
-	url := new(pb.DeleteURLRequest)
-	url.Url = rURL
-	deletedURL, err := h.catSvcClient.DeleteURL(r.Context(), url)
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	util.WriteAsJson(w, http.StatusOK, deletedURL)
 }
 
 // GetURLs performs list the urls based on categories and count.
