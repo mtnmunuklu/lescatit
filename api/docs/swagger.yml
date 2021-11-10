@@ -81,32 +81,6 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /users:
-    get:
-      tags:
-      - "auth"
-      summary: "Performs listing all users"
-      description: ""
-      operationId: "getUsers"
-      produces:
-      - "application/json"
-      responses:
-        "200":
-            description: "Ok"
-            schema:
-              type: "array"
-              items:
-                $ref: "#/definitions/User"
-        "400":
-            description: "Bad request"
-            schema:
-              $ref: "#/definitions/Error"
-        "422":
-            description: "Unprocessable entity"
-            schema:
-              $ref: "#/definitions/Error"
-      security:
-      - api_key: []
   /user:
     get:
       tags:
@@ -117,41 +91,11 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "email"
+      - name: "Email"
         in: "header"
         description: "Email address"
         required: true
         type: "string"
-      responses:
-        "200":
-            description: "Ok"
-            schema:
-              $ref: "#/definitions/User"
-        "400":
-            description: "Bad request"
-            schema:
-              $ref: "#/definitions/Error"
-        "422":
-            description: "Unprocessable entity"
-            schema:
-              $ref: "#/definitions/Error"
-      security:
-      - api_key: []
-    post:
-      tags:
-      - "auth"
-      summary: "Performs update the user"
-      description: ""
-      operationId: "updateUser"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "User update object"
-        required: true
-        schema:
-          $ref: "#/definitions/UpdateUser"
       responses:
         "200":
             description: "Ok"
@@ -176,7 +120,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "email"
+      - name: "Email"
         in: "header"
         description: "Email address"
         required: true
@@ -216,6 +160,125 @@ paths:
             description: "Ok"
             schema:
               $ref: "#/definitions/User"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /user_pu:
+    post:
+      tags:
+      - "auth"
+      summary: "Performs update the user password"
+      description: ""
+      operationId: "updateUserPassword"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User password update object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateUserPassword"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/User"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /user_eu:
+    post:
+      tags:
+      - "auth"
+      summary: "Performs update the user email"
+      description: ""
+      operationId: "updateUserEmail"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User email update object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateUserEmail"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/User"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /user_nu:
+    post:
+      tags:
+      - "auth"
+      summary: "Performs update the user name"
+      description: ""
+      operationId: "updateUserName"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User name update object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateUserName"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              $ref: "#/definitions/User"
+        "400":
+            description: "Bad request"
+            schema:
+              $ref: "#/definitions/Error"
+        "422":
+            description: "Unprocessable entity"
+            schema:
+              $ref: "#/definitions/Error"
+      security:
+      - api_key: []
+  /users:
+    get:
+      tags:
+      - "auth"
+      summary: "Performs listing all users"
+      description: ""
+      operationId: "getUsers"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+            description: "Ok"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/User"
         "400":
             description: "Bad request"
             schema:
@@ -829,7 +892,25 @@ definitions:
         $ref: "#/definitions/User"
       token:
         type: "string"
-  UpdateUser:
+  UpdateUserPassword:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+      newPassword:
+        type: "string"
+  UpdateUserEmail:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      newEmail:
+        type: "string"
+      password:
+        type: "string"
+  UpdateUserName:
     type: "object"
     properties:
       email:
