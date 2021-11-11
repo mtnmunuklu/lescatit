@@ -24,12 +24,13 @@ type CatzeHandlers interface {
 
 // CzHandlers provides a connection with categorization service over proto buffer.
 type CzHandlers struct {
+	authSvcClient  pb.AuthServiceClient
 	catzeSvcClient pb.CatzeServiceClient
 }
 
 // NewCatzeHandlers creates a new CatzeHandlers instance.
-func NewCatzeHandlers(catzeSvcClient pb.CatzeServiceClient) CatzeHandlers {
-	return &CzHandlers{catzeSvcClient: catzeSvcClient}
+func NewCatzeHandlers(authSvcClient pb.AuthServiceClient, catzeSvcClient pb.CatzeServiceClient) CatzeHandlers {
+	return &CzHandlers{authSvcClient: authSvcClient, catzeSvcClient: catzeSvcClient}
 }
 
 // CategorizeURL performs categorize the url.
@@ -99,6 +100,23 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 //TODO: Only admin user will use this function
 //DeleteClassificationModel performs generate a classification model
 func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.Request) {
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// generate classification model
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
@@ -125,11 +143,7 @@ func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.
 
 //DeleteClassificationModel performs return the classification model
 func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Request) {
-	name := strings.TrimSpace(r.Header.Get("Name"))
-	if name == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
-		return
-	}
+	name := r.Header.Get("Name")
 	cmodel := new(pb.GetClassificationModelRequest)
 	cmodel.Name = name
 	getedCModel, err := h.catzeSvcClient.GetClassificationModel(r.Context(), cmodel)
@@ -140,9 +154,25 @@ func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Reque
 	util.WriteAsJson(w, http.StatusOK, getedCModel)
 }
 
-//TODO: Only admin user will use this function
 //DeleteClassificationModel performs update the classification model
 func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Request) {
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// update classification model
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
@@ -167,14 +197,26 @@ func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Re
 	util.WriteAsJson(w, http.StatusOK, updatedCModel)
 }
 
-//TODO: Only admin user will use this function
 //DeleteClassificationModel performs delete the classification model
 func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Request) {
-	name := strings.TrimSpace(r.Header.Get("Name"))
-	if name == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// delete classification model
+	name := r.Header.Get("Name")
 	cmodel := new(pb.DeleteClassificationModelRequest)
 	cmodel.Name = name
 	deletedCModel, err := h.catzeSvcClient.DeleteClassificationModel(r.Context(), cmodel)
@@ -188,11 +230,24 @@ func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Re
 //TODO: Only admin user will use this function
 //DeleteClassificationModels performs delete the classification models
 func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.Request) {
-	names := strings.TrimSpace(r.Header.Get("Names"))
-	if names == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// delete classification models
+	names := r.Header.Get("Names")
 	splittedNames := strings.Split(names, ",")
 	cmodels := new(pb.DeleteClassificationModelsRequest)
 	cmodels.Names = splittedNames
@@ -218,12 +273,8 @@ func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.R
 
 //DeleteClassificationModels performs list all classification models
 func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Request) {
-	categories := strings.TrimSpace(r.Header.Get("Categories"))
-	count := strings.TrimSpace(r.Header.Get("Count"))
-	if categories == "" || count == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
-		return
-	}
+	categories := r.Header.Get("Categories")
+	count := r.Header.Get("Count")
 	splittedCategories := strings.Split(categories, ",")
 	cmodels := new(pb.ListClassificationModelsRequest)
 	cmodels.Categories = splittedCategories

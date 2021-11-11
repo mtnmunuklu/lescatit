@@ -61,7 +61,7 @@ func main() {
 	defer authConn.Close()
 
 	catzeSvcClient := pb.NewCatzeServiceClient(catzeConn)
-	catzeHandlers := handlers.NewCatzeHandlers(catzeSvcClient)
+	catzeHandlers := handlers.NewCatzeHandlers(autSvcClient, catzeSvcClient)
 	catzeRoutes := routes.NewCatzeRoutes(catzeHandlers)
 
 	// for categorization service
