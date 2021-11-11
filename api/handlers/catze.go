@@ -97,7 +97,6 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, categorizedURLs)
 }
 
-//TODO: Only admin user will use this function
 //DeleteClassificationModel performs generate a classification model
 func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.Request) {
 	// check user role
@@ -227,7 +226,6 @@ func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Re
 	util.WriteAsJson(w, http.StatusOK, deletedCModel)
 }
 
-//TODO: Only admin user will use this function
 //DeleteClassificationModels performs delete the classification models
 func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.Request) {
 	// check user role
