@@ -23,23 +23,20 @@ type CatHandlers interface {
 
 // CHandlers provides a connection with categorization service over proto buffer.
 type CHandlers struct {
+	authSvcClient  pb.AuthServiceClient
 	crawlSvcClient pb.CrawlServiceClient
 	catzeSvcClient pb.CatzeServiceClient
 	catSvcClient   pb.CatServiceClient
 }
 
 // NewCatHandlers creates a new CatHandlers instance.
-func NewCatHandlers(crawlSvcClient pb.CrawlServiceClient, catzeSvcClient pb.CatzeServiceClient, catSvcClient pb.CatServiceClient) CatHandlers {
-	return &CHandlers{crawlSvcClient: crawlSvcClient, catzeSvcClient: catzeSvcClient, catSvcClient: catSvcClient}
+func NewCatHandlers(authSvcClient pb.AuthServiceClient, crawlSvcClient pb.CrawlServiceClient, catzeSvcClient pb.CatzeServiceClient, catSvcClient pb.CatServiceClient) CatHandlers {
+	return &CHandlers{authSvcClient: authSvcClient, crawlSvcClient: crawlSvcClient, catzeSvcClient: catzeSvcClient, catSvcClient: catSvcClient}
 }
 
 // GetCategory performs return the category by url.
 func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
-	rUrl := strings.TrimSpace(r.Header.Get("Url"))
-	if rUrl == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
-		return
-	}
+	rUrl := r.Header.Get("Url")
 	url := new(pb.GetCategoryRequest)
 	url.Url = rUrl
 	getedURL, err := h.catSvcClient.GetCategory(r.Context(), url)
@@ -50,9 +47,25 @@ func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedURL)
 }
 
-//TODO: Only admin user will use this function
 // UpdateCategory performs update the category.
 func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// update category
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
@@ -125,14 +138,26 @@ func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//TODO: Only admin user will use this function
 // DeleteURL performs delete the url.
 func (h *CHandlers) DeleteURL(w http.ResponseWriter, r *http.Request) {
-	rURL := strings.TrimSpace(r.Header.Get("Url"))
-	if rURL == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// delete url
+	rURL := r.Header.Get("Url")
 	url := new(pb.DeleteURLRequest)
 	url.Url = rURL
 	deletedURL, err := h.catSvcClient.DeleteURL(r.Context(), url)
@@ -187,14 +212,26 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 	util.WriteAsJson(w, http.StatusOK, reportedURL)
 }
 
-//TODO: Only admin user will use this function
 // DeleteURLs performs delete the urls.
 func (h *CHandlers) DeleteURLs(w http.ResponseWriter, r *http.Request) {
-	rURLs := strings.TrimSpace(r.Header.Get("Urls"))
-	if rURLs == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
+	// check user role
+	userId, err := util.GetUserIdFromToken(r)
+	if err != nil {
+		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	if err != nil {
+		util.WriteError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
+	if !userIsAdmin {
+		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
+		return
+	}
+	// delete urls
+	rURLs := r.Header.Get("Urls")
 	splittedURLs := strings.Split(rURLs, ",")
 	urls := new(pb.DeleteURLsRequest)
 	urls.Urls = splittedURLs
@@ -220,12 +257,8 @@ func (h *CHandlers) DeleteURLs(w http.ResponseWriter, r *http.Request) {
 
 // GetURLs performs list the urls based on categories and count.
 func (h *CHandlers) GetURLs(w http.ResponseWriter, r *http.Request) {
-	rCategories := strings.TrimSpace(r.Header.Get("Categories"))
-	rCount := strings.TrimSpace(r.Header.Get("Count"))
-	if rCategories == "" || rCount == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
-		return
-	}
+	rCategories := r.Header.Get("Categories")
+	rCount := r.Header.Get("Count")
 	splittedCategories := strings.Split(rCategories, ",")
 	urls := new(pb.ListURLsRequest)
 	urls.Categories = splittedCategories

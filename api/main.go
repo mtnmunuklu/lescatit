@@ -72,7 +72,7 @@ func main() {
 	defer catConn.Close()
 
 	catSvcClient := pb.NewCatServiceClient(catConn)
-	catHandlers := handlers.NewCatHandlers(crawlSvcClient, catzeSvcClient, catSvcClient)
+	catHandlers := handlers.NewCatHandlers(autSvcClient, crawlSvcClient, catzeSvcClient, catSvcClient)
 	catRoutes := routes.NewCatRoutes(catHandlers)
 
 	router := mux.NewRouter().StrictSlash(true)
