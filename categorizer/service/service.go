@@ -31,7 +31,7 @@ func NewCatzeService(categorizersRepository categorizersrps.CategorizersReposito
 	return &CatzeService{categorizersRepository: categorizersRepository, classifiersRepository: classifiersRepository, tokenizer: tokenizer, nbClassifier: nbClassifier}
 }
 
-// CategorizeURL provides to categorize the url.
+// CategorizeURL performs categorize the url.
 func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLRequest) (*pb.CategorizeURLResponse, error) {
 	err := util.ValidateURL(req.GetUrl())
 	if err != nil {
@@ -70,7 +70,7 @@ func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLR
 	return nil, util.ErrInvalidCategorizationModel
 }
 
-// CategorizeURLs provides to categorize the urls.
+// CategorizeURLs performs categorize the urls.
 func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error {
 	err := util.ValidateURLs(req.GetUrls())
 	if err != nil {
@@ -111,6 +111,7 @@ func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.C
 	return nil
 }
 
+// GenerateClassificationModel performs generate a classification model.
 func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.GenerateClassificationModelRequest) (*pb.Classifier, error) {
 	if req.GetCategory() == "NB" {
 		model := make(map[string][]string)
@@ -146,6 +147,7 @@ func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.
 	return nil, util.ErrInvalidCategorizationModel
 }
 
+// GetClassificationModel performs return the classification model.
 func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetClassificationModelRequest) (*pb.Classifier, error) {
 	if req.GetName() == "" {
 		return nil, util.ErrEmptyModelName
@@ -157,6 +159,7 @@ func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetCl
 	return classifier.ToProtoBuffer(), nil
 }
 
+// UpdateClassificationModel performs update the classification model.
 func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.UpdateClassificationModelRequest) (*pb.Classifier, error) {
 	if req.GetName() == "" {
 		return nil, util.ErrEmptyModelName
@@ -183,6 +186,7 @@ func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.Up
 	return classifier.ToProtoBuffer(), nil
 }
 
+// DeleteClassificationModel performs delete the classification model.
 func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.DeleteClassificationModelRequest) (*pb.DeleteClassificationModelResponse, error) {
 	if req.GetName() == "" {
 		return nil, util.ErrEmptyModelName
@@ -198,6 +202,7 @@ func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.De
 	return &pb.DeleteClassificationModelResponse{Name: classifier.Name}, nil
 }
 
+// DeleteClassificationModels performs delete the classification models.
 func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationModelsRequest, stream pb.CatzeService_DeleteClassificationModelsServer) error {
 	err := util.ValidateNames(req.GetNames())
 	if err != nil {
@@ -218,6 +223,7 @@ func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationMo
 	return nil
 }
 
+// ListClassificationModels performs list all classification models.
 func (s *CatzeService) ListClassificationModels(req *pb.ListClassificationModelsRequest, stream pb.CatzeService_ListClassificationModelsServer) error {
 	err := util.ValidateCategories(req.GetCategories())
 	if err != nil {

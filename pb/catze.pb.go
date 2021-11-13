@@ -638,53 +638,6 @@ func (x *DeleteClassificationModelRequest) GetName() string {
 	return ""
 }
 
-type DeleteClassificationModelsRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Names []string `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
-}
-
-func (x *DeleteClassificationModelsRequest) Reset() {
-	*x = DeleteClassificationModelsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_catze_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *DeleteClassificationModelsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteClassificationModelsRequest) ProtoMessage() {}
-
-func (x *DeleteClassificationModelsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_catze_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteClassificationModelsRequest.ProtoReflect.Descriptor instead.
-func (*DeleteClassificationModelsRequest) Descriptor() ([]byte, []int) {
-	return file_catze_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *DeleteClassificationModelsRequest) GetNames() []string {
-	if x != nil {
-		return x.Names
-	}
-	return nil
-}
-
 type DeleteClassificationModelResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -696,7 +649,7 @@ type DeleteClassificationModelResponse struct {
 func (x *DeleteClassificationModelResponse) Reset() {
 	*x = DeleteClassificationModelResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_catze_proto_msgTypes[11]
+		mi := &file_catze_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -709,7 +662,7 @@ func (x *DeleteClassificationModelResponse) String() string {
 func (*DeleteClassificationModelResponse) ProtoMessage() {}
 
 func (x *DeleteClassificationModelResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_catze_proto_msgTypes[11]
+	mi := &file_catze_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -722,7 +675,7 @@ func (x *DeleteClassificationModelResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use DeleteClassificationModelResponse.ProtoReflect.Descriptor instead.
 func (*DeleteClassificationModelResponse) Descriptor() ([]byte, []int) {
-	return file_catze_proto_rawDescGZIP(), []int{11}
+	return file_catze_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DeleteClassificationModelResponse) GetName() string {
@@ -730,6 +683,53 @@ func (x *DeleteClassificationModelResponse) GetName() string {
 		return x.Name
 	}
 	return ""
+}
+
+type DeleteClassificationModelsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Names []string `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
+}
+
+func (x *DeleteClassificationModelsRequest) Reset() {
+	*x = DeleteClassificationModelsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_catze_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteClassificationModelsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteClassificationModelsRequest) ProtoMessage() {}
+
+func (x *DeleteClassificationModelsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catze_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteClassificationModelsRequest.ProtoReflect.Descriptor instead.
+func (*DeleteClassificationModelsRequest) Descriptor() ([]byte, []int) {
+	return file_catze_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteClassificationModelsRequest) GetNames() []string {
+	if x != nil {
+		return x.Names
+	}
+	return nil
 }
 
 type ListClassificationModelsRequest struct {
@@ -850,15 +850,15 @@ var file_catze_proto_rawDesc = []byte{
 	0x65, 0x67, 0x6f, 0x72, 0x79, 0x22, 0x36, 0x0a, 0x20, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43,
 	0x6c, 0x61, 0x73, 0x73, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x6f, 0x64,
 	0x65, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
-	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x39, 0x0a,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x37, 0x0a,
 	0x21, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66, 0x69, 0x63,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x09, 0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x22, 0x37, 0x0a, 0x21, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a,
-	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
-	0x65, 0x22, 0x57, 0x0a, 0x1f, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x39, 0x0a, 0x21, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x43, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x6f,
+	0x64, 0x65, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6e,
+	0x61, 0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65,
+	0x73, 0x22, 0x57, 0x0a, 0x1f, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66,
 	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x73, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69,
 	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f,
@@ -935,8 +935,8 @@ var file_catze_proto_goTypes = []interface{}{
 	(*GetClassificationModelRequest)(nil),      // 7: pb.GetClassificationModelRequest
 	(*UpdateClassificationModelRequest)(nil),   // 8: pb.UpdateClassificationModelRequest
 	(*DeleteClassificationModelRequest)(nil),   // 9: pb.DeleteClassificationModelRequest
-	(*DeleteClassificationModelsRequest)(nil),  // 10: pb.DeleteClassificationModelsRequest
-	(*DeleteClassificationModelResponse)(nil),  // 11: pb.DeleteClassificationModelResponse
+	(*DeleteClassificationModelResponse)(nil),  // 10: pb.DeleteClassificationModelResponse
+	(*DeleteClassificationModelsRequest)(nil),  // 11: pb.DeleteClassificationModelsRequest
 	(*ListClassificationModelsRequest)(nil),    // 12: pb.ListClassificationModelsRequest
 }
 var file_catze_proto_depIdxs = []int32{
@@ -948,15 +948,15 @@ var file_catze_proto_depIdxs = []int32{
 	7,  // 5: pb.CatzeService.GetClassificationModel:input_type -> pb.GetClassificationModelRequest
 	8,  // 6: pb.CatzeService.UpdateClassificationModel:input_type -> pb.UpdateClassificationModelRequest
 	9,  // 7: pb.CatzeService.DeleteClassificationModel:input_type -> pb.DeleteClassificationModelRequest
-	10, // 8: pb.CatzeService.DeleteClassificationModels:input_type -> pb.DeleteClassificationModelsRequest
+	11, // 8: pb.CatzeService.DeleteClassificationModels:input_type -> pb.DeleteClassificationModelsRequest
 	12, // 9: pb.CatzeService.ListClassificationModels:input_type -> pb.ListClassificationModelsRequest
 	4,  // 10: pb.CatzeService.CategorizeURL:output_type -> pb.CategorizeURLResponse
 	4,  // 11: pb.CatzeService.CategorizeURLs:output_type -> pb.CategorizeURLResponse
 	1,  // 12: pb.CatzeService.GenerateClassificationModel:output_type -> pb.Classifier
 	1,  // 13: pb.CatzeService.GetClassificationModel:output_type -> pb.Classifier
 	1,  // 14: pb.CatzeService.UpdateClassificationModel:output_type -> pb.Classifier
-	11, // 15: pb.CatzeService.DeleteClassificationModel:output_type -> pb.DeleteClassificationModelResponse
-	11, // 16: pb.CatzeService.DeleteClassificationModels:output_type -> pb.DeleteClassificationModelResponse
+	10, // 15: pb.CatzeService.DeleteClassificationModel:output_type -> pb.DeleteClassificationModelResponse
+	10, // 16: pb.CatzeService.DeleteClassificationModels:output_type -> pb.DeleteClassificationModelResponse
 	1,  // 17: pb.CatzeService.ListClassificationModels:output_type -> pb.Classifier
 	10, // [10:18] is the sub-list for method output_type
 	2,  // [2:10] is the sub-list for method input_type
@@ -1092,7 +1092,7 @@ func file_catze_proto_init() {
 			}
 		}
 		file_catze_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteClassificationModelsRequest); i {
+			switch v := v.(*DeleteClassificationModelResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1104,7 +1104,7 @@ func file_catze_proto_init() {
 			}
 		}
 		file_catze_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteClassificationModelResponse); i {
+			switch v := v.(*DeleteClassificationModelsRequest); i {
 			case 0:
 				return &v.state
 			case 1:

@@ -97,7 +97,7 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, categorizedURLs)
 }
 
-//DeleteClassificationModel performs generate a classification model
+// GenerateClassificationModel performs generate a classification model.
 func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.Request) {
 	// check user role
 	userId, err := util.GetUserIdFromToken(r)
@@ -140,7 +140,7 @@ func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.
 	util.WriteAsJson(w, http.StatusOK, generatedModel)
 }
 
-//DeleteClassificationModel performs return the classification model
+// GetClassificationModel performs return the classification model.
 func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Request) {
 	name := r.Header.Get("Name")
 	cmodel := new(pb.GetClassificationModelRequest)
@@ -153,7 +153,7 @@ func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Reque
 	util.WriteAsJson(w, http.StatusOK, getedCModel)
 }
 
-//DeleteClassificationModel performs update the classification model
+// UpdateClassificationModel performs update the classification model.
 func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Request) {
 	// check user role
 	userId, err := util.GetUserIdFromToken(r)
@@ -196,7 +196,7 @@ func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Re
 	util.WriteAsJson(w, http.StatusOK, updatedCModel)
 }
 
-//DeleteClassificationModel performs delete the classification model
+// DeleteClassificationModel performs delete the classification model.
 func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Request) {
 	// check user role
 	userId, err := util.GetUserIdFromToken(r)
@@ -226,7 +226,7 @@ func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Re
 	util.WriteAsJson(w, http.StatusOK, deletedCModel)
 }
 
-//DeleteClassificationModels performs delete the classification models
+// DeleteClassificationModels performs delete the classification models.
 func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.Request) {
 	// check user role
 	userId, err := util.GetUserIdFromToken(r)
@@ -269,7 +269,7 @@ func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.R
 	util.WriteAsJson(w, http.StatusOK, deletedCModels)
 }
 
-//DeleteClassificationModels performs list all classification models
+// ListClassificationModels performs list all classification models.
 func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Request) {
 	categories := r.Header.Get("Categories")
 	count := r.Header.Get("Count")

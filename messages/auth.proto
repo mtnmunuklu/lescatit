@@ -14,20 +14,6 @@ message User {
     int64 updated = 7;
 }
 
-message GetUserRequest {
-    string email = 1;
-}
-
-message ListUsersRequest {}
-
-message DeleteUserRequest {
-    string email = 1;
-}
-
-message DeleteUserResponse {
-    string email = 1;
-}
-
 message SignUpRequest {
     string name = 1;
     string email = 2;
@@ -42,6 +28,18 @@ message SignInRequest {
 message SignInResponse {
     User user = 1;
     string token = 2;
+}
+
+message GetUserRequest {
+    string email = 1;
+}
+
+message DeleteUserRequest {
+    string email = 1;
+}
+
+message DeleteUserResponse {
+    string email = 1;
 }
 
 message ChangeUserRoleRequest {
@@ -74,6 +72,8 @@ message UpdateUserNameRequest {
     string name = 2;
     string password = 3;
 }
+
+message ListUsersRequest {}
 
 service AuthService {
     rpc SignUp(SignUpRequest) returns (User);
