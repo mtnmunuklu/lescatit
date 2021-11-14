@@ -21,7 +21,7 @@ func NewCrawlService(crawlersRepository repository.CrawlersRepository, collyScra
 	return &CrawlService{crawlersRepository: crawlersRepository, collyScraper: collyScraper}
 }
 
-//GetURLData provides to get the content in the url address.
+// GetURLData provides to get the content in the url address.
 func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest) (*pb.GetURLDataResponse, error) {
 	err := util.ValidateURL(req.Url)
 	if err != nil {
@@ -55,7 +55,7 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 	return &pb.GetURLDataResponse{Url: req.Url, Data: data.Data}, nil
 }
 
-//GetURLsData provides to get the content in the url addresses.
+// GetURLsData provides to get the content in the url addresses.
 func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlService_GetURLsDataServer) error {
 
 	for _, url := range req.GetURLsDataRequest {
@@ -97,7 +97,7 @@ func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlSe
 	return nil
 }
 
-// CrawlURL performs crawl the url
+// CrawlURL performs crawl the url.
 func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*pb.CrawlURLResponse, error) {
 	err := util.ValidateURL(req.Url)
 	if err != nil {
@@ -111,7 +111,7 @@ func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*
 	return &pb.CrawlURLResponse{Url: req.Url, Links: links}, nil
 }
 
-// CrawlUrls performs crawl the urls
+// CrawlUrls performs crawl the urls.
 func (s *CrawlService) CrawlURLs(req *pb.CrawlURLsRequest, stream pb.CrawlService_CrawlURLsServer) error {
 	err := util.ValidateURLs(req.Urls)
 	if err != nil {

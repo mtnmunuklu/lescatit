@@ -28,13 +28,9 @@ func NewCrawlHandlers(crawlSvcClient pb.CrawlServiceClient) CrawlHandlers {
 	return &CwlHandlers{crawlSvcClient: crawlSvcClient}
 }
 
-//GetURLData provides to get the content in the url address.
+// GetURLData provides to get the content in the url address.
 func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request) {
-	rUrl := strings.TrimSpace(r.Header.Get("Url"))
-	if rUrl == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
-		return
-	}
+	rUrl := r.Header.Get("Url")
 	url := new(pb.GetURLDataRequest)
 	url.Url = rUrl
 	getedURLData, err := h.crawlSvcClient.GetURLData(r.Context(), url)
@@ -45,14 +41,10 @@ func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedURLData)
 }
 
-//GetURLsData provides to get the content in the url addresses.
+// GetURLsData provides to get the content in the url addresses.
 func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
-	rURLs := strings.TrimSpace(r.Header.Get("Urls"))
-	rTypes := strings.TrimSpace(r.Header.Get("Types"))
-	if rURLs == "" {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyHeader)
-		return
-	}
+	rURLs := r.Header.Get("Urls")
+	rTypes := r.Header.Get("Types")
 	splittedURLs := strings.Split(rURLs, ",")
 	splittedTypes := strings.Split(rTypes, ",")
 	urls := new(pb.GetURLsDataRequest)
@@ -84,7 +76,7 @@ func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, getedURLsData)
 }
 
-// CrawlURL performs crawl the url
+// CrawlURL performs crawl the url.
 func (h *CwlHandlers) CrawlURL(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
@@ -110,7 +102,7 @@ func (h *CwlHandlers) CrawlURL(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, crawledURL)
 }
 
-// CrawlURLs performs crawl the urls
+// CrawlURLs performs crawl the urls.
 func (h *CwlHandlers) CrawlURLs(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)

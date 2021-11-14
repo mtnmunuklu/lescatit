@@ -19,14 +19,14 @@ message GetURLDataRequest {
     string type = 2;
 }
 
-message GetURLsDataRequest {
-    repeated GetURLDataRequest getURLsDataRequest = 1;
-}
-
 message GetURLDataResponse {
     string url = 1;
     string data = 2;
     string status = 3;
+}
+
+message GetURLsDataRequest {
+    repeated GetURLDataRequest getURLsDataRequest = 1;
 }
 
 message CrawlRequest{
@@ -69,14 +69,14 @@ message CrawlURLRequest {
     CrawlRequest crawlRequest = 2;
 }
 
-message CrawlURLsRequest {
-    repeated string urls = 1;
-    CrawlRequest crawlRequest = 2;
-}
-
 message CrawlURLResponse {
     string url = 1;
     repeated string links = 2;
+}
+
+message CrawlURLsRequest {
+    repeated string urls = 1;
+    CrawlRequest crawlRequest = 2;
 }
 
 service CrawlService {
