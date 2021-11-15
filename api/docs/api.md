@@ -19,12 +19,15 @@ import "Lescatit/api/handlers"
 ## Index
 
 - [type AHandlers](<#type-ahandlers>)
+  - [func (h *AHandlers) ChangeUserRole(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-changeuserrole>)
   - [func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-deleteuser>)
   - [func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-getuser>)
   - [func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-getusers>)
   - [func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-signin>)
   - [func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-signup>)
-  - [func (h *AHandlers) UpdateUser(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-updateuser>)
+  - [func (h *AHandlers) UpdateUserEmail(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-updateuseremail>)
+  - [func (h *AHandlers) UpdateUserName(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-updateusername>)
+  - [func (h *AHandlers) UpdateUserPassword(w http.ResponseWriter, r *http.Request)](<#func-ahandlers-updateuserpassword>)
 - [type AuthHandlers](<#type-authhandlers>)
   - [func NewAuthHandlers(authSvcClient pb.AuthServiceClient) AuthHandlers](<#func-newauthhandlers>)
 - [type CHandlers](<#type-chandlers>)
@@ -36,9 +39,9 @@ import "Lescatit/api/handlers"
   - [func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Request)](<#func-chandlers-reportmiscategorization>)
   - [func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request)](<#func-chandlers-updatecategory>)
 - [type CatHandlers](<#type-cathandlers>)
-  - [func NewCatHandlers(crawlSvcClient pb.CrawlServiceClient, catzeSvcClient pb.CatzeServiceClient, catSvcClient pb.CatServiceClient) CatHandlers](<#func-newcathandlers>)
+  - [func NewCatHandlers(authSvcClient pb.AuthServiceClient, crawlSvcClient pb.CrawlServiceClient, catzeSvcClient pb.CatzeServiceClient, catSvcClient pb.CatServiceClient) CatHandlers](<#func-newcathandlers>)
 - [type CatzeHandlers](<#type-catzehandlers>)
-  - [func NewCatzeHandlers(catzeSvcClient pb.CatzeServiceClient) CatzeHandlers](<#func-newcatzehandlers>)
+  - [func NewCatzeHandlers(authSvcClient pb.AuthServiceClient, catzeSvcClient pb.CatzeServiceClient) CatzeHandlers](<#func-newcatzehandlers>)
 - [type CrawlHandlers](<#type-crawlhandlers>)
   - [func NewCrawlHandlers(crawlSvcClient pb.CrawlServiceClient) CrawlHandlers](<#func-newcrawlhandlers>)
 - [type CwlHandlers](<#type-cwlhandlers>)
@@ -57,7 +60,7 @@ import "Lescatit/api/handlers"
   - [func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Request)](<#func-czhandlers-updateclassificationmodel>)
 
 
-## type [AHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L23-L25>)
+## type [AHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L26-L28>)
 
 AHandlers provides a connection with authentication service over proto buffer\.
 
@@ -67,23 +70,31 @@ type AHandlers struct {
 }
 ```
 
-### func \(\*AHandlers\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L154>)
+### func \(\*AHandlers\) [ChangeUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L148>)
+
+```go
+func (h *AHandlers) ChangeUserRole(w http.ResponseWriter, r *http.Request)
+```
+
+ChangeUserRole performs change the user role\.
+
+### func \(\*AHandlers\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L118>)
 
 ```go
 func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request)
 ```
 
-DeleteUser performs delete the user\.
+DeleteUser performs delete the user by email\.
 
-### func \(\*AHandlers\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L117>)
+### func \(\*AHandlers\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L88>)
 
 ```go
 func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request)
 ```
 
-GetUser performs return the user by id\.
+GetUser performs return the user by email\.
 
-### func \(\*AHandlers\) [GetUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L132>)
+### func \(\*AHandlers\) [GetUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L269>)
 
 ```go
 func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request)
@@ -91,7 +102,7 @@ func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request)
 
 GetUsers list all users\.
 
-### func \(\*AHandlers\) [SignIn](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L59>)
+### func \(\*AHandlers\) [SignIn](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L62>)
 
 ```go
 func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request)
@@ -99,7 +110,7 @@ func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request)
 
 SignIn performs the user login process\.
 
-### func \(\*AHandlers\) [SignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L33>)
+### func \(\*AHandlers\) [SignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L36>)
 
 ```go
 func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request)
@@ -107,15 +118,31 @@ func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request)
 
 SignUp performs the user registration process\.
 
-### func \(\*AHandlers\) [UpdateUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L85>)
+### func \(\*AHandlers\) [UpdateUserEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L217>)
 
 ```go
-func (h *AHandlers) UpdateUser(w http.ResponseWriter, r *http.Request)
+func (h *AHandlers) UpdateUserEmail(w http.ResponseWriter, r *http.Request)
 ```
 
-UpdateUser performs update the user\.
+UpdateUser performs update the user email\.
 
-## type [AuthHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L13-L20>)
+### func \(\*AHandlers\) [UpdateUserName](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L243>)
+
+```go
+func (h *AHandlers) UpdateUserName(w http.ResponseWriter, r *http.Request)
+```
+
+UpdateUser performs update the user name\.
+
+### func \(\*AHandlers\) [UpdateUserPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L191>)
+
+```go
+func (h *AHandlers) UpdateUserPassword(w http.ResponseWriter, r *http.Request)
+```
+
+UpdateUser performs update the user password\.
+
+## type [AuthHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L13-L23>)
 
 AuthHandlers is the interface of the authentication operation\.
 
@@ -123,14 +150,17 @@ AuthHandlers is the interface of the authentication operation\.
 type AuthHandlers interface {
     SignUp(w http.ResponseWriter, r *http.Request)
     SignIn(w http.ResponseWriter, r *http.Request)
-    UpdateUser(w http.ResponseWriter, r *http.Request)
     GetUser(w http.ResponseWriter, r *http.Request)
-    GetUsers(w http.ResponseWriter, r *http.Request)
     DeleteUser(w http.ResponseWriter, r *http.Request)
+    ChangeUserRole(w http.ResponseWriter, r *http.Request)
+    UpdateUserPassword(w http.ResponseWriter, r *http.Request)
+    UpdateUserEmail(w http.ResponseWriter, r *http.Request)
+    UpdateUserName(w http.ResponseWriter, r *http.Request)
+    GetUsers(w http.ResponseWriter, r *http.Request)
 }
 ```
 
-### func [NewAuthHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L28>)
+### func [NewAuthHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/auth.go#L31>)
 
 ```go
 func NewAuthHandlers(authSvcClient pb.AuthServiceClient) AuthHandlers
@@ -138,7 +168,7 @@ func NewAuthHandlers(authSvcClient pb.AuthServiceClient) AuthHandlers
 
 NewAuthHandlers creates a new AuthHandlers instance\.
 
-## type [CHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L25-L29>)
+## type [CHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L25-L30>)
 
 CHandlers provides a connection with categorization service over proto buffer\.
 
@@ -148,7 +178,7 @@ type CHandlers struct {
 }
 ```
 
-### func \(\*CHandlers\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L124>)
+### func \(\*CHandlers\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L94>)
 
 ```go
 func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request)
@@ -156,7 +186,7 @@ func (h *CHandlers) AddURL(w http.ResponseWriter, r *http.Request)
 
 AddURL performs add the url\.
 
-### func \(\*CHandlers\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L202>)
+### func \(\*CHandlers\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L142>)
 
 ```go
 func (h *CHandlers) DeleteURL(w http.ResponseWriter, r *http.Request)
@@ -164,7 +194,7 @@ func (h *CHandlers) DeleteURL(w http.ResponseWriter, r *http.Request)
 
 DeleteURL performs delete the url\.
 
-### func \(\*CHandlers\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L172>)
+### func \(\*CHandlers\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L216>)
 
 ```go
 func (h *CHandlers) DeleteURLs(w http.ResponseWriter, r *http.Request)
@@ -172,7 +202,7 @@ func (h *CHandlers) DeleteURLs(w http.ResponseWriter, r *http.Request)
 
 DeleteURLs performs delete the urls\.
 
-### func \(\*CHandlers\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L37>)
+### func \(\*CHandlers\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L38>)
 
 ```go
 func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request)
@@ -180,7 +210,7 @@ func (h *CHandlers) GetCategory(w http.ResponseWriter, r *http.Request)
 
 GetCategory performs return the category by url\.
 
-### func \(\*CHandlers\) [GetURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L219>)
+### func \(\*CHandlers\) [GetURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L259>)
 
 ```go
 func (h *CHandlers) GetURLs(w http.ResponseWriter, r *http.Request)
@@ -188,7 +218,7 @@ func (h *CHandlers) GetURLs(w http.ResponseWriter, r *http.Request)
 
 GetURLs performs list the urls based on categories and count\.
 
-### func \(\*CHandlers\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L80>)
+### func \(\*CHandlers\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L172>)
 
 ```go
 func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Request)
@@ -196,7 +226,7 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 
 ReportMiscategorization reports miscategorization\.
 
-### func \(\*CHandlers\) [UpdateCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L54>)
+### func \(\*CHandlers\) [UpdateCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L51>)
 
 ```go
 func (h *CHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request)
@@ -212,18 +242,18 @@ CatHandlers is the interface of the categorization operation\.
 type CatHandlers interface {
     GetCategory(w http.ResponseWriter, r *http.Request)
     UpdateCategory(w http.ResponseWriter, r *http.Request)
-    ReportMiscategorization(w http.ResponseWriter, r *http.Request)
     AddURL(w http.ResponseWriter, r *http.Request)
-    DeleteURLs(w http.ResponseWriter, r *http.Request)
     DeleteURL(w http.ResponseWriter, r *http.Request)
+    ReportMiscategorization(w http.ResponseWriter, r *http.Request)
+    DeleteURLs(w http.ResponseWriter, r *http.Request)
     GetURLs(w http.ResponseWriter, r *http.Request)
 }
 ```
 
-### func [NewCatHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L32>)
+### func [NewCatHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/cat.go#L33>)
 
 ```go
-func NewCatHandlers(crawlSvcClient pb.CrawlServiceClient, catzeSvcClient pb.CatzeServiceClient, catSvcClient pb.CatServiceClient) CatHandlers
+func NewCatHandlers(authSvcClient pb.AuthServiceClient, crawlSvcClient pb.CrawlServiceClient, catzeSvcClient pb.CatzeServiceClient, catSvcClient pb.CatServiceClient) CatHandlers
 ```
 
 NewCatHandlers creates a new CatHandlers instance\.
@@ -245,10 +275,10 @@ type CatzeHandlers interface {
 }
 ```
 
-### func [NewCatzeHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L31>)
+### func [NewCatzeHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L32>)
 
 ```go
-func NewCatzeHandlers(catzeSvcClient pb.CatzeServiceClient) CatzeHandlers
+func NewCatzeHandlers(authSvcClient pb.AuthServiceClient, catzeSvcClient pb.CatzeServiceClient) CatzeHandlers
 ```
 
 NewCatzeHandlers creates a new CatzeHandlers instance\.
@@ -284,21 +314,21 @@ type CwlHandlers struct {
 }
 ```
 
-### func \(\*CwlHandlers\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/crawl.go#L88>)
+### func \(\*CwlHandlers\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/crawl.go#L80>)
 
 ```go
 func (h *CwlHandlers) CrawlURL(w http.ResponseWriter, r *http.Request)
 ```
 
-CrawlURL performs crawl the url
+CrawlURL performs crawl the url\.
 
-### func \(\*CwlHandlers\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/crawl.go#L114>)
+### func \(\*CwlHandlers\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/crawl.go#L106>)
 
 ```go
 func (h *CwlHandlers) CrawlURLs(w http.ResponseWriter, r *http.Request)
 ```
 
-CrawlURLs performs crawl the urls
+CrawlURLs performs crawl the urls\.
 
 ### func \(\*CwlHandlers\) [GetURLData](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/crawl.go#L32>)
 
@@ -308,7 +338,7 @@ func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request)
 
 GetURLData provides to get the content in the url address\.
 
-### func \(\*CwlHandlers\) [GetURLsData](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/crawl.go#L49>)
+### func \(\*CwlHandlers\) [GetURLsData](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/crawl.go#L45>)
 
 ```go
 func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request)
@@ -316,7 +346,7 @@ func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request)
 
 GetURLsData provides to get the content in the url addresses\.
 
-## type [CzHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L26-L28>)
+## type [CzHandlers](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L26-L29>)
 
 CzHandlers provides a connection with categorization service over proto buffer\.
 
@@ -326,7 +356,7 @@ type CzHandlers struct {
 }
 ```
 
-### func \(\*CzHandlers\) [CategorizeURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L36>)
+### func \(\*CzHandlers\) [CategorizeURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L37>)
 
 ```go
 func (h *CzHandlers) CategorizeURL(w http.ResponseWriter, r *http.Request)
@@ -334,7 +364,7 @@ func (h *CzHandlers) CategorizeURL(w http.ResponseWriter, r *http.Request)
 
 CategorizeURL performs categorize the url\.
 
-### func \(\*CzHandlers\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L62>)
+### func \(\*CzHandlers\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L63>)
 
 ```go
 func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request)
@@ -342,53 +372,53 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request)
 
 CategorizeURLs performs categorize the urls\.
 
-### func \(\*CzHandlers\) [DeleteClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L169>)
+### func \(\*CzHandlers\) [DeleteClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L200>)
 
 ```go
 func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Request)
 ```
 
-DeleteClassificationModel performs delete the classification model
+DeleteClassificationModel performs delete the classification model\.
 
-### func \(\*CzHandlers\) [DeleteClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L186>)
+### func \(\*CzHandlers\) [DeleteClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L230>)
 
 ```go
 func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.Request)
 ```
 
-DeleteClassificationModels performs delete the classification models
+DeleteClassificationModels performs delete the classification models\.
 
-### func \(\*CzHandlers\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L100>)
+### func \(\*CzHandlers\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L101>)
 
 ```go
 func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.Request)
 ```
 
-DeleteClassificationModel performs generate a classification model
+GenerateClassificationModel performs generate a classification model\.
 
-### func \(\*CzHandlers\) [GetClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L126>)
+### func \(\*CzHandlers\) [GetClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L144>)
 
 ```go
 func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Request)
 ```
 
-DeleteClassificationModel performs return the classification model
+GetClassificationModel performs return the classification model\.
 
-### func \(\*CzHandlers\) [ListClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L216>)
+### func \(\*CzHandlers\) [ListClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L273>)
 
 ```go
 func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Request)
 ```
 
-DeleteClassificationModels performs list all classification models
+ListClassificationModels performs list all classification models\.
 
-### func \(\*CzHandlers\) [UpdateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L143>)
+### func \(\*CzHandlers\) [UpdateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/handlers/catze.go#L157>)
 
 ```go
 func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Request)
 ```
 
-DeleteClassificationModel performs update the classification model
+UpdateClassificationModel performs update the classification model\.
 
 # middlewares
 
@@ -505,7 +535,8 @@ import "Lescatit/api/util"
 ## Index
 
 - [Variables](<#variables>)
-- [func AuthRequestWithId(r *http.Request) (*security.TokenPayload, error)](<#func-authrequestwithid>)
+- [func CheckUserIsAdmin(role string) bool](<#func-checkuserisadmin>)
+- [func GetUserIdFromToken(r *http.Request) (string, error)](<#func-getuseridfromtoken>)
 - [func WriteAsJson(w http.ResponseWriter, statusCode int, data interface{})](<#func-writeasjson>)
 - [func WriteError(w http.ResponseWriter, statusCode int, err error)](<#func-writeerror>)
 - [type JError](<#type-jerror>)
@@ -524,15 +555,23 @@ var (
 )
 ```
 
-## func [AuthRequestWithId](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L42>)
+## func [CheckUserIsAdmin](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L53>)
 
 ```go
-func AuthRequestWithId(r *http.Request) (*security.TokenPayload, error)
+func CheckUserIsAdmin(role string) bool
 ```
 
-AuthRequestWithId checks for unauthorized access by comparing the id in the token with the id used in the requested transaction\.
+CheckUserIsAdmin checks if user is admin
 
-## func [WriteAsJson](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L26>)
+## func [GetUserIdFromToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L40>)
+
+```go
+func GetUserIdFromToken(r *http.Request) (string, error)
+```
+
+GetUserIdFromToken provides return the user id in the token\.
+
+## func [WriteAsJson](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L24>)
 
 ```go
 func WriteAsJson(w http.ResponseWriter, statusCode int, data interface{})
@@ -540,7 +579,7 @@ func WriteAsJson(w http.ResponseWriter, statusCode int, data interface{})
 
 WriteAsJson provides return the response in json format\.
 
-## func [WriteError](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L33>)
+## func [WriteError](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L31>)
 
 ```go
 func WriteError(w http.ResponseWriter, statusCode int, err error)
@@ -548,7 +587,7 @@ func WriteError(w http.ResponseWriter, statusCode int, err error)
 
 WriteError provides return the related error in json format\.
 
-## type [JError](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L21-L23>)
+## type [JError](<https://github.com/mtnmunuklu/Lescatit/blob/main/api/util/util.go#L19-L21>)
 
 Error
 

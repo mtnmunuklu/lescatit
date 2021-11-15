@@ -26,7 +26,7 @@ import "Lescatit/categorizer/classifiers"
   - [func NewNaiveBayesianClassifer() NaiveBayesianClassifier](<#func-newnaivebayesianclassifer>)
 
 
-## type [NBClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L18-L21>)
+## type [NBClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L19-L22>)
 
 NBCategorizer provides categorizer and classes for naive bayesian classifier\.
 
@@ -36,7 +36,7 @@ type NBClassifier struct {
 }
 ```
 
-### func \(\*NBClassifier\) [Learn](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L29>)
+### func \(\*NBClassifier\) [Learn](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L30>)
 
 ```go
 func (c *NBClassifier) Learn(model map[string][]string) (string, error)
@@ -50,15 +50,13 @@ Learn provides to create a new classifer model\.
 func (c *NBClassifier) Predict(tokens []string) string
 ```
 
-TODO: check it if it gives the correct result
-
-### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L61>)
+### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L64>)
 
 ```go
 func (c *NBClassifier) ReadClassifier(data string) error
 ```
 
-## type [NaiveBayesianClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L11-L15>)
+## type [NaiveBayesianClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L12-L16>)
 
 NaiveBayesianClassifier is the interface of the naive bayesian classifer\.
 
@@ -70,7 +68,7 @@ type NaiveBayesianClassifier interface {
 }
 ```
 
-### func [NewNaiveBayesianClassifer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L24>)
+### func [NewNaiveBayesianClassifer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L25>)
 
 ```go
 func NewNaiveBayesianClassifer() NaiveBayesianClassifier
@@ -170,7 +168,7 @@ type CatzeService struct {
 func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLRequest) (*pb.CategorizeURLResponse, error)
 ```
 
-CategorizeURL provides to categorize the url\.
+CategorizeURL performs categorize the url\.
 
 ### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L74>)
 
@@ -178,43 +176,55 @@ CategorizeURL provides to categorize the url\.
 func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error
 ```
 
-CategorizeURLs provides to categorize the urls\.
+CategorizeURLs performs categorize the urls\.
 
-### func \(\*CatzeService\) [DeleteClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L186>)
+### func \(\*CatzeService\) [DeleteClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L190>)
 
 ```go
 func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.DeleteClassificationModelRequest) (*pb.DeleteClassificationModelResponse, error)
 ```
 
-### func \(\*CatzeService\) [DeleteClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L201>)
+DeleteClassificationModel performs delete the classification model\.
+
+### func \(\*CatzeService\) [DeleteClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L206>)
 
 ```go
 func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationModelsRequest, stream pb.CatzeService_DeleteClassificationModelsServer) error
 ```
 
-### func \(\*CatzeService\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L114>)
+DeleteClassificationModels performs delete the classification models\.
+
+### func \(\*CatzeService\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L115>)
 
 ```go
 func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.GenerateClassificationModelRequest) (*pb.Classifier, error)
 ```
 
-### func \(\*CatzeService\) [GetClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L149>)
+GenerateClassificationModel performs generate a classification model\.
+
+### func \(\*CatzeService\) [GetClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L151>)
 
 ```go
 func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetClassificationModelRequest) (*pb.Classifier, error)
 ```
 
-### func \(\*CatzeService\) [ListClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L221>)
+GetClassificationModel performs return the classification model\.
+
+### func \(\*CatzeService\) [ListClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L227>)
 
 ```go
 func (s *CatzeService) ListClassificationModels(req *pb.ListClassificationModelsRequest, stream pb.CatzeService_ListClassificationModelsServer) error
 ```
 
-### func \(\*CatzeService\) [UpdateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L160>)
+ListClassificationModels performs list all classification models\.
+
+### func \(\*CatzeService\) [UpdateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L163>)
 
 ```go
 func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.UpdateClassificationModelRequest) (*pb.Classifier, error)
 ```
+
+UpdateClassificationModel performs update the classification model\.
 
 # tokenizer
 

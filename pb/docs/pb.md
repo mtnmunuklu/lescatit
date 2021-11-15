@@ -103,6 +103,14 @@ import "Lescatit/pb"
 - [type CatzeService_DeleteClassificationModelsServer](<#type-catzeservice_deleteclassificationmodelsserver>)
 - [type CatzeService_ListClassificationModelsClient](<#type-catzeservice_listclassificationmodelsclient>)
 - [type CatzeService_ListClassificationModelsServer](<#type-catzeservice_listclassificationmodelsserver>)
+- [type ChangeUserRoleRequest](<#type-changeuserrolerequest>)
+  - [func (*ChangeUserRoleRequest) Descriptor() ([]byte, []int)](<#func-changeuserrolerequest-descriptor>)
+  - [func (x *ChangeUserRoleRequest) GetEmail() string](<#func-changeuserrolerequest-getemail>)
+  - [func (x *ChangeUserRoleRequest) GetRole() string](<#func-changeuserrolerequest-getrole>)
+  - [func (*ChangeUserRoleRequest) ProtoMessage()](<#func-changeuserrolerequest-protomessage>)
+  - [func (x *ChangeUserRoleRequest) ProtoReflect() protoreflect.Message](<#func-changeuserrolerequest-protoreflect>)
+  - [func (x *ChangeUserRoleRequest) Reset()](<#func-changeuserrolerequest-reset>)
+  - [func (x *ChangeUserRoleRequest) String() string](<#func-changeuserrolerequest-string>)
 - [type ClassificationModel](<#type-classificationmodel>)
   - [func (*ClassificationModel) Descriptor() ([]byte, []int)](<#func-classificationmodel-descriptor>)
   - [func (x *ClassificationModel) GetClass() string](<#func-classificationmodel-getclass>)
@@ -225,9 +233,16 @@ import "Lescatit/pb"
   - [func (x *DeleteURLsRequest) ProtoReflect() protoreflect.Message](<#func-deleteurlsrequest-protoreflect>)
   - [func (x *DeleteURLsRequest) Reset()](<#func-deleteurlsrequest-reset>)
   - [func (x *DeleteURLsRequest) String() string](<#func-deleteurlsrequest-string>)
+- [type DeleteUserRequest](<#type-deleteuserrequest>)
+  - [func (*DeleteUserRequest) Descriptor() ([]byte, []int)](<#func-deleteuserrequest-descriptor>)
+  - [func (x *DeleteUserRequest) GetEmail() string](<#func-deleteuserrequest-getemail>)
+  - [func (*DeleteUserRequest) ProtoMessage()](<#func-deleteuserrequest-protomessage>)
+  - [func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message](<#func-deleteuserrequest-protoreflect>)
+  - [func (x *DeleteUserRequest) Reset()](<#func-deleteuserrequest-reset>)
+  - [func (x *DeleteUserRequest) String() string](<#func-deleteuserrequest-string>)
 - [type DeleteUserResponse](<#type-deleteuserresponse>)
   - [func (*DeleteUserResponse) Descriptor() ([]byte, []int)](<#func-deleteuserresponse-descriptor>)
-  - [func (x *DeleteUserResponse) GetId() string](<#func-deleteuserresponse-getid>)
+  - [func (x *DeleteUserResponse) GetEmail() string](<#func-deleteuserresponse-getemail>)
   - [func (*DeleteUserResponse) ProtoMessage()](<#func-deleteuserresponse-protomessage>)
   - [func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message](<#func-deleteuserresponse-protoreflect>)
   - [func (x *DeleteUserResponse) Reset()](<#func-deleteuserresponse-reset>)
@@ -280,11 +295,25 @@ import "Lescatit/pb"
   - [func (x *GetURLsDataRequest) String() string](<#func-geturlsdatarequest-string>)
 - [type GetUserRequest](<#type-getuserrequest>)
   - [func (*GetUserRequest) Descriptor() ([]byte, []int)](<#func-getuserrequest-descriptor>)
-  - [func (x *GetUserRequest) GetId() string](<#func-getuserrequest-getid>)
+  - [func (x *GetUserRequest) GetEmail() string](<#func-getuserrequest-getemail>)
   - [func (*GetUserRequest) ProtoMessage()](<#func-getuserrequest-protomessage>)
   - [func (x *GetUserRequest) ProtoReflect() protoreflect.Message](<#func-getuserrequest-protoreflect>)
   - [func (x *GetUserRequest) Reset()](<#func-getuserrequest-reset>)
   - [func (x *GetUserRequest) String() string](<#func-getuserrequest-string>)
+- [type GetUserRoleRequest](<#type-getuserrolerequest>)
+  - [func (*GetUserRoleRequest) Descriptor() ([]byte, []int)](<#func-getuserrolerequest-descriptor>)
+  - [func (x *GetUserRoleRequest) GetId() string](<#func-getuserrolerequest-getid>)
+  - [func (*GetUserRoleRequest) ProtoMessage()](<#func-getuserrolerequest-protomessage>)
+  - [func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message](<#func-getuserrolerequest-protoreflect>)
+  - [func (x *GetUserRoleRequest) Reset()](<#func-getuserrolerequest-reset>)
+  - [func (x *GetUserRoleRequest) String() string](<#func-getuserrolerequest-string>)
+- [type GetUserRoleResponse](<#type-getuserroleresponse>)
+  - [func (*GetUserRoleResponse) Descriptor() ([]byte, []int)](<#func-getuserroleresponse-descriptor>)
+  - [func (x *GetUserRoleResponse) GetRole() string](<#func-getuserroleresponse-getrole>)
+  - [func (*GetUserRoleResponse) ProtoMessage()](<#func-getuserroleresponse-protomessage>)
+  - [func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message](<#func-getuserroleresponse-protoreflect>)
+  - [func (x *GetUserRoleResponse) Reset()](<#func-getuserroleresponse-reset>)
+  - [func (x *GetUserRoleResponse) String() string](<#func-getuserroleresponse-string>)
 - [type ListClassificationModelsRequest](<#type-listclassificationmodelsrequest>)
   - [func (*ListClassificationModelsRequest) Descriptor() ([]byte, []int)](<#func-listclassificationmodelsrequest-descriptor>)
   - [func (x *ListClassificationModelsRequest) GetCategories() []string](<#func-listclassificationmodelsrequest-getcategories>)
@@ -343,12 +372,16 @@ import "Lescatit/pb"
   - [func (x *SignUpRequest) Reset()](<#func-signuprequest-reset>)
   - [func (x *SignUpRequest) String() string](<#func-signuprequest-string>)
 - [type UnimplementedAuthServiceServer](<#type-unimplementedauthserviceserver>)
-  - [func (*UnimplementedAuthServiceServer) DeleteUser(context.Context, *GetUserRequest) (*DeleteUserResponse, error)](<#func-unimplementedauthserviceserver-deleteuser>)
+  - [func (*UnimplementedAuthServiceServer) ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*User, error)](<#func-unimplementedauthserviceserver-changeuserrole>)
+  - [func (*UnimplementedAuthServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)](<#func-unimplementedauthserviceserver-deleteuser>)
   - [func (*UnimplementedAuthServiceServer) GetUser(context.Context, *GetUserRequest) (*User, error)](<#func-unimplementedauthserviceserver-getuser>)
+  - [func (*UnimplementedAuthServiceServer) GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error)](<#func-unimplementedauthserviceserver-getuserrole>)
   - [func (*UnimplementedAuthServiceServer) ListUsers(*ListUsersRequest, AuthService_ListUsersServer) error](<#func-unimplementedauthserviceserver-listusers>)
   - [func (*UnimplementedAuthServiceServer) SignIn(context.Context, *SignInRequest) (*SignInResponse, error)](<#func-unimplementedauthserviceserver-signin>)
   - [func (*UnimplementedAuthServiceServer) SignUp(context.Context, *SignUpRequest) (*User, error)](<#func-unimplementedauthserviceserver-signup>)
-  - [func (*UnimplementedAuthServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error)](<#func-unimplementedauthserviceserver-updateuser>)
+  - [func (*UnimplementedAuthServiceServer) UpdateUserEmail(context.Context, *UpdateUserEmailRequest) (*User, error)](<#func-unimplementedauthserviceserver-updateuseremail>)
+  - [func (*UnimplementedAuthServiceServer) UpdateUserName(context.Context, *UpdateUserNameRequest) (*User, error)](<#func-unimplementedauthserviceserver-updateusername>)
+  - [func (*UnimplementedAuthServiceServer) UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*User, error)](<#func-unimplementedauthserviceserver-updateuserpassword>)
 - [type UnimplementedCatServiceServer](<#type-unimplementedcatserviceserver>)
   - [func (*UnimplementedCatServiceServer) AddURL(context.Context, *AddURLRequest) (*Category, error)](<#func-unimplementedcatserviceserver-addurl>)
   - [func (*UnimplementedCatServiceServer) DeleteURL(context.Context, *DeleteURLRequest) (*DeleteURLResponse, error)](<#func-unimplementedcatserviceserver-deleteurl>)
@@ -387,14 +420,33 @@ import "Lescatit/pb"
   - [func (x *UpdateClassificationModelRequest) ProtoReflect() protoreflect.Message](<#func-updateclassificationmodelrequest-protoreflect>)
   - [func (x *UpdateClassificationModelRequest) Reset()](<#func-updateclassificationmodelrequest-reset>)
   - [func (x *UpdateClassificationModelRequest) String() string](<#func-updateclassificationmodelrequest-string>)
-- [type UpdateUserRequest](<#type-updateuserrequest>)
-  - [func (*UpdateUserRequest) Descriptor() ([]byte, []int)](<#func-updateuserrequest-descriptor>)
-  - [func (x *UpdateUserRequest) GetId() string](<#func-updateuserrequest-getid>)
-  - [func (x *UpdateUserRequest) GetName() string](<#func-updateuserrequest-getname>)
-  - [func (*UpdateUserRequest) ProtoMessage()](<#func-updateuserrequest-protomessage>)
-  - [func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message](<#func-updateuserrequest-protoreflect>)
-  - [func (x *UpdateUserRequest) Reset()](<#func-updateuserrequest-reset>)
-  - [func (x *UpdateUserRequest) String() string](<#func-updateuserrequest-string>)
+- [type UpdateUserEmailRequest](<#type-updateuseremailrequest>)
+  - [func (*UpdateUserEmailRequest) Descriptor() ([]byte, []int)](<#func-updateuseremailrequest-descriptor>)
+  - [func (x *UpdateUserEmailRequest) GetEmail() string](<#func-updateuseremailrequest-getemail>)
+  - [func (x *UpdateUserEmailRequest) GetNewEmail() string](<#func-updateuseremailrequest-getnewemail>)
+  - [func (x *UpdateUserEmailRequest) GetPassword() string](<#func-updateuseremailrequest-getpassword>)
+  - [func (*UpdateUserEmailRequest) ProtoMessage()](<#func-updateuseremailrequest-protomessage>)
+  - [func (x *UpdateUserEmailRequest) ProtoReflect() protoreflect.Message](<#func-updateuseremailrequest-protoreflect>)
+  - [func (x *UpdateUserEmailRequest) Reset()](<#func-updateuseremailrequest-reset>)
+  - [func (x *UpdateUserEmailRequest) String() string](<#func-updateuseremailrequest-string>)
+- [type UpdateUserNameRequest](<#type-updateusernamerequest>)
+  - [func (*UpdateUserNameRequest) Descriptor() ([]byte, []int)](<#func-updateusernamerequest-descriptor>)
+  - [func (x *UpdateUserNameRequest) GetEmail() string](<#func-updateusernamerequest-getemail>)
+  - [func (x *UpdateUserNameRequest) GetName() string](<#func-updateusernamerequest-getname>)
+  - [func (x *UpdateUserNameRequest) GetPassword() string](<#func-updateusernamerequest-getpassword>)
+  - [func (*UpdateUserNameRequest) ProtoMessage()](<#func-updateusernamerequest-protomessage>)
+  - [func (x *UpdateUserNameRequest) ProtoReflect() protoreflect.Message](<#func-updateusernamerequest-protoreflect>)
+  - [func (x *UpdateUserNameRequest) Reset()](<#func-updateusernamerequest-reset>)
+  - [func (x *UpdateUserNameRequest) String() string](<#func-updateusernamerequest-string>)
+- [type UpdateUserPasswordRequest](<#type-updateuserpasswordrequest>)
+  - [func (*UpdateUserPasswordRequest) Descriptor() ([]byte, []int)](<#func-updateuserpasswordrequest-descriptor>)
+  - [func (x *UpdateUserPasswordRequest) GetEmail() string](<#func-updateuserpasswordrequest-getemail>)
+  - [func (x *UpdateUserPasswordRequest) GetNewPassword() string](<#func-updateuserpasswordrequest-getnewpassword>)
+  - [func (x *UpdateUserPasswordRequest) GetPassword() string](<#func-updateuserpasswordrequest-getpassword>)
+  - [func (*UpdateUserPasswordRequest) ProtoMessage()](<#func-updateuserpasswordrequest-protomessage>)
+  - [func (x *UpdateUserPasswordRequest) ProtoReflect() protoreflect.Message](<#func-updateuserpasswordrequest-protoreflect>)
+  - [func (x *UpdateUserPasswordRequest) Reset()](<#func-updateuserpasswordrequest-reset>)
+  - [func (x *UpdateUserPasswordRequest) String() string](<#func-updateuserpasswordrequest-string>)
 - [type User](<#type-user>)
   - [func (*User) Descriptor() ([]byte, []int)](<#func-user-descriptor>)
   - [func (x *User) GetCreated() int64](<#func-user-getcreated>)
@@ -402,6 +454,7 @@ import "Lescatit/pb"
   - [func (x *User) GetId() string](<#func-user-getid>)
   - [func (x *User) GetName() string](<#func-user-getname>)
   - [func (x *User) GetPassword() string](<#func-user-getpassword>)
+  - [func (x *User) GetRole() string](<#func-user-getrole>)
   - [func (x *User) GetUpdated() int64](<#func-user-getupdated>)
   - [func (*User) ProtoMessage()](<#func-user-protomessage>)
   - [func (x *User) ProtoReflect() protoreflect.Message](<#func-user-protoreflect>)
@@ -427,7 +480,7 @@ var File_catze_proto protoreflect.FileDescriptor
 var File_crawl_proto protoreflect.FileDescriptor
 ```
 
-## func [RegisterAuthServiceServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L838>)
+## func [RegisterAuthServiceServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1363>)
 
 ```go
 func RegisterAuthServiceServer(s *grpc.Server, srv AuthServiceServer)
@@ -451,7 +504,7 @@ func RegisterCatzeServiceServer(s *grpc.Server, srv CatzeServiceServer)
 func RegisterCrawlServiceServer(s *grpc.Server, srv CrawlServiceServer)
 ```
 
-## type [AddURLRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L350-L359>)
+## type [AddURLRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L224-L233>)
 
 ```go
 type AddURLRequest struct {
@@ -463,7 +516,7 @@ type AddURLRequest struct {
 }
 ```
 
-### func \(\*AddURLRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L389>)
+### func \(\*AddURLRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L263>)
 
 ```go
 func (*AddURLRequest) Descriptor() ([]byte, []int)
@@ -471,55 +524,55 @@ func (*AddURLRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use AddURLRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*AddURLRequest\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L414>)
+### func \(\*AddURLRequest\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L288>)
 
 ```go
 func (x *AddURLRequest) GetCategory() string
 ```
 
-### func \(\*AddURLRequest\) [GetData](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L400>)
+### func \(\*AddURLRequest\) [GetData](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L274>)
 
 ```go
 func (x *AddURLRequest) GetData() string
 ```
 
-### func \(\*AddURLRequest\) [GetStatus](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L407>)
+### func \(\*AddURLRequest\) [GetStatus](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L281>)
 
 ```go
 func (x *AddURLRequest) GetStatus() string
 ```
 
-### func \(\*AddURLRequest\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L393>)
+### func \(\*AddURLRequest\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L267>)
 
 ```go
 func (x *AddURLRequest) GetUrl() string
 ```
 
-### func \(\*AddURLRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L374>)
+### func \(\*AddURLRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L248>)
 
 ```go
 func (*AddURLRequest) ProtoMessage()
 ```
 
-### func \(\*AddURLRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L376>)
+### func \(\*AddURLRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L250>)
 
 ```go
 func (x *AddURLRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*AddURLRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L361>)
+### func \(\*AddURLRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L235>)
 
 ```go
 func (x *AddURLRequest) Reset()
 ```
 
-### func \(\*AddURLRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L370>)
+### func \(\*AddURLRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L244>)
 
 ```go
 func (x *AddURLRequest) String() string
 ```
 
-## type [AddURLRequestCC](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L421-L429>)
+## type [AddURLRequestCC](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L295-L303>)
 
 ```go
 type AddURLRequestCC struct {
@@ -530,7 +583,7 @@ type AddURLRequestCC struct {
 }
 ```
 
-### func \(\*AddURLRequestCC\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L459>)
+### func \(\*AddURLRequestCC\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L333>)
 
 ```go
 func (*AddURLRequestCC) Descriptor() ([]byte, []int)
@@ -538,49 +591,49 @@ func (*AddURLRequestCC) Descriptor() ([]byte, []int)
 
 Deprecated: Use AddURLRequestCC\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*AddURLRequestCC\) [GetCmodel](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L477>)
+### func \(\*AddURLRequestCC\) [GetCmodel](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L351>)
 
 ```go
 func (x *AddURLRequestCC) GetCmodel() string
 ```
 
-### func \(\*AddURLRequestCC\) [GetType](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L470>)
+### func \(\*AddURLRequestCC\) [GetType](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L344>)
 
 ```go
 func (x *AddURLRequestCC) GetType() string
 ```
 
-### func \(\*AddURLRequestCC\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L463>)
+### func \(\*AddURLRequestCC\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L337>)
 
 ```go
 func (x *AddURLRequestCC) GetUrl() string
 ```
 
-### func \(\*AddURLRequestCC\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L444>)
+### func \(\*AddURLRequestCC\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L318>)
 
 ```go
 func (*AddURLRequestCC) ProtoMessage()
 ```
 
-### func \(\*AddURLRequestCC\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L446>)
+### func \(\*AddURLRequestCC\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L320>)
 
 ```go
 func (x *AddURLRequestCC) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*AddURLRequestCC\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L431>)
+### func \(\*AddURLRequestCC\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L305>)
 
 ```go
 func (x *AddURLRequestCC) Reset()
 ```
 
-### func \(\*AddURLRequestCC\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L440>)
+### func \(\*AddURLRequestCC\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L314>)
 
 ```go
 func (x *AddURLRequestCC) String() string
 ```
 
-## type [AuthServiceClient](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L711-L718>)
+## type [AuthServiceClient](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1180-L1191>)
 
 AuthServiceClient is the client API for AuthService service\.
 
@@ -591,19 +644,23 @@ type AuthServiceClient interface {
     SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*User, error)
     SignIn(ctx context.Context, in *SignInRequest, opts ...grpc.CallOption) (*SignInResponse, error)
     GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
+    DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
+    ChangeUserRole(ctx context.Context, in *ChangeUserRoleRequest, opts ...grpc.CallOption) (*User, error)
+    GetUserRole(ctx context.Context, in *GetUserRoleRequest, opts ...grpc.CallOption) (*GetUserRoleResponse, error)
+    UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordRequest, opts ...grpc.CallOption) (*User, error)
+    UpdateUserEmail(ctx context.Context, in *UpdateUserEmailRequest, opts ...grpc.CallOption) (*User, error)
+    UpdateUserName(ctx context.Context, in *UpdateUserNameRequest, opts ...grpc.CallOption) (*User, error)
     ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (AuthService_ListUsersClient, error)
-    UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
-    DeleteUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 }
 ```
 
-### func [NewAuthServiceClient](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L724>)
+### func [NewAuthServiceClient](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1197>)
 
 ```go
 func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient
 ```
 
-## type [AuthServiceServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L806-L813>)
+## type [AuthServiceServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1315-L1326>)
 
 AuthServiceServer is the server API for AuthService service\.
 
@@ -612,13 +669,17 @@ type AuthServiceServer interface {
     SignUp(context.Context, *SignUpRequest) (*User, error)
     SignIn(context.Context, *SignInRequest) (*SignInResponse, error)
     GetUser(context.Context, *GetUserRequest) (*User, error)
+    DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
+    ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*User, error)
+    GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error)
+    UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*User, error)
+    UpdateUserEmail(context.Context, *UpdateUserEmailRequest) (*User, error)
+    UpdateUserName(context.Context, *UpdateUserNameRequest) (*User, error)
     ListUsers(*ListUsersRequest, AuthService_ListUsersServer) error
-    UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
-    DeleteUser(context.Context, *GetUserRequest) (*DeleteUserResponse, error)
 }
 ```
 
-## type [AuthService\_ListUsersClient](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L770-L773>)
+## type [AuthService\_ListUsersClient](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1297-L1300>)
 
 ```go
 type AuthService_ListUsersClient interface {
@@ -627,7 +688,7 @@ type AuthService_ListUsersClient interface {
 }
 ```
 
-## type [AuthService\_ListUsersServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L904-L907>)
+## type [AuthService\_ListUsersServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1537-L1540>)
 
 ```go
 type AuthService_ListUsersServer interface {
@@ -646,10 +707,10 @@ For semantics around ctx use and closing/ending streaming RPCs\, please refer to
 type CatServiceClient interface {
     GetCategory(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*Category, error)
     UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*Category, error)
-    ReportMiscategorization(ctx context.Context, in *ReportMiscategorizationRequest, opts ...grpc.CallOption) (*Category, error)
     AddURL(ctx context.Context, in *AddURLRequest, opts ...grpc.CallOption) (*Category, error)
-    DeleteURLs(ctx context.Context, in *DeleteURLsRequest, opts ...grpc.CallOption) (CatService_DeleteURLsClient, error)
     DeleteURL(ctx context.Context, in *DeleteURLRequest, opts ...grpc.CallOption) (*DeleteURLResponse, error)
+    ReportMiscategorization(ctx context.Context, in *ReportMiscategorizationRequest, opts ...grpc.CallOption) (*Category, error)
+    DeleteURLs(ctx context.Context, in *DeleteURLsRequest, opts ...grpc.CallOption) (CatService_DeleteURLsClient, error)
     ListURLs(ctx context.Context, in *ListURLsRequest, opts ...grpc.CallOption) (CatService_ListURLsClient, error)
 }
 ```
@@ -668,15 +729,15 @@ CatServiceServer is the server API for CatService service\.
 type CatServiceServer interface {
     GetCategory(context.Context, *GetCategoryRequest) (*Category, error)
     UpdateCategory(context.Context, *UpdateCategoryRequest) (*Category, error)
-    ReportMiscategorization(context.Context, *ReportMiscategorizationRequest) (*Category, error)
     AddURL(context.Context, *AddURLRequest) (*Category, error)
-    DeleteURLs(*DeleteURLsRequest, CatService_DeleteURLsServer) error
     DeleteURL(context.Context, *DeleteURLRequest) (*DeleteURLResponse, error)
+    ReportMiscategorization(context.Context, *ReportMiscategorizationRequest) (*Category, error)
+    DeleteURLs(*DeleteURLsRequest, CatService_DeleteURLsServer) error
     ListURLs(*ListURLsRequest, CatService_ListURLsServer) error
 }
 ```
 
-## type [CatService\_DeleteURLsClient](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L982-L985>)
+## type [CatService\_DeleteURLsClient](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L991-L994>)
 
 ```go
 type CatService_DeleteURLsClient interface {
@@ -685,7 +746,7 @@ type CatService_DeleteURLsClient interface {
 }
 ```
 
-## type [CatService\_DeleteURLsServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1161-L1164>)
+## type [CatService\_DeleteURLsServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1179-L1182>)
 
 ```go
 type CatService_DeleteURLsServer interface {
@@ -1148,6 +1209,60 @@ type CatzeService_ListClassificationModelsServer interface {
 }
 ```
 
+## type [ChangeUserRoleRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L436-L443>)
+
+```go
+type ChangeUserRoleRequest struct {
+    Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+    Role  string `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*ChangeUserRoleRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L473>)
+
+```go
+func (*ChangeUserRoleRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use ChangeUserRoleRequest\.ProtoReflect\.Descriptor instead\.
+
+### func \(\*ChangeUserRoleRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L477>)
+
+```go
+func (x *ChangeUserRoleRequest) GetEmail() string
+```
+
+### func \(\*ChangeUserRoleRequest\) [GetRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L484>)
+
+```go
+func (x *ChangeUserRoleRequest) GetRole() string
+```
+
+### func \(\*ChangeUserRoleRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L458>)
+
+```go
+func (*ChangeUserRoleRequest) ProtoMessage()
+```
+
+### func \(\*ChangeUserRoleRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L460>)
+
+```go
+func (x *ChangeUserRoleRequest) ProtoReflect() protoreflect.Message
+```
+
+### func \(\*ChangeUserRoleRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L445>)
+
+```go
+func (x *ChangeUserRoleRequest) Reset()
+```
+
+### func \(\*ChangeUserRoleRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L454>)
+
+```go
+func (x *ChangeUserRoleRequest) String() string
+```
+
 ## type [ClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L382-L389>)
 
 ```go
@@ -1542,7 +1657,7 @@ func (x *CrawlURLRequest) Reset()
 func (x *CrawlURLRequest) String() string
 ```
 
-## type [CrawlURLResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L531-L538>)
+## type [CrawlURLResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L476-L483>)
 
 ```go
 type CrawlURLResponse struct {
@@ -1552,7 +1667,7 @@ type CrawlURLResponse struct {
 }
 ```
 
-### func \(\*CrawlURLResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L568>)
+### func \(\*CrawlURLResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L513>)
 
 ```go
 func (*CrawlURLResponse) Descriptor() ([]byte, []int)
@@ -1560,43 +1675,43 @@ func (*CrawlURLResponse) Descriptor() ([]byte, []int)
 
 Deprecated: Use CrawlURLResponse\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*CrawlURLResponse\) [GetLinks](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L579>)
+### func \(\*CrawlURLResponse\) [GetLinks](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L524>)
 
 ```go
 func (x *CrawlURLResponse) GetLinks() []string
 ```
 
-### func \(\*CrawlURLResponse\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L572>)
+### func \(\*CrawlURLResponse\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L517>)
 
 ```go
 func (x *CrawlURLResponse) GetUrl() string
 ```
 
-### func \(\*CrawlURLResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L553>)
+### func \(\*CrawlURLResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L498>)
 
 ```go
 func (*CrawlURLResponse) ProtoMessage()
 ```
 
-### func \(\*CrawlURLResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L555>)
+### func \(\*CrawlURLResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L500>)
 
 ```go
 func (x *CrawlURLResponse) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*CrawlURLResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L540>)
+### func \(\*CrawlURLResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L485>)
 
 ```go
 func (x *CrawlURLResponse) Reset()
 ```
 
-### func \(\*CrawlURLResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L549>)
+### func \(\*CrawlURLResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L494>)
 
 ```go
 func (x *CrawlURLResponse) String() string
 ```
 
-## type [CrawlURLsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L476-L483>)
+## type [CrawlURLsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L531-L538>)
 
 ```go
 type CrawlURLsRequest struct {
@@ -1606,7 +1721,7 @@ type CrawlURLsRequest struct {
 }
 ```
 
-### func \(\*CrawlURLsRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L513>)
+### func \(\*CrawlURLsRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L568>)
 
 ```go
 func (*CrawlURLsRequest) Descriptor() ([]byte, []int)
@@ -1614,37 +1729,37 @@ func (*CrawlURLsRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use CrawlURLsRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*CrawlURLsRequest\) [GetCrawlRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L524>)
+### func \(\*CrawlURLsRequest\) [GetCrawlRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L579>)
 
 ```go
 func (x *CrawlURLsRequest) GetCrawlRequest() *CrawlRequest
 ```
 
-### func \(\*CrawlURLsRequest\) [GetUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L517>)
+### func \(\*CrawlURLsRequest\) [GetUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L572>)
 
 ```go
 func (x *CrawlURLsRequest) GetUrls() []string
 ```
 
-### func \(\*CrawlURLsRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L498>)
+### func \(\*CrawlURLsRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L553>)
 
 ```go
 func (*CrawlURLsRequest) ProtoMessage()
 ```
 
-### func \(\*CrawlURLsRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L500>)
+### func \(\*CrawlURLsRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L555>)
 
 ```go
 func (x *CrawlURLsRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*CrawlURLsRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L485>)
+### func \(\*CrawlURLsRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L540>)
 
 ```go
 func (x *CrawlURLsRequest) Reset()
 ```
 
-### func \(\*CrawlURLsRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L494>)
+### func \(\*CrawlURLsRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L549>)
 
 ```go
 func (x *CrawlURLsRequest) String() string
@@ -1786,7 +1901,7 @@ func (x *DeleteClassificationModelRequest) Reset()
 func (x *DeleteClassificationModelRequest) String() string
 ```
 
-## type [DeleteClassificationModelResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L688-L694>)
+## type [DeleteClassificationModelResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L641-L647>)
 
 ```go
 type DeleteClassificationModelResponse struct {
@@ -1795,7 +1910,7 @@ type DeleteClassificationModelResponse struct {
 }
 ```
 
-### func \(\*DeleteClassificationModelResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L724>)
+### func \(\*DeleteClassificationModelResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L677>)
 
 ```go
 func (*DeleteClassificationModelResponse) Descriptor() ([]byte, []int)
@@ -1803,37 +1918,37 @@ func (*DeleteClassificationModelResponse) Descriptor() ([]byte, []int)
 
 Deprecated: Use DeleteClassificationModelResponse\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*DeleteClassificationModelResponse\) [GetName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L728>)
+### func \(\*DeleteClassificationModelResponse\) [GetName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L681>)
 
 ```go
 func (x *DeleteClassificationModelResponse) GetName() string
 ```
 
-### func \(\*DeleteClassificationModelResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L709>)
+### func \(\*DeleteClassificationModelResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L662>)
 
 ```go
 func (*DeleteClassificationModelResponse) ProtoMessage()
 ```
 
-### func \(\*DeleteClassificationModelResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L711>)
+### func \(\*DeleteClassificationModelResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L664>)
 
 ```go
 func (x *DeleteClassificationModelResponse) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*DeleteClassificationModelResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L696>)
+### func \(\*DeleteClassificationModelResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L649>)
 
 ```go
 func (x *DeleteClassificationModelResponse) Reset()
 ```
 
-### func \(\*DeleteClassificationModelResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L705>)
+### func \(\*DeleteClassificationModelResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L658>)
 
 ```go
 func (x *DeleteClassificationModelResponse) String() string
 ```
 
-## type [DeleteClassificationModelsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L641-L647>)
+## type [DeleteClassificationModelsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L688-L694>)
 
 ```go
 type DeleteClassificationModelsRequest struct {
@@ -1842,7 +1957,7 @@ type DeleteClassificationModelsRequest struct {
 }
 ```
 
-### func \(\*DeleteClassificationModelsRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L677>)
+### func \(\*DeleteClassificationModelsRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L724>)
 
 ```go
 func (*DeleteClassificationModelsRequest) Descriptor() ([]byte, []int)
@@ -1850,37 +1965,37 @@ func (*DeleteClassificationModelsRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use DeleteClassificationModelsRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*DeleteClassificationModelsRequest\) [GetNames](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L681>)
+### func \(\*DeleteClassificationModelsRequest\) [GetNames](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L728>)
 
 ```go
 func (x *DeleteClassificationModelsRequest) GetNames() []string
 ```
 
-### func \(\*DeleteClassificationModelsRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L662>)
+### func \(\*DeleteClassificationModelsRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L709>)
 
 ```go
 func (*DeleteClassificationModelsRequest) ProtoMessage()
 ```
 
-### func \(\*DeleteClassificationModelsRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L664>)
+### func \(\*DeleteClassificationModelsRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L711>)
 
 ```go
 func (x *DeleteClassificationModelsRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*DeleteClassificationModelsRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L649>)
+### func \(\*DeleteClassificationModelsRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L696>)
 
 ```go
 func (x *DeleteClassificationModelsRequest) Reset()
 ```
 
-### func \(\*DeleteClassificationModelsRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L658>)
+### func \(\*DeleteClassificationModelsRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L705>)
 
 ```go
 func (x *DeleteClassificationModelsRequest) String() string
 ```
 
-## type [DeleteURLRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L531-L537>)
+## type [DeleteURLRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L358-L364>)
 
 ```go
 type DeleteURLRequest struct {
@@ -1889,7 +2004,7 @@ type DeleteURLRequest struct {
 }
 ```
 
-### func \(\*DeleteURLRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L567>)
+### func \(\*DeleteURLRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L394>)
 
 ```go
 func (*DeleteURLRequest) Descriptor() ([]byte, []int)
@@ -1897,37 +2012,37 @@ func (*DeleteURLRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use DeleteURLRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*DeleteURLRequest\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L571>)
+### func \(\*DeleteURLRequest\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L398>)
 
 ```go
 func (x *DeleteURLRequest) GetUrl() string
 ```
 
-### func \(\*DeleteURLRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L552>)
+### func \(\*DeleteURLRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L379>)
 
 ```go
 func (*DeleteURLRequest) ProtoMessage()
 ```
 
-### func \(\*DeleteURLRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L554>)
+### func \(\*DeleteURLRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L381>)
 
 ```go
 func (x *DeleteURLRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*DeleteURLRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L539>)
+### func \(\*DeleteURLRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L366>)
 
 ```go
 func (x *DeleteURLRequest) Reset()
 ```
 
-### func \(\*DeleteURLRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L548>)
+### func \(\*DeleteURLRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L375>)
 
 ```go
 func (x *DeleteURLRequest) String() string
 ```
 
-## type [DeleteURLResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L578-L584>)
+## type [DeleteURLResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L405-L411>)
 
 ```go
 type DeleteURLResponse struct {
@@ -1936,7 +2051,7 @@ type DeleteURLResponse struct {
 }
 ```
 
-### func \(\*DeleteURLResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L614>)
+### func \(\*DeleteURLResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L441>)
 
 ```go
 func (*DeleteURLResponse) Descriptor() ([]byte, []int)
@@ -1944,37 +2059,37 @@ func (*DeleteURLResponse) Descriptor() ([]byte, []int)
 
 Deprecated: Use DeleteURLResponse\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*DeleteURLResponse\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L618>)
+### func \(\*DeleteURLResponse\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L445>)
 
 ```go
 func (x *DeleteURLResponse) GetUrl() string
 ```
 
-### func \(\*DeleteURLResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L599>)
+### func \(\*DeleteURLResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L426>)
 
 ```go
 func (*DeleteURLResponse) ProtoMessage()
 ```
 
-### func \(\*DeleteURLResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L601>)
+### func \(\*DeleteURLResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L428>)
 
 ```go
 func (x *DeleteURLResponse) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*DeleteURLResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L586>)
+### func \(\*DeleteURLResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L413>)
 
 ```go
 func (x *DeleteURLResponse) Reset()
 ```
 
-### func \(\*DeleteURLResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L595>)
+### func \(\*DeleteURLResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L422>)
 
 ```go
 func (x *DeleteURLResponse) String() string
 ```
 
-## type [DeleteURLsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L484-L490>)
+## type [DeleteURLsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L523-L529>)
 
 ```go
 type DeleteURLsRequest struct {
@@ -1983,7 +2098,7 @@ type DeleteURLsRequest struct {
 }
 ```
 
-### func \(\*DeleteURLsRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L520>)
+### func \(\*DeleteURLsRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L559>)
 
 ```go
 func (*DeleteURLsRequest) Descriptor() ([]byte, []int)
@@ -1991,46 +2106,93 @@ func (*DeleteURLsRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use DeleteURLsRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*DeleteURLsRequest\) [GetUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L524>)
+### func \(\*DeleteURLsRequest\) [GetUrls](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L563>)
 
 ```go
 func (x *DeleteURLsRequest) GetUrls() []string
 ```
 
-### func \(\*DeleteURLsRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L505>)
+### func \(\*DeleteURLsRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L544>)
 
 ```go
 func (*DeleteURLsRequest) ProtoMessage()
 ```
 
-### func \(\*DeleteURLsRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L507>)
+### func \(\*DeleteURLsRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L546>)
 
 ```go
 func (x *DeleteURLsRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*DeleteURLsRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L492>)
+### func \(\*DeleteURLsRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L531>)
 
 ```go
 func (x *DeleteURLsRequest) Reset()
 ```
 
-### func \(\*DeleteURLsRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L501>)
+### func \(\*DeleteURLsRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L540>)
 
 ```go
 func (x *DeleteURLsRequest) String() string
 ```
 
-## type [DeleteUserResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L254-L260>)
+## type [DeleteUserRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L342-L348>)
 
 ```go
-type DeleteUserResponse struct {
-    Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+type DeleteUserRequest struct {
+    Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
     // contains filtered or unexported fields
 }
 ```
 
-### func \(\*DeleteUserResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L290>)
+### func \(\*DeleteUserRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L378>)
+
+```go
+func (*DeleteUserRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use DeleteUserRequest\.ProtoReflect\.Descriptor instead\.
+
+### func \(\*DeleteUserRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L382>)
+
+```go
+func (x *DeleteUserRequest) GetEmail() string
+```
+
+### func \(\*DeleteUserRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L363>)
+
+```go
+func (*DeleteUserRequest) ProtoMessage()
+```
+
+### func \(\*DeleteUserRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L365>)
+
+```go
+func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message
+```
+
+### func \(\*DeleteUserRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L350>)
+
+```go
+func (x *DeleteUserRequest) Reset()
+```
+
+### func \(\*DeleteUserRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L359>)
+
+```go
+func (x *DeleteUserRequest) String() string
+```
+
+## type [DeleteUserResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L389-L395>)
+
+```go
+type DeleteUserResponse struct {
+    Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*DeleteUserResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L425>)
 
 ```go
 func (*DeleteUserResponse) Descriptor() ([]byte, []int)
@@ -2038,31 +2200,31 @@ func (*DeleteUserResponse) Descriptor() ([]byte, []int)
 
 Deprecated: Use DeleteUserResponse\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*DeleteUserResponse\) [GetId](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L294>)
+### func \(\*DeleteUserResponse\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L429>)
 
 ```go
-func (x *DeleteUserResponse) GetId() string
+func (x *DeleteUserResponse) GetEmail() string
 ```
 
-### func \(\*DeleteUserResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L275>)
+### func \(\*DeleteUserResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L410>)
 
 ```go
 func (*DeleteUserResponse) ProtoMessage()
 ```
 
-### func \(\*DeleteUserResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L277>)
+### func \(\*DeleteUserResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L412>)
 
 ```go
 func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*DeleteUserResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L262>)
+### func \(\*DeleteUserResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L397>)
 
 ```go
 func (x *DeleteUserResponse) Reset()
 ```
 
-### func \(\*DeleteUserResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L271>)
+### func \(\*DeleteUserResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L406>)
 
 ```go
 func (x *DeleteUserResponse) String() string
@@ -2270,7 +2432,7 @@ func (x *GetURLDataRequest) Reset()
 func (x *GetURLDataRequest) String() string
 ```
 
-## type [GetURLDataResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L224-L232>)
+## type [GetURLDataResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L177-L185>)
 
 ```go
 type GetURLDataResponse struct {
@@ -2281,7 +2443,7 @@ type GetURLDataResponse struct {
 }
 ```
 
-### func \(\*GetURLDataResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L262>)
+### func \(\*GetURLDataResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L215>)
 
 ```go
 func (*GetURLDataResponse) Descriptor() ([]byte, []int)
@@ -2289,49 +2451,49 @@ func (*GetURLDataResponse) Descriptor() ([]byte, []int)
 
 Deprecated: Use GetURLDataResponse\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*GetURLDataResponse\) [GetData](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L273>)
+### func \(\*GetURLDataResponse\) [GetData](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L226>)
 
 ```go
 func (x *GetURLDataResponse) GetData() string
 ```
 
-### func \(\*GetURLDataResponse\) [GetStatus](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L280>)
+### func \(\*GetURLDataResponse\) [GetStatus](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L233>)
 
 ```go
 func (x *GetURLDataResponse) GetStatus() string
 ```
 
-### func \(\*GetURLDataResponse\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L266>)
+### func \(\*GetURLDataResponse\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L219>)
 
 ```go
 func (x *GetURLDataResponse) GetUrl() string
 ```
 
-### func \(\*GetURLDataResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L247>)
+### func \(\*GetURLDataResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L200>)
 
 ```go
 func (*GetURLDataResponse) ProtoMessage()
 ```
 
-### func \(\*GetURLDataResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L249>)
+### func \(\*GetURLDataResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L202>)
 
 ```go
 func (x *GetURLDataResponse) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*GetURLDataResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L234>)
+### func \(\*GetURLDataResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L187>)
 
 ```go
 func (x *GetURLDataResponse) Reset()
 ```
 
-### func \(\*GetURLDataResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L243>)
+### func \(\*GetURLDataResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L196>)
 
 ```go
 func (x *GetURLDataResponse) String() string
 ```
 
-## type [GetURLsDataRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L177-L183>)
+## type [GetURLsDataRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L240-L246>)
 
 ```go
 type GetURLsDataRequest struct {
@@ -2340,7 +2502,7 @@ type GetURLsDataRequest struct {
 }
 ```
 
-### func \(\*GetURLsDataRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L213>)
+### func \(\*GetURLsDataRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L276>)
 
 ```go
 func (*GetURLsDataRequest) Descriptor() ([]byte, []int)
@@ -2348,46 +2510,46 @@ func (*GetURLsDataRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use GetURLsDataRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*GetURLsDataRequest\) [GetGetURLsDataRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L217>)
+### func \(\*GetURLsDataRequest\) [GetGetURLsDataRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L280>)
 
 ```go
 func (x *GetURLsDataRequest) GetGetURLsDataRequest() []*GetURLDataRequest
 ```
 
-### func \(\*GetURLsDataRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L198>)
+### func \(\*GetURLsDataRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L261>)
 
 ```go
 func (*GetURLsDataRequest) ProtoMessage()
 ```
 
-### func \(\*GetURLsDataRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L200>)
+### func \(\*GetURLsDataRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L263>)
 
 ```go
 func (x *GetURLsDataRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*GetURLsDataRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L185>)
+### func \(\*GetURLsDataRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L248>)
 
 ```go
 func (x *GetURLsDataRequest) Reset()
 ```
 
-### func \(\*GetURLsDataRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L194>)
+### func \(\*GetURLsDataRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/crawl.pb.go#L257>)
 
 ```go
 func (x *GetURLsDataRequest) String() string
 ```
 
-## type [GetUserRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L114-L120>)
+## type [GetUserRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L295-L301>)
 
 ```go
 type GetUserRequest struct {
-    Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+    Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
     // contains filtered or unexported fields
 }
 ```
 
-### func \(\*GetUserRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L150>)
+### func \(\*GetUserRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L331>)
 
 ```go
 func (*GetUserRequest) Descriptor() ([]byte, []int)
@@ -2395,34 +2557,128 @@ func (*GetUserRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use GetUserRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*GetUserRequest\) [GetId](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L154>)
+### func \(\*GetUserRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L335>)
 
 ```go
-func (x *GetUserRequest) GetId() string
+func (x *GetUserRequest) GetEmail() string
 ```
 
-### func \(\*GetUserRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L135>)
+### func \(\*GetUserRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L316>)
 
 ```go
 func (*GetUserRequest) ProtoMessage()
 ```
 
-### func \(\*GetUserRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L137>)
+### func \(\*GetUserRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L318>)
 
 ```go
 func (x *GetUserRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*GetUserRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L122>)
+### func \(\*GetUserRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L303>)
 
 ```go
 func (x *GetUserRequest) Reset()
 ```
 
-### func \(\*GetUserRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L131>)
+### func \(\*GetUserRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L312>)
 
 ```go
 func (x *GetUserRequest) String() string
+```
+
+## type [GetUserRoleRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L491-L497>)
+
+```go
+type GetUserRoleRequest struct {
+    Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*GetUserRoleRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L527>)
+
+```go
+func (*GetUserRoleRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use GetUserRoleRequest\.ProtoReflect\.Descriptor instead\.
+
+### func \(\*GetUserRoleRequest\) [GetId](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L531>)
+
+```go
+func (x *GetUserRoleRequest) GetId() string
+```
+
+### func \(\*GetUserRoleRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L512>)
+
+```go
+func (*GetUserRoleRequest) ProtoMessage()
+```
+
+### func \(\*GetUserRoleRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L514>)
+
+```go
+func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message
+```
+
+### func \(\*GetUserRoleRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L499>)
+
+```go
+func (x *GetUserRoleRequest) Reset()
+```
+
+### func \(\*GetUserRoleRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L508>)
+
+```go
+func (x *GetUserRoleRequest) String() string
+```
+
+## type [GetUserRoleResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L538-L544>)
+
+```go
+type GetUserRoleResponse struct {
+    Role string `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*GetUserRoleResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L574>)
+
+```go
+func (*GetUserRoleResponse) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use GetUserRoleResponse\.ProtoReflect\.Descriptor instead\.
+
+### func \(\*GetUserRoleResponse\) [GetRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L578>)
+
+```go
+func (x *GetUserRoleResponse) GetRole() string
+```
+
+### func \(\*GetUserRoleResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L559>)
+
+```go
+func (*GetUserRoleResponse) ProtoMessage()
+```
+
+### func \(\*GetUserRoleResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L561>)
+
+```go
+func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message
+```
+
+### func \(\*GetUserRoleResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L546>)
+
+```go
+func (x *GetUserRoleResponse) Reset()
+```
+
+### func \(\*GetUserRoleResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L555>)
+
+```go
+func (x *GetUserRoleResponse) String() string
 ```
 
 ## type [ListClassificationModelsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/catze.pb.go#L735-L742>)
@@ -2479,7 +2735,7 @@ func (x *ListClassificationModelsRequest) Reset()
 func (x *ListClassificationModelsRequest) String() string
 ```
 
-## type [ListURLsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L169-L176>)
+## type [ListURLsRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L570-L577>)
 
 ```go
 type ListURLsRequest struct {
@@ -2489,7 +2745,7 @@ type ListURLsRequest struct {
 }
 ```
 
-### func \(\*ListURLsRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L206>)
+### func \(\*ListURLsRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L607>)
 
 ```go
 func (*ListURLsRequest) Descriptor() ([]byte, []int)
@@ -2497,43 +2753,43 @@ func (*ListURLsRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use ListURLsRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*ListURLsRequest\) [GetCategories](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L210>)
+### func \(\*ListURLsRequest\) [GetCategories](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L611>)
 
 ```go
 func (x *ListURLsRequest) GetCategories() []string
 ```
 
-### func \(\*ListURLsRequest\) [GetCount](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L217>)
+### func \(\*ListURLsRequest\) [GetCount](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L618>)
 
 ```go
 func (x *ListURLsRequest) GetCount() string
 ```
 
-### func \(\*ListURLsRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L191>)
+### func \(\*ListURLsRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L592>)
 
 ```go
 func (*ListURLsRequest) ProtoMessage()
 ```
 
-### func \(\*ListURLsRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L193>)
+### func \(\*ListURLsRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L594>)
 
 ```go
 func (x *ListURLsRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*ListURLsRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L178>)
+### func \(\*ListURLsRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L579>)
 
 ```go
 func (x *ListURLsRequest) Reset()
 ```
 
-### func \(\*ListURLsRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L187>)
+### func \(\*ListURLsRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L588>)
 
 ```go
 func (x *ListURLsRequest) String() string
 ```
 
-## type [ListUsersRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L161-L165>)
+## type [ListUsersRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L774-L778>)
 
 ```go
 type ListUsersRequest struct {
@@ -2541,7 +2797,7 @@ type ListUsersRequest struct {
 }
 ```
 
-### func \(\*ListUsersRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L195>)
+### func \(\*ListUsersRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L808>)
 
 ```go
 func (*ListUsersRequest) Descriptor() ([]byte, []int)
@@ -2549,31 +2805,31 @@ func (*ListUsersRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use ListUsersRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*ListUsersRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L180>)
+### func \(\*ListUsersRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L793>)
 
 ```go
 func (*ListUsersRequest) ProtoMessage()
 ```
 
-### func \(\*ListUsersRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L182>)
+### func \(\*ListUsersRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L795>)
 
 ```go
 func (x *ListUsersRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*ListUsersRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L167>)
+### func \(\*ListUsersRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L780>)
 
 ```go
 func (x *ListUsersRequest) Reset()
 ```
 
-### func \(\*ListUsersRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L176>)
+### func \(\*ListUsersRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L789>)
 
 ```go
 func (x *ListUsersRequest) String() string
 ```
 
-## type [ReportMiscategorizationRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L279-L288>)
+## type [ReportMiscategorizationRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L452-L461>)
 
 ```go
 type ReportMiscategorizationRequest struct {
@@ -2585,7 +2841,7 @@ type ReportMiscategorizationRequest struct {
 }
 ```
 
-### func \(\*ReportMiscategorizationRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L318>)
+### func \(\*ReportMiscategorizationRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L491>)
 
 ```go
 func (*ReportMiscategorizationRequest) Descriptor() ([]byte, []int)
@@ -2593,55 +2849,55 @@ func (*ReportMiscategorizationRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use ReportMiscategorizationRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*ReportMiscategorizationRequest\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L343>)
+### func \(\*ReportMiscategorizationRequest\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L516>)
 
 ```go
 func (x *ReportMiscategorizationRequest) GetCategory() string
 ```
 
-### func \(\*ReportMiscategorizationRequest\) [GetData](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L329>)
+### func \(\*ReportMiscategorizationRequest\) [GetData](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L502>)
 
 ```go
 func (x *ReportMiscategorizationRequest) GetData() string
 ```
 
-### func \(\*ReportMiscategorizationRequest\) [GetStatus](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L336>)
+### func \(\*ReportMiscategorizationRequest\) [GetStatus](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L509>)
 
 ```go
 func (x *ReportMiscategorizationRequest) GetStatus() string
 ```
 
-### func \(\*ReportMiscategorizationRequest\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L322>)
+### func \(\*ReportMiscategorizationRequest\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L495>)
 
 ```go
 func (x *ReportMiscategorizationRequest) GetUrl() string
 ```
 
-### func \(\*ReportMiscategorizationRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L303>)
+### func \(\*ReportMiscategorizationRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L476>)
 
 ```go
 func (*ReportMiscategorizationRequest) ProtoMessage()
 ```
 
-### func \(\*ReportMiscategorizationRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L305>)
+### func \(\*ReportMiscategorizationRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L478>)
 
 ```go
 func (x *ReportMiscategorizationRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*ReportMiscategorizationRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L290>)
+### func \(\*ReportMiscategorizationRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L463>)
 
 ```go
 func (x *ReportMiscategorizationRequest) Reset()
 ```
 
-### func \(\*ReportMiscategorizationRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L299>)
+### func \(\*ReportMiscategorizationRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L472>)
 
 ```go
 func (x *ReportMiscategorizationRequest) String() string
 ```
 
-## type [SignInRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L364-L371>)
+## type [SignInRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L185-L192>)
 
 ```go
 type SignInRequest struct {
@@ -2651,7 +2907,7 @@ type SignInRequest struct {
 }
 ```
 
-### func \(\*SignInRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L401>)
+### func \(\*SignInRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L222>)
 
 ```go
 func (*SignInRequest) Descriptor() ([]byte, []int)
@@ -2659,43 +2915,43 @@ func (*SignInRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use SignInRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*SignInRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L405>)
+### func \(\*SignInRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L226>)
 
 ```go
 func (x *SignInRequest) GetEmail() string
 ```
 
-### func \(\*SignInRequest\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L412>)
+### func \(\*SignInRequest\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L233>)
 
 ```go
 func (x *SignInRequest) GetPassword() string
 ```
 
-### func \(\*SignInRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L386>)
+### func \(\*SignInRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L207>)
 
 ```go
 func (*SignInRequest) ProtoMessage()
 ```
 
-### func \(\*SignInRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L388>)
+### func \(\*SignInRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L209>)
 
 ```go
 func (x *SignInRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*SignInRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L373>)
+### func \(\*SignInRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L194>)
 
 ```go
 func (x *SignInRequest) Reset()
 ```
 
-### func \(\*SignInRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L382>)
+### func \(\*SignInRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L203>)
 
 ```go
 func (x *SignInRequest) String() string
 ```
 
-## type [SignInResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L419-L426>)
+## type [SignInResponse](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L240-L247>)
 
 ```go
 type SignInResponse struct {
@@ -2705,7 +2961,7 @@ type SignInResponse struct {
 }
 ```
 
-### func \(\*SignInResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L456>)
+### func \(\*SignInResponse\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L277>)
 
 ```go
 func (*SignInResponse) Descriptor() ([]byte, []int)
@@ -2713,43 +2969,43 @@ func (*SignInResponse) Descriptor() ([]byte, []int)
 
 Deprecated: Use SignInResponse\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*SignInResponse\) [GetToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L467>)
+### func \(\*SignInResponse\) [GetToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L288>)
 
 ```go
 func (x *SignInResponse) GetToken() string
 ```
 
-### func \(\*SignInResponse\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L460>)
+### func \(\*SignInResponse\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L281>)
 
 ```go
 func (x *SignInResponse) GetUser() *User
 ```
 
-### func \(\*SignInResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L441>)
+### func \(\*SignInResponse\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L262>)
 
 ```go
 func (*SignInResponse) ProtoMessage()
 ```
 
-### func \(\*SignInResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L443>)
+### func \(\*SignInResponse\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L264>)
 
 ```go
 func (x *SignInResponse) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*SignInResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L428>)
+### func \(\*SignInResponse\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L249>)
 
 ```go
 func (x *SignInResponse) Reset()
 ```
 
-### func \(\*SignInResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L437>)
+### func \(\*SignInResponse\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L258>)
 
 ```go
 func (x *SignInResponse) String() string
 ```
 
-## type [SignUpRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L301-L309>)
+## type [SignUpRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L122-L130>)
 
 ```go
 type SignUpRequest struct {
@@ -2760,7 +3016,7 @@ type SignUpRequest struct {
 }
 ```
 
-### func \(\*SignUpRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L339>)
+### func \(\*SignUpRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L160>)
 
 ```go
 func (*SignUpRequest) Descriptor() ([]byte, []int)
@@ -2768,49 +3024,49 @@ func (*SignUpRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use SignUpRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*SignUpRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L350>)
+### func \(\*SignUpRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L171>)
 
 ```go
 func (x *SignUpRequest) GetEmail() string
 ```
 
-### func \(\*SignUpRequest\) [GetName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L343>)
+### func \(\*SignUpRequest\) [GetName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L164>)
 
 ```go
 func (x *SignUpRequest) GetName() string
 ```
 
-### func \(\*SignUpRequest\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L357>)
+### func \(\*SignUpRequest\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L178>)
 
 ```go
 func (x *SignUpRequest) GetPassword() string
 ```
 
-### func \(\*SignUpRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L324>)
+### func \(\*SignUpRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L145>)
 
 ```go
 func (*SignUpRequest) ProtoMessage()
 ```
 
-### func \(\*SignUpRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L326>)
+### func \(\*SignUpRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L147>)
 
 ```go
 func (x *SignUpRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*SignUpRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L311>)
+### func \(\*SignUpRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L132>)
 
 ```go
 func (x *SignUpRequest) Reset()
 ```
 
-### func \(\*SignUpRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L320>)
+### func \(\*SignUpRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L141>)
 
 ```go
 func (x *SignUpRequest) String() string
 ```
 
-## type [UnimplementedAuthServiceServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L816-L817>)
+## type [UnimplementedAuthServiceServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1329-L1330>)
 
 UnimplementedAuthServiceServer can be embedded to have forward compatible implementations\.
 
@@ -2819,40 +3075,64 @@ type UnimplementedAuthServiceServer struct {
 }
 ```
 
-### func \(\*UnimplementedAuthServiceServer\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L834>)
+### func \(\*UnimplementedAuthServiceServer\) [ChangeUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1344>)
 
 ```go
-func (*UnimplementedAuthServiceServer) DeleteUser(context.Context, *GetUserRequest) (*DeleteUserResponse, error)
+func (*UnimplementedAuthServiceServer) ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*User, error)
 ```
 
-### func \(\*UnimplementedAuthServiceServer\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L825>)
+### func \(\*UnimplementedAuthServiceServer\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1341>)
+
+```go
+func (*UnimplementedAuthServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
+```
+
+### func \(\*UnimplementedAuthServiceServer\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1338>)
 
 ```go
 func (*UnimplementedAuthServiceServer) GetUser(context.Context, *GetUserRequest) (*User, error)
 ```
 
-### func \(\*UnimplementedAuthServiceServer\) [ListUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L828>)
+### func \(\*UnimplementedAuthServiceServer\) [GetUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1347>)
+
+```go
+func (*UnimplementedAuthServiceServer) GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error)
+```
+
+### func \(\*UnimplementedAuthServiceServer\) [ListUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1359>)
 
 ```go
 func (*UnimplementedAuthServiceServer) ListUsers(*ListUsersRequest, AuthService_ListUsersServer) error
 ```
 
-### func \(\*UnimplementedAuthServiceServer\) [SignIn](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L822>)
+### func \(\*UnimplementedAuthServiceServer\) [SignIn](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1335>)
 
 ```go
 func (*UnimplementedAuthServiceServer) SignIn(context.Context, *SignInRequest) (*SignInResponse, error)
 ```
 
-### func \(\*UnimplementedAuthServiceServer\) [SignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L819>)
+### func \(\*UnimplementedAuthServiceServer\) [SignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1332>)
 
 ```go
 func (*UnimplementedAuthServiceServer) SignUp(context.Context, *SignUpRequest) (*User, error)
 ```
 
-### func \(\*UnimplementedAuthServiceServer\) [UpdateUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L831>)
+### func \(\*UnimplementedAuthServiceServer\) [UpdateUserEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1353>)
 
 ```go
-func (*UnimplementedAuthServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
+func (*UnimplementedAuthServiceServer) UpdateUserEmail(context.Context, *UpdateUserEmailRequest) (*User, error)
+```
+
+### func \(\*UnimplementedAuthServiceServer\) [UpdateUserName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1356>)
+
+```go
+func (*UnimplementedAuthServiceServer) UpdateUserName(context.Context, *UpdateUserNameRequest) (*User, error)
+```
+
+### func \(\*UnimplementedAuthServiceServer\) [UpdateUserPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L1350>)
+
+```go
+func (*UnimplementedAuthServiceServer) UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*User, error)
 ```
 
 ## type [UnimplementedCatServiceServer](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1052-L1053>)
@@ -2864,19 +3144,19 @@ type UnimplementedCatServiceServer struct {
 }
 ```
 
-### func \(\*UnimplementedCatServiceServer\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1064>)
+### func \(\*UnimplementedCatServiceServer\) [AddURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1061>)
 
 ```go
 func (*UnimplementedCatServiceServer) AddURL(context.Context, *AddURLRequest) (*Category, error)
 ```
 
-### func \(\*UnimplementedCatServiceServer\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1070>)
+### func \(\*UnimplementedCatServiceServer\) [DeleteURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1064>)
 
 ```go
 func (*UnimplementedCatServiceServer) DeleteURL(context.Context, *DeleteURLRequest) (*DeleteURLResponse, error)
 ```
 
-### func \(\*UnimplementedCatServiceServer\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1067>)
+### func \(\*UnimplementedCatServiceServer\) [DeleteURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1070>)
 
 ```go
 func (*UnimplementedCatServiceServer) DeleteURLs(*DeleteURLsRequest, CatService_DeleteURLsServer) error
@@ -2894,7 +3174,7 @@ func (*UnimplementedCatServiceServer) GetCategory(context.Context, *GetCategoryR
 func (*UnimplementedCatServiceServer) ListURLs(*ListURLsRequest, CatService_ListURLsServer) error
 ```
 
-### func \(\*UnimplementedCatServiceServer\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1061>)
+### func \(\*UnimplementedCatServiceServer\) [ReportMiscategorization](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L1067>)
 
 ```go
 func (*UnimplementedCatServiceServer) ReportMiscategorization(context.Context, *ReportMiscategorizationRequest) (*Category, error)
@@ -2996,7 +3276,7 @@ func (*UnimplementedCrawlServiceServer) GetURLData(context.Context, *GetURLDataR
 func (*UnimplementedCrawlServiceServer) GetURLsData(*GetURLsDataRequest, CrawlService_GetURLsDataServer) error
 ```
 
-## type [UpdateCategoryRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L224-L231>)
+## type [UpdateCategoryRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L169-L176>)
 
 ```go
 type UpdateCategoryRequest struct {
@@ -3006,7 +3286,7 @@ type UpdateCategoryRequest struct {
 }
 ```
 
-### func \(\*UpdateCategoryRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L261>)
+### func \(\*UpdateCategoryRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L206>)
 
 ```go
 func (*UpdateCategoryRequest) Descriptor() ([]byte, []int)
@@ -3014,37 +3294,37 @@ func (*UpdateCategoryRequest) Descriptor() ([]byte, []int)
 
 Deprecated: Use UpdateCategoryRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*UpdateCategoryRequest\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L272>)
+### func \(\*UpdateCategoryRequest\) [GetCategory](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L217>)
 
 ```go
 func (x *UpdateCategoryRequest) GetCategory() string
 ```
 
-### func \(\*UpdateCategoryRequest\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L265>)
+### func \(\*UpdateCategoryRequest\) [GetUrl](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L210>)
 
 ```go
 func (x *UpdateCategoryRequest) GetUrl() string
 ```
 
-### func \(\*UpdateCategoryRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L246>)
+### func \(\*UpdateCategoryRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L191>)
 
 ```go
 func (*UpdateCategoryRequest) ProtoMessage()
 ```
 
-### func \(\*UpdateCategoryRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L248>)
+### func \(\*UpdateCategoryRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L193>)
 
 ```go
 func (x *UpdateCategoryRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*UpdateCategoryRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L233>)
+### func \(\*UpdateCategoryRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L178>)
 
 ```go
 func (x *UpdateCategoryRequest) Reset()
 ```
 
-### func \(\*UpdateCategoryRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L242>)
+### func \(\*UpdateCategoryRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/cat.pb.go#L187>)
 
 ```go
 func (x *UpdateCategoryRequest) String() string
@@ -3104,61 +3384,190 @@ func (x *UpdateClassificationModelRequest) Reset()
 func (x *UpdateClassificationModelRequest) String() string
 ```
 
-## type [UpdateUserRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L199-L206>)
+## type [UpdateUserEmailRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L648-L656>)
 
 ```go
-type UpdateUserRequest struct {
-    Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-    Id   string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+type UpdateUserEmailRequest struct {
+    Email    string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+    NewEmail string `protobuf:"bytes,2,opt,name=newEmail,proto3" json:"newEmail,omitempty"`
+    Password string `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
     // contains filtered or unexported fields
 }
 ```
 
-### func \(\*UpdateUserRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L236>)
+### func \(\*UpdateUserEmailRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L686>)
 
 ```go
-func (*UpdateUserRequest) Descriptor() ([]byte, []int)
+func (*UpdateUserEmailRequest) Descriptor() ([]byte, []int)
 ```
 
-Deprecated: Use UpdateUserRequest\.ProtoReflect\.Descriptor instead\.
+Deprecated: Use UpdateUserEmailRequest\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*UpdateUserRequest\) [GetId](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L247>)
+### func \(\*UpdateUserEmailRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L690>)
 
 ```go
-func (x *UpdateUserRequest) GetId() string
+func (x *UpdateUserEmailRequest) GetEmail() string
 ```
 
-### func \(\*UpdateUserRequest\) [GetName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L240>)
+### func \(\*UpdateUserEmailRequest\) [GetNewEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L697>)
 
 ```go
-func (x *UpdateUserRequest) GetName() string
+func (x *UpdateUserEmailRequest) GetNewEmail() string
 ```
 
-### func \(\*UpdateUserRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L221>)
+### func \(\*UpdateUserEmailRequest\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L704>)
 
 ```go
-func (*UpdateUserRequest) ProtoMessage()
+func (x *UpdateUserEmailRequest) GetPassword() string
 ```
 
-### func \(\*UpdateUserRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L223>)
+### func \(\*UpdateUserEmailRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L671>)
 
 ```go
-func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message
+func (*UpdateUserEmailRequest) ProtoMessage()
 ```
 
-### func \(\*UpdateUserRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L208>)
+### func \(\*UpdateUserEmailRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L673>)
 
 ```go
-func (x *UpdateUserRequest) Reset()
+func (x *UpdateUserEmailRequest) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*UpdateUserRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L217>)
+### func \(\*UpdateUserEmailRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L658>)
 
 ```go
-func (x *UpdateUserRequest) String() string
+func (x *UpdateUserEmailRequest) Reset()
 ```
 
-## type [User](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L27-L38>)
+### func \(\*UpdateUserEmailRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L667>)
+
+```go
+func (x *UpdateUserEmailRequest) String() string
+```
+
+## type [UpdateUserNameRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L711-L719>)
+
+```go
+type UpdateUserNameRequest struct {
+    Email    string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+    Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+    Password string `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*UpdateUserNameRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L749>)
+
+```go
+func (*UpdateUserNameRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use UpdateUserNameRequest\.ProtoReflect\.Descriptor instead\.
+
+### func \(\*UpdateUserNameRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L753>)
+
+```go
+func (x *UpdateUserNameRequest) GetEmail() string
+```
+
+### func \(\*UpdateUserNameRequest\) [GetName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L760>)
+
+```go
+func (x *UpdateUserNameRequest) GetName() string
+```
+
+### func \(\*UpdateUserNameRequest\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L767>)
+
+```go
+func (x *UpdateUserNameRequest) GetPassword() string
+```
+
+### func \(\*UpdateUserNameRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L734>)
+
+```go
+func (*UpdateUserNameRequest) ProtoMessage()
+```
+
+### func \(\*UpdateUserNameRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L736>)
+
+```go
+func (x *UpdateUserNameRequest) ProtoReflect() protoreflect.Message
+```
+
+### func \(\*UpdateUserNameRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L721>)
+
+```go
+func (x *UpdateUserNameRequest) Reset()
+```
+
+### func \(\*UpdateUserNameRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L730>)
+
+```go
+func (x *UpdateUserNameRequest) String() string
+```
+
+## type [UpdateUserPasswordRequest](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L585-L593>)
+
+```go
+type UpdateUserPasswordRequest struct {
+    Email       string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+    Password    string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+    NewPassword string `protobuf:"bytes,3,opt,name=newPassword,proto3" json:"newPassword,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+### func \(\*UpdateUserPasswordRequest\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L623>)
+
+```go
+func (*UpdateUserPasswordRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use UpdateUserPasswordRequest\.ProtoReflect\.Descriptor instead\.
+
+### func \(\*UpdateUserPasswordRequest\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L627>)
+
+```go
+func (x *UpdateUserPasswordRequest) GetEmail() string
+```
+
+### func \(\*UpdateUserPasswordRequest\) [GetNewPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L641>)
+
+```go
+func (x *UpdateUserPasswordRequest) GetNewPassword() string
+```
+
+### func \(\*UpdateUserPasswordRequest\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L634>)
+
+```go
+func (x *UpdateUserPasswordRequest) GetPassword() string
+```
+
+### func \(\*UpdateUserPasswordRequest\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L608>)
+
+```go
+func (*UpdateUserPasswordRequest) ProtoMessage()
+```
+
+### func \(\*UpdateUserPasswordRequest\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L610>)
+
+```go
+func (x *UpdateUserPasswordRequest) ProtoReflect() protoreflect.Message
+```
+
+### func \(\*UpdateUserPasswordRequest\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L595>)
+
+```go
+func (x *UpdateUserPasswordRequest) Reset()
+```
+
+### func \(\*UpdateUserPasswordRequest\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L604>)
+
+```go
+func (x *UpdateUserPasswordRequest) String() string
+```
+
+## type [User](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L27-L39>)
 
 ```go
 type User struct {
@@ -3166,13 +3575,14 @@ type User struct {
     Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
     Email    string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
     Password string `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
-    Created  int64  `protobuf:"varint,5,opt,name=created,proto3" json:"created,omitempty"`
-    Updated  int64  `protobuf:"varint,6,opt,name=updated,proto3" json:"updated,omitempty"`
+    Role     string `protobuf:"bytes,5,opt,name=role,proto3" json:"role,omitempty"`
+    Created  int64  `protobuf:"varint,6,opt,name=created,proto3" json:"created,omitempty"`
+    Updated  int64  `protobuf:"varint,7,opt,name=updated,proto3" json:"updated,omitempty"`
     // contains filtered or unexported fields
 }
 ```
 
-### func \(\*User\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L68>)
+### func \(\*User\) [Descriptor](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L69>)
 
 ```go
 func (*User) Descriptor() ([]byte, []int)
@@ -3180,61 +3590,67 @@ func (*User) Descriptor() ([]byte, []int)
 
 Deprecated: Use User\.ProtoReflect\.Descriptor instead\.
 
-### func \(\*User\) [GetCreated](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L100>)
+### func \(\*User\) [GetCreated](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L108>)
 
 ```go
 func (x *User) GetCreated() int64
 ```
 
-### func \(\*User\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L86>)
+### func \(\*User\) [GetEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L87>)
 
 ```go
 func (x *User) GetEmail() string
 ```
 
-### func \(\*User\) [GetId](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L72>)
+### func \(\*User\) [GetId](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L73>)
 
 ```go
 func (x *User) GetId() string
 ```
 
-### func \(\*User\) [GetName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L79>)
+### func \(\*User\) [GetName](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L80>)
 
 ```go
 func (x *User) GetName() string
 ```
 
-### func \(\*User\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L93>)
+### func \(\*User\) [GetPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L94>)
 
 ```go
 func (x *User) GetPassword() string
 ```
 
-### func \(\*User\) [GetUpdated](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L107>)
+### func \(\*User\) [GetRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L101>)
+
+```go
+func (x *User) GetRole() string
+```
+
+### func \(\*User\) [GetUpdated](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L115>)
 
 ```go
 func (x *User) GetUpdated() int64
 ```
 
-### func \(\*User\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L53>)
+### func \(\*User\) [ProtoMessage](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L54>)
 
 ```go
 func (*User) ProtoMessage()
 ```
 
-### func \(\*User\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L55>)
+### func \(\*User\) [ProtoReflect](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L56>)
 
 ```go
 func (x *User) ProtoReflect() protoreflect.Message
 ```
 
-### func \(\*User\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L40>)
+### func \(\*User\) [Reset](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L41>)
 
 ```go
 func (x *User) Reset()
 ```
 
-### func \(\*User\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L49>)
+### func \(\*User\) [String](<https://github.com/mtnmunuklu/Lescatit/blob/main/pb/auth.pb.go#L50>)
 
 ```go
 func (x *User) String() string

@@ -23,7 +23,7 @@ import "Lescatit/authentication/models"
   - [func (u *User) ToProtoBuffer() *pb.User](<#func-user-toprotobuffer>)
 
 
-## type [User](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/models/users.go#L11-L18>)
+## type [User](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/models/users.go#L11-L19>)
 
 User provides the user instance for authentication job\.
 
@@ -33,12 +33,13 @@ type User struct {
     Name     string        `bson:"name"`
     Email    string        `bson:"email"`
     Password string        `bson:"password"`
+    Role     string        `bson:"role"`
     Created  time.Time     `bson:"created"`
     Updated  time.Time     `bson:"updated"`
 }
 ```
 
-### func \(\*User\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/models/users.go#L33>)
+### func \(\*User\) [FromProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/models/users.go#L35>)
 
 ```go
 func (u *User) FromProtoBuffer(user *pb.User)
@@ -46,7 +47,7 @@ func (u *User) FromProtoBuffer(user *pb.User)
 
 FromProtoBuffer gets user from protocol buffer and converts to the user structure\.
 
-### func \(\*User\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/models/users.go#L21>)
+### func \(\*User\) [ToProtoBuffer](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/models/users.go#L22>)
 
 ```go
 func (u *User) ToProtoBuffer() *pb.User
@@ -64,8 +65,9 @@ import "Lescatit/authentication/repository"
 
 - [Constants](<#constants>)
 - [type URepository](<#type-urepository>)
-  - [func (r *URepository) Delete(id string) error](<#func-urepository-delete>)
   - [func (r *URepository) DeleteAll() error](<#func-urepository-deleteall>)
+  - [func (r *URepository) DeleteByEmail(email string) error](<#func-urepository-deletebyemail>)
+  - [func (r *URepository) DeleteById(id string) error](<#func-urepository-deletebyid>)
   - [func (r *URepository) GetAll() (user []*models.User, err error)](<#func-urepository-getall>)
   - [func (r *URepository) GetByEmail(email string) (user *models.User, err error)](<#func-urepository-getbyemail>)
   - [func (r *URepository) GetById(id string) (user *models.User, err error)](<#func-urepository-getbyid>)
@@ -81,7 +83,7 @@ import "Lescatit/authentication/repository"
 const UsersCollection = "users"
 ```
 
-## type [URepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L24-L26>)
+## type [URepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L25-L27>)
 
 URepository provides a mongo collection for database job\.
 
@@ -91,15 +93,7 @@ type URepository struct {
 }
 ```
 
-### func \(\*URepository\) [Delete](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L62>)
-
-```go
-func (r *URepository) Delete(id string) error
-```
-
-Delete deletes the user based on id\.
-
-### func \(\*URepository\) [DeleteAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L67>)
+### func \(\*URepository\) [DeleteAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L73>)
 
 ```go
 func (r *URepository) DeleteAll() error
@@ -107,7 +101,23 @@ func (r *URepository) DeleteAll() error
 
 DeleteAll drops users collection\.
 
-### func \(\*URepository\) [GetAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L51>)
+### func \(\*URepository\) [DeleteByEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L63>)
+
+```go
+func (r *URepository) DeleteByEmail(email string) error
+```
+
+Delete deletes the user based on email\.
+
+### func \(\*URepository\) [DeleteById](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L68>)
+
+```go
+func (r *URepository) DeleteById(id string) error
+```
+
+Delete deletes the user based on id\.
+
+### func \(\*URepository\) [GetAll](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L52>)
 
 ```go
 func (r *URepository) GetAll() (user []*models.User, err error)
@@ -115,7 +125,7 @@ func (r *URepository) GetAll() (user []*models.User, err error)
 
 GetAll returns all users\.
 
-### func \(\*URepository\) [GetByEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L45>)
+### func \(\*URepository\) [GetByEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L46>)
 
 ```go
 func (r *URepository) GetByEmail(email string) (user *models.User, err error)
@@ -123,7 +133,7 @@ func (r *URepository) GetByEmail(email string) (user *models.User, err error)
 
 GetByEmail returns the user based on email\.
 
-### func \(\*URepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L39>)
+### func \(\*URepository\) [GetById](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L40>)
 
 ```go
 func (r *URepository) GetById(id string) (user *models.User, err error)
@@ -131,7 +141,7 @@ func (r *URepository) GetById(id string) (user *models.User, err error)
 
 GetById returns the user based on id\.
 
-### func \(\*URepository\) [Save](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L34>)
+### func \(\*URepository\) [Save](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L35>)
 
 ```go
 func (r *URepository) Save(user *models.User) error
@@ -139,7 +149,7 @@ func (r *URepository) Save(user *models.User) error
 
 Save creates a user\.
 
-### func \(\*URepository\) [Update](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L57>)
+### func \(\*URepository\) [Update](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L58>)
 
 ```go
 func (r *URepository) Update(user *models.User) error
@@ -147,7 +157,7 @@ func (r *URepository) Update(user *models.User) error
 
 Update updates the user\.
 
-## type [UsersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L14-L21>)
+## type [UsersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L14-L22>)
 
 UsersRepository is the interface of the authentication backend\.
 
@@ -158,11 +168,12 @@ type UsersRepository interface {
     GetByEmail(email string) (user *models.User, err error)
     GetAll() (user []*models.User, err error)
     Update(user *models.User) error
-    Delete(id string) error
+    DeleteByEmail(email string) error
+    DeleteById(id string) error
 }
 ```
 
-### func [NewUsersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L29>)
+### func [NewUsersRepository](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/repository/users.go#L30>)
 
 ```go
 func NewUsersRepository(conn db.Connection) UsersRepository
@@ -180,15 +191,19 @@ import "Lescatit/authentication/service"
 
 - [func NewAuthService(usersRepository repository.UsersRepository) pb.AuthServiceServer](<#func-newauthservice>)
 - [type AuthService](<#type-authservice>)
-  - [func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error)](<#func-authservice-deleteuser>)
+  - [func (s *AuthService) ChangeUserRole(ctx context.Context, req *pb.ChangeUserRoleRequest) (*pb.User, error)](<#func-authservice-changeuserrole>)
+  - [func (s *AuthService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest) (*pb.DeleteUserResponse, error)](<#func-authservice-deleteuser>)
   - [func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error)](<#func-authservice-getuser>)
+  - [func (s *AuthService) GetUserRole(ctx context.Context, req *pb.GetUserRoleRequest) (*pb.GetUserRoleResponse, error)](<#func-authservice-getuserrole>)
   - [func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error](<#func-authservice-listusers>)
   - [func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error)](<#func-authservice-signin>)
   - [func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.User, error)](<#func-authservice-signup>)
-  - [func (s *AuthService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.User, error)](<#func-authservice-updateuser>)
+  - [func (s *AuthService) UpdateUserEmail(ctx context.Context, req *pb.UpdateUserEmailRequest) (*pb.User, error)](<#func-authservice-updateuseremail>)
+  - [func (s *AuthService) UpdateUserName(ctx context.Context, req *pb.UpdateUserNameRequest) (*pb.User, error)](<#func-authservice-updateusername>)
+  - [func (s *AuthService) UpdateUserPassword(ctx context.Context, req *pb.UpdateUserPasswordRequest) (*pb.User, error)](<#func-authservice-updateuserpassword>)
 
 
-## func [NewAuthService](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L24>)
+## func [NewAuthService](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L23>)
 
 ```go
 func NewAuthService(usersRepository repository.UsersRepository) pb.AuthServiceServer
@@ -196,7 +211,7 @@ func NewAuthService(usersRepository repository.UsersRepository) pb.AuthServiceSe
 
 NewAuthService creates a new AuthService instance\.
 
-## type [AuthService](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L19-L21>)
+## type [AuthService](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L18-L20>)
 
 AuthService provides usersRepository for authentication service\.
 
@@ -206,15 +221,23 @@ type AuthService struct {
 }
 ```
 
-### func \(\*AuthService\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L136>)
+### func \(\*AuthService\) [ChangeUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L114>)
 
 ```go
-func (s *AuthService) DeleteUser(ctx context.Context, req *pb.GetUserRequest) (*pb.DeleteUserResponse, error)
+func (s *AuthService) ChangeUserRole(ctx context.Context, req *pb.ChangeUserRoleRequest) (*pb.User, error)
+```
+
+ChangeUserRole performs change the user role\.
+
+### func \(\*AuthService\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L97>)
+
+```go
+func (s *AuthService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest) (*pb.DeleteUserResponse, error)
 ```
 
 DeleteUser performs delete the user\.
 
-### func \(\*AuthService\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L87>)
+### func \(\*AuthService\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L84>)
 
 ```go
 func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error)
@@ -222,7 +245,15 @@ func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 
 GetUser performs return the user by id\.
 
-### func \(\*AuthService\) [ListUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L99>)
+### func \(\*AuthService\) [GetUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L137>)
+
+```go
+func (s *AuthService) GetUserRole(ctx context.Context, req *pb.GetUserRoleRequest) (*pb.GetUserRoleResponse, error)
+```
+
+GetUserRole performs return the user role by id\.
+
+### func \(\*AuthService\) [ListUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L256>)
 
 ```go
 func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error
@@ -238,7 +269,7 @@ func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.Si
 
 SignIn performs the user login process\.
 
-### func \(\*AuthService\) [SignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L29>)
+### func \(\*AuthService\) [SignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L28>)
 
 ```go
 func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.User, error)
@@ -246,13 +277,27 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.Us
 
 SignUp performs the user registration process\.
 
-### func \(\*AuthService\) [UpdateUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L114>)
+### func \(\*AuthService\) [UpdateUserEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L188>)
 
 ```go
-func (s *AuthService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.User, error)
+func (s *AuthService) UpdateUserEmail(ctx context.Context, req *pb.UpdateUserEmailRequest) (*pb.User, error)
 ```
 
-UpdateUser performs update the user\.
+UpdateUser performs update the password\.
+
+### func \(\*AuthService\) [UpdateUserName](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L222>)
+
+```go
+func (s *AuthService) UpdateUserName(ctx context.Context, req *pb.UpdateUserNameRequest) (*pb.User, error)
+```
+
+### func \(\*AuthService\) [UpdateUserPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L149>)
+
+```go
+func (s *AuthService) UpdateUserPassword(ctx context.Context, req *pb.UpdateUserPasswordRequest) (*pb.User, error)
+```
+
+UpdateUser performs update the password\.
 
 # util
 
@@ -273,16 +318,20 @@ Contains error codes for authentication service\.
 
 ```go
 var (
-    ErrInvalidUserId     = errors.New("invalid userId")
-    ErrEmptyName         = errors.New("name can't be empty")
-    ErrEmptyEmail        = errors.New("email can't be empty")
-    ErrEmptyPassword     = errors.New("password can't be empty")
-    ErrEmailAlreadyExist = errors.New("email already exist")
-    ErrSignInFailed      = errors.New("signin failed")
+    ErrInvalidUserId      = errors.New("invalid userId")
+    ErrEmptyName          = errors.New("name can't be empty")
+    ErrEmptyEmail         = errors.New("email can't be empty")
+    ErrEmptyNewEmail      = errors.New("new email can't be empty")
+    ErrEmptyPassword      = errors.New("password can't be empty")
+    ErrEmptyNewPassword   = errors.New("new password can't be empty")
+    ErrEmailAlreadyExist  = errors.New("email already exist")
+    ErrEmailNotFound      = errors.New("email did not found")
+    ErrSignInFailed       = errors.New("signin failed")
+    ErrMismatchedPassword = errors.New("password did not match")
 )
 ```
 
-## func [NormalizeEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L32>)
+## func [NormalizeEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L36>)
 
 ```go
 func NormalizeEmail(email string) string
@@ -290,7 +339,7 @@ func NormalizeEmail(email string) string
 
 NormalizeEmail normalizes the user email address\.
 
-## func [ValidateSignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L20>)
+## func [ValidateSignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L24>)
 
 ```go
 func ValidateSignUp(user *pb.SignUpRequest) error

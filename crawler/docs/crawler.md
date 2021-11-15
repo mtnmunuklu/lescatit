@@ -256,7 +256,7 @@ type CrawlService struct {
 func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*pb.CrawlURLResponse, error)
 ```
 
-CrawlURL performs crawl the url
+CrawlURL performs crawl the url\.
 
 ### func \(\*CrawlService\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L115>)
 
@@ -264,7 +264,7 @@ CrawlURL performs crawl the url
 func (s *CrawlService) CrawlURLs(req *pb.CrawlURLsRequest, stream pb.CrawlService_CrawlURLsServer) error
 ```
 
-CrawlUrls performs crawl the urls
+CrawlUrls performs crawl the urls\.
 
 ### func \(\*CrawlService\) [GetURLData](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L25>)
 
