@@ -18,24 +18,26 @@ It provides to crawl and categorize URL addresses. It is developed with go, mong
 
 ## Features
 This project has the following features:
-* Update username
-* Get user info
-* Get all users info
+* Getting the user(s) information
 * Delete a user
-* Get the content in the url/urls
-* Crawl the url/urls
-* Categorize the url/urls
-* Generate classification model
-* Get classification model
-* Update classification model
-* Delete classification model/models
+* Changing the user role
+* Update user passsword
+* Update user email address
+* Update username
+* Getting content of the URL(s)
+* Crawling the URL(s)
+* Categorizing the URL(s)
+* Generating a classification model
+* Getting the classification model
+* Update the classification model
+* Deleting the classification model(s)
 * List all classification models
-* Get url category
-* Update url category
+* Getting URL category
+* Update URL category
 * Report miscategorization
-* Add url address
-* Delete url/urls
-* List all urls
+* Add URL address
+* Delete the URL(s)
+* List all URLs
 	
 ## Setup
 
