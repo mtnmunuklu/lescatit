@@ -4,6 +4,7 @@ import (
 	"Lescatit/api/handlers"
 	"Lescatit/api/routes"
 	"Lescatit/pb"
+	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
@@ -31,8 +32,14 @@ func init() {
 }
 
 func main() {
+
+	tlsCredentials, err := security.LoadCATLSCredentials()
+	if err != nil {
+		log.Fatal("cannot load TLS credentials: ", err)
+	}
+
 	// for authentication service
-	authConn, err := grpc.Dial(authAddr, grpc.WithInsecure())
+	authConn, err := grpc.Dial(authAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -43,7 +50,7 @@ func main() {
 	authRoutes := routes.NewAuthRoutes(authHandlers)
 
 	// for crawler service
-	crawlConn, err := grpc.Dial(crawlAddr, grpc.WithInsecure())
+	crawlConn, err := grpc.Dial(crawlAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -54,7 +61,7 @@ func main() {
 	crawlRoutes := routes.NewCrawlRoutes(crawlHandlers)
 
 	// for categorizer service
-	catzeConn, err := grpc.Dial(catzeAddr, grpc.WithInsecure())
+	catzeConn, err := grpc.Dial(catzeAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -65,7 +72,7 @@ func main() {
 	catzeRoutes := routes.NewCatzeRoutes(catzeHandlers)
 
 	// for categorization service
-	catConn, err := grpc.Dial(catAddr, grpc.WithInsecure())
+	catConn, err := grpc.Dial(catAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)
 	}

@@ -6,6 +6,7 @@ import (
 	"Lescatit/crawler/service"
 	"Lescatit/db"
 	"Lescatit/pb"
+	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
@@ -52,7 +53,14 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	grpcServer := grpc.NewServer()
+	tlsCredentials, err := security.LoadServerTLSCredentials()
+	if err != nil {
+		log.Fatal("cannot load TLS credentials: ", err)
+	}
+
+	grpcServer := grpc.NewServer(
+		grpc.Creds(tlsCredentials),
+	)
 	pb.RegisterCrawlServiceServer(grpcServer, crawlService)
 	log.Printf("Crawler service running on [::]:%d\n", port)
 

@@ -8,6 +8,7 @@ import (
 	"Lescatit/categorizer/tokenizer"
 	"Lescatit/db"
 	"Lescatit/pb"
+	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
@@ -56,7 +57,14 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	grpcServer := grpc.NewServer()
+	tlsCredentials, err := security.LoadServerTLSCredentials()
+	if err != nil {
+		log.Fatal("cannot load TLS credentials: ", err)
+	}
+
+	grpcServer := grpc.NewServer(
+		grpc.Creds(tlsCredentials),
+	)
 	pb.RegisterCatzeServiceServer(grpcServer, catzeService)
 	log.Printf("Categorizer service running on [::]:%d\n", port)
 
