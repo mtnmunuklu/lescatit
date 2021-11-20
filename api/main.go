@@ -4,7 +4,6 @@ import (
 	"Lescatit/api/handlers"
 	"Lescatit/api/routes"
 	"Lescatit/pb"
-	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
@@ -12,6 +11,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/alts"
 )
 
 var (
@@ -33,13 +33,11 @@ func init() {
 
 func main() {
 
-	tlsCredentials, err := security.LoadCATLSCredentials()
-	if err != nil {
-		log.Fatal("cannot load TLS credentials: ", err)
-	}
+	// Application Layer Transport Security (ALTS) is a mutual authentication and transport encryption system.
+	altsTC := alts.NewClientCreds(alts.DefaultClientOptions())
 
 	// for authentication service
-	authConn, err := grpc.Dial(authAddr, grpc.WithTransportCredentials(tlsCredentials))
+	authConn, err := grpc.Dial(authAddr, grpc.WithTransportCredentials(altsTC))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -50,7 +48,7 @@ func main() {
 	authRoutes := routes.NewAuthRoutes(authHandlers)
 
 	// for crawler service
-	crawlConn, err := grpc.Dial(crawlAddr, grpc.WithTransportCredentials(tlsCredentials))
+	crawlConn, err := grpc.Dial(crawlAddr, grpc.WithTransportCredentials(altsTC))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -61,7 +59,7 @@ func main() {
 	crawlRoutes := routes.NewCrawlRoutes(crawlHandlers)
 
 	// for categorizer service
-	catzeConn, err := grpc.Dial(catzeAddr, grpc.WithTransportCredentials(tlsCredentials))
+	catzeConn, err := grpc.Dial(catzeAddr, grpc.WithTransportCredentials(altsTC))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -72,7 +70,7 @@ func main() {
 	catzeRoutes := routes.NewCatzeRoutes(catzeHandlers)
 
 	// for categorization service
-	catConn, err := grpc.Dial(catAddr, grpc.WithTransportCredentials(tlsCredentials))
+	catConn, err := grpc.Dial(catAddr, grpc.WithTransportCredentials(altsTC))
 	if err != nil {
 		log.Panicln(err)
 	}

@@ -5,7 +5,6 @@ import (
 	"Lescatit/authentication/service"
 	"Lescatit/db"
 	"Lescatit/pb"
-	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
@@ -13,6 +12,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/alts"
 )
 
 // Contains some variables(port, local) for authentication service.
@@ -52,12 +52,9 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	tlsCredentials, err := security.LoadServerTLSCredentials()
-	if err != nil {
-		log.Fatal("cannot load TLS credentials: ", err)
-	}
-
-	grpcServer := grpc.NewServer(grpc.Creds(tlsCredentials))
+	// Application Layer Transport Security (ALTS) is a mutual authentication and transport encryption system.
+	altsTC := alts.NewServerCreds(alts.DefaultServerOptions())
+	grpcServer := grpc.NewServer(grpc.Creds(altsTC))
 	pb.RegisterAuthServiceServer(grpcServer, authService)
 
 	log.Printf("Authentication service running on [::]:%d\n", port)
