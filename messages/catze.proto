@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package pb;
+package messages;
 
 option go_package = "./pb";
 
