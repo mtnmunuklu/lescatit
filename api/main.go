@@ -4,18 +4,21 @@ import (
 	"Lescatit/api/handlers"
 	"Lescatit/api/routes"
 	"Lescatit/pb"
+	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/alts"
 )
 
 var (
 	port      int
+	local     bool
 	authAddr  string
 	catAddr   string
 	crawlAddr string
@@ -23,6 +26,7 @@ var (
 )
 
 func init() {
+	flag.BoolVar(&local, "local", true, "run api service local")
 	flag.IntVar(&port, "port", 9000, "api service port")
 	flag.StringVar(&authAddr, "auth_addr", "localhost:9001", "authentication service address")
 	flag.StringVar(&catAddr, "cat_addr", "localhost:9002", "categorization service address")
@@ -32,12 +36,20 @@ func init() {
 }
 
 func main() {
+	if local {
+		err := godotenv.Load()
+		if err != nil {
+			log.Panicln(err)
+		}
+	}
 
-	// Application Layer Transport Security (ALTS) is a mutual authentication and transport encryption system.
-	altsTC := alts.NewClientCreds(alts.DefaultClientOptions())
+	cert_path := os.Getenv("CERT_PATH")
+	tlsCredentials, err := security.LoadCATLSCredentials(cert_path)
+	if err != nil {
+		log.Fatal("cannot load TLS credentials: ", err)
+	}
 
-	// for authentication service
-	authConn, err := grpc.Dial(authAddr, grpc.WithTransportCredentials(altsTC))
+	authConn, err := grpc.Dial(authAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -48,7 +60,7 @@ func main() {
 	authRoutes := routes.NewAuthRoutes(authHandlers)
 
 	// for crawler service
-	crawlConn, err := grpc.Dial(crawlAddr, grpc.WithTransportCredentials(altsTC))
+	crawlConn, err := grpc.Dial(crawlAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -59,7 +71,7 @@ func main() {
 	crawlRoutes := routes.NewCrawlRoutes(crawlHandlers)
 
 	// for categorizer service
-	catzeConn, err := grpc.Dial(catzeAddr, grpc.WithTransportCredentials(altsTC))
+	catzeConn, err := grpc.Dial(catzeAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -70,7 +82,7 @@ func main() {
 	catzeRoutes := routes.NewCatzeRoutes(catzeHandlers)
 
 	// for categorization service
-	catConn, err := grpc.Dial(catAddr, grpc.WithTransportCredentials(altsTC))
+	catConn, err := grpc.Dial(catAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)
 	}

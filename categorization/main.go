@@ -5,20 +5,21 @@ import (
 	"Lescatit/categorization/service"
 	"Lescatit/db"
 	"Lescatit/pb"
+	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
 	"net"
+	"os"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/alts"
 )
 
 // Contains some variables(port, local) for categorization service.
 var (
-	local bool
 	port  int
+	local bool
 )
 
 // Init initializes the specify options for categorization service.
@@ -51,9 +52,12 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	// Application Layer Transport Security (ALTS) is a mutual authentication and transport encryption system.
-	altsTC := alts.NewServerCreds(alts.DefaultServerOptions())
-	grpcServer := grpc.NewServer(grpc.Creds(altsTC))
+	cert_path := os.Getenv("CERT_PATH")
+	tlsCredentials, err := security.LoadServerTLSCredentials(cert_path)
+	if err != nil {
+		log.Fatal("cannot load TLS credentials: ", err)
+	}
+	grpcServer := grpc.NewServer(grpc.Creds(tlsCredentials))
 	pb.RegisterCatServiceServer(grpcServer, catService)
 	log.Printf("Categorization service running on [::]:%d\n", port)
 
