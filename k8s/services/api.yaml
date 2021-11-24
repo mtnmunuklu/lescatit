@@ -22,7 +22,7 @@ spec:
         command:
         - sh
         - -c
-        - /app/apisvc -auth_addr=$auth_addr -crawl_addr=$crawl_addr -catze_addr=$catze_addr -cat_addr=$cat_addr
+        - /app/apisvc -local=false -auth_addr=$auth_addr -crawl_addr=$crawl_addr -catze_addr=$catze_addr -cat_addr=$cat_addr
         env:
           - name: auth_addr
             value: auth-service:9001
