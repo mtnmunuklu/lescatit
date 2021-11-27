@@ -55,6 +55,19 @@ spec:
               configMapKeyRef:
                 name: svc-configs
                 key: db_name
+          - name: CERT_PATH
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: cert_path
+        volumeMounts:
+        - name: certs
+          mountPath: /etc/certs
+          readOnly: true
+      volumes:
+      - name: certs
+        secret:
+          secretName: certs
 ---
 apiVersion: v1
 kind: Service

@@ -6,3 +6,4 @@ data:
   db_host: mongodb
   db_port: "27017"
   db_name: cws
+  cert_path: "/etc/certs"
