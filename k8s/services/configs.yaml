@@ -5,5 +5,5 @@ metadata:
 data:
   db_host: mongodb
   db_port: "27017"
-  db_name: cws
+  db_name: lescatit
   cert_path: "/etc/certs"

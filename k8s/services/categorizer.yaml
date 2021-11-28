@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: catze-svc
-        image: cws:v1
+        image: lescatit:v1
         ports:
         - containerPort: 9003
         command:
@@ -67,7 +67,7 @@ spec:
       volumes:
       - name: certs
         secret:
-          secretName: certs
+          secretName: cert-secret
 ---
 apiVersion: v1
 kind: Service
