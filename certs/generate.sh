@@ -1,16 +1,30 @@
 rm *.pem
 
+# Creation of certificates for secure communication between services
 # 1. Generate CA's private key and self-signed certificate
-openssl req -x509 -newkey rsa:4096 -days 365 -nodes -keyout ca-key.pem -out ca-cert.pem -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"
+openssl req -x509 -newkey rsa:4096 -days 365 -nodes \
+    -keyout ca-key.pem -out ca-cert.pem \
+    -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"
 
 echo "CA's self-signed certificate"
 openssl x509 -in ca-cert.pem -noout -text
 
 # 2. Generate web server's private key and certificate signing request (CSR)
-openssl req -newkey rsa:4096 -nodes -keyout server-key.pem -out server-req.pem -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"
+openssl req -newkey rsa:4096 -nodes -keyout server-key.pem \
+    -out server-req.pem \
+    -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"
 
 # 3. Use CA's private key to sign web server's CSR and get back the signed certificate
-openssl x509 -req -in server-req.pem -days 60 -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile server-ext.cnf
+openssl x509 -req -in server-req.pem  \
+    -days 60 -CA ca-cert.pem \
+    -CAkey ca-key.pem -CAcreateserial \ 
+    -out server-cert.pem -extfile server-ext.cnf
 
 echo "Server's signed certificate"
 openssl x509 -in server-cert.pem -noout -text
+
+# Creation of certificates for ingress
+openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
+    -out ingress-cert.pem \
+    -keyout ingress-key.pem \
+    -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"

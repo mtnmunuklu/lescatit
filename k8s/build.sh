@@ -1,16 +1,29 @@
 #!/bin/bash
 
+# Copy builted services
 cp ../authentication/authsvc docker/
 cp ../crawler/crawlsvc docker/
 cp ../categorizer/catzesvc docker/
 cp ../categorization/catsvc docker/
 cp ../api/apisvc docker/
 
-docker build -t cws:v1 docker/
-docker inspect cws:v1
+# Build docker file
+docker build -t lescatit:v1 docker/
+docker inspect lescatit:v1
 
+# Apply a configuration for mongodb
 kubectl apply -f mongodb/
 
-kubectl create secret generic certs --from-file=../certs/ca-cert.pem --from-file=../certs/server-cert.pem --from-file=../certs/server-key.pem
+# Create secret for secure communication between services
+kubectl create secret generic cert-secret \ 
+    --from-file=../certs/ca-cert.pem \
+    --from-file=../certs/server-cert.pem \
+    --from-file=../certs/server-key.pem
 
+# Create secret for ingress
+kubectl create secret tls ingress-secret \
+    --key ingress-key.pem \
+    --cert ingress-cert.pem
+
+# Apply a configuration for services
 kubectl apply -f services/
