@@ -6,6 +6,7 @@ spec:
   tls:
   - hosts:
       - api.lescatit.com
+      - lescatit.com
     secretName: ingress-secret
   rules:
   - host: api.lescatit.com
