@@ -38,28 +38,28 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: svc-secrets
-                key: JwtSecretKey
+                key: jwtSecretKey
 
           - name: DATABASE_HOST
             valueFrom:
               configMapKeyRef:
                 name: svc-configs
-                key: db_host
+                key: dbHost
           - name: DATABASE_PORT
             valueFrom:
               configMapKeyRef:
                 name: svc-configs
-                key: db_port
+                key: dbPort
           - name: DATABASE_NAME
             valueFrom:
               configMapKeyRef:
                 name: svc-configs
-                key: db_name
+                key: dbName
           - name: CERT_PATH
             valueFrom:
               configMapKeyRef:
                 name: svc-configs
-                key: cert_path
+                key: certPath
         volumeMounts:
         - name: certs
           mountPath: /etc/certs

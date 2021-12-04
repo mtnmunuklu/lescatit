@@ -36,12 +36,12 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: svc-secrets
-                key: JwtSecretKey
+                key: jwtSecretKey
           - name: CERT_PATH
             valueFrom:
               configMapKeyRef:
                 name: svc-configs
-                key: cert_path
+                key: certPath
         volumeMounts:
         - name: certs
           mountPath: /etc/certs

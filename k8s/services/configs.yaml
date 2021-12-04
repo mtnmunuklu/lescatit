@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: svc-configs
 data:
-  db_host: mongodb
-  db_port: "27017"
-  db_name: lescatit
-  cert_path: "/etc/certs"
+  dbHost: mongodb
+  dbPort: "27017"
+  dbName: lescatit
+  certPath: "/etc/certs"
