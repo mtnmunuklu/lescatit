@@ -21,12 +21,29 @@ spec:
             value: /etc/credentials/admin/MONGO_ROOT_USERNAME
           - name: MONGO_INITDB_ROOT_PASSWORD_FILE
             value: /etc/credentials/admin/MONGO_ROOT_PASSWORD
+          - name: MONGO_INITDB_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: mongodb-configs
+                key: dbName
+          - name: MONGO_INITDB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secrets
+                key: dbUser
+          - name: MONGO_INITDB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secrets
+                key: dbPass
         volumeMounts:
         - name: credentials
           mountPath: /etc/credentials
           readOnly: true
         - name: mongo-data
           mountPath: /data/db
+        - name: mongo-initdb
+          mountPath: /docker-entrypoint-initdb.d
       nodeSelector:
         kubernetes.io/hostname: minikube
       volumes:
@@ -43,6 +60,12 @@ spec:
           - key: password
             path: admin/MONGO_ROOT_PASSWORD
             mode: 0444
+      - name: mongo-initdb
+        configMap:
+          name: mongo-scripts
+          items:
+          - key: createUser.sh
+            path: createUser.sh
 ---
 apiVersion: v1
 kind: Service
