@@ -1,6 +1,7 @@
 ### Todo
 
-- [ ] Obtaining the content by going to the some addresses on the ethernet for use in  classification model.
+- [ ] Autonomic crawler
+- [ ] Autonomic categorizer
 - [ ] Adding some badges to README
   - [ ]	Code Quality: https://scrutinizer-ci.com/
   - [ ] Build Status: https://travis-ci.com/
@@ -9,7 +10,8 @@
   - [ ] Go Doc: https://pkg.go.dev/
 ### In Progress
 
-- [ ] Getting back up as Kubernetes. The address should be https and domain based.
+- [ ] Obtaining the content by going to the some addresses on the ethernet for use in  classification model.
+
 
 ### Done ✓
 
@@ -23,3 +25,4 @@
 - [x] Some functions (delete url/urls, delete user, update category, delete cmodel/cmodels, ...) can only be accessed by the admin user.
 - [x] Development of content extraction part from url in Crawler service.
 - [x] Adding secure communication between API and services
+- [x] Getting back up as Kubernetes. The address should be https and domain based.
