@@ -1,8 +1,8 @@
 ### Todo
 
-- [ ] Autonomic crawler
-- [ ] Autonomic categorizer
-- [ ] Adding some badges to README
+- [ ] Automatic crawler.
+- [ ] Automatic categorizer.
+- [ ] Adding some badges to README.
   - [ ]	Code Quality: https://scrutinizer-ci.com/
   - [ ] Build Status: https://travis-ci.com/
   - [ ] Go Cover: https://gocover.io/
@@ -10,19 +10,19 @@
   - [ ] Go Doc: https://pkg.go.dev/
 ### In Progress
 
-- [ ] Obtaining the content by going to the some addresses on the ethernet for use in  classification model.
-
+- [ ] Obtaining the content of url addresses for classification model.
 
 ### Done ✓
 
-- [x] Check the returned http status codes in the API. Use UnprocessableEntity for returning error in function calls.
-- [x] API Documentation.
-- [x] NB Testing whether the Predict function works correctly.
-- [x] Role-based processing will be started for users in the Authentication service.
-- [x] Update Password, Update Name, Update Email, Functions will be written.
-- [x] Swagger will be edited for the Authentication service.
-- [x] API Authentication test will be edited.
-- [x] Some functions (delete url/urls, delete user, update category, delete cmodel/cmodels, ...) can only be accessed by the admin user.
-- [x] Development of content extraction part from url in Crawler service.
-- [x] Adding secure communication between API and services
-- [x] Getting back up as Kubernetes. The address should be https and domain based.
+- [x] Authentication service.
+- [x] API service.
+- [x] Crawler service.
+- [x] Categorizer service.
+- [x] Categorization service.
+- [x] Code Documentation(gomarkdoc).
+- [x] API Documentation(swagger).
+- [x] Role(admin) based operations.
+- [x] Secure communication between API and services.
+- [x] Docker and Kubernetes integration.
+- [x] Contributing, changelog, version and security docs.
+- [x] Build scripts.
