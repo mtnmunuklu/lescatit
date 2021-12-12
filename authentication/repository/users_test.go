@@ -31,7 +31,7 @@ func init() {
 
 }
 
-// TestUsersRepositorySave tests the operation to user create.
+// TestUsersRepositorySave tests the user create operation.
 func TestUsersRepositorySave(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -131,7 +131,7 @@ func TestUsersRepositoryGetByEmail(t *testing.T) {
 	assert.Nil(t, found)
 }
 
-// TestUsersRepositoryUpdate tests the operation a user update.
+// TestUsersRepositoryUpdate tests the user update operation.
 func TestUsersRepositoryUpdate(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -158,16 +158,16 @@ func TestUsersRepositoryUpdate(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, found)
 
-	user.Name = "UPDATE"
+	user.Name = "UpdateTest"
 	err = r.Update(user)
 	assert.NoError(t, err)
 
 	found, err = r.GetById(user.Id.Hex())
 	assert.NoError(t, err)
-	assert.Equal(t, "UPDATE", found.Name)
+	assert.Equal(t, "UpdateTest", found.Name)
 }
 
-// TestUsersRepositoryDelete tests the operation a user delete.
+// TestUsersRepositoryDelete tests the user delete operation.
 func TestUsersRepositoryDelete(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)

@@ -48,7 +48,7 @@ func main() {
 	usersRepository := repository.NewUsersRepository(conn)
 	authService := service.NewAuthService(usersRepository)
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -63,5 +63,5 @@ func main() {
 
 	log.Printf("Authentication service running on [::]:%d\n", port)
 
-	grpcServer.Serve(lis)
+	grpcServer.Serve(listen)
 }
