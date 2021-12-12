@@ -25,7 +25,7 @@ func init() {
 	defer conn.Close()
 	r := NewUsersRepository(conn)
 	err = r.(*URepository).DeleteAll()
-	if err != nil {
+	if err != nil && err.Error() != "ns not found" {
 		log.Panicln(err)
 	}
 
