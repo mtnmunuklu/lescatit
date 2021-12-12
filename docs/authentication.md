@@ -221,7 +221,7 @@ type AuthService struct {
 }
 ```
 
-### func \(\*AuthService\) [ChangeUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L114>)
+### func \(\*AuthService\) [ChangeUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L127>)
 
 ```go
 func (s *AuthService) ChangeUserRole(ctx context.Context, req *pb.ChangeUserRoleRequest) (*pb.User, error)
@@ -229,7 +229,7 @@ func (s *AuthService) ChangeUserRole(ctx context.Context, req *pb.ChangeUserRole
 
 ChangeUserRole performs change the user role\.
 
-### func \(\*AuthService\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L97>)
+### func \(\*AuthService\) [DeleteUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L107>)
 
 ```go
 func (s *AuthService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest) (*pb.DeleteUserResponse, error)
@@ -237,7 +237,7 @@ func (s *AuthService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest)
 
 DeleteUser performs delete the user\.
 
-### func \(\*AuthService\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L84>)
+### func \(\*AuthService\) [GetUser](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L92>)
 
 ```go
 func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.User, error)
@@ -245,7 +245,7 @@ func (s *AuthService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 
 GetUser performs return the user by id\.
 
-### func \(\*AuthService\) [GetUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L137>)
+### func \(\*AuthService\) [GetUserRole](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L157>)
 
 ```go
 func (s *AuthService) GetUserRole(ctx context.Context, req *pb.GetUserRoleRequest) (*pb.GetUserRoleResponse, error)
@@ -253,7 +253,7 @@ func (s *AuthService) GetUserRole(ctx context.Context, req *pb.GetUserRoleReques
 
 GetUserRole performs return the user role by id\.
 
-### func \(\*AuthService\) [ListUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L256>)
+### func \(\*AuthService\) [ListUsers](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L283>)
 
 ```go
 func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_ListUsersServer) error
@@ -261,7 +261,7 @@ func (s *AuthService) ListUsers(req *pb.ListUsersRequest, stream pb.AuthService_
 
 ListUser list all users\.
 
-### func \(\*AuthService\) [SignIn](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L63>)
+### func \(\*AuthService\) [SignIn](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L67>)
 
 ```go
 func (s *AuthService) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error)
@@ -277,7 +277,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.Us
 
 SignUp performs the user registration process\.
 
-### func \(\*AuthService\) [UpdateUserEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L188>)
+### func \(\*AuthService\) [UpdateUserEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L214>)
 
 ```go
 func (s *AuthService) UpdateUserEmail(ctx context.Context, req *pb.UpdateUserEmailRequest) (*pb.User, error)
@@ -285,13 +285,15 @@ func (s *AuthService) UpdateUserEmail(ctx context.Context, req *pb.UpdateUserEma
 
 UpdateUser performs update the password\.
 
-### func \(\*AuthService\) [UpdateUserName](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L222>)
+### func \(\*AuthService\) [UpdateUserName](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L249>)
 
 ```go
 func (s *AuthService) UpdateUserName(ctx context.Context, req *pb.UpdateUserNameRequest) (*pb.User, error)
 ```
 
-### func \(\*AuthService\) [UpdateUserPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L149>)
+UpdateUser performs update the username\.
+
+### func \(\*AuthService\) [UpdateUserPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/service/service.go#L171>)
 
 ```go
 func (s *AuthService) UpdateUserPassword(ctx context.Context, req *pb.UpdateUserPasswordRequest) (*pb.User, error)
@@ -318,20 +320,27 @@ Contains error codes for authentication service\.
 
 ```go
 var (
-    ErrInvalidUserId      = errors.New("invalid userId")
-    ErrEmptyName          = errors.New("name can't be empty")
-    ErrEmptyEmail         = errors.New("email can't be empty")
-    ErrEmptyNewEmail      = errors.New("new email can't be empty")
-    ErrEmptyPassword      = errors.New("password can't be empty")
-    ErrEmptyNewPassword   = errors.New("new password can't be empty")
-    ErrEmailAlreadyExist  = errors.New("email already exist")
-    ErrEmailNotFound      = errors.New("email did not found")
-    ErrSignInFailed       = errors.New("signin failed")
-    ErrMismatchedPassword = errors.New("password did not match")
+    ErrInvalidUserId         = errors.New("invalid user id")
+    ErrEmptyName             = errors.New("name can't be empty")
+    ErrEmptyEmail            = errors.New("email can't be empty")
+    ErrEmptyNewEmail         = errors.New("new email can't be empty")
+    ErrEmptyPassword         = errors.New("password can't be empty")
+    ErrEmptyNewPassword      = errors.New("new password can't be empty")
+    ErrEmptyUserRole         = errors.New("user role can't be empty")
+    ErrExistEmail            = errors.New("email already exist")
+    ErrNotFoundEmail         = errors.New("email did not found")
+    ErrNotFoundUserId        = errors.New("user id could not be found")
+    ErrFailedSignIn          = errors.New("signin failed")
+    ErrMismatchedPassword    = errors.New("password did not match")
+    ErrCreateUser            = errors.New("user could not be created")
+    ErrDeleteUser            = errors.New("user could not be deleted")
+    ErrUpdateUser            = errors.New("user could not be updated")
+    ErrEncryptPassword       = errors.New("password could not be encrypted")
+    ErrNotPerformedOperation = errors.New("operation could not be performed")
 )
 ```
 
-## func [NormalizeEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L36>)
+## func [NormalizeEmail](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L43>)
 
 ```go
 func NormalizeEmail(email string) string
@@ -339,7 +348,7 @@ func NormalizeEmail(email string) string
 
 NormalizeEmail normalizes the user email address\.
 
-## func [ValidateSignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L24>)
+## func [ValidateSignUp](<https://github.com/mtnmunuklu/Lescatit/blob/main/authentication/util/util.go#L31>)
 
 ```go
 func ValidateSignUp(user *pb.SignUpRequest) error
