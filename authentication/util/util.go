@@ -36,6 +36,7 @@ func ValidateSignUp(user *pb.SignUpRequest) error {
 	} else if user.GetPassword() == "" {
 		return ErrEmptyPassword
 	}
+
 	return nil
 }
 
