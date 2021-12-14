@@ -47,7 +47,8 @@ func main() {
 
 	categoriesRepository := repository.NewCategoriesRepository(conn)
 	catService := service.NewCatSevice(categoriesRepository)
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+
+	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -59,7 +60,8 @@ func main() {
 	}
 	grpcServer := grpc.NewServer(grpc.Creds(tlsCredentials))
 	pb.RegisterCatServiceServer(grpcServer, catService)
+
 	log.Printf("Categorization service running on [::]:%d\n", port)
 
-	grpcServer.Serve(lis)
+	grpcServer.Serve(listen)
 }

@@ -20,9 +20,11 @@ func init() {
 	if err != nil {
 		log.Panicln(err)
 	}
+
 	cfg := db.NewConfig()
 	conn, _ := db.NewConnection(cfg)
 	defer conn.Close()
+
 	r := NewCategoriesRepository(conn)
 	err = r.(*CRepository).DeleteAll()
 	if err != nil && err.Error() != "ns not found" {
@@ -185,7 +187,7 @@ func TestCategoriesRepositoryGetAllURLsByCategory(t *testing.T) {
 	assert.NotEmpty(t, founds)
 }
 
-// TestCategoriesRepositoryUpdate tests the operation a category update.
+// TestCategoriesRepositoryUpdate tests the category update operation.
 func TestCategoriesRepositoryUpdate(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -224,7 +226,7 @@ func TestCategoriesRepositoryUpdate(t *testing.T) {
 
 }
 
-// TestCategoriesRepositoryDelete tests the operation a url delete.
+// TestCategoriesRepositoryDelete tests the url delete operation.
 func TestCategoriesRepositoryDelete(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
