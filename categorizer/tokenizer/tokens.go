@@ -37,6 +37,7 @@ func NewTokenizer(opts ...StdOption) Tokenizer {
 	for _, opt := range opts {
 		opt(tokenizer)
 	}
+
 	return tokenizer
 }
 

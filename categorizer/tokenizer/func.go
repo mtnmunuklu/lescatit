@@ -36,6 +36,7 @@ func Filter(vs chan string, filters ...Predicate) chan string {
 				return false
 			}
 		}
+
 		return true
 	}
 

@@ -21,9 +21,11 @@ func init() {
 	if err != nil {
 		log.Panicln(err)
 	}
+
 	cfg := db.NewConfig()
 	conn, _ := db.NewConnection(cfg)
 	defer conn.Close()
+
 	r := NewClassifiersRepository(conn)
 	err = r.(*CRepository).DeleteAll()
 	if err != nil && err.Error() != "ns not found" {
@@ -31,7 +33,7 @@ func init() {
 	}
 }
 
-// TestClassifiersRepositorySave tests the operation to classifier add.
+// TestClassifiersRepositorySave tests the classifier add operation.
 func TestClassifiersRepositorySave(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -186,7 +188,7 @@ func TestClassifiersRepositoryGetAllClassiffiersByCategory(t *testing.T) {
 	assert.NotEmpty(t, founds)
 }
 
-// TestClassifiersRepositoryUpdate tests the operation a classifier update.
+// TestClassifiersRepositoryUpdate tests the classifier update operation.
 func TestClassifiersRepositoryUpdate(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -224,7 +226,7 @@ func TestClassifiersRepositoryUpdate(t *testing.T) {
 	assert.Equal(t, "KNN", found.Category)
 }
 
-// TestClassifiersRepositoryDelete tests the operation a classifier delete.
+// TestClassifiersRepositoryDelete tests the classifier delete operation.
 func TestClassifiersRepositoryDelete(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)

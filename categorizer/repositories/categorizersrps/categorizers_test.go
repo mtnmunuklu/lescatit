@@ -30,7 +30,7 @@ func init() {
 	}
 }
 
-// TestCategorizersRepositorySave tests the operation to url add.
+// TestCategorizersRepositorySave tests the url add operation.
 func TestCategorizersRepositorySave(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
@@ -99,7 +99,7 @@ func TestCategorizersRepositoryGetById(t *testing.T) {
 	assert.Nil(t, found)
 }
 
-// TestCategorizersRepositoryUpdate tests the operation a category update.
+// TestCategorizersRepositoryUpdate tests the category update operation.
 func TestCategorizersRepositoryUpdate(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)

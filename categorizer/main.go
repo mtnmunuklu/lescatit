@@ -51,9 +51,10 @@ func main() {
 	categorizersRepository := categorizersrps.NewCategorizersRepository(conn)
 	classifiersRepository := classifiersrps.NewClassifiersRepository(conn)
 	tokenizer := tokenizer.NewTokenizer()
-	nbCategorizer := classifiers.NewNaiveBayesianClassifer()
+	nbCategorizer := classifiers.NewNaiveBayesianClassifier()
 	catzeService := service.NewCatzeService(categorizersRepository, classifiersRepository, tokenizer, nbCategorizer)
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+
+	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -65,7 +66,8 @@ func main() {
 	}
 	grpcServer := grpc.NewServer(grpc.Creds(tlsCredentials))
 	pb.RegisterCatzeServiceServer(grpcServer, catzeService)
+
 	log.Printf("Categorizer service running on [::]:%d\n", port)
 
-	grpcServer.Serve(lis)
+	grpcServer.Serve(listen)
 }

@@ -2,6 +2,7 @@ package classifiers
 
 import (
 	"Lescatit/categorizer/models"
+	"Lescatit/categorizer/util"
 	"bytes"
 	"sort"
 
@@ -22,29 +23,34 @@ type NBClassifier struct {
 }
 
 // NewNaiveBayesianClassifer creates a new NaiveBayesianClassifier instance.
-func NewNaiveBayesianClassifer() NaiveBayesianClassifier {
+func NewNaiveBayesianClassifier() NaiveBayesianClassifier {
 	return &NBClassifier{}
 }
 
-// Learn provides to create a new classifer model.
+// Learn provides to create a new classifier model.
 func (c *NBClassifier) Learn(model map[string][]string) (string, error) {
 	c.classes = make([]bayesian.Class, 0)
 	for class := range model {
 		c.classes = append(c.classes, bayesian.Class(class))
 	}
+
 	c.classifier = bayesian.NewClassifierTfIdf(c.classes...)
 	for class, tokens := range model {
 		c.classifier.Learn(tokens, bayesian.Class(class))
 	}
+
 	c.classifier.ConvertTermsFreqToTfIdf()
+
 	var buffer bytes.Buffer
 	err := c.classifier.WriteTo(&buffer)
 	if err != nil {
-		return "", err
+		return "", util.ErrSerializeClassifier
 	}
+
 	return buffer.String(), nil
 }
 
+// Predict provides to predict a class by naive bayesian classifier model.
 func (c *NBClassifier) Predict(tokens []string) string {
 	scores, _, _ := c.classifier.LogScores(tokens)
 	results := models.Results{}
@@ -58,17 +64,22 @@ func (c *NBClassifier) Predict(tokens []string) string {
 	for i := 0; i < len(results); i++ {
 		flags = append(flags, string(c.classes[results[i].ID]))
 	}
+
 	return flags[0]
 }
 
+// ReadClassifier provides to read naive bayesian classifier model.
 func (c *NBClassifier) ReadClassifier(data string) error {
 	var buffer bytes.Buffer
 	buffer.WriteString(data)
+
 	classifier, err := bayesian.NewClassifierFromReader(&buffer)
 	if err != nil {
-		return err
+		return util.ErrDeserializeClassifer
 	}
+
 	c.classifier = classifier
 	c.classes = c.classifier.Classes
+
 	return nil
 }

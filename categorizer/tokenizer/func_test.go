@@ -17,6 +17,7 @@ func streamWords() chan string {
 		}
 		close(stream)
 	}()
+
 	return stream
 }
 
