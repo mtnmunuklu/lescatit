@@ -23,10 +23,10 @@ import "Lescatit/categorizer/classifiers"
   - [func (c *NBClassifier) Predict(tokens []string) string](<#func-nbclassifier-predict>)
   - [func (c *NBClassifier) ReadClassifier(data string) error](<#func-nbclassifier-readclassifier>)
 - [type NaiveBayesianClassifier](<#type-naivebayesianclassifier>)
-  - [func NewNaiveBayesianClassifer() NaiveBayesianClassifier](<#func-newnaivebayesianclassifer>)
+  - [func NewNaiveBayesianClassifier() NaiveBayesianClassifier](<#func-newnaivebayesianclassifier>)
 
 
-## type [NBClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L19-L22>)
+## type [NBClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L20-L23>)
 
 NBCategorizer provides categorizer and classes for naive bayesian classifier\.
 
@@ -36,27 +36,31 @@ type NBClassifier struct {
 }
 ```
 
-### func \(\*NBClassifier\) [Learn](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L30>)
+### func \(\*NBClassifier\) [Learn](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L31>)
 
 ```go
 func (c *NBClassifier) Learn(model map[string][]string) (string, error)
 ```
 
-Learn provides to create a new classifer model\.
+Learn provides to create a new classifier model\.
 
-### func \(\*NBClassifier\) [Predict](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L48>)
+### func \(\*NBClassifier\) [Predict](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L54>)
 
 ```go
 func (c *NBClassifier) Predict(tokens []string) string
 ```
 
-### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L64>)
+Predict provides to predict a class by naive bayesian classifier model\.
+
+### func \(\*NBClassifier\) [ReadClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L72>)
 
 ```go
 func (c *NBClassifier) ReadClassifier(data string) error
 ```
 
-## type [NaiveBayesianClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L12-L16>)
+ReadClassifier provides to read naive bayesian classifier model\.
+
+## type [NaiveBayesianClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L13-L17>)
 
 NaiveBayesianClassifier is the interface of the naive bayesian classifer\.
 
@@ -68,10 +72,10 @@ type NaiveBayesianClassifier interface {
 }
 ```
 
-### func [NewNaiveBayesianClassifer](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L25>)
+### func [NewNaiveBayesianClassifier](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/classifiers/naivebayesian.go#L26>)
 
 ```go
-func NewNaiveBayesianClassifer() NaiveBayesianClassifier
+func NewNaiveBayesianClassifier() NaiveBayesianClassifier
 ```
 
 NewNaiveBayesianClassifer creates a new NaiveBayesianClassifier instance\.
@@ -170,7 +174,7 @@ func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLR
 
 CategorizeURL performs categorize the url\.
 
-### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L74>)
+### func \(\*CatzeService\) [CategorizeURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L83>)
 
 ```go
 func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.CatzeService_CategorizeURLsServer) error
@@ -178,7 +182,7 @@ func (s *CatzeService) CategorizeURLs(req *pb.CategorizeURLsRequest, stream pb.C
 
 CategorizeURLs performs categorize the urls\.
 
-### func \(\*CatzeService\) [DeleteClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L190>)
+### func \(\*CatzeService\) [DeleteClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L213>)
 
 ```go
 func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.DeleteClassificationModelRequest) (*pb.DeleteClassificationModelResponse, error)
@@ -186,7 +190,7 @@ func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.De
 
 DeleteClassificationModel performs delete the classification model\.
 
-### func \(\*CatzeService\) [DeleteClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L206>)
+### func \(\*CatzeService\) [DeleteClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L232>)
 
 ```go
 func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationModelsRequest, stream pb.CatzeService_DeleteClassificationModelsServer) error
@@ -194,7 +198,7 @@ func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationMo
 
 DeleteClassificationModels performs delete the classification models\.
 
-### func \(\*CatzeService\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L115>)
+### func \(\*CatzeService\) [GenerateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L125>)
 
 ```go
 func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.GenerateClassificationModelRequest) (*pb.Classifier, error)
@@ -202,7 +206,7 @@ func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.
 
 GenerateClassificationModel performs generate a classification model\.
 
-### func \(\*CatzeService\) [GetClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L151>)
+### func \(\*CatzeService\) [GetClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L167>)
 
 ```go
 func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetClassificationModelRequest) (*pb.Classifier, error)
@@ -210,7 +214,7 @@ func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetCl
 
 GetClassificationModel performs return the classification model\.
 
-### func \(\*CatzeService\) [ListClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L227>)
+### func \(\*CatzeService\) [ListClassificationModels](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L254>)
 
 ```go
 func (s *CatzeService) ListClassificationModels(req *pb.ListClassificationModelsRequest, stream pb.CatzeService_ListClassificationModelsServer) error
@@ -218,7 +222,7 @@ func (s *CatzeService) ListClassificationModels(req *pb.ListClassificationModels
 
 ListClassificationModels performs list all classification models\.
 
-### func \(\*CatzeService\) [UpdateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L163>)
+### func \(\*CatzeService\) [UpdateClassificationModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/service/service.go#L181>)
 
 ```go
 func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.UpdateClassificationModelRequest) (*pb.Classifier, error)
@@ -306,19 +310,19 @@ StdOption provides configuration settings for a StdTokenizer
 type StdOption func(*StdTokenizer)
 ```
 
-### func [BufferSize](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L62>)
+### func [BufferSize](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L63>)
 
 ```go
 func BufferSize(size int) StdOption
 ```
 
-### func [Filters](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L74>)
+### func [Filters](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L75>)
 
 ```go
 func Filters(f ...Predicate) StdOption
 ```
 
-### func [Transforms](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L68>)
+### func [Transforms](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L69>)
 
 ```go
 func Transforms(m ...Mapper) StdOption
@@ -334,7 +338,7 @@ type StdTokenizer struct {
 }
 ```
 
-### func \(\*StdTokenizer\) [Tokenize](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L43>)
+### func \(\*StdTokenizer\) [Tokenize](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/tokenizer/tokens.go#L44>)
 
 ```go
 func (t *StdTokenizer) Tokenize(r io.Reader) chan string
@@ -369,7 +373,6 @@ import "Lescatit/categorizer/util"
 
 - [Variables](<#variables>)
 - [func GenerateRandomFileName(prefix, suffix string) string](<#func-generaterandomfilename>)
-- [func ValidateCModel(name string) string](<#func-validatecmodel>)
 - [func ValidateCategories(categories []string) error](<#func-validatecategories>)
 - [func ValidateCount(count string) (int, error)](<#func-validatecount>)
 - [func ValidateData(data string) error](<#func-validatedata>)
@@ -384,27 +387,29 @@ Contains error codes for categorizer service\.
 
 ```go
 var (
-    ErrEmptyData                  = errors.New("data can't be empty")
-    ErrEmptyURLs                  = errors.New("urls can't be empty")
     ErrInvalidURL                 = errors.New("invalid url")
     ErrInvalidCategorizationModel = errors.New("invalid categorization model")
     ErrInvalidCount               = errors.New("invalid count")
-    ErrFailedModelCreate          = errors.New("failed to create categorization model")
-    ErrFailedModelLearn           = errors.New("failed to learn categorization model")
-    ErrFailedModelSave            = errors.New("failed to save categorization model to database")
-    ErrFailedModelGet             = errors.New("failed to get categorization model from database")
-    ErrFailedModelRead            = errors.New("failed to read categorization model")
-    ErrFailedModelUpdate          = errors.New("failed to update categorization model")
-    ErrFailedModelDelete          = errors.New("failed to delete categorization model")
-    ErrFailedModelFind            = errors.New("failed to find model")
+    ErrEmptyData                  = errors.New("data can't be empty")
+    ErrEmptyURLs                  = errors.New("urls can't be empty")
     ErrEmptyModelName             = errors.New("model name can't be empty")
     ErrEmptyModelNames            = errors.New("model names can't be empty")
     ErrEmptyModelCategory         = errors.New("model category can't be empty")
     ErrEmptyModelCategories       = errors.New("model categories can't be empty")
+    ErrCreateModel                = errors.New("model could not be created")
+    ErrLearnModel                 = errors.New("model could not be learned")
+    ErrSaveModel                  = errors.New("model could not be saved")
+    ErrGetModel                   = errors.New("model could not be fetched")
+    ErrReadModel                  = errors.New("model could not be read")
+    ErrUpdateModel                = errors.New("model could not be updated")
+    ErrDeleteModel                = errors.New("model could not be deleted")
+    ErrSerializeClassifier        = errors.New("classifier could not be serialized")
+    ErrDeserializeClassifer       = errors.New("classifier could not be deserialized")
+    ErrDecodeData                 = errors.New("base64 data could not be decoded")
 )
 ```
 
-## func [GenerateRandomFileName](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L91>)
+## func [GenerateRandomFileName](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L92>)
 
 ```go
 func GenerateRandomFileName(prefix, suffix string) string
@@ -412,13 +417,7 @@ func GenerateRandomFileName(prefix, suffix string) string
 
 GenerateRandomFileName generates a random filename
 
-## func [ValidateCModel](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L83>)
-
-```go
-func ValidateCModel(name string) string
-```
-
-## func [ValidateCategories](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L60>)
+## func [ValidateCategories](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L65>)
 
 ```go
 func ValidateCategories(categories []string) error
@@ -426,7 +425,7 @@ func ValidateCategories(categories []string) error
 
 ValidateCategories validates the category count\.
 
-## func [ValidateCount](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L51>)
+## func [ValidateCount](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L55>)
 
 ```go
 func ValidateCount(count string) (int, error)
@@ -434,7 +433,7 @@ func ValidateCount(count string) (int, error)
 
 ValidateCount validates if it's a integer count\.
 
-## func [ValidateData](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L76>)
+## func [ValidateData](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L83>)
 
 ```go
 func ValidateData(data string) error
@@ -442,7 +441,7 @@ func ValidateData(data string) error
 
 ValidateNames validates the names count\.
 
-## func [ValidateNames](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L68>)
+## func [ValidateNames](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L74>)
 
 ```go
 func ValidateNames(names []string) error
@@ -450,7 +449,7 @@ func ValidateNames(names []string) error
 
 ValidateNames validates the names count\.
 
-## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L34>)
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L36>)
 
 ```go
 func ValidateURL(reqURL string) error
@@ -458,7 +457,7 @@ func ValidateURL(reqURL string) error
 
 ValidateURLs validates if it's a real url\.
 
-## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L43>)
+## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer/util/util.go#L46>)
 
 ```go
 func ValidateURLs(urls []*pb.CategorizeURLRequest) error
