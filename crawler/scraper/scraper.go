@@ -116,18 +116,22 @@ func (cs *CScraper) FromProtoBuffer(crawler *pb.CrawlRequest) {
 	if crawler.GetUserAgent() != "" {
 		cs.userAgent = crawler.GetUserAgent()
 	}
+
 	cs.maxDepth = crawler.GetMaxDepth()
 	if crawler.GetMaxBodySize() != 0 {
 		cs.maxBodySize = crawler.GetMaxBodySize()
 	}
+
 	cs.allowedDomains = crawler.GetAllowedDomains()
 	cs.disallowedDomains = crawler.GetDisallowedDomains()
 	for _, duf := range crawler.GetDisallowedUrlFilters() {
 		cs.disallowedURLFilters = append(cs.disallowedURLFilters, regexp.MustCompile(duf))
 	}
+
 	for _, uf := range crawler.GetUrlFilters() {
 		cs.urlFilters = append(cs.urlFilters, regexp.MustCompile(uf))
 	}
+
 	cs.urlRevisit = crawler.GetUrlRevisit()
 	cs.robotsTxt = crawler.GetRobotsTxt()
 }

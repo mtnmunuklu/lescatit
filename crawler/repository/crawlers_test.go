@@ -20,9 +20,11 @@ func init() {
 	if err != nil {
 		log.Panicln(err)
 	}
+
 	cfg := db.NewConfig()
 	conn, _ := db.NewConnection(cfg)
 	defer conn.Close()
+
 	r := NewCrawlersRepository(conn)
 	err = r.(*CRepository).DeleteAll()
 	if err != nil && err.Error() != "ns not found" {
@@ -30,7 +32,7 @@ func init() {
 	}
 }
 
-// TestCategoriesRepositorySave tests the operation to url add.
+// TestCategoriesRepositorySave tests the url add operation.
 func TestCrawlersRepositorySave(t *testing.T) {
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)

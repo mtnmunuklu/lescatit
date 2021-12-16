@@ -23,36 +23,42 @@ func NewCrawlService(crawlersRepository repository.CrawlersRepository, collyScra
 
 // GetURLData provides to get the content in the url address.
 func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest) (*pb.GetURLDataResponse, error) {
-	err := util.ValidateURL(req.Url)
+	err := util.ValidateURL(req.GetUrl())
 	if err != nil {
 		return nil, err
 	}
-	base64URL := security.Base64Encode(req.Url)
+
+	base64URL := security.Base64Encode(req.GetUrl())
 	data, err := s.crawlersRepository.GetDataByURL(base64URL)
 	if err != nil {
 		if req.GetType() == "notnew" {
-			return nil, util.ErrURLNotExist
+			return nil, util.ErrNotExistURL
 		} else {
-			currentData, err := s.collyScraper.GetData(req.Url)
+			currentData, err := s.collyScraper.GetData(req.GetUrl())
 			if err != nil {
-				return nil, err
+				return nil, util.ErrGetData
 			}
+
 			base64Data := security.Base64Encode(currentData)
-			return &pb.GetURLDataResponse{Url: req.Url, Data: base64Data, Status: "New"}, nil
+
+			return &pb.GetURLDataResponse{Url: req.GetUrl(), Data: base64Data, Status: "New"}, nil
 		}
 	} else if data != nil {
 		currentTime := time.Now()
 		diff := currentTime.Sub(data.Updated).Hours()
 		if diff > 720 {
-			currentData, err := s.collyScraper.GetData(req.Url)
+			currentData, err := s.collyScraper.GetData(req.GetUrl())
 			if err != nil {
-				return nil, err
+				return nil, util.ErrGetData
 			}
+
 			base64Data := security.Base64Encode(currentData)
-			return &pb.GetURLDataResponse{Url: req.Url, Data: base64Data, Status: "Updated"}, nil
+
+			return &pb.GetURLDataResponse{Url: req.GetUrl(), Data: base64Data, Status: "Updated"}, nil
 		}
 	}
-	return &pb.GetURLDataResponse{Url: req.Url, Data: data.Data}, nil
+
+	return &pb.GetURLDataResponse{Url: req.GetUrl(), Data: data.Data}, nil
 }
 
 // GetURLsData provides to get the content in the url addresses.
@@ -83,17 +89,19 @@ func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlSe
 						base64Data := security.Base64Encode(currentData)
 						err = stream.Send(&pb.GetURLDataResponse{Url: url.GetUrl(), Data: base64Data, Status: "Updated"})
 						if err != nil {
-							return err
+							return util.ErrNotPerformedOperation
 						}
 					}
 				}
+
 				err = stream.Send(&pb.GetURLDataResponse{Url: url.GetUrl(), Data: data.Data})
 				if err != nil {
-					return err
+					return util.ErrNotPerformedOperation
 				}
 			}
 		}
 	}
+
 	return nil
 }
 
@@ -103,29 +111,35 @@ func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*
 	if err != nil {
 		return nil, err
 	}
+
 	s.collyScraper.FromProtoBuffer(req.GetCrawlRequest())
-	links, err := s.collyScraper.GetLinks(req.Url)
+
+	links, err := s.collyScraper.GetLinks(req.GetUrl())
 	if err != nil {
-		return nil, err
+		return nil, util.ErrGetLinks
 	}
-	return &pb.CrawlURLResponse{Url: req.Url, Links: links}, nil
+
+	return &pb.CrawlURLResponse{Url: req.GetUrl(), Links: links}, nil
 }
 
 // CrawlUrls performs crawl the urls.
 func (s *CrawlService) CrawlURLs(req *pb.CrawlURLsRequest, stream pb.CrawlService_CrawlURLsServer) error {
-	err := util.ValidateURLs(req.Urls)
+	err := util.ValidateURLs(req.GetUrls())
 	if err != nil {
 		return err
 	}
+
 	s.collyScraper.FromProtoBuffer(req.GetCrawlRequest())
-	for _, url := range req.Urls {
+
+	for _, url := range req.GetUrls() {
 		links, err := s.collyScraper.GetLinks(url)
 		if err == nil {
 			err := stream.Send(&pb.CrawlURLResponse{Url: url, Links: links})
 			if err != nil {
-				return err
+				return util.ErrNotPerformedOperation
 			}
 		}
 	}
+
 	return nil
 }
