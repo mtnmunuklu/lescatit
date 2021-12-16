@@ -250,7 +250,7 @@ type CrawlService struct {
 }
 ```
 
-### func \(\*CrawlService\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L101>)
+### func \(\*CrawlService\) [CrawlURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L109>)
 
 ```go
 func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*pb.CrawlURLResponse, error)
@@ -258,7 +258,7 @@ func (s *CrawlService) CrawlURL(ctx context.Context, req *pb.CrawlURLRequest) (*
 
 CrawlURL performs crawl the url\.
 
-### func \(\*CrawlService\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L115>)
+### func \(\*CrawlService\) [CrawlURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L126>)
 
 ```go
 func (s *CrawlService) CrawlURLs(req *pb.CrawlURLsRequest, stream pb.CrawlService_CrawlURLsServer) error
@@ -274,7 +274,7 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 
 GetURLData provides to get the content in the url address\.
 
-### func \(\*CrawlService\) [GetURLsData](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L59>)
+### func \(\*CrawlService\) [GetURLsData](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/service/service.go#L65>)
 
 ```go
 func (s *CrawlService) GetURLsData(req *pb.GetURLsDataRequest, stream pb.CrawlService_GetURLsDataServer) error
@@ -301,13 +301,16 @@ Contains error codes for crawler service\.
 
 ```go
 var (
-    ErrInvalidURL  = errors.New("invalid url")
-    ErrEmptyURLs   = errors.New("urls can't be empty")
-    ErrURLNotExist = errors.New("url does not exist")
+    ErrInvalidURL            = errors.New("invalid url")
+    ErrEmptyURLs             = errors.New("urls can't be empty")
+    ErrNotExistURL           = errors.New("url does not exist")
+    ErrGetData               = errors.New("data could not be fetched")
+    ErrGetLinks              = errors.New("links could not be fetched")
+    ErrNotPerformedOperation = errors.New("operation could not be performed")
 )
 ```
 
-## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/util/util.go#L16>)
+## func [ValidateURL](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/util/util.go#L19>)
 
 ```go
 func ValidateURL(reqURL string) error
@@ -315,7 +318,7 @@ func ValidateURL(reqURL string) error
 
 ValidateURLs validates if it's a real url\.
 
-## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/util/util.go#L25>)
+## func [ValidateURLs](<https://github.com/mtnmunuklu/Lescatit/blob/main/crawler/util/util.go#L29>)
 
 ```go
 func ValidateURLs(urls []string) error
