@@ -9,12 +9,15 @@ import "Lescatit/security"
 ## Index
 
 - [Variables](<#variables>)
-- [func Base64Decode(base64Url string) (string, error)](<#func-base64decode>)
-- [func Base64Encode(url string) string](<#func-base64encode>)
+- [func Base64Decode(base64Data string) (string, error)](<#func-base64decode>)
+- [func Base64Encode(data string) string](<#func-base64encode>)
 - [func EncryptPassword(password string) (string, error)](<#func-encryptpassword>)
 - [func ExtractToken(r *http.Request) (string, error)](<#func-extracttoken>)
 - [func Hash(url string) string](<#func-hash>)
+- [func LoadCATLSCredentials(cert_path string) (credentials.TransportCredentials, error)](<#func-loadcatlscredentials>)
+- [func LoadServerTLSCredentials(cert_path string) (credentials.TransportCredentials, error)](<#func-loadservertlscredentials>)
 - [func NewToken(userId string) (string, error)](<#func-newtoken>)
+- [func ParseJwtCallback(token *jwt.Token) (interface{}, error)](<#func-parsejwtcallback>)
 - [func ParseToken(tokenString string) (*jwt.Token, error)](<#func-parsetoken>)
 - [func VerifyPassword(hashed, password string) error](<#func-verifypassword>)
 - [type TokenPayload](<#type-tokenpayload>)
@@ -35,55 +38,97 @@ var (
 )
 ```
 
-## func [Base64Decode](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/base64.go#L16>)
+## func [Base64Decode](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/base64.go#L18>)
 
 ```go
-func Base64Decode(base64Url string) (string, error)
+func Base64Decode(base64Data string) (string, error)
 ```
 
-## func [Base64Encode](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/base64.go#L12>)
+Base64Decode provides base64 decoding\.
+
+## func [Base64Encode](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/base64.go#L13>)
 
 ```go
-func Base64Encode(url string) string
+func Base64Encode(data string) string
 ```
 
-## func [EncryptPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/password.go#L5>)
+Base64Encode provides base64 encoding\.
+
+## func [EncryptPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/password.go#L6>)
 
 ```go
 func EncryptPassword(password string) (string, error)
 ```
 
-## func [ExtractToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L37>)
+LoadServerTLSCredentials provides encrypt of password\.
+
+## func [ExtractToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L40>)
 
 ```go
 func ExtractToken(r *http.Request) (string, error)
 ```
 
-## func [Hash](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/hash.go#L8>)
+ExtractToken provides extracting of token\.
+
+## func [Hash](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/hash.go#L9>)
 
 ```go
 func Hash(url string) string
 ```
 
-## func [NewToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L20>)
+Hash provides hashing\.
+
+## func [LoadCATLSCredentials](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/cert.go#L30>)
+
+```go
+func LoadCATLSCredentials(cert_path string) (credentials.TransportCredentials, error)
+```
+
+LoadCATLSCredentials provides loading of cat tls credentials\.
+
+## func [LoadServerTLSCredentials](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/cert.go#L13>)
+
+```go
+func LoadServerTLSCredentials(cert_path string) (credentials.TransportCredentials, error)
+```
+
+LoadServerTLSCredentials provides loading of server tls credentials\.
+
+## func [NewToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L21>)
 
 ```go
 func NewToken(userId string) (string, error)
 ```
 
-## func [ParseToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L48>)
+NewToken provides create a new token\.
+
+## func [ParseJwtCallback](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L32>)
+
+```go
+func ParseJwtCallback(token *jwt.Token) (interface{}, error)
+```
+
+ParseJwtCallback provides parsing of Jwt Callback\.
+
+## func [ParseToken](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L52>)
 
 ```go
 func ParseToken(tokenString string) (*jwt.Token, error)
 ```
 
-## func [VerifyPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/password.go#L13>)
+ExtractToken provides parsing of token\.
+
+## func [VerifyPassword](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/password.go#L16>)
 
 ```go
 func VerifyPassword(hashed, password string) error
 ```
 
-## type [TokenPayload](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L52-L56>)
+LoadServerTLSCredentials provides verify of password\.
+
+## type [TokenPayload](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L57-L61>)
+
+TokenPayload provides the token payload instance\.
 
 ```go
 type TokenPayload struct {
@@ -93,11 +138,13 @@ type TokenPayload struct {
 }
 ```
 
-### func [NewTokenPayload](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L58>)
+### func [NewTokenPayload](<https://github.com/mtnmunuklu/Lescatit/blob/main/security/tokens.go#L64>)
 
 ```go
 func NewTokenPayload(tokenString string) (*TokenPayload, error)
 ```
+
+NewTokenPayload creates a new TokenPayload instance\.
 
 
 
