@@ -9,14 +9,17 @@ var (
 	ErrBase64Decode = errors.New("invalid base64 data")
 )
 
-func Base64Encode(url string) string {
-	return base64.StdEncoding.EncodeToString([]byte(url))
+// Base64Encode provides base64 encoding.
+func Base64Encode(data string) string {
+	return base64.StdEncoding.EncodeToString([]byte(data))
 }
 
-func Base64Decode(base64Url string) (string, error) {
-	url, err := base64.StdEncoding.DecodeString(base64Url)
+// Base64Decode provides base64 decoding.
+func Base64Decode(base64Data string) (string, error) {
+	data, err := base64.StdEncoding.DecodeString(base64Data)
 	if err != nil {
 		return "", ErrBase64Decode
 	}
-	return string(url), nil
+
+	return string(data), nil
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TestBase64Encode tests base64 encoding operation.
 func TestBase64Encode(t *testing.T) {
 	base64Url := Base64Encode("http://example.com")
 	assert.NotEmpty(t, base64Url)
@@ -13,6 +14,7 @@ func TestBase64Encode(t *testing.T) {
 	assert.NotEqual(t, base64Url, "aHR0cDovL2V4YW1wbGUuY29m")
 }
 
+// TestBase64Encode tests base64 decoding operation.
 func TestBase64Decode(t *testing.T) {
 	base64Url := Base64Encode("http://example.com")
 	assert.NotEmpty(t, base64Url)

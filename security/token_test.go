@@ -9,6 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// TestNewToken tests new a token create operation.
 func TestNewToken(t *testing.T) {
 	id := bson.NewObjectId()
 	token, err := NewToken(id.Hex())
@@ -16,6 +17,7 @@ func TestNewToken(t *testing.T) {
 	assert.NotEmpty(t, token)
 }
 
+// TestNewTokenPayload tests new a token payload create operation.
 func TestNewTokenPayload(t *testing.T) {
 	id := bson.NewObjectId()
 	token, err := NewToken(id.Hex())
@@ -33,6 +35,7 @@ func TestNewTokenPayload(t *testing.T) {
 	assert.Nil(t, payload)
 }
 
+// GetTokenExpired tests the operation of receiving the token expire duration.
 func GetTokenExpired(id string) string {
 	claims := &jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(time.Minute * 5 * -1).Unix(),

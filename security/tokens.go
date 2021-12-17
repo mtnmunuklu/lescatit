@@ -17,6 +17,7 @@ var (
 	jwtSecretKey    = []byte(os.Getenv("JWT_SECRET_KEY"))
 )
 
+// NewToken provides create a new token.
 func NewToken(userId string) (string, error) {
 	claims := &jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(time.Minute * 30).Unix(),
@@ -27,13 +28,15 @@ func NewToken(userId string) (string, error) {
 	return token.SignedString(jwtSecretKey)
 }
 
-func parseJwtCallback(token *jwt.Token) (interface{}, error) {
+// ParseJwtCallback provides parsing of Jwt Callback.
+func ParseJwtCallback(token *jwt.Token) (interface{}, error) {
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 		return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 	}
 	return jwtSecretKey, nil
 }
 
+// ExtractToken provides extracting of token.
 func ExtractToken(r *http.Request) (string, error) {
 	// Authorization => Bearer Token...
 	header := strings.TrimSpace(r.Header.Get("Authorization"))
@@ -45,16 +48,19 @@ func ExtractToken(r *http.Request) (string, error) {
 	return splitted[1], nil
 }
 
+// ExtractToken provides parsing of token.
 func ParseToken(tokenString string) (*jwt.Token, error) {
-	return jwt.Parse(tokenString, parseJwtCallback)
+	return jwt.Parse(tokenString, ParseJwtCallback)
 }
 
+// TokenPayload provides the token payload instance.
 type TokenPayload struct {
 	UserId    string
 	CreatedAt time.Time
 	ExpiresAt time.Time
 }
 
+// NewTokenPayload creates a new TokenPayload instance.
 func NewTokenPayload(tokenString string) (*TokenPayload, error) {
 	token, err := ParseToken(tokenString)
 	if err != nil {

@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TestHash tests hashing operation.
 func TestHash(t *testing.T) {
 	hash := Hash("http://example.com")
 	assert.NotEmpty(t, hash)

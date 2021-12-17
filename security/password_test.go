@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TestBase64Encode tests password encrypt operation.
 func TestEncryptPassword(t *testing.T) {
 	pass, err := EncryptPassword("123456789")
 	assert.NoError(t, err)
@@ -13,6 +14,7 @@ func TestEncryptPassword(t *testing.T) {
 	assert.Len(t, pass, 60)
 }
 
+// TestVerifyPassword tests password verify operation.
 func TestVerifyPassword(t *testing.T) {
 	pass, err := EncryptPassword("123456789")
 	assert.NoError(t, err)
