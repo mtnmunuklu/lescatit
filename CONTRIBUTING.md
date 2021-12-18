@@ -19,6 +19,6 @@ Also, it's always helpful to have some context for your pull request. What was t
 ## Questions
 
 If you have any questions, create an **[issue](https://github.com/mtnmunuklu/lescatit/issues/new)** (protip: do a quick search first to see if no one else has asked the same question before!).
-You can also reach me at **[lescatit@gmail.com](mailto:lescatit@gmail.com)**.
+You can also reach us at **[lescatit@gmail.com](mailto:lescatit@gmail.com)**.
 
 <!-- This `CONTRIBUTING.md` is based on @gocolly's contributing file (https://github.com/gocolly/coly/CONTRIBUTING.md) -->
