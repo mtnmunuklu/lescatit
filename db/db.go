@@ -18,10 +18,12 @@ type conn struct {
 
 func NewConnection(cfg Config) (Connection, error) {
 	fmt.Println("database url:", cfg.Dsn())
+
 	session, err := mgo.Dial(cfg.Dsn())
 	if err != nil {
 		return nil, err
 	}
+
 	return &conn{session: session, database: session.DB(cfg.DbName())}, nil
 }
 
