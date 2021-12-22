@@ -43,12 +43,14 @@ func main() {
 		}
 	}
 
+	// for secure communication
 	cert_path := os.Getenv("CERT_PATH")
 	tlsCredentials, err := security.LoadCATLSCredentials(cert_path)
 	if err != nil {
 		log.Fatal("cannot load TLS credentials: ", err)
 	}
 
+	// for authentication service
 	authConn, err := grpc.Dial(authAddr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Panicln(err)

@@ -9,10 +9,10 @@ import (
 
 // Contains error codes for api.
 var (
-	ErrEmptyBody       = errors.New("body can't be empty")
-	ErrEmptyHeader     = errors.New("header can't be empty")
-	ErrURLAlreadyExist = errors.New("url already exist")
-	ErrUnauthorized    = errors.New("unauthorized")
+	ErrEmptyBody    = errors.New("body can't be empty")
+	ErrEmptyHeader  = errors.New("header can't be empty")
+	ErrExistURL     = errors.New("url already exist")
+	ErrUnauthorized = errors.New("unauthorized operation")
 )
 
 // Error
@@ -42,14 +42,16 @@ func GetUserIdFromToken(r *http.Request) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	payload, err := security.NewTokenPayload(token)
 	if err != nil {
 		return "", err
 	}
+
 	return payload.UserId, nil
 }
 
-// CheckUserIsAdmin checks if user is admin
+// CheckUserIsAdmin checks if user is admin.
 func CheckUserIsAdmin(role string) bool {
 	return role == "admin"
 }
