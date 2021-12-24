@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// NewCrawlRoutes provides the routing process for crawl.
+// NewCrawlRoutes provides the routing process for crawler.
 func NewCrawlRoutes(crawlHandlers handlers.CrawlHandlers) []*Route {
 	return []*Route{
 		{
