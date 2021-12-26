@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// NewCatzeRoutes provides the routing process for categorize.
+// NewCatzeRoutes provides the routing process for categorizer.
 func NewCatzeRoutes(catzeHandlers handlers.CatzeHandlers) []*Route {
 	return []*Route{
 		{

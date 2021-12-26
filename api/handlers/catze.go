@@ -22,7 +22,7 @@ type CatzeHandlers interface {
 	ListClassificationModels(w http.ResponseWriter, r *http.Request)
 }
 
-// CzHandlers provides a connection with categorization service over proto buffer.
+// CzHandlers provides a connection with categorizer service over proto buffer.
 type CzHandlers struct {
 	authSvcClient  pb.AuthServiceClient
 	catzeSvcClient pb.CatzeServiceClient
@@ -39,23 +39,27 @@ func (h *CzHandlers) CategorizeURL(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
+
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	url := new(pb.CategorizeURLRequest)
 	err = json.Unmarshal(body, url)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	categorizedURL, err := h.catzeSvcClient.CategorizeURL(r.Context(), url)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	util.WriteAsJson(w, http.StatusOK, categorizedURL)
 }
 
@@ -65,35 +69,42 @@ func (h *CzHandlers) CategorizeURLs(w http.ResponseWriter, r *http.Request) {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
+
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	urls := new(pb.CategorizeURLsRequest)
 	err = json.Unmarshal(body, urls)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	stream, err := h.catzeSvcClient.CategorizeURLs(r.Context(), urls)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	var categorizedURLs []*pb.CategorizeURLResponse
 	for {
 		categorizedURL, err := stream.Recv()
 		if err == io.EOF {
 			break
 		}
+
 		if err != nil {
 			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
+
 		categorizedURLs = append(categorizedURLs, categorizedURL)
 	}
+
 	util.WriteAsJson(w, http.StatusOK, categorizedURLs)
 }
 
@@ -105,38 +116,45 @@ func (h *CzHandlers) GenerateClassificationModel(w http.ResponseWriter, r *http.
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
 	if !userIsAdmin {
 		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
 		return
 	}
+
 	// generate classification model
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
+
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	model := new(pb.GenerateClassificationModelRequest)
 	err = json.Unmarshal(body, model)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	generatedModel, err := h.catzeSvcClient.GenerateClassificationModel(r.Context(), model)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	util.WriteAsJson(w, http.StatusOK, generatedModel)
 }
 
@@ -145,11 +163,13 @@ func (h *CzHandlers) GetClassificationModel(w http.ResponseWriter, r *http.Reque
 	name := r.Header.Get("Name")
 	cmodel := new(pb.GetClassificationModelRequest)
 	cmodel.Name = name
+
 	getedCModel, err := h.catzeSvcClient.GetClassificationModel(r.Context(), cmodel)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	util.WriteAsJson(w, http.StatusOK, getedCModel)
 }
 
@@ -161,38 +181,45 @@ func (h *CzHandlers) UpdateClassificationModel(w http.ResponseWriter, r *http.Re
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
 	if !userIsAdmin {
 		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
 		return
 	}
+
 	// update classification model
 	if r.Body == nil {
 		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
 		return
 	}
+
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	cmodel := new(pb.UpdateClassificationModelRequest)
 	err = json.Unmarshal(body, cmodel)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	updatedCModel, err := h.catzeSvcClient.UpdateClassificationModel(r.Context(), cmodel)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	util.WriteAsJson(w, http.StatusOK, updatedCModel)
 }
 
@@ -204,25 +231,30 @@ func (h *CzHandlers) DeleteClassificationModel(w http.ResponseWriter, r *http.Re
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
 	if !userIsAdmin {
 		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
 		return
 	}
+
 	// delete classification model
 	name := r.Header.Get("Name")
 	cmodel := new(pb.DeleteClassificationModelRequest)
 	cmodel.Name = name
+
 	deletedCModel, err := h.catzeSvcClient.DeleteClassificationModel(r.Context(), cmodel)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	util.WriteAsJson(w, http.StatusOK, deletedCModel)
 }
 
@@ -234,38 +266,46 @@ func (h *CzHandlers) DeleteClassificationModels(w http.ResponseWriter, r *http.R
 		util.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
+
 	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
 	if !userIsAdmin {
 		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
 		return
 	}
+
 	// delete classification models
 	names := r.Header.Get("Names")
 	splittedNames := strings.Split(names, ",")
 	cmodels := new(pb.DeleteClassificationModelsRequest)
 	cmodels.Names = splittedNames
+
 	stream, err := h.catzeSvcClient.DeleteClassificationModels(r.Context(), cmodels)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	var deletedCModels []*pb.DeleteClassificationModelResponse
 	for {
 		deletedCModel, err := stream.Recv()
 		if err == io.EOF {
 			break
 		}
+
 		if err != nil {
 			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
+
 		deletedCModels = append(deletedCModels, deletedCModel)
 	}
+
 	util.WriteAsJson(w, http.StatusOK, deletedCModels)
 }
 
@@ -277,22 +317,27 @@ func (h *CzHandlers) ListClassificationModels(w http.ResponseWriter, r *http.Req
 	cmodels := new(pb.ListClassificationModelsRequest)
 	cmodels.Categories = splittedCategories
 	cmodels.Count = count
+
 	stream, err := h.catzeSvcClient.ListClassificationModels(r.Context(), cmodels)
 	if err != nil {
 		util.WriteError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	var getedCModels []*pb.Classifier
 	for {
 		getedCModel, err := stream.Recv()
 		if err == io.EOF {
 			break
 		}
+
 		if err != nil {
 			util.WriteError(w, http.StatusBadRequest, err)
 			return
 		}
+
 		getedCModels = append(getedCModels, getedCModel)
 	}
+
 	util.WriteAsJson(w, http.StatusOK, getedCModels)
 }
