@@ -113,11 +113,11 @@ bash generate.sh
 
 # Create secret for secure communication between services
 echo -e "${GREEN}Create secret for secure communication between services${ENDCOLOR}"
-kubectl create secret generic cert-secret --from-file=ca-cert.pem --from-file=server-cert.pem --from-file=server-key.pem
+kubectl create secret generic cert-secret --from-file=services/ca-cert.pem --from-file=services/server-cert.pem --from-file=services/server-key.pem
 
 # Create secret for ingress
 echo -e "${GREEN}Create secret for ingress${ENDCOLOR}"
-kubectl create secret tls ingress-secret --key ingress-key.pem --cert ingress-cert.pem
+kubectl create secret tls ingress-secret --key api/ingress-key.pem --cert api/ingress-cert.pem
 
 # Go kubernetes direcotory
 echo -e "${GREEN}Go kubernetes direcotory${ENDCOLOR}"
