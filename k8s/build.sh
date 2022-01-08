@@ -134,6 +134,10 @@ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 echo -e "${GREEN}Apply a configuration for services${ENDCOLOR}"
 kubectl apply -f services/
 
+# Save Minikube IP to api.lescatit.com
+echo -e "${GREEN}Save Minikube IP to api.lescatit.com${ENDCOLOR}"
+echo "`minikube ip` api.lescatit.com" | sudo tee -a /etc/hosts > /dev/null
+
 # Get all information
 echo -e "${GREEN}Get all information${ENDCOLOR}"
 kubectl get all
