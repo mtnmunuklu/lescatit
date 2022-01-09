@@ -1,9 +1,9 @@
-# 1.0.0 - 2022.08.01
+# Lescatit v0.1.0
 
 * Getting the user(s) information
 * Delete a user
 * Changing the user role
-* Update user passsword
+* Update user password
 * Update user email address
 * Update username
 * Getting content of the URL(s)
