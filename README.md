@@ -41,11 +41,39 @@ This project has the following features:
 	
 ## Setup
 
-It will be written later.
+The following steps are applied for setup:
+
+* Download the latest version:
+
+  ```
+  LATEST_VERSION=$(wget -qO - https://api.github.com/repos/mtnmunuklu/Lescatit/releases/latest \
+  | grep tag_name \
+  | cut -d  '"' -f 4)
+
+  curl -LJO https://github.com/mtnmunuklu/Lescatit/archive/refs/tags/$LATEST_VERSION.tar.gz
+  ```
+
+* Extract the downloaded file:
+
+  ```
+  FILE_NAME=Lescatit-$(echo $LATEST_VERSION | cut -d 'v' -f 2)
+  tar -xvf $FILE_NAME.tar.gz
+  ```
+
+* Execute the build script:
+
+  ```
+  cd $FILE_NAME/k8s
+  bash build.sh
+  ```
 
 ## Usage
 
-It will be written later.
+Lescatit consists of 5 different services: **auth**, **crawl**, **catze**, **cat** and **api**. All incoming requests are first forwarded to the API service. Afterwards, the API service decides to which service the incoming request will be forwarded. The address requested is important in the decision-making process.
+
+What features each service has and which addresses can be requested, how to make the relevant requests and which responses are returned for these requests are explained in the [swagger.yaml](https://github.com/mtnmunuklu/Lescatit/blob/main/docs/swagger.yml) file under the docs folder.
+
+You can also access the documents describing the **code structure** of each service under the [docs](https://github.com/mtnmunuklu/Lescatit/tree/main/docs) folder.
 
 ## License
 
