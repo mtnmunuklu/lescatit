@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "Lescatit allows to categorize web pages."
+  description: "Provides to crawl and categorize URL addresses."
   version: "1.0.0"
   title: "Lescatit API"
   contact:
