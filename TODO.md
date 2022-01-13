@@ -1,5 +1,7 @@
 ### Todo
 
+- [ ] Preparation of demo environment.
+- [ ] Addition of new classification algorithms.
 - [ ] Automatic crawler.
 - [ ] Automatic categorizer.
 - [ ] Adding some badges to README.
