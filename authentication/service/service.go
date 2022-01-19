@@ -46,7 +46,11 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.Us
 		if err != nil {
 			return nil, err
 		}
-		user.Role = "user"
+		if user.Email == "admin@lescatit.com" {
+			user.Role = "admin"
+		} else {
+			user.Role = "user"
+		}
 		user.Created = time.Now()
 		user.Updated = time.Now()
 		err := s.usersRepository.Save(user)
