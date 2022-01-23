@@ -9,49 +9,49 @@ import (
 func NewCatzeRoutes(catzeHandlers handlers.CatzeHandlers) []*Route {
 	return []*Route{
 		{
-			Path:         "/url_catze",
+			Path:         "/api/url_catze",
 			Method:       http.MethodPost,
 			Handler:      catzeHandlers.CategorizeURL,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/urls_catze",
+			Path:         "/api/urls_catze",
 			Method:       http.MethodPost,
 			Handler:      catzeHandlers.CategorizeURLs,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel",
+			Path:         "/api/cmodel",
 			Method:       http.MethodPut,
 			Handler:      catzeHandlers.GenerateClassificationModel,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel",
+			Path:         "/api/cmodel",
 			Method:       http.MethodGet,
 			Handler:      catzeHandlers.GetClassificationModel,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel",
+			Path:         "/api/cmodel",
 			Method:       http.MethodPost,
 			Handler:      catzeHandlers.UpdateClassificationModel,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel",
+			Path:         "/api/cmodel",
 			Method:       http.MethodDelete,
 			Handler:      catzeHandlers.DeleteClassificationModel,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodels",
+			Path:         "/api/cmodels",
 			Method:       http.MethodDelete,
 			Handler:      catzeHandlers.DeleteClassificationModels,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodels",
+			Path:         "/api/cmodels",
 			Method:       http.MethodGet,
 			Handler:      catzeHandlers.ListClassificationModels,
 			AuthRequired: true,
