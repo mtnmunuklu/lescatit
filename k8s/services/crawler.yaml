@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: crawl-svc
-        image: lescatit:v1
+        image: lescatit:v0.1.0
         ports:
         - containerPort: 9003
         command:

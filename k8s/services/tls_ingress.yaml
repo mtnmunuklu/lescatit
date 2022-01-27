@@ -2,19 +2,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tls-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   tls:
   - hosts:
-      - api.lescatit.com
+      - lescatit.com
     secretName: ingress-secret
   rules:
-  # gRPC service domain name
-  - host: api.lescatit.com
+  - host: lescatit.com
     http:
       paths:
-      - path: /
+      - path: /api
         pathType: Prefix
         backend:
           service:
