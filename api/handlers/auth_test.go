@@ -153,7 +153,6 @@ func TestGetUser(t *testing.T) {
 	assert.Equal(t, signIn.User.GetId(), getUserResponse.GetId())
 	assert.Equal(t, signIn.User.GetName(), getUserResponse.GetName())
 	assert.Equal(t, signIn.User.GetEmail(), getUserResponse.GetEmail())
-	assert.Equal(t, signIn.User.GetPassword(), getUserResponse.GetPassword())
 	assert.Equal(t, signIn.User.GetCreated(), getUserResponse.GetCreated())
 	assert.Equal(t, signIn.User.GetUpdated(), getUserResponse.GetUpdated())
 

@@ -21,13 +21,12 @@ type User struct {
 // ToProtoBuffer converts the user structure into a protocol buffer user structure.
 func (u *User) ToProtoBuffer() *pb.User {
 	return &pb.User{
-		Id:       u.Id.Hex(),
-		Name:     u.Name,
-		Email:    u.Email,
-		Password: u.Password,
-		Role:     u.Role,
-		Created:  u.Created.Unix(),
-		Updated:  u.Updated.Unix(),
+		Id:      u.Id.Hex(),
+		Name:    u.Name,
+		Email:   u.Email,
+		Role:    u.Role,
+		Created: u.Created.Unix(),
+		Updated: u.Updated.Unix(),
 	}
 }
 
@@ -36,7 +35,6 @@ func (u *User) FromProtoBuffer(user *pb.User) {
 	u.Id = bson.ObjectIdHex(user.GetId())
 	u.Name = user.GetName()
 	u.Email = user.GetEmail()
-	u.Password = user.GetPassword()
 	u.Role = user.GetRole()
 	u.Created = time.Unix(user.GetCreated(), 0)
 	u.Updated = time.Unix(user.GetUpdated(), 0)
