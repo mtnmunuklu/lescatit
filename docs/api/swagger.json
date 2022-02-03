@@ -1,0 +1,1741 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Provides to crawl and categorize URL addresses.",
+    "version": "0.1.0",
+    "title": "Lescatit API",
+    "contact": {
+      "email": "lescatit@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE"
+    }
+  },
+  "host": "lescatit.com",
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Authentication api"
+    },
+    {
+      "name": "crawl",
+      "description": "Crawler api"
+    },
+    {
+      "name": "catze",
+      "description": "Categorizer api"
+    },
+    {
+      "name": "cat",
+      "description": "Categorization api"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/api/signup": {
+      "put": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs the user registration process",
+        "description": "",
+        "operationId": "signup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Signup object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignUp"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/api/signin": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs the user login process",
+        "description": "",
+        "operationId": "signin",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Signin object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignIn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/SignInResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/user": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs return the user by email",
+        "description": "",
+        "operationId": "getUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "header",
+            "description": "Email address",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs delete the user",
+        "description": "",
+        "operationId": "deleteUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "header",
+            "description": "Email address",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/DeleteUserResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs change the user role",
+        "description": "",
+        "operationId": "changeUserRole",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User role change object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangeUserRole"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/user_pu": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs update the user password",
+        "description": "",
+        "operationId": "updateUserPassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User password update object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/user_eu": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs update the user email",
+        "description": "",
+        "operationId": "updateUserEmail",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User email update object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserEmail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/user_nu": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs update the user name",
+        "description": "",
+        "operationId": "updateUserName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User name update object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserName"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Performs listing all users",
+        "description": "",
+        "operationId": "getUsers",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/url_data": {
+      "get": {
+        "tags": [
+          "crawl"
+        ],
+        "summary": "Performs getting the content in the url address",
+        "description": "",
+        "operationId": "getURLData",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "header",
+            "description": "URL address",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/GetURLDataResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/urls_data": {
+      "get": {
+        "tags": [
+          "crawl"
+        ],
+        "summary": "Performs getting the content in the url addresses",
+        "description": "",
+        "operationId": "getURLsData",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "urls",
+            "in": "header",
+            "description": "URL addresses separated with virgul",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetURLDataResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/url_crawl": {
+      "post": {
+        "tags": [
+          "crawl"
+        ],
+        "summary": "Performs crawl the url",
+        "description": "",
+        "operationId": "crawlURL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Url crawl object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CrawlURL"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/CrawlURLResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/urls_crawl": {
+      "post": {
+        "tags": [
+          "crawl"
+        ],
+        "summary": "Performs crawl the urls",
+        "description": "",
+        "operationId": "crawlURLs",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Urls crawl object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CrawlURLs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CrawlURLResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/url_catze": {
+      "post": {
+        "tags": [
+          "catze"
+        ],
+        "summary": "Performs categorize the url",
+        "description": "",
+        "operationId": "catzeURL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Url categorize object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CategorizeURL"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/CategorizeURLResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/urls_catze": {
+      "post": {
+        "tags": [
+          "catze"
+        ],
+        "summary": "Performs categorize the urls",
+        "description": "",
+        "operationId": "catzeURLs",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Urls categorize object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CategorizeURLs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CategorizeURLResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/cmodel": {
+      "put": {
+        "tags": [
+          "catze"
+        ],
+        "summary": "Performs generate a classification model",
+        "description": "",
+        "operationId": "generateCModel",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Classification model generation object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateCModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Classifier"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "catze"
+        ],
+        "summary": "Performs return the classification model",
+        "description": "",
+        "operationId": "getCModel",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "header",
+            "description": "Classification model name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Classifier"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "catze"
+        ],
+        "summary": "Performs update the classification model",
+        "description": "",
+        "operationId": "updateCModel",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Classification model generation object",
+            "schema": {
+              "$ref": "#/definitions/UpdateCModel"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Classifier"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "catze"
+        ],
+        "summary": "Performs delete the classification model",
+        "description": "",
+        "operationId": "deleteCModel",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "header",
+            "description": "Classification model",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/DeleteCModel"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/cmodels": {
+      "delete": {
+        "tags": [
+          "catze"
+        ],
+        "summary": "Performs delete the classification models",
+        "description": "",
+        "operationId": "deleteCModels",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "names",
+            "in": "header",
+            "description": "Classification models separated with virgul",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DeleteCModel"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/category": {
+      "get": {
+        "tags": [
+          "cat"
+        ],
+        "summary": "Performs return the category by url",
+        "description": "",
+        "operationId": "getCategory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "header",
+            "description": "URL adress",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "cat"
+        ],
+        "summary": "Performs update the category",
+        "description": "",
+        "operationId": "updateCategory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Category update object",
+            "schema": {
+              "$ref": "#/definitions/UpdateCategory"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/url": {
+      "put": {
+        "tags": [
+          "cat"
+        ],
+        "summary": "Performs add the url",
+        "description": "",
+        "operationId": "addURL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Url adding object",
+            "schema": {
+              "$ref": "#/definitions/AddURL"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "cat"
+        ],
+        "summary": "Performs delete the url",
+        "description": "",
+        "operationId": "deleteURL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "header",
+            "description": "Url adress",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/DeleteURLResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/url_report": {
+      "post": {
+        "tags": [
+          "cat"
+        ],
+        "summary": "Performs reporting miscategorized urls",
+        "description": "",
+        "operationId": "reportMisCat",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "MisCategorization report object",
+            "schema": {
+              "$ref": "#/definitions/ReportMisCategorization"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/urls": {
+      "get": {
+        "tags": [
+          "cat"
+        ],
+        "summary": "Performs list the urls",
+        "description": "",
+        "operationId": "getURLs",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "categories",
+            "in": "header",
+            "description": "Categories separated with virgul",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "cat"
+        ],
+        "summary": "Performs delete the urls.",
+        "description": "",
+        "operationId": "deleteURLs",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "urls",
+            "in": "header",
+            "description": "Url adresses separated with virgul",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DeleteURLResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "created": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updated": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "SignUp": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "SignIn": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "SignInResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateUserPassword": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateUserEmail": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "newEmail": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateUserName": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "DeleteUserResponse": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "ChangeUserRole": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+    "GetURLDataResponse": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "Crawl": {
+      "type": "object",
+      "properties": {
+        "userAgent": {
+          "type": "string"
+        },
+        "maxDepth": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "allowedDomains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disallowedDomains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disallowedUrlFilters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "urlFilters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "urlRevisit": {
+          "type": "boolean"
+        },
+        "maxBodySize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "robotsTxt": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CrawlURL": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "crawlRequest": {
+          "$ref": "#/definitions/Crawl"
+        }
+      }
+    },
+    "CrawlURLs": {
+      "type": "object",
+      "properties": {
+        "urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "crawlRequest": {
+          "$ref": "#/definitions/Crawl"
+        }
+      }
+    },
+    "CrawlURLResponse": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CategorizeURL": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        }
+      }
+    },
+    "CategorizeURLs": {
+      "type": "object",
+      "properties": {
+        "urls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategorizeURL"
+          }
+        }
+      }
+    },
+    "CategorizeURLResponse": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        }
+      }
+    },
+    "GenerateCModel": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "Model": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "data": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "UpdateCModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        }
+      }
+    },
+    "DeleteCModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Classifier": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "created": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updated": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "created": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updated": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateCategory": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        }
+      }
+    },
+    "ReportMisCategorization": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "cmodel": {
+          "type": "string"
+        }
+      }
+    },
+    "AddURL": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "cmodel": {
+          "type": "string"
+        }
+      }
+    },
+    "DeleteURLResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
