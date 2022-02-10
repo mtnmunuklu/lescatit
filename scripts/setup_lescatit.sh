@@ -6,6 +6,8 @@ RED="\e[31m"
 GREEN="\e[32m"
 ENDCOLOR="\e[0m"
 
+echo -e "${GREEN}LESCATIT SETUP${ENDCOLOR}"
+
 ## Install tools
 echo -e "${GREEN}Install tools${ENDCOLOR}"
 #sudo yum update -y
@@ -24,6 +26,7 @@ rm -rf /usr/local/go && tar -C /usr/local -xzf go1.17.3.linux-amd64.tar.gz
 echo -e "${GREEN}Add /usr/local/go/bin to the PATH environment variable${ENDCOLOR}"
 export PATH=$PATH:/usr/local/go/bin
 # Verify that you've installed Go
+echo -e "${GREEN}Verify that you've installed Go${ENDCOLOR}"
 go version
 
 ## Install docker
@@ -44,24 +47,20 @@ sudo systemctl start docker
 
 # Build all services
 echo -e "${GREEN}Build all services${ENDCOLOR}"
-go build -o ../authentication/authsvc ../authentication/main.go
-go build -o ../crawler/crawlsvc ../crawler/main.go
-go build -o ../categorizer/catzesvc ../categorizer/main.go
-go build -o ../categorization/catsvc ../categorization/main.go
-go build -o ../api/apisvc ../api/main.go
+bash build_services.sh
 
 # Copy builted services to docker directory
 echo -e "${GREEN}Copy builted services to docker directory${ENDCOLOR}"
-cp ../authentication/authsvc docker/
-cp ../crawler/crawlsvc docker/
-cp ../categorizer/catzesvc docker/
-cp ../categorization/catsvc docker/
-cp ../api/apisvc docker/
+cp ../authentication/authsvc ../k8s/docker/
+cp ../crawler/crawlsvc ../k8s/docker/
+cp ../categorizer/catzesvc ../k8s/docker/
+cp ../categorization/catsvc ../k8s/docker/
+cp ../api/apisvc ../k8s/docker/
 
 # Build docker file
 echo -e "${GREEN}Build docker file${ENDCOLOR}"
-docker build -t lescatit:v1 docker/
-docker inspect lescatit:v1
+docker build -t lescatit:v0.1.0 ../k8s/docker/
+docker inspect lescatit:v0.1.0
 
 # Show docker images
 echo -e "${GREEN}Show docker images${ENDCOLOR}"
@@ -95,7 +94,7 @@ minikube start --force --driver=docker
 
 # Load lescatit image to minikube
 echo -e "${GREEN}Load lescatit image to minikube${ENDCOLOR}"
-minikube image load lescatit:v1
+minikube image load lescatit:v0.1.0
 
 # Show minikube docker images
 echo -e "${GREEN}Show minikube docker images${ENDCOLOR}"
@@ -104,24 +103,22 @@ docker images
 
 # Apply a configuration for mongodb
 echo -e "${GREEN}Apply a configuration for mongodb${ENDCOLOR}"
-kubectl apply -f mongodb/
+kubectl apply -f ../k8s/mongodb/
 
 # Generate certificate
 echo -e "${GREEN}Generate certificate${ENDCOLOR}"
-cd ../certs
-bash generate.sh
+bash generate_certificate.sh
 
 # Create secret for secure communication between services
 echo -e "${GREEN}Create secret for secure communication between services${ENDCOLOR}"
-kubectl create secret generic cert-secret --from-file=services/ca-cert.pem --from-file=services/server-cert.pem --from-file=services/server-key.pem
+kubectl create secret generic cert-secret --from-file=../certs/services/ca-cert.pem --from-file=../certs/services/server-cert.pem --from-file=../certs/services/server-key.pem
 
 # Create secret for ingress
 echo -e "${GREEN}Create secret for ingress${ENDCOLOR}"
-kubectl create secret tls ingress-secret --key api/ingress-key.pem --cert api/ingress-cert.pem
+kubectl create secret tls ingress-secret --key ../certs/api/lescatit-key.pem --cert ../certs/api/lescatit-cert.pem
 
 # Go kubernetes direcotory
 echo -e "${GREEN}Go kubernetes direcotory${ENDCOLOR}"
-cd ../k8s
 
 # Enable ingress on minikube
 echo -e "${GREEN}Enable ingress on minikube${ENDCOLOR}"
@@ -132,11 +129,11 @@ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
 # Apply a configuration for services
 echo -e "${GREEN}Apply a configuration for services${ENDCOLOR}"
-kubectl apply -f services/
+kubectl apply -f ../k8s/services/
 
 # Save Minikube IP to api.lescatit.com
 echo -e "${GREEN}Save Minikube IP to api.lescatit.com${ENDCOLOR}"
-echo "`minikube ip` api.lescatit.com" | sudo tee -a /etc/hosts > /dev/null
+echo "`minikube ip` lescatit.com" | sudo tee -a /etc/hosts > /dev/null
 
 # Get all information
 echo -e "${GREEN}Get all information${ENDCOLOR}"
