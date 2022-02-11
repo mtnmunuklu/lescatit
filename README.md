@@ -11,12 +11,14 @@
 It provides to crawl and categorize URL addresses. It is developed with go, mongo, docker and kubernetes technologies.
 
 ## Table of contents
+
 * [Features](#features)
 * [Setup](#setup)
 * [Usage](#usage)
 * [License](#license)
 
 ## Features
+
 This project has the following features:
 * Getting the user(s) information
 * Delete a user
@@ -60,20 +62,22 @@ The following steps are applied for setup:
   tar -xvf $FILE_NAME.tar.gz
   ```
 
-* Execute the build script:
+* Execute the setup scripts:
 
   ```
-  cd $FILE_NAME/k8s
-  bash build.sh
+  cd $FILE_NAME/scripts
+  bash setup_lescatit.sh
+  # Also includes the lescatit website
+  bash setup_reverse_proxy.sh
   ```
 
 ## Usage
 
-Lescatit consists of 5 different services: **auth**, **crawl**, **catze**, **cat** and **api**. All incoming requests are first forwarded to the API service. Afterwards, the API service decides to which service the incoming request will be forwarded. The address requested is important in the decision-making process.
+Lescatit consists of 5 different services: [authentication](https://github.com/mtnmunuklu/Lescatit/blob/main/authentication), [crawler](https://github.com/mtnmunuklu/Lescatit/blob/main/crawler), [categorizer](https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer), [categorization](https://github.com/mtnmunuklu/Lescatit/blob/main/categorization) and [api](https://github.com/mtnmunuklu/Lescatit/blob/main/api). All incoming requests are first forwarded to the API service. Afterwards, the API service decides to which service the incoming request will be forwarded. The address requested is important in the decision-making process.
 
-What features each service has and which addresses can be requested, how to make the relevant requests and which responses are returned for these requests are explained in the [swagger.yaml](https://github.com/mtnmunuklu/Lescatit/blob/main/docs/swagger.yml) file under the docs folder.
+What features each service has and which addresses can be requested, how to make the relevant requests and which responses are returned for these requests are explained in the [api](https://github.com/mtnmunuklu/Lescatit/blob/main/docs/api/api.pdf) file under the docs folder.
 
-You can also access the documents describing the **code structure** of each service under the [docs](https://github.com/mtnmunuklu/Lescatit/tree/main/docs) folder.
+You can also access the documents describing the [software structure](https://github.com/mtnmunuklu/Lescatit/blob/main/docs/software/services) of each service under the docs folder.
 
 ## License
 
