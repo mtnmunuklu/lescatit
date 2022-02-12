@@ -22,7 +22,7 @@
 - [x] Categorizer service.
 - [x] Categorization service.
 - [x] Code Documentation(gomarkdoc).
-- [x] API Documentation(swagger).
+- [x] API Documentation(swagger, user guide).
 - [x] Role(admin) based operations.
 - [x] Secure communication between API and services.
 - [x] Docker and Kubernetes integration.
