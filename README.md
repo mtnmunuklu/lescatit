@@ -8,7 +8,7 @@
 
 # Lescatit <sub><small><small>(Let's categorized it)</small></small></sub>
 
-It provides to crawl and categorize URL addresses. It is developed with go, mongo, docker and kubernetes technologies.
+It provides to crawl and categorize URL addresses. It is developed with **go**, **mongo**, **docker** and **kubernetes** technologies.
 
 ## Table of contents
 
