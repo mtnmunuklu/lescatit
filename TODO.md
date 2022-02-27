@@ -12,7 +12,7 @@
   - [ ] Go Doc: https://pkg.go.dev/
 ### In Progress
 
-- [ ] Obtaining the content of url addresses for classification model.
+- [ ] Dataset extraction for classification model.
 
 ### Done ✓
 
