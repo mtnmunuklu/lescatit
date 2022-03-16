@@ -852,6 +852,13 @@ securityDefinitions:
 definitions:
   User:
     type: "object"
+    required: 
+      - id
+      - name
+      - email
+      - role
+      - created
+      - updated
     properties:
       id:
         type: "string"
@@ -869,6 +876,10 @@ definitions:
         format: "int64"
   SignUp:
     type: "object"
+    required: 
+      - name
+      - email
+      - password
     properties:
       name:
         type: "string"
@@ -878,6 +889,9 @@ definitions:
         type: "string"
   SignIn:
     type: "object"
+    required: 
+      - email
+      - password
     properties:
       email:
         type: "string"
@@ -885,6 +899,9 @@ definitions:
         type: "string"
   SignInResponse:
     type: "object"
+    required: 
+      - user
+      - token
     properties:
       user:
         $ref: "#/definitions/User"
@@ -892,6 +909,10 @@ definitions:
         type: "string"
   UpdateUserPassword:
     type: "object"
+    required: 
+      - email
+      - password
+      - newPassword
     properties:
       email:
         type: "string"
@@ -901,6 +922,10 @@ definitions:
         type: "string"
   UpdateUserEmail:
     type: "object"
+    required: 
+      - email
+      - newEmail
+      - password
     properties:
       email:
         type: "string"
@@ -910,6 +935,10 @@ definitions:
         type: "string"
   UpdateUserName:
     type: "object"
+    required: 
+      - email
+      - name
+      - password
     properties:
       email:
         type: "string"
@@ -919,11 +948,16 @@ definitions:
         type: "string"
   DeleteUserResponse:
     type: "object"
+    required: 
+      - email
     properties:
       email:
         type: "string"
   ChangeUserRole:
     type: "object"
+    required: 
+      - email
+      - role
     properties:
       email:
         type: "string"
@@ -931,6 +965,10 @@ definitions:
         type: "string"
   GetURLDataResponse:
     type: "object"
+    required: 
+      - url
+      - data
+      - status
     properties:
       url:
         type: "string"
@@ -971,6 +1009,9 @@ definitions:
         type: "boolean"
   CrawlURL:
     type: "object"
+    required: 
+      - url
+      - crawlRequest
     properties:
       url:
         type: "string"
@@ -978,6 +1019,9 @@ definitions:
         $ref: "#/definitions/Crawl"
   CrawlURLs:
     type: "object"
+    required: 
+      - urls
+      - crawlRequest
     properties:
       urls:
         type: "array"
@@ -987,6 +1031,9 @@ definitions:
         $ref: "#/definitions/Crawl"
   CrawlURLResponse:
     type: "object"
+    required: 
+      - url
+      - links
     properties:
       url:
         type: "string"
@@ -996,6 +1043,10 @@ definitions:
           type: "string"
   CategorizeURL:
     type: "object"
+    required: 
+      - url
+      - data
+      - model
     properties:
       url:
         type: "string"
@@ -1005,6 +1056,8 @@ definitions:
         type: "string"
   CategorizeURLs:
     type: "object"
+    required: 
+      - urls
     properties:
       urls:
         type: "array"
@@ -1012,6 +1065,9 @@ definitions:
           $ref: "#/definitions/CategorizeURL"
   CategorizeURLResponse:
     type: "object"
+    required: 
+      - url
+      - category
     properties:
       url:
         type: "string"
@@ -1019,6 +1075,9 @@ definitions:
         type: "string"
   GenerateCModel:
     type: "object"
+    required: 
+      - category
+      - Model
     properties:
       category:
         type: "string"
@@ -1033,6 +1092,9 @@ definitions:
               type: "string"
   UpdateCModel:
     type: "object"
+    required: 
+      - name
+      - category
     properties:
       name:
         type: "string"
@@ -1040,11 +1102,21 @@ definitions:
         type: "string"
   DeleteCModel:
     type: "object"
+    required: 
+      - name
     properties:
       name:
         type: "string"
   Classifier:
     type: "object"
+    required: 
+      - id
+      - name
+      - category
+      - created
+      - updated
+      - revison
+      - data
     properties:
       id:
         type: "string"
@@ -1064,6 +1136,14 @@ definitions:
         type: "string"
   Category:
     type: "object"
+    required: 
+      - id
+      - url
+      - category
+      - created
+      - updated
+      - revision
+      - data
     properties:
       id:
         type: "string"
@@ -1083,6 +1163,9 @@ definitions:
         type: "string"
   UpdateCategory:
     type: "object"
+    required: 
+      - url
+      - category
     properties:
       url:
         type: "string"
@@ -1090,6 +1173,9 @@ definitions:
         type: "string"
   ReportMisCategorization:
     type: "object"
+    required: 
+      - url
+      - cmodel
     properties:
       url:
         type: "string"
@@ -1097,6 +1183,9 @@ definitions:
         type: "string"
   AddURL:
     type: "object"
+    required: 
+      - url
+      - cmodel
     properties:
       url:
         type: "string"
@@ -1104,11 +1193,15 @@ definitions:
         type: "string"
   DeleteURLResponse:
     type: "object"
+    required:
+      - name
     properties:
       name:
         type: "string"
   Error:
     type: "object"
+    required:
+      - error
     properties:
       error:
         type: "string"
