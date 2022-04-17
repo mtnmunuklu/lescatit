@@ -17,8 +17,7 @@ type UsersRepository interface {
 	GetByEmail(email string) (user *models.User, err error)
 	GetAll() (user []*models.User, err error)
 	Update(user *models.User) error
-	DeleteByEmail(email string) error
-	DeleteById(id string) error
+	DeleteById(id bson.ObjectId) error
 }
 
 // URepository provides a mongo collection for database job.
@@ -59,14 +58,9 @@ func (r *URepository) Update(user *models.User) error {
 	return r.c.UpdateId(user.Id, user)
 }
 
-// Delete deletes the user based on email.
-func (r *URepository) DeleteByEmail(email string) error {
-	return r.c.Remove(bson.M{"email": email})
-}
-
 // Delete deletes the user based on id.
-func (r *URepository) DeleteById(id string) error {
-	return r.c.RemoveId(bson.ObjectIdHex(id))
+func (r *URepository) DeleteById(id bson.ObjectId) error {
+	return r.c.RemoveId(id)
 }
 
 // DeleteAll drops users collection.
