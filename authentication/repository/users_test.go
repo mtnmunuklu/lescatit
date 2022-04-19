@@ -196,7 +196,7 @@ func TestUsersRepositoryDelete(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, found)
 
-	err = r.DeleteById(user.Id.Hex())
+	err = r.DeleteById(user.Id)
 	assert.NoError(t, err)
 
 	found, err = r.GetById(user.Id.Hex())
