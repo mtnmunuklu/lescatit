@@ -44,7 +44,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.Us
 		user.Email = normalizedEmail
 		user.Password, err = security.EncryptPassword(req.GetPassword())
 		if err != nil {
-			return nil, err
+			return nil, util.ErrEncryptPassword
 		}
 		if user.Email == "admin@lescatit.com" {
 			user.Role = "admin"
@@ -119,7 +119,7 @@ func (s *AuthService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest)
 		return nil, util.ErrNotFoundEmail
 	}
 
-	err = s.usersRepository.DeleteByEmail(user.Email)
+	err = s.usersRepository.DeleteById(user.Id)
 	if err != nil {
 		return nil, util.ErrDeleteUser
 	}
@@ -143,15 +143,14 @@ func (s *AuthService) ChangeUserRole(ctx context.Context, req *pb.ChangeUserRole
 	if req.GetRole() == "" {
 		return nil, util.ErrEmptyUserRole
 	}
-	if req.Role == user.Role {
-		return user.ToProtoBuffer(), nil
-	}
 
-	user.Role = req.GetRole()
-	user.Updated = time.Now()
-	err = s.usersRepository.Update(user)
-	if err != nil {
-		return nil, util.ErrUpdateUser
+	if user.Role != req.GetRole() {
+		user.Role = req.GetRole()
+		user.Updated = time.Now()
+		err = s.usersRepository.Update(user)
+		if err != nil {
+			return nil, util.ErrUpdateUser
+		}
 	}
 
 	return user.ToProtoBuffer(), nil
@@ -205,11 +204,14 @@ func (s *AuthService) UpdateUserPassword(ctx context.Context, req *pb.UpdateUser
 	if err != nil {
 		return nil, util.ErrEncryptPassword
 	}
-	user.Password = req.GetNewPassword()
-	user.Updated = time.Now()
-	err = s.usersRepository.Update(user)
-	if err != nil {
-		return nil, util.ErrUpdateUser
+
+	if user.Password != req.GetNewPassword() {
+		user.Password = req.GetNewPassword()
+		user.Updated = time.Now()
+		err = s.usersRepository.Update(user)
+		if err != nil {
+			return nil, util.ErrUpdateUser
+		}
 	}
 	return user.ToProtoBuffer(), nil
 }
@@ -240,12 +242,16 @@ func (s *AuthService) UpdateUserEmail(ctx context.Context, req *pb.UpdateUserEma
 	if err != nil {
 		return nil, util.ErrMismatchedPassword
 	}
-	user.Email = req.GetNewEmail()
-	user.Updated = time.Now()
-	err = s.usersRepository.Update(user)
-	if err != nil {
-		return nil, util.ErrUpdateUser
+
+	if user.Email != req.GetNewEmail() {
+		user.Email = req.GetNewEmail()
+		user.Updated = time.Now()
+		err = s.usersRepository.Update(user)
+		if err != nil {
+			return nil, util.ErrUpdateUser
+		}
 	}
+
 	return user.ToProtoBuffer(), nil
 }
 
@@ -274,12 +280,16 @@ func (s *AuthService) UpdateUserName(ctx context.Context, req *pb.UpdateUserName
 	if strings.TrimSpace(req.GetName()) == "" {
 		return nil, util.ErrEmptyName
 	}
-	user.Name = req.GetName()
-	user.Updated = time.Now()
-	err = s.usersRepository.Update(user)
-	if err != nil {
-		return nil, util.ErrUpdateUser
+
+	if user.Name != req.GetEmail() {
+		user.Name = req.GetName()
+		user.Updated = time.Now()
+		err = s.usersRepository.Update(user)
+		if err != nil {
+			return nil, util.ErrUpdateUser
+		}
 	}
+
 	return user.ToProtoBuffer(), nil
 }
 
