@@ -302,7 +302,7 @@ func (h *AHandlers) UpdateUserName(w http.ResponseWriter, r *http.Request) {
 	util.WriteAsJson(w, http.StatusOK, updatedUser)
 }
 
-// GetUsers list all users.
+// GetUsers lists all users.
 func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 	// check user role
 	userId, err := util.GetUserIdFromToken(r)
