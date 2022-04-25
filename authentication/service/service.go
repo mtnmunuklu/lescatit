@@ -119,7 +119,7 @@ func (s *AuthService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest)
 		return nil, util.ErrNotFoundEmail
 	}
 
-	err = s.usersRepository.DeleteById(user.Id)
+	err = s.usersRepository.DeleteById(user.Id.Hex())
 	if err != nil {
 		return nil, util.ErrDeleteUser
 	}
