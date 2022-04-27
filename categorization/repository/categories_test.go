@@ -255,7 +255,7 @@ func TestCategoriesRepositoryDelete(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, found)
 
-	err = r.Delete(category.Id.Hex())
+	err = r.DeleteById(category.Id.Hex())
 	assert.NoError(t, err)
 
 	found, err = r.GetById(category.Id.Hex())

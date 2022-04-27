@@ -17,7 +17,7 @@ type CategoriesRepository interface {
 	GetCategoryByURL(url string) (category *models.Category, err error)
 	GetAllURLsByCategory(category string, count int) (url []*models.Category, err error)
 	Update(category *models.Category) error
-	Delete(id string) error
+	DeleteById(id string) error
 }
 
 // CRepository provides a mongo collection for database job.
@@ -59,7 +59,7 @@ func (r *CRepository) Update(category *models.Category) error {
 }
 
 // Delete deletes the url based on id.
-func (r *CRepository) Delete(id string) error {
+func (r *CRepository) DeleteById(id string) error {
 	return r.c.RemoveId(bson.ObjectIdHex(id))
 }
 
