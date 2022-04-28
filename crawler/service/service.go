@@ -43,19 +43,19 @@ func (s *CrawlService) GetURLData(ctx context.Context, req *pb.GetURLDataRequest
 
 			return &pb.GetURLDataResponse{Url: req.GetUrl(), Data: base64Data, Status: "New"}, nil
 		}
-	} else if data != nil {
-		currentTime := time.Now()
-		diff := currentTime.Sub(data.Updated).Hours()
-		if diff > 720 {
-			currentData, err := s.collyScraper.GetData(req.GetUrl())
-			if err != nil {
-				return nil, util.ErrGetData
-			}
+	}
 
-			base64Data := security.Base64Encode(currentData)
-
-			return &pb.GetURLDataResponse{Url: req.GetUrl(), Data: base64Data, Status: "Updated"}, nil
+	currentTime := time.Now()
+	diff := currentTime.Sub(data.Updated).Hours()
+	if diff > 720 {
+		currentData, err := s.collyScraper.GetData(req.GetUrl())
+		if err != nil {
+			return nil, util.ErrGetData
 		}
+
+		base64Data := security.Base64Encode(currentData)
+
+		return &pb.GetURLDataResponse{Url: req.GetUrl(), Data: base64Data, Status: "Updated"}, nil
 	}
 
 	return &pb.GetURLDataResponse{Url: req.GetUrl(), Data: data.Data}, nil
