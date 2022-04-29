@@ -255,7 +255,7 @@ func TestClassifiersRepositoryDelete(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, found)
 
-	err = r.Delete(classifier.Id.Hex())
+	err = r.DeleteById(classifier.Id.Hex())
 	assert.NoError(t, err)
 
 	found, err = r.GetById(classifier.Id.Hex())

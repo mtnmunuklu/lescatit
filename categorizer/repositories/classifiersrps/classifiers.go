@@ -17,7 +17,7 @@ type ClassifiersRepository interface {
 	GetByName(name string) (classifer *classifiersmdl.Classifier, err error)
 	GetAllClassifiersByCategory(category string, count int) (classifer []*classifiersmdl.Classifier, err error)
 	Update(classifer *classifiersmdl.Classifier) error
-	Delete(id string) error
+	DeleteById(id string) error
 }
 
 // ClRepository provides a mongo collection for classifier job.
@@ -59,7 +59,7 @@ func (r *CRepository) Update(classifer *classifiersmdl.Classifier) error {
 }
 
 // Delete deletes the classifier based on id.
-func (r *CRepository) Delete(id string) error {
+func (r *CRepository) DeleteById(id string) error {
 	return r.c.RemoveId(bson.ObjectIdHex(id))
 }
 
