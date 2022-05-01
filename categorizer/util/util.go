@@ -61,10 +61,28 @@ func ValidateCount(count string) (int, error) {
 	return newCount, nil
 }
 
+// / ValidateCategory validates the category.
+func ValidateCategory(category string) error {
+	if category == "" {
+		return ErrEmptyModelCategory
+	}
+
+	return nil
+}
+
 // ValidateCategories validates the category count.
 func ValidateCategories(categories []string) error {
 	if len(categories) == 0 {
 		return ErrEmptyModelCategories
+	}
+
+	return nil
+}
+
+// ValidateName validates the names.
+func ValidateName(data string) error {
+	if data == "" {
+		return ErrEmptyModelName
 	}
 
 	return nil
@@ -88,7 +106,7 @@ func ValidateData(data string) error {
 	return nil
 }
 
-// GenerateRandomFileName generates a random filename
+// GenerateRandomFileName generates a random filename.
 func GenerateRandomFileName(prefix, suffix string) string {
 	randBytes := make([]byte, 16)
 	rand.Read(randBytes)
