@@ -38,6 +38,11 @@ func (s *CatzeService) CategorizeURL(ctx context.Context, req *pb.CategorizeURLR
 		return nil, err
 	}
 
+	err = util.ValidateName(req.GetCmodel())
+	if err != nil {
+		return nil, err
+	}
+
 	err = util.ValidateData(req.GetData())
 	if err != nil {
 		return nil, err
@@ -165,8 +170,9 @@ func (s *CatzeService) GenerateClassificationModel(ctx context.Context, req *pb.
 
 // GetClassificationModel performs return the classification model.
 func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetClassificationModelRequest) (*pb.Classifier, error) {
-	if req.GetName() == "" {
-		return nil, util.ErrEmptyModelName
+	err := util.ValidateName(req.GetName())
+	if err != nil {
+		return nil, err
 	}
 
 	classifier, err := s.classifiersRepository.GetByName(req.GetName())
@@ -179,17 +185,23 @@ func (s *CatzeService) GetClassificationModel(ctx context.Context, req *pb.GetCl
 
 // UpdateClassificationModel performs update the classification model.
 func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.UpdateClassificationModelRequest) (*pb.Classifier, error) {
-	if req.GetName() == "" {
-		return nil, util.ErrEmptyModelName
+	err := util.ValidateName(req.GetName())
+	if err != nil {
+		return nil, err
 	}
 
-	if req.GetCategory() == "" {
-		return nil, util.ErrEmptyModelCategory
+	err = util.ValidateCategory(req.GetCategory())
+	if err != nil {
+		return nil, err
 	}
 
 	classifier, err := s.classifiersRepository.GetByName(req.GetName())
 	if err != nil {
 		return nil, util.ErrGetModel
+	}
+
+	if classifier.Category == req.GetCategory() {
+		return classifier.ToProtoBuffer(), nil
 	}
 
 	classifier.Category = req.GetCategory()
@@ -211,8 +223,9 @@ func (s *CatzeService) UpdateClassificationModel(ctx context.Context, req *pb.Up
 
 // DeleteClassificationModel performs delete the classification model.
 func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.DeleteClassificationModelRequest) (*pb.DeleteClassificationModelResponse, error) {
-	if req.GetName() == "" {
-		return nil, util.ErrEmptyModelName
+	err := util.ValidateName(req.GetName())
+	if err != nil {
+		return nil, err
 	}
 
 	classifier, err := s.classifiersRepository.GetByName(req.GetName())
@@ -220,7 +233,7 @@ func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.De
 		return nil, util.ErrGetModel
 	}
 
-	err = s.classifiersRepository.Delete(classifier.Id.Hex())
+	err = s.classifiersRepository.DeleteById(classifier.Id.Hex())
 	if err != nil {
 		return nil, util.ErrDeleteModel
 	}
@@ -238,7 +251,7 @@ func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationMo
 	for _, name := range req.GetNames() {
 		classifier, err := s.classifiersRepository.GetByName(name)
 		if err == nil {
-			err = s.classifiersRepository.Delete(classifier.Id.Hex())
+			err = s.classifiersRepository.DeleteById(classifier.Id.Hex())
 			if err == nil {
 				err = stream.Send(&pb.DeleteClassificationModelResponse{Name: name})
 				if err != nil {
