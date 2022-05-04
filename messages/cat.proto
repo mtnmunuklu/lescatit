@@ -44,11 +44,16 @@ message DeleteURLResponse {
     string url = 1;
 }
 
+message ReportURLRequestCC {
+    string url = 1;
+    string type = 2;
+    string cmodel = 3;
+}
+
 message ReportMiscategorizationRequest {
     string url = 1;
     string data = 2;
-    string status = 3;
-    string category = 4;
+    string category = 3;
 }
 
 message DeleteURLsRequest {
