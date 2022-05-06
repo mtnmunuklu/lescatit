@@ -47,18 +47,14 @@ func (s *CatService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryR
 		return nil, err
 	}
 
-	base64URL := security.Base64Encode(req.Url)
+	base64URL := security.Base64Encode(req.GetUrl())
 	found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 	if err != nil {
 		return nil, util.ErrGetCategory
 	}
 
 	if found.Category == req.Category {
-		found.Url, err = security.Base64Decode(found.Url)
-		if err != nil {
-			return nil, util.ErrDecodeBase64URL
-		}
-
+		found.Url = req.GetUrl()
 		return found.ToProtoBuffer(), nil
 	}
 
@@ -145,7 +141,7 @@ func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*
 		return nil, util.ErrGetCategory
 	}
 
-	err = s.categoriesRepository.Delete(found.Id.Hex())
+	err = s.categoriesRepository.DeleteById(found.Id.Hex())
 	if err != nil {
 		return nil, util.ErrDeleteURL
 	}
@@ -155,6 +151,11 @@ func (s *CatService) DeleteURL(ctx context.Context, req *pb.DeleteURLRequest) (*
 
 // ReportMiscategorization reports miscategorization.
 func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.ReportMiscategorizationRequest) (*pb.Category, error) {
+	err := util.ValidateURL(req.GetUrl())
+	if err != nil {
+		return nil, err
+	}
+
 	base64URL := security.Base64Encode(req.GetUrl())
 	reportedURL, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 	if err != nil {
@@ -198,7 +199,7 @@ func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_
 			base64URL := security.Base64Encode(url)
 			found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
 			if err == nil {
-				err = s.categoriesRepository.Delete(found.Id.Hex())
+				err = s.categoriesRepository.DeleteById(found.Id.Hex())
 				if err == nil {
 					err = stream.Send(&pb.DeleteURLResponse{Url: url})
 					if err != nil {
