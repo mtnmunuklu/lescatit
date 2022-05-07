@@ -202,7 +202,7 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	url := new(pb.AddURLRequestCC)
+	url := new(pb.ReportURLRequestCC)
 	err = json.Unmarshal(body, url)
 	if err != nil {
 		util.WriteError(w, http.StatusBadRequest, err)
@@ -227,7 +227,6 @@ func (h *CHandlers) ReportMiscategorization(w http.ResponseWriter, r *http.Reque
 	getedData := new(pb.ReportMiscategorizationRequest)
 	getedData.Url = getedURLData.GetUrl()
 	getedData.Data = getedURLData.GetData()
-	getedData.Status = getedURLData.GetStatus()
 	getedData.Category = categorizedURL.GetCategory()
 
 	reportedURL, err := h.catSvcClient.ReportMiscategorization(r.Context(), getedData)
