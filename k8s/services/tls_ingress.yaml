@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: tls-ingress
   annotations:
-    nginx.ingress.kubernetes.io/limit-rps: 5
+    kubernetes.io/ingress.class: traefik
 spec:
   tls:
   - hosts:
