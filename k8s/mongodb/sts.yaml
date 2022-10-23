@@ -41,11 +41,11 @@ spec:
           mountPath: /etc/credentials
           readOnly: true
         - name: mongo-data
-          mountPath: /data/db
+          mountPath: /data/volumes/db
         - name: mongo-initdb
           mountPath: /docker-entrypoint-initdb.d
       nodeSelector:
-        kubernetes.io/hostname: minikube
+        kubernetes.io/hostname: lescatit-cp
       volumes:
       - name: mongo-data
         persistentVolumeClaim:

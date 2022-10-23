@@ -12,14 +12,14 @@ metadata:
   name: mongodb
 spec:
   capacity:
-    storage: 2Gi
+    storage: 5Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: mongodb
   local:
-    path: /data
+    path: /data/volumes/db
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -27,7 +27,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-            - minikube
+          - lescatit-cp  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -40,4 +40,4 @@ spec:
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 1Gi
+      storage: 5Gi
