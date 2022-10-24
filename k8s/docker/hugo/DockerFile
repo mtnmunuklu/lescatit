@@ -1,0 +1,43 @@
+#Install the container's OS.
+FROM ubuntu:latest
+
+#ENVIREMENT
+ENV HUGO_SITE=/hugo-site
+
+# Install Hugo.
+RUN apt-get update
+RUN apt-get -y install apt-utils
+RUN apt-get -y install curl
+RUN apt-get -y install wget
+RUN apt-get -y install dpkg
+RUN apt-get -y install tar
+RUN curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest \
+ | grep  browser_download_url \
+ | grep linux-amd64.deb \
+ | grep -v extended \
+ | cut -d '"' -f 4 \
+ | wget -i -
+RUN dpkg -i hugo*_linux-amd64.deb
+
+# Install LescatitSite
+RUN LATEST_RELEASE=$(curl -s https://api.github.com/repos/mtnmunuklu/LescatitSite/releases/latest \
+ | grep tarball_url \
+ | cut -d '"' -f 4) \
+ && mkdir -p ${HUGO_SITE} \
+ && curl -LkSs $LATEST_RELEASE | tar -xz -C ${HUGO_SITE} --strip-components=1
+
+WORKDIR ${HUGO_SITE}
+
+# Expose default hugo port
+EXPOSE 3000
+
+# Execute hugo server
+CMD hugo server \
+    --bind 0.0.0.0 \
+    --port 3000 \
+    --navigateToChanged \
+    --templateMetrics \
+    --buildDrafts \
+    --minify \
+    --disableLiveReload \
+    --gc
