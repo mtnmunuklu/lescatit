@@ -41,7 +41,7 @@ spec:
           mountPath: /etc/credentials
           readOnly: true
         - name: mongo-data
-          mountPath: /data/volumes/db
+          mountPath: /var/log/volumes-db
         - name: mongo-initdb
           mountPath: /docker-entrypoint-initdb.d
       nodeSelector:

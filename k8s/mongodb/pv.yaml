@@ -19,7 +19,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: mongodb
   local:
-    path: /data/volumes/db
+    path: /var/log
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -27,7 +27,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - lescatit-cp  
+          - lescatit-cp
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

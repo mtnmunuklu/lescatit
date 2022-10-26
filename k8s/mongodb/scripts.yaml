@@ -4,8 +4,8 @@ metadata:
     name: mongo-scripts
 data:
   createUser.sh: |
-    MONGO_INITDB_ROOT_USERNAME=$(cat "$MONGO_INITDB_ROOT_USERNAME_FILE")
-    MONGO_INITDB_ROOT_PASSWORD=$(cat "$MONGO_INITDB_ROOT_PASSWORD_FILE")
+    MONGO_INITDB_ROOT_USERNAME=$(cat "/etc/credentials/admin/MONGO_ROOT_USERNAME")
+    MONGO_INITDB_ROOT_PASSWORD=$(cat "/etc/credentials/admin/MONGO_ROOT_PASSWORD")
     mongo -- "$MONGO_INITDB_DATABASE" <<EOF
       var rootUser = '$MONGO_INITDB_ROOT_USERNAME';
       var rootPassword = '$MONGO_INITDB_ROOT_PASSWORD';
