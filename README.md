@@ -88,4 +88,4 @@ This project is licensed under the terms of the **MIT** license.
 
 Whether you use this project, learn from it or like it, please consider supporting me with a coffee so I can spend more time on open source projects like this.
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mtnmunuklu)
+<a href="https://www.buymeacoffee.com/mtnmunuklu"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=mtnmunuklu&button_colour=FF5F5F&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
