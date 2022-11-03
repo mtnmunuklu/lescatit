@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc
+      role: registry
+  template:
+    metadata:
+      labels:
+        app: svc
+        role: registry
+    spec:
+      containers:
+      - name: registry-svc
+        image: registry:2
+        ports:
+        - containerPort: 5000
+        env:
+        - name: REGISTRY_HTTP_TLS_CERTIFICATE
+          value: /etc/certs/tls.crt
+        - name: REGISTRY_HTTP_TLS_KEY
+          value: /etc/certs/tls.key
+        volumeMounts:
+        - name: registry-certs
+          mountPath: /etc/certs
+          readOnly: true
+        - name: registry-data
+          mountPath: /var/log/volumes-registry
+      volumes:
+      - name: registry-certs
+        secret:
+          secretName: registry-cert
+      - name: registry-data
+        persistentVolumeClaim:
+          claimName: registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry-service
+spec:
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+  selector:
+    app: svc
+    role: registry
