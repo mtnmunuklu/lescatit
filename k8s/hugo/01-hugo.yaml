@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hugo-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc
+      role: website
+  template:
+    metadata:
+      labels:
+        app: svc
+        role: website
+    spec:
+      containers:
+      - name: hugo-svc
+        image: registry-service:5000/lescatit-site:v0.1.0
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: hugo-data
+          mountPath: /var/log/volumes-website
+      volumes:
+      - name: hugo-data
+        persistentVolumeClaim:
+          claimName: hugo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hugo-service
+spec:
+  ports:
+  - protocol: TCP
+    port: 8081
+    targetPort: 8081
+  selector:
+    app: svc
+    role: website
