@@ -62,7 +62,7 @@ spec:
             mode: 0444
       - name: mongo-initdb
         configMap:
-          name: mongo-scripts
+          name: mongodb-scripts
           items:
           - key: createUser.sh
             path: createUser.sh

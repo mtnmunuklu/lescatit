@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: mongo-scripts
+    name: mongodb-scripts
 data:
   createUser.sh: |
     MONGO_INITDB_ROOT_USERNAME=$(cat "/etc/credentials/admin/MONGO_ROOT_USERNAME")
