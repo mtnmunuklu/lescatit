@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-svc
+  name: cat-svc
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: svc
-      role: auth
+      role: cat
   template:
     metadata:
       labels:
         app: svc
-        role: auth
+        role: cat
     spec:
       containers:
-      - name: auth-svc
-        image: lescatit:v0.1.0
+      - name: cat-svc
+        image: registry-service:5000/lescatit:v0.1.0
         ports:
-        - containerPort: 9001
+        - containerPort: 9002
         command:
           - sh
           - -c
-          - /app/authsvc -local=false
+          - /app/catsvc -local=false
         env:
           - name: DATABASE_USER
             valueFrom:
@@ -61,23 +61,23 @@ spec:
                 name: svc-configs
                 key: certPath
         volumeMounts:
-        - name: certs
+        - name: service-certs
           mountPath: /etc/certs
           readOnly: true
       volumes:
-      - name: certs
+      - name: service-certs
         secret:
-          secretName: cert-secret
+          secretName: service-cert
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: cat-service
 spec:
   ports:
     - protocol: TCP
-      port: 9001
-      targetPort: 9001
+      port: 9002
+      targetPort: 9002
   selector:
     app: svc
-    role: auth
+    role: cat

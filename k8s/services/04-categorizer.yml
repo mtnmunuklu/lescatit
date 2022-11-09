@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cat-svc
+  name: catze-svc
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: svc
-      role: cat
+      role: catze
   template:
     metadata:
       labels:
         app: svc
-        role: cat
+        role: catze
     spec:
       containers:
-      - name: cat-svc
-        image: lescatit:v0.1.0
+      - name: catze-svc
+        image: registry-service:5000/lescatit:v0.1.0
         ports:
-        - containerPort: 9002
+        - containerPort: 9003
         command:
           - sh
           - -c
-          - /app/catsvc -local=false
+          - /app/catzesvc -local=false
         env:
           - name: DATABASE_USER
             valueFrom:
@@ -61,23 +61,23 @@ spec:
                 name: svc-configs
                 key: certPath
         volumeMounts:
-        - name: certs
+        - name: service-certs
           mountPath: /etc/certs
           readOnly: true
       volumes:
-      - name: certs
+      - name: service-certs
         secret:
-          secretName: cert-secret
+          secretName: service-cert
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cat-service
+  name: catze-service
 spec:
   ports:
     - protocol: TCP
-      port: 9002
-      targetPort: 9002
+      port: 9004
+      targetPort: 9004
   selector:
     app: svc
-    role: cat
+    role: catze

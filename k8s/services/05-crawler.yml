@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: crawl-svc
-        image: lescatit:v0.1.0
+        image: registry-service:5000/lescatit:v0.1.0
         ports:
         - containerPort: 9003
         command:
@@ -61,13 +61,13 @@ spec:
                 name: svc-configs
                 key: certPath
         volumeMounts:
-        - name: certs
+        - name: service-certs
           mountPath: /etc/certs
           readOnly: true
       volumes:
-      - name: certs
+      - name: service-certs
         secret:
-          secretName: cert-secret
+          secretName: service-cert
 ---
 apiVersion: v1
 kind: Service
