@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: registry-script
-data:
-  setup.sh: |
-    echo "$TRUSTED_CERT" > /etc/pki/ca-trust/source/anchors/registry-cert.pem && update-ca-trust && systemctl restart containerd
