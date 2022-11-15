@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tls-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  tls:
+  - hosts:
+      - api.lescatit.com
+      - lescatit.com
+    secretName: ingress-cert
+  rules:
+  - host: api.lescatit.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: api-service
+            port:
+              number: 9000
+  - host: lescatit.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hugo-service
+            port:
+              number: 8081
