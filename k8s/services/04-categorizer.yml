@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: catze-svc
-        image: registry-service:5000/lescatit:v0.1.0
+        image: mtnmunuklu/lescatit:v0.1.0
         ports:
         - containerPort: 9003
         command:

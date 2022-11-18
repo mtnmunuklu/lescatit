@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: hugo-svc
-        image: registry-service:5000/lescatit-site:v0.1.0
+        image:  mtnmunuklu/lescatit-web:v0.1.0
         ports:
         - containerPort: 80
         volumeMounts:
