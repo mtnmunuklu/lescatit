@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Centos X
+
+RED="\e[31m"
+GREEN="\e[32m"
+ENDCOLOR="\e[0m"
+
+# Install Tools
+echo -e "${GREEN}Install Tools${ENDCOLOR}"
+
 #sudo yum update -y
 #sudo yum upgrade -y
 sudo yum install -y wget tar
@@ -14,7 +23,8 @@ echo -e "${GREEN}Extract the archive you downloaded into /usr/local, creating a 
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.2.linux-amd64.tar.gz
 # Add /usr/local/go/bin to the PATH environment variable
 echo -e "${GREEN}Add /usr/local/go/bin to the PATH environment variable${ENDCOLOR}"
-export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/usr/local/go/bin >> ~/.bashrc
+source ~/.bashrc
 # Verify that you've installed Go
 echo -e "${GREEN}Verify that you've installed Go${ENDCOLOR}"
 go version
