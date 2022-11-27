@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Centos X
+
+RED="\e[31m"
+GREEN="\e[32m"
+ENDCOLOR="\e[0m"
+
+# Setup Kubernetes
+echo -e "${GREEN}Setup Kubernetes${ENDCOLOR}"
+
 # Create kubernetes repo
 echo -e "${GREEN}Create kubernetes repo${ENDCOLOR}"
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
@@ -66,31 +75,18 @@ echo -e "${GREEN}Check and install containerd${ENDCOLOR}"
 if (systemctl -q is-active containerd)
   then
       rm /etc/containerd/config.toml
-      #Add comment to disabled_plugins line in config.toml.
+      systemctl restart containerd
+      sed -i 's/disabled_plugins/#disabled_plugins/g' config.toml
       systemctl restart containerd
   else
     sudo yum install -y containerd.io
     mkdir -p /etc/containerd
     containerd config default>/etc/containerd/config.toml
-    #Add comment to disabled_plugins line in config.toml.
+    sed -i 's/disabled_plugins/#disabled_plugins/g' /etc/containerd/config.toml
     sudo systemctl restart containerd
     sudo systemctl enable containerd
 fi
 
-# Create kubernetes cluster (Execute lines between 1-73 on master and worker, after 73 only on master)
-echo -e "${GREEN}Create kubernetes cluster${ENDCOLOR}"
+# Pull kubeadm config images
+echo -e "${GREEN}Pull kubeadm config images${ENDCOLOR}"
 sudo kubeadm config images pull --cri-socket unix:///run/containerd/containerd.sock --kubernetes-version v1.25.0
-sudo kubeadm init   --pod-network-cidr=10.244.0.0/16   --upload-certs --kubernetes-version=v1.25.0  --control-plane-endpoint=$(hostname) --ignore-preflight-errors=all  --cri-socket unix:///run/containerd/containerd.sock
-# Use "kubeadm join" on the other workers. You wil find at the result of the above command.
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-export KUBECONFIG=/etc/kubernetes/admin.conf
-
-# Apply the CNI
-echo -e "${GREEN}Apply the CNI${ENDCOLOR}"
-kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
-
-# Disable pod schedule on control plane
-echo -e "${GREEN}Disable pod schedule on master and control plane${ENDCOLOR}"
-kubectl taint node $(hostname) node-role.kubernetes.io/control-plane:NoSchedule-
