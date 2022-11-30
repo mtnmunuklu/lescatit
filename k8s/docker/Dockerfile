@@ -1,8 +1,9 @@
 # Install the container's OS
-FROM ubuntu:latest as HUGOINSTALL
+FROM ubuntu:latest as LESCATIT
 
 # ENVIREMENT
-ENV HUGO_SITE=/hugo-site
+ENV WEBSITE=/website
+ENV APP=/app
 
 # Install Hugo
 RUN apt-get update
@@ -22,7 +23,7 @@ RUN curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest \
 RUN dpkg -i hugo*_linux-amd64.deb
 
 # Install Lescatit web
-WORKDIR ${HUGO_SITE}
+WORKDIR ${WEBSITE}
 RUN LATEST_RELEASE=$(curl -s https://api.github.com/repos/mtnmunuklu/LescatitSite/releases/latest \
  | grep tarball_url \
  | cut -d '"' -f 4) \
@@ -30,35 +31,32 @@ RUN LATEST_RELEASE=$(curl -s https://api.github.com/repos/mtnmunuklu/LescatitSit
 
 RUN mkdir -p themes && cd themes && git clone https://github.com/jeblister/kube.git
 
-RUN hugo -v --source=${HUGO_SITE} \
-    --destination=${HUGO_SITE}/public
+RUN hugo -v --source=${WEBSITE} \
+    --destination=${WEBSITE}/public/
+
+# Set up Services
+# Create a directory for services
+WORKDIR ${APP}
+# Copy all services to app directory
+COPY authsvc authsvc
+COPY crawlsvc crawlsvc
+COPY catzesvc catzesvc
+COPY catsvc catsvc
+COPY apisvc apisvc
 
 # Install NGINX and deactivate NGINX's default index.html file
 # Move the static site files to NGINX's html directory
 # This directory is where the static site files will be served from by NGINX
 FROM nginx:stable-alpine
+RUN apk add --no-cache libc6-compat 
 RUN mv /usr/share/nginx/html/index.html /usr/share/nginx/html/old-index.html
-COPY --from=HUGOINSTALL ${HUGO_SITE}/public/ /usr/share/nginx/html/
+COPY --from=LESCATIT /website/public/ /usr/share/nginx/html/
+COPY --from=LESCATIT /app/ /app/
 
 # The container will listen on port 80 using the TCP protocol
 EXPOSE 80
-
-# Set up Services
-# Create a directory for services
-WORKDIR /app
-# Copy all services to app directory
-COPY authsvc /app/authsvc
-COPY crawlsvc /app/crawlsvc
-COPY catzesvc /app/catzesvc
-COPY catsvc /app/catsvc
-COPY apisvc /app/apisvc
-
-# The container will listen on the below ports using the tcp protocol
 EXPOSE 9001
 EXPOSE 9003
 EXPOSE 9004
 EXPOSE 9002
 EXPOSE 9000
-
-# Execute the all services
-CMD ["/app/authsvc", "/app/crawlsvc", "/app/catzesvc", "/app/catsvc", "/app/apisvc"]
