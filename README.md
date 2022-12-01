@@ -66,9 +66,14 @@ The following steps are applied for setup:
 
   ```
   cd $FILE_NAME/scripts
-  bash setup_lescatit.sh
-  # Also includes the lescatit website
-  bash setup_reverse_proxy.sh
+  # Execute on worker and control plane server.
+  bash setup_tools.sh
+  bash setup_k8s.sh
+  # Execute only on first control plane server.
+  # İt will create setup_k8s_control_plane.sh and setup_k8s_worker.sh files.
+  # These scripts for join the kubernetes cluster.
+  # You can use these scripts on new nodes when you add new nodes as control plane or worker.
+  bash setup_k8s_first_control_plane.sh
   ```
 
 ## Usage
@@ -88,4 +93,4 @@ This project is licensed under the terms of the **MIT** license.
 
 Whether you use this project, learn from it or like it, please consider supporting me with a coffee so I can spend more time on open source projects like this.
 
-<a href="https://www.buymeacoffee.com/mtnmunuklu"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=mtnmunuklu&button_colour=FF5F5F&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
+<a href="https://www.buymeacoffee.com/mtnmunuklu" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
