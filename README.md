@@ -66,14 +66,16 @@ The following steps are applied for setup:
 
   ```
   cd $FILE_NAME/scripts
-  # Execute on worker and control plane server.
+  # Execute on worker and control plane servers.
   bash setup_tools.sh
   bash setup_k8s.sh
   # Execute only on first control plane server.
-  # İt will create setup_k8s_control_plane.sh and setup_k8s_worker.sh files.
-  # These scripts for join the kubernetes cluster.
+  # İt will create setup_k8s_control_plane.sh, setup_k8s_worker.sh and setup_k8s_kf.sh files.
+  # Control plane and worker scripts are for join the kubernetes cluster.
   # You can use these scripts on new nodes when you add new nodes as control plane or worker.
   bash setup_k8s_first_control_plane.sh
+  # Execute only on the first control plane server.
+  bash setup_k8s.kf.sh
   ```
 
 ## Usage
