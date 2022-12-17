@@ -4,7 +4,6 @@ metadata:
   name: traefik-deployment
   labels:
     app: traefik
-
 spec:
   replicas: 1
   selector:
@@ -16,6 +15,8 @@ spec:
         app: traefik
     spec:
       serviceAccountName: traefik-account
+      nodeSelector:
+        kubernetes.io/role: worker
       containers:
         - name: traefik
           image: traefik:v2.9
