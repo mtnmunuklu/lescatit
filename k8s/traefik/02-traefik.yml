@@ -16,7 +16,7 @@ spec:
     spec:
       serviceAccountName: traefik-account
       nodeSelector:
-        kubernetes.io/role: worker
+        kubernetes.io/role: control-plane
       containers:
         - name: traefik
           image: traefik:v2.9
