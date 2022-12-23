@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: common-ds
+  labels:
+    k8s-app: common-ds
+spec:
+  selector:
+    matchLabels:
+      k8s-app: common-ds
+  template:
+    metadata:
+      labels:
+        k8s-app: common-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/role: worker
+      hostPID: true
+      hostNetwork: true
+      initContainers:
+      - name: init-node
+        command: ["nsenter"]
+        args: ["--mount=/proc/1/ns/mnt", "--", "sh", "-c", "$(SETUP_SCRIPT)"]
+        image: debian
+        env:
+        - name: SETUP_SCRIPT
+          valueFrom:
+            configMapKeyRef:
+              name: common-scripts
+              key: setup.sh
+        securityContext:
+          privileged: true
+      containers:
+      - name: wait
+        image: k8s.gcr.io/pause:3.1
