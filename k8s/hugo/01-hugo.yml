@@ -14,18 +14,20 @@ spec:
         app: svc
         role: website
     spec:
+      nodeSelector:
+        kubernetes.io/role: worker
       containers:
       - name: hugo-svc
-        image:  mtnmunuklu/lescatit-web:v0.1.0
+        image:  mtnmunuklu/lescatit:v0.1.0
         ports:
         - containerPort: 80
         volumeMounts:
         - name: hugo-data
-          mountPath: /var/log/volumes-website
+          mountPath: /usr/share/nginx/html
       volumes:
       - name: hugo-data
         persistentVolumeClaim:
-          claimName: hugo
+          claimName: hugo-pvc
 ---
 apiVersion: v1
 kind: Service
