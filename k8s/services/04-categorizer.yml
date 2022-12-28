@@ -14,6 +14,8 @@ spec:
         app: svc
         role: catze
     spec:
+      nodeSelector:
+        kubernetes.io/role: worker
       containers:
       - name: catze-svc
         image: mtnmunuklu/lescatit:v0.1.0
@@ -67,7 +69,7 @@ spec:
       volumes:
       - name: service-certs
         secret:
-          secretName: service-cert
+          secretName: service-certs
 ---
 apiVersion: v1
 kind: Service

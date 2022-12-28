@@ -14,6 +14,8 @@ spec:
         app: svc
         role: auth
     spec:
+      nodeSelector:
+        kubernetes.io/role: worker
       containers:
       - name: auth-svc
         image: mtnmunuklu/lescatit:v0.1.0
@@ -63,11 +65,11 @@ spec:
         volumeMounts:
         - name: service-certs
           mountPath: /etc/certs
-          readOnly: true
+          readOnly: true     
       volumes:
       - name: service-certs
         secret:
-          secretName: service-cert
+          secretName: service-certs
 ---
 apiVersion: v1
 kind: Service

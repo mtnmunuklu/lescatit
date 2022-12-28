@@ -14,6 +14,8 @@ spec:
         app: svc
         role: api
     spec:
+      nodeSelector:
+        kubernetes.io/role: worker
       containers:
       - name: api-svc
         image: mtnmunuklu/lescatit:v0.1.0
@@ -49,7 +51,7 @@ spec:
       volumes:
       - name: service-certs
         secret:
-          secretName: service-cert
+          secretName: service-certs
 ---
 apiVersion: v1
 kind: Service
