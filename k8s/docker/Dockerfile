@@ -1,5 +1,5 @@
 # Install the container's OS
-FROM ubuntu:latest as LESCATIT
+FROM ubuntu:latest as builder
 
 # ENVIREMENT
 ENV WEBSITE=/website
@@ -50,10 +50,10 @@ COPY apisvc apisvc
 FROM nginx:stable-alpine
 RUN apk add --no-cache libc6-compat 
 RUN mv /usr/share/nginx/html/index.html /usr/share/nginx/html/old-index.html
-COPY --from=LESCATIT /website/public/ /usr/share/nginx/html/
-COPY --from=LESCATIT /app/ /app/
+COPY --from=builder /website/public /usr/share/nginx/html
+COPY --from=builder /app /app
 
-# The container will listen on port 80 using the TCP protocol
+# Expose port 80 and ports between 9000-9004
 EXPOSE 80
 EXPOSE 9001
 EXPOSE 9003
