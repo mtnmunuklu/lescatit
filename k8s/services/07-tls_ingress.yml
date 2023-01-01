@@ -9,7 +9,7 @@ spec:
   - hosts:
       - api.lescatit.com
       - lescatit.com
-    secretName: ingress-cert
+    secretName: ingress-certs
   rules:
   - host: api.lescatit.com
     http:
