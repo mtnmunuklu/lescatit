@@ -9,8 +9,8 @@ ENDCOLOR="\e[0m"
 # Install Tools
 echo -e "${GREEN}Install Tools${ENDCOLOR}"
 
-#sudo yum update -y
-#sudo yum upgrade -y
+sudo yum update -y
+sudo yum upgrade -y
 sudo yum install -y wget tar
 
 # Install Go

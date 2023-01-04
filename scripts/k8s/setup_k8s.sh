@@ -28,7 +28,7 @@ sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
 # Install kubelet, kubeadm and kubectl
 echo -e "${GREEN}Install kubelet, kubeadm and kubectl${ENDCOLOR}"
-sudo yum install -y kubelet-1.25.0-0 kubeadm-1.25.0-0 kubectl-1.25.0-0 --disableexcludes=kubernetes
+sudo yum install -y kubelet-1.26.0-0 kubeadm-1.26.0-0 kubectl-1.26.0-0 --disableexcludes=kubernetes
 
 # Memory swapoff
 echo -e "${GREEN}Memory swapoff${ENDCOLOR}"
@@ -74,9 +74,7 @@ sysctl --system
 echo -e "${GREEN}Check and install containerd${ENDCOLOR}"
 if (systemctl -q is-active containerd)
   then
-      rm /etc/containerd/config.toml
-      systemctl restart containerd
-      sed -i 's/disabled_plugins/#disabled_plugins/g' config.toml
+      sed -i 's/disabled_plugins/#disabled_plugins/g' /etc/containerd/config.toml
       systemctl restart containerd
   else
     sudo yum install -y containerd.io
@@ -89,4 +87,4 @@ fi
 
 # Pull kubeadm config images
 echo -e "${GREEN}Pull kubeadm config images${ENDCOLOR}"
-sudo kubeadm config images pull --cri-socket unix:///run/containerd/containerd.sock --kubernetes-version v1.25.0
+sudo kubeadm config images pull --cri-socket unix:///run/containerd/containerd.sock --kubernetes-version v1.26.0
