@@ -12,7 +12,7 @@
       "url": "https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE"
     }
   },
-  "host": "lescatit.com",
+  "host": "api.lescatit.com",
   "tags": [
     {
       "name": "auth",
