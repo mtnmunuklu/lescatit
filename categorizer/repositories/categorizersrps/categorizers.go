@@ -1,8 +1,8 @@
 package categorizersrps
 
 import (
-	"Lescatit/categorizer/models/categorizersmdl"
-	"Lescatit/db"
+	"github.com/mtnmunuklu/lescatit/categorizer/models/categorizersmdl"
+	"github.com/mtnmunuklu/lescatit/db"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

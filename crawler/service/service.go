@@ -1,13 +1,14 @@
 package service
 
 import (
-	"Lescatit/crawler/repository"
-	"Lescatit/crawler/scraper"
-	"Lescatit/crawler/util"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"context"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/crawler/repository"
+	"github.com/mtnmunuklu/lescatit/crawler/scraper"
+	"github.com/mtnmunuklu/lescatit/crawler/util"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 )
 
 // CrawlService provides crawlersRepository and collyScraper for crawler service.

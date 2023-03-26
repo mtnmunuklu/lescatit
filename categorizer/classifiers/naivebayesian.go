@@ -1,10 +1,11 @@
 package classifiers
 
 import (
-	"Lescatit/categorizer/models"
-	"Lescatit/categorizer/util"
 	"bytes"
 	"sort"
+
+	"github.com/mtnmunuklu/lescatit/categorizer/models"
+	"github.com/mtnmunuklu/lescatit/categorizer/util"
 
 	"github.com/navossoc/bayesian"
 )

@@ -1,8 +1,8 @@
 package classifiersrps
 
 import (
-	"Lescatit/categorizer/models/classifiersmdl"
-	"Lescatit/db"
+	"github.com/mtnmunuklu/lescatit/categorizer/models/classifiersmdl"
+	"github.com/mtnmunuklu/lescatit/db"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

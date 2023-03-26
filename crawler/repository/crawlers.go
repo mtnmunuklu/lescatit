@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"Lescatit/crawler/models"
-	"Lescatit/db"
+	"github.com/mtnmunuklu/lescatit/crawler/models"
+	"github.com/mtnmunuklu/lescatit/db"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

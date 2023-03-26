@@ -1,11 +1,12 @@
 package scraper
 
 import (
-	"Lescatit/pb"
 	"log"
 	"regexp"
 	"strings"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/pb"
 
 	"github.com/gocolly/colly"
 )

@@ -1,10 +1,11 @@
 package util
 
 import (
-	"Lescatit/security"
 	"encoding/json"
 	"errors"
 	"net/http"
+
+	"github.com/mtnmunuklu/lescatit/security"
 )
 
 // Contains error codes for api.

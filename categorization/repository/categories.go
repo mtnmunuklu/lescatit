@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"Lescatit/categorization/models"
-	"Lescatit/db"
+	"github.com/mtnmunuklu/lescatit/categorization/models"
+	"github.com/mtnmunuklu/lescatit/db"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

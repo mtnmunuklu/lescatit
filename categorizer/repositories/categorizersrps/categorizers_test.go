@@ -1,12 +1,13 @@
 package categorizersrps
 
 import (
-	"Lescatit/categorizer/models/categorizersmdl"
-	"Lescatit/db"
-	"Lescatit/security"
 	"log"
 	"testing"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/categorizer/models/categorizersmdl"
+	"github.com/mtnmunuklu/lescatit/db"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"

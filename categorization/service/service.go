@@ -1,14 +1,15 @@
 package service
 
 import (
-	"Lescatit/categorization/models"
-	"Lescatit/categorization/repository"
-	"Lescatit/categorization/util"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"context"
 	"strconv"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/categorization/models"
+	"github.com/mtnmunuklu/lescatit/categorization/repository"
+	"github.com/mtnmunuklu/lescatit/categorization/util"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"gopkg.in/mgo.v2/bson"
 )

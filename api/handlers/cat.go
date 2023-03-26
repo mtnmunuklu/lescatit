@@ -1,13 +1,14 @@
 package handlers
 
 import (
-	"Lescatit/api/util"
-	"Lescatit/pb"
 	"encoding/json"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/mtnmunuklu/lescatit/api/util"
+	"github.com/mtnmunuklu/lescatit/pb"
 )
 
 // CatHandlers is the interface of the categorization operation.

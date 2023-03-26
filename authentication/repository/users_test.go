@@ -1,12 +1,13 @@
 package repository
 
 import (
-	"Lescatit/authentication/models"
-	"Lescatit/db"
 	"fmt"
 	"log"
 	"testing"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/authentication/models"
+	"github.com/mtnmunuklu/lescatit/db"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"

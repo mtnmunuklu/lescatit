@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"Lescatit/api/handlers"
 	"net/http"
+
+	"github.com/mtnmunuklu/lescatit/api/handlers"
 )
 
 // NewAuthRoutes provides the routing process for authentication.

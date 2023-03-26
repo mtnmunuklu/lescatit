@@ -1,19 +1,20 @@
 package main
 
 import (
-	"Lescatit/categorizer/classifiers"
-	"Lescatit/categorizer/repositories/categorizersrps"
-	"Lescatit/categorizer/repositories/classifiersrps"
-	"Lescatit/categorizer/service"
-	"Lescatit/categorizer/tokenizer"
-	"Lescatit/db"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
 	"net"
 	"os"
+
+	"github.com/mtnmunuklu/lescatit/categorizer/classifiers"
+	"github.com/mtnmunuklu/lescatit/categorizer/repositories/categorizersrps"
+	"github.com/mtnmunuklu/lescatit/categorizer/repositories/classifiersrps"
+	"github.com/mtnmunuklu/lescatit/categorizer/service"
+	"github.com/mtnmunuklu/lescatit/categorizer/tokenizer"
+	"github.com/mtnmunuklu/lescatit/db"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"

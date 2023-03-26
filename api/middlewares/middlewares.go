@@ -1,11 +1,12 @@
 package middlewares
 
 import (
-	"Lescatit/api/util"
-	"Lescatit/security"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/api/util"
+	"github.com/mtnmunuklu/lescatit/security"
 )
 
 // LogRequests provides logging of incoming requests.

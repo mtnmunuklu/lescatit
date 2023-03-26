@@ -1,16 +1,17 @@
 package main
 
 import (
-	"Lescatit/authentication/repository"
-	"Lescatit/authentication/service"
-	"Lescatit/db"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
 	"net"
 	"os"
+
+	"github.com/mtnmunuklu/lescatit/authentication/repository"
+	"github.com/mtnmunuklu/lescatit/authentication/service"
+	"github.com/mtnmunuklu/lescatit/db"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"

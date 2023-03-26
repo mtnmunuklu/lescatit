@@ -1,12 +1,13 @@
 package util
 
 import (
-	"Lescatit/pb"
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
 	"net/url"
 	"strconv"
+
+	"github.com/mtnmunuklu/lescatit/pb"
 )
 
 // Contains error codes for categorizer service.

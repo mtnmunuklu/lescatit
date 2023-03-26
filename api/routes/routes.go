@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"Lescatit/api/middlewares"
 	"net/http"
+
+	"github.com/mtnmunuklu/lescatit/api/middlewares"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"

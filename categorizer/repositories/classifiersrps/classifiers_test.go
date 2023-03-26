@@ -1,13 +1,14 @@
 package classifiersrps
 
 import (
-	"Lescatit/categorizer/models/classifiersmdl"
-	"Lescatit/categorizer/util"
-	"Lescatit/db"
-	"Lescatit/security"
 	"log"
 	"testing"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/categorizer/models/classifiersmdl"
+	"github.com/mtnmunuklu/lescatit/categorizer/util"
+	"github.com/mtnmunuklu/lescatit/db"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"

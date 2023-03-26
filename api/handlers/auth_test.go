@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"Lescatit/pb"
 	"encoding/json"
 	"flag"
 	"io/ioutil"
@@ -9,6 +8,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/pb"
 
 	"github.com/stretchr/testify/assert"
 )

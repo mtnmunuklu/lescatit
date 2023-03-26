@@ -1,12 +1,13 @@
 package handlers
 
 import (
-	"Lescatit/api/util"
-	"Lescatit/pb"
 	"encoding/json"
 	"io"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/mtnmunuklu/lescatit/api/util"
+	"github.com/mtnmunuklu/lescatit/pb"
 )
 
 // AuthHandlers is the interface of the authentication operation.

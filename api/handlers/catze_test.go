@@ -1,13 +1,14 @@
 package handlers
 
 import (
-	"Lescatit/pb"
 	"encoding/json"
 	"flag"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"testing"
+
+	"github.com/mtnmunuklu/lescatit/pb"
 
 	"github.com/stretchr/testify/assert"
 )

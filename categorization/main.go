@@ -1,16 +1,17 @@
 package main
 
 import (
-	"Lescatit/categorization/repository"
-	"Lescatit/categorization/service"
-	"Lescatit/db"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
 	"net"
 	"os"
+
+	"github.com/mtnmunuklu/lescatit/categorization/repository"
+	"github.com/mtnmunuklu/lescatit/categorization/service"
+	"github.com/mtnmunuklu/lescatit/db"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"

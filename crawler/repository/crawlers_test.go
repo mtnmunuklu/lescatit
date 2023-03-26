@@ -1,12 +1,13 @@
 package repository
 
 import (
-	"Lescatit/crawler/models"
-	"Lescatit/db"
-	"Lescatit/security"
 	"log"
 	"testing"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/crawler/models"
+	"github.com/mtnmunuklu/lescatit/db"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"

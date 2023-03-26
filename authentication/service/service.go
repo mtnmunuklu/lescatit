@@ -1,14 +1,15 @@
 package service
 
 import (
-	"Lescatit/authentication/models"
-	"Lescatit/authentication/repository"
-	"Lescatit/authentication/util"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"context"
 	"strings"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/authentication/models"
+	"github.com/mtnmunuklu/lescatit/authentication/repository"
+	"github.com/mtnmunuklu/lescatit/authentication/util"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -46,7 +47,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.Us
 		if err != nil {
 			return nil, util.ErrEncryptPassword
 		}
-		if user.Email == "admin@lescatit.com" {
+		if user.Email == "admin@github.com/mtnmunuklu/lescatit.com" {
 			user.Role = "admin"
 		} else {
 			user.Role = "user"

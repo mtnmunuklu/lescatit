@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"Lescatit/api/handlers"
 	"net/http"
+
+	"github.com/mtnmunuklu/lescatit/api/handlers"
 )
 
 // NewCatRoutes provides the routing process for categorization.

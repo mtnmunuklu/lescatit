@@ -1,19 +1,20 @@
 package service
 
 import (
-	"Lescatit/categorizer/classifiers"
-	"Lescatit/categorizer/models/classifiersmdl"
-	"Lescatit/categorizer/repositories/categorizersrps"
-	"Lescatit/categorizer/repositories/classifiersrps"
-	"Lescatit/categorizer/tokenizer"
-	"Lescatit/categorizer/util"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"bytes"
 	"context"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/categorizer/classifiers"
+	"github.com/mtnmunuklu/lescatit/categorizer/models/classifiersmdl"
+	"github.com/mtnmunuklu/lescatit/categorizer/repositories/categorizersrps"
+	"github.com/mtnmunuklu/lescatit/categorizer/repositories/classifiersrps"
+	"github.com/mtnmunuklu/lescatit/categorizer/tokenizer"
+	"github.com/mtnmunuklu/lescatit/categorizer/util"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"gopkg.in/mgo.v2/bson"
 )

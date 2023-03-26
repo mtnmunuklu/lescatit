@@ -1,9 +1,10 @@
 package util
 
 import (
-	"Lescatit/pb"
 	"errors"
 	"strings"
+
+	"github.com/mtnmunuklu/lescatit/pb"
 )
 
 // Contains error codes for authentication service.

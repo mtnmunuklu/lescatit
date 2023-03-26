@@ -1,17 +1,18 @@
 package main
 
 import (
-	"Lescatit/crawler/repository"
-	"Lescatit/crawler/scraper"
-	"Lescatit/crawler/service"
-	"Lescatit/db"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
 	"net"
 	"os"
+
+	"github.com/mtnmunuklu/lescatit/crawler/repository"
+	"github.com/mtnmunuklu/lescatit/crawler/scraper"
+	"github.com/mtnmunuklu/lescatit/crawler/service"
+	"github.com/mtnmunuklu/lescatit/db"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"

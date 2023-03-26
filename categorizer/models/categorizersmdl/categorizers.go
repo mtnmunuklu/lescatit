@@ -1,8 +1,9 @@
 package categorizersmdl
 
 import (
-	"Lescatit/pb"
 	"time"
+
+	"github.com/mtnmunuklu/lescatit/pb"
 
 	"gopkg.in/mgo.v2/bson"
 )

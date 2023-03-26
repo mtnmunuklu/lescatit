@@ -1,15 +1,16 @@
 package main
 
 import (
-	"Lescatit/api/handlers"
-	"Lescatit/api/routes"
-	"Lescatit/pb"
-	"Lescatit/security"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/mtnmunuklu/lescatit/api/handlers"
+	"github.com/mtnmunuklu/lescatit/api/routes"
+	"github.com/mtnmunuklu/lescatit/pb"
+	"github.com/mtnmunuklu/lescatit/security"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
