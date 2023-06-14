@@ -1,24 +1,76 @@
-## Introduction
+# Contributing Guidelines
 
-First of all, thank you for considering contributing to lescatit! We welcome any type of contribution, not just code. You can help with: 
+Thank you for considering contributing to our project! We appreciate your interest and support. By contributing to this project, you agree to follow these guidelines to ensure a positive and inclusive community.
 
-- **QA**: file bug reports, the more details you provide the better (e.g. screenshots)
-- **Marketing**: writing blog posts, how-to, ...
-- **Community**: presenting the project at meetups, arranging a special meeting for the local community, ...
-- **Code**: Take a look at **[open issues](https://github.com/mtnmunuklu/lescatit/issues)**. Even if you can't code, it's important to comment on them, showing you care about a particular issue. It helps us.
+## Table of Contents
 
-## Submitting code
+- [Code of Conduct](#code-of-conduct)
+- [How Can I Contribute?](#how-can-i-contribute)
+- [Getting Started](#getting-started)
+- [Submitting Contributions](#submitting-contributions)
+- [Styleguides](#styleguides)
+- [Community and Communication](#community-and-communication)
+- [License](#license)
 
-Any code changes must be submitted as a pull request. The description should explain what the code does and give steps to execute it. The pull request should also include tests.
+## Code of Conduct
 
-## Code review process
+Please review our [Code of Conduct](CODE_OF_CONDUCT.md) to understand the behavior we expect from our contributors.
 
-The larger the pull request, the longer it takes to review and merge. Try to break large pull requests into smaller chunks that are easier to review and assemble.
-Also, it's always helpful to have some context for your pull request. What was the purpose? Why is it important to you?
+## How Can I Contribute?
 
-## Questions
+There are several ways you can contribute to this project:
 
-If you have any questions, create an **[issue](https://github.com/mtnmunuklu/lescatit/issues/new)** (protip: do a quick search first to see if no one else has asked the same question before!).
-You can also reach us at **[lescatit@gmail.com](mailto:lescatit@gmail.com)**.
+- Reporting bugs and suggesting enhancements by opening issues.
+- Contributing code improvements and new features by creating pull requests.
+- Participating in discussions and providing feedback on issues and pull requests.
 
-<!-- This `CONTRIBUTING.md` is based on @gocolly's contributing file (https://github.com/gocolly/coly/CONTRIBUTING.md) -->
+We appreciate all contributions, big or small!
+
+## Getting Started
+
+To get started with contributing, follow these steps:
+
+1. Fork the repository and clone it to your local machine.
+2. Set up the project on your local environment by following the instructions in the README file.
+3. Create a new branch for your contribution.
+4. Make your changes and test them thoroughly.
+5. Commit your changes with clear and descriptive commit messages.
+6. Push your changes to your forked repository.
+7. Submit a pull request to the main repository.
+
+If you need any help or have questions, feel free to reach out to us through the issue tracker or other communication channels.
+
+## Submitting Contributions
+
+When submitting your contributions, please follow these guidelines:
+
+- Provide a clear and descriptive title for your pull request or issue.
+- Explain the purpose and context of your changes.
+- Include any relevant information or documentation to support your changes.
+- Ensure that your code adheres to the project's styleguides and coding conventions.
+- Test your changes thoroughly before submitting them.
+- Respond to any feedback or questions promptly and respectfully.
+
+## Styleguides
+
+- Follow the existing code style and formatting conventions.
+- Maintain consistency with the rest of the project.
+- Document any significant changes or new features.
+
+## Community and Communication
+
+We welcome and encourage open and respectful communication within our community. Here are some guidelines:
+
+- Be polite, inclusive, and considerate of others' opinions and ideas.
+- Use clear and concise language.
+- Provide constructive feedback and suggestions.
+- Avoid personal attacks or harassment.
+- Respect the project maintainers and other contributors.
+
+## License
+
+By contributing to this project, you agree to license your contributions under the [LICENSE](LICENSE) of the project.
+
+---
+
+We appreciate your time and effort in contributing to our project! Your contributions help make this project better and more valuable for the community.

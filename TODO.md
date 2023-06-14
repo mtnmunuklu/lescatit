@@ -1,30 +1,33 @@
+# Todo List
+
 ### Todo
 
-- [ ] Preparation of demo environment.
-- [ ] Addition of new classification algorithms.
-- [ ] Automatic crawler.
-- [ ] Automatic categorizer.
-- [ ] Adding some badges to README.
-  - [ ]	Code Quality: https://scrutinizer-ci.com/
-  - [ ] Build Status: https://travis-ci.com/
-  - [ ] Go Cover: https://gocover.io/
-  - [ ] Go Report: https://goreportcard.com/
-  - [ ] Go Doc: https://pkg.go.dev/
+- [ ] Prepare the demo environment
+- [ ] Add new classification algorithms
+- [ ] Implement automatic crawler
+- [ ] Implement automatic categorizer
+- [ ] Add badges to README
+  - [ ] Code Quality: [![Scrutinizer CI](https://scrutinizer-ci.com/)]
+  - [ ] Build Status: [![Travis CI](https://travis-ci.com/)]
+  - [ ] Go Cover: [![Go Cover](https://gocover.io/)]
+  - [ ] Go Report: [![Go Report Card](https://goreportcard.com/)]
+  - [ ] Go Doc: [![GoDoc](https://pkg.go.dev/)]
+
 ### In Progress
 
-- [ ] Dataset extraction for classification model.
+- [ ] Extract dataset for classification model
 
 ### Done ✓
 
-- [x] Authentication service.
-- [x] API service.
-- [x] Crawler service.
-- [x] Categorizer service.
-- [x] Categorization service.
-- [x] Code Documentation(gomarkdoc).
-- [x] API Documentation(swagger, user guide).
-- [x] Role(admin) based operations.
-- [x] Secure communication between API and services.
-- [x] Docker and Kubernetes integration.
-- [x] Contributing, changelog, version and security docs.
-- [x] Build scripts.
+- [x] Implement authentication service
+- [x] Implement API service
+- [x] Implement crawler service
+- [x] Implement categorizer service
+- [x] Implement categorization service
+- [x] Add code documentation (gomarkdoc)
+- [x] Add API documentation (swagger, user guide)
+- [x] Implement role (admin) based operations
+- [x] Secure communication between API and services
+- [x] Integrate Docker and Kubernetes
+- [x] Add contributing, changelog, version, and security docs
+- [x] Add build scripts
