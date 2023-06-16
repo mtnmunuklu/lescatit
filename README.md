@@ -89,9 +89,3 @@ You can also access the documents describing the software structure of each serv
 
 This project is licensed under the terms of the **MIT** license.
 >You can check out the full license [here](https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE)
-
-## Buy Me a Coffee
-
-If you find this project useful or interesting, please consider supporting me by buying me a coffee. It would help me to invest more time in open source projects like this one.
-
-<a href="https://www.buymeacoffee.com/mtnmunuklu" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
