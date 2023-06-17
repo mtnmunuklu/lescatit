@@ -10,11 +10,11 @@ cp ../api/apisvc ../k8s/docker
 
 # Build app docker file
 echo -e "${GREEN}Build docker file${ENDCOLOR}"
-docker build -t mtnmunuklu/lescatit:v0.1.0 ../k8s/docker/
+docker build -t mtnmunuklu/lescatit:v1.0.0 ../k8s/docker/
 
 # Push app image to local registry
 echo -e "${GREEN}Push app image to local registry${ENDCOLOR}"
-docker push mtnmunuklu/lescatit:v0.1.0
+docker push mtnmunuklu/lescatit:v1.0.0
 
 # Show docker images
 echo -e "${GREEN}Show docker images${ENDCOLOR}"

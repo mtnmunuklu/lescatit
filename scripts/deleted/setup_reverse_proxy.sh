@@ -36,7 +36,7 @@ bash setup_lescatit_website.sh
 
 # Assign the permissions to the Document root
 echo -e "${GREEN}Assign the permissions to the Document root${ENDCOLOR}"
-sudo chown -R apache:apache /var/www/LescatitSite
+sudo chown -R apache:apache /var/www/lescatit-site
 
 # Open a new file in the /etc/httpd/conf.d directory
 echo -e "${GREEN}Open a new file in the /etc/httpd/conf.d directory${ENDCOLOR}"
@@ -44,8 +44,8 @@ echo "<VirtualHost *:443>
   ServerName lescatit.com
   ServerAlias www.lescatit.com
 
-  DocumentRoot /var/www/LescatitSite/public/
-  <Directory /var/www/LescatitSite/public/>
+  DocumentRoot /var/www/lescatit-site/public/
+  <Directory /var/www/lescatit-site/public/>
     Options -Indexes +FollowSymLinks
     AllowOverride All
   </Directory>

@@ -24,7 +24,7 @@ RUN dpkg -i hugo*_linux-amd64.deb
 
 # Install Lescatit web
 WORKDIR ${WEBSITE}
-RUN LATEST_RELEASE=$(curl -s https://api.github.com/repos/mtnmunuklu/LescatitSite/releases/latest \
+RUN LATEST_RELEASE=$(curl -s https://api.github.com/repos/mtnmunuklu/lescatit-site/releases/latest \
  | grep tarball_url \
  | cut -d '"' -f 4) \
  && curl -LkSs $LATEST_RELEASE | tar -xz -C . --strip-components=1
