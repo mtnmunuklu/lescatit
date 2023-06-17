@@ -2,7 +2,7 @@
 
 ## Reporting Security Issues
 
-At our project, we take security issues and vulnerabilities seriously. We appreciate your efforts in responsibly disclosing any concerns you may have. To report a security issue, please email us at mtnmunuklu@gmail.com. We will work with you to investigate and address the issue promptly.
+At our project, we take security issues and vulnerabilities seriously. We appreciate your efforts in responsibly disclosing any concerns you may have. To report a security issue, please email us at lescatit@gmail.com. We will work with you to investigate and address the issue promptly.
 
 ## Scope
 
@@ -12,7 +12,7 @@ This security policy applies to all aspects of our project, including the source
 
 We currently provide security updates and patches for the following versions of our project:
 
-- [Version 0.0.1](https://github.com/mtnmunuklu/alterix/releases/tag/v0.0.1)
+- [Version 1.0.0](https://github.com/mtnmunuklu/alterix/releases/tag/v1.0.0)
 
 If you are using an older version, it is highly recommended to update to one of the supported versions.
 

@@ -49,17 +49,17 @@ To set up Lescatit, follow these steps:
 1. Download the latest version:
 
     ```
-    LATEST_VERSION=$(wget -qO - https://api.github.com/repos/mtnmunuklu/Lescatit/releases/latest \
+    LATEST_VERSION=$(wget -qO - https://api.github.com/repos/mtnmunuklu/lescatit/releases/latest \
     | grep tag_name \
     | cut -d  '"' -f 4)
 
-    curl -LJO https://github.com/mtnmunuklu/Lescatit/archive/refs/tags/$LATEST_VERSION.tar.gz
+    curl -LJO https://github.com/mtnmunuklu/lescatit/archive/refs/tags/$LATEST_VERSION.tar.gz
     ```
 
 2. Extract the downloaded file:
 
     ```
-    FILE_NAME=Lescatit-$(echo $LATEST_VERSION | cut -d 'v' -f 2)
+    FILE_NAME=lescatit-$(echo $LATEST_VERSION | cut -d 'v' -f 2)
     tar -xvf $FILE_NAME.tar.gz
     ```
 
@@ -79,13 +79,12 @@ To set up Lescatit, follow these steps:
 
 ## Usage
 
-Lescatit consists of 5 different services: [authentication](https://github.com/mtnmunuklu/Lescatit/blob/main/authentication), [crawler](https://github.com/mtnmunuklu/Lescatit/blob/main/crawler), [categorizer](https://github.com/mtnmunuklu/Lescatit/blob/main/categorizer), [categorization](https://github.com/mtnmunuklu/Lescatit/blob/main/categorization), and [api](https://github.com/mtnmunuklu/Lescatit/blob/main/api). All incoming requests are first forwarded to the API service. Afterwards, the API service decides to which service the incoming request will be forwarded. The requested URL plays a role in the decision-making process.
+Lescatit consists of 5 different services: [authentication](authentication), [crawler](crawler), [categorizer](categorizer), [categorization](categorization), and [api](api). All incoming requests are first forwarded to the API service. Afterwards, the API service decides to which service the incoming request will be forwarded. The requested URL plays a role in the decision-making process.
 
-To understand the features of each service, the available endpoints, how to make requests, and the expected responses, refer to the [api.pdf](https://github.com/mtnmunuklu/Lescatit/blob/main/docs/api/api.pdf) file under the `docs` folder.
+To understand the features of each service, the available endpoints, how to make requests, and the expected responses, refer to the [api.pdf](docs/api/api.pdf) file under the `docs` folder.
 
 You can also access the documents describing the software structure of each service under the `docs` folder.
 
 ## License
 
-This project is licensed under the terms of the **MIT** license.
->You can check out the full license [here](https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE)
+Alterix is licensed under the MIT License. See [LICENSE](LICENSE) for the full text of the license.
