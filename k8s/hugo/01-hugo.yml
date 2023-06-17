@@ -18,7 +18,7 @@ spec:
         kubernetes.io/role: worker
       containers:
       - name: hugo-svc
-        image:  mtnmunuklu/lescatit:v0.1.0
+        image:  mtnmunuklu/lescatit:v1.0.0
         ports:
         - containerPort: 80
         volumeMounts:
