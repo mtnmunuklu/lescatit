@@ -17,32 +17,31 @@ func TestNewToken(t *testing.T) {
 	assert.NotEmpty(t, token)
 }
 
-// TestNewTokenPayload tests new a token payload create operation.
-func TestNewTokenPayload(t *testing.T) {
+// TestValidateToken tests the validation of a token.
+func TestValidateToken(t *testing.T) {
 	id := bson.NewObjectId()
 	token, err := NewToken(id.Hex())
 	assert.NoError(t, err)
 	assert.NotEmpty(t, token)
 
-	payload, err := NewTokenPayload(token)
+	userId, err := ValidateToken(token)
 	assert.NoError(t, err)
-	assert.NotNil(t, payload)
-	assert.Equal(t, id.Hex(), payload.UserId)
+	assert.NotNil(t, userId)
+	assert.Equal(t, id.Hex(), userId)
 
 	tokenExpired := GetTokenExpired(id.Hex())
-	payload, err = NewTokenPayload(tokenExpired)
+	userId, err = ValidateToken(tokenExpired)
 	assert.Error(t, err)
-	assert.Nil(t, payload)
+	assert.Nil(t, userId)
 }
 
 // GetTokenExpired tests the operation of receiving the token expire duration.
 func GetTokenExpired(id string) string {
-	claims := &jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(time.Minute * 5 * -1).Unix(),
-		Issuer:    id,
-		IssuedAt:  time.Now().Unix(),
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": id,
+		"exp": time.Now().Add(time.Minute * 5 * -1).Unix(),
+		"iat": time.Now().Unix(),
+	})
 	tokenString, _ := token.SignedString(jwtSecretKey)
 	return tokenString
 }

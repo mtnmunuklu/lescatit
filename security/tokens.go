@@ -3,13 +3,12 @@ package security
 import (
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 var (
@@ -17,65 +16,60 @@ var (
 	jwtSecretKey    = []byte(os.Getenv("JWT_SECRET_KEY"))
 )
 
-// NewToken provides create a new token.
+// NewToken creates a new JWT token.
 func NewToken(userId string) (string, error) {
-	claims := &jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(time.Minute * 30).Unix(),
-		Issuer:    userId,
-		IssuedAt:  time.Now().Unix(),
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": userId,
+		"exp": time.Now().Add(time.Minute * 30).Unix(),
+		"iat": time.Now().Unix(),
+	})
+
+	signedToken, err := token.SignedString(jwtSecretKey)
+	if err != nil {
+		return "", err
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtSecretKey)
+	return signedToken, nil
 }
 
-// ParseJwtCallback provides parsing of Jwt Callback.
-func ParseJwtCallback(token *jwt.Token) (interface{}, error) {
-	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-		return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-	}
-	return jwtSecretKey, nil
-}
-
-// ExtractToken provides extracting of token.
+// ExtractToken extracts the JWT token from the request header.
 func ExtractToken(r *http.Request) (string, error) {
-	// Authorization => Bearer Token...
-	header := strings.TrimSpace(r.Header.Get("Authorization"))
-	splitted := strings.Split(header, " ")
-	if len(splitted) != 2 {
-		log.Println("error on extract token from header:", header)
+	// Authorization: Bearer token...
+	header := r.Header.Get("Authorization")
+	tokenString := strings.TrimPrefix(header, "Bearer ")
+	if tokenString == header {
 		return "", ErrInvalidToken
 	}
-	return splitted[1], nil
+	return tokenString, nil
 }
 
-// ExtractToken provides parsing of token.
+// ParseToken parses and verifies the JWT token.
 func ParseToken(tokenString string) (*jwt.Token, error) {
-	return jwt.Parse(tokenString, ParseJwtCallback)
-}
-
-// TokenPayload provides the token payload instance.
-type TokenPayload struct {
-	UserId    string
-	CreatedAt time.Time
-	ExpiresAt time.Time
-}
-
-// NewTokenPayload creates a new TokenPayload instance.
-func NewTokenPayload(tokenString string) (*TokenPayload, error) {
-	token, err := ParseToken(tokenString)
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return jwtSecretKey, nil
+	})
 	if err != nil {
 		return nil, err
 	}
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !token.Valid || !ok {
-		return nil, ErrInvalidToken
+	return token, nil
+}
+
+// ValidateToken validates the JWT token and returns the user ID.
+func ValidateToken(tokenString string) (string, error) {
+	token, err := ParseToken(tokenString)
+	if err != nil {
+		return "", err
 	}
-	id, _ := claims["iss"].(string)
-	createdAt, _ := claims["iat"].(float64)
-	expiresAt, _ := claims["exp"].(float64)
-	return &TokenPayload{
-		UserId:    id,
-		CreatedAt: time.Unix(int64(createdAt), 0),
-		ExpiresAt: time.Unix(int64(expiresAt), 0),
-	}, nil
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		userId, ok := claims["sub"].(string)
+		if !ok {
+			return "", ErrInvalidToken
+		}
+		return userId, nil
+	}
+
+	return "", ErrInvalidToken
 }
