@@ -9,6 +9,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gocolly/colly v1.2.0
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.5.1

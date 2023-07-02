@@ -10,25 +10,25 @@ import (
 func NewCrawlRoutes(crawlHandlers handlers.CrawlHandlers) []*Route {
 	return []*Route{
 		{
-			Path:         "/api/url_data",
+			Path:         "/url_data",
 			Method:       http.MethodGet,
 			Handler:      crawlHandlers.GetURLData,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/urls_data",
+			Path:         "/urls_data",
 			Method:       http.MethodGet,
 			Handler:      crawlHandlers.GetURLsData,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/url_crawl",
+			Path:         "/url_crawl",
 			Method:       http.MethodPost,
 			Handler:      crawlHandlers.CrawlURL,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/urls_crawl",
+			Path:         "/urls_crawl",
 			Method:       http.MethodPost,
 			Handler:      crawlHandlers.CrawlURLs,
 			AuthRequired: true,

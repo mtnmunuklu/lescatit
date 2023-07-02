@@ -44,12 +44,12 @@ func GetUserIdFromToken(r *http.Request) (string, error) {
 		return "", err
 	}
 
-	payload, err := security.NewTokenPayload(token)
+	userId, err := security.ValidateToken(token)
 	if err != nil {
 		return "", err
 	}
 
-	return payload.UserId, nil
+	return userId, nil
 }
 
 // CheckUserIsAdmin checks if user is admin.

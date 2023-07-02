@@ -68,13 +68,15 @@ To set up Lescatit, follow these steps:
     ```
     cd $FILE_NAME/scripts
     # Execute on worker and control plane servers.
-    bash setup_tools.sh
-    bash setup_k8s.sh
+    bash tools/setup_tools.sh
+    bash k8s/setup_k8s.sh
     # Execute only on the first control plane server.
     # It will create setup_k8s_control_plane.sh and setup_k8s_worker.sh files.
     # Control plane and worker scripts are for joining the Kubernetes cluster.
     # You can use these scripts on new nodes when you add new nodes as control plane or worker.
-    bash setup_k8s_first_control_plane.sh
+    bash k8s/setup_k8s_first_control_plane.sh
+    # Execute only on first control plane server.
+    bash setup_lescatit.sh
     ```
 
 ## Usage

@@ -10,53 +10,53 @@ import (
 func NewAuthRoutes(authHandlers handlers.AuthHandlers) []*Route {
 	return []*Route{
 		{
-			Path:    "/api/signup",
+			Path:    "/signup",
 			Method:  http.MethodPut,
 			Handler: authHandlers.SignUp,
 		},
 		{
-			Path:    "/api/signin",
+			Path:    "/signin",
 			Method:  http.MethodPost,
 			Handler: authHandlers.SignIn,
 		},
 		{
-			Path:         "/api/user",
+			Path:         "/user",
 			Method:       http.MethodGet,
 			Handler:      authHandlers.GetUser,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/user",
+			Path:         "/user",
 			Method:       http.MethodDelete,
 			Handler:      authHandlers.DeleteUser,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/user_rc",
+			Path:         "/user_rc",
 			Method:       http.MethodPost,
 			Handler:      authHandlers.ChangeUserRole,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/user_pu",
+			Path:         "/user_pu",
 			Method:       http.MethodPost,
 			Handler:      authHandlers.UpdateUserPassword,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/user_eu",
+			Path:         "/user_eu",
 			Method:       http.MethodPost,
 			Handler:      authHandlers.UpdateUserEmail,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/user_nu",
+			Path:         "/user_nu",
 			Method:       http.MethodPost,
 			Handler:      authHandlers.UpdateUserName,
 			AuthRequired: true,
 		},
 		{
-			Path:         "/api/users",
+			Path:         "/users",
 			Method:       http.MethodGet,
 			Handler:      authHandlers.GetUsers,
 			AuthRequired: true,

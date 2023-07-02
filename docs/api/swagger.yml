@@ -1,14 +1,14 @@
 swagger: "2.0"
 info:
   description: "Provides to crawl and categorize URL addresses."
-  version: "0.1.0"
+  version: "1.0.0"
   title: "Lescatit API"
   contact:
     email: "lescatit@gmail.com"
   license:
     name: "MIT"
-    url: "https://github.com/mtnmunuklu/Lescatit/blob/main/LICENSE"
-host: "lescatit.com"
+    url: "https://github.com/mtnmunuklu/lescatit/blob/main/LICENSE"
+host: "api.lescatit.com"
 tags:
 - name: "auth"
   description: "Authentication api"
@@ -21,7 +21,7 @@ tags:
 schemes:
 - "https"
 paths:
-  /api/signup:
+  /signup:
     put:
       tags:
       - "auth"
@@ -50,7 +50,7 @@ paths:
             description: "Unprocessable entity"
             schema:
               $ref: "#/definitions/Error"
-  /api/signin:
+  /signin:
     post:
       tags:
       - "auth"
@@ -81,7 +81,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/user:
+  /user:
     get:
       tags:
       - "auth"
@@ -170,7 +170,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/user_pu:
+  /user_pu:
     post:
       tags:
       - "auth"
@@ -201,7 +201,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/user_eu:
+  /user_eu:
     post:
       tags:
       - "auth"
@@ -232,7 +232,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/user_nu:
+  /user_nu:
     post:
       tags:
       - "auth"
@@ -263,7 +263,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/users:
+  /users:
     get:
       tags:
       - "auth"
@@ -289,7 +289,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/url_data:
+  /url_data:
     get:
       tags:
       - "crawl"
@@ -319,7 +319,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/urls_data:
+  /urls_data:
     get:
       tags:
       - "crawl"
@@ -351,7 +351,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/url_crawl:
+  /url_crawl:
     post:
       tags:
       - "crawl"
@@ -382,7 +382,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/urls_crawl:
+  /urls_crawl:
     post:
       tags:
       - "crawl"
@@ -415,7 +415,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/url_catze:
+  /url_catze:
     post:
       tags:
       - "catze"
@@ -446,7 +446,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/urls_catze:
+  /urls_catze:
     post:
       tags:
       - "catze"
@@ -479,7 +479,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/cmodel:
+  /cmodel:
     put:
       tags:
       - "catze"
@@ -598,7 +598,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/cmodels:
+  /cmodels:
     delete:
       tags:
       - "catze"
@@ -630,7 +630,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/category:
+  /category:
     get:
       tags:
       - "cat"
@@ -690,7 +690,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/url:
+  /url:
     put:
       tags:
       - "cat"
@@ -750,7 +750,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/url_report:
+  /url_report:
     post:
       tags:
       - "cat"
@@ -781,7 +781,7 @@ paths:
               $ref: "#/definitions/Error"
       security:
       - api_key: []
-  /api/urls:
+  /urls:
     get:
       tags:
       - "cat"
