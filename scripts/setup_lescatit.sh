@@ -21,18 +21,15 @@ kubectl apply -f ../k8s/common/00-scripts.yml \
               -f ../k8s/common/02-stc.yml
               -f ../k8s/common/03-pv.yml
 
-# Apply hugo configuration
-echo -e "${GREEN}Apply hugo configuration${ENDCOLOR}"
-kubectl apply -f ../k8s/hugo/00-pvc.yml \
-              -f ../k8s/hugo/01-hugo.yml
-
 # Apply mongodb configuration
 echo -e "${GREEN}Apply mongodb configuration${ENDCOLOR}"
-kubectl apply -f ../k8s/mongodb/00-pvc.yml \
-              -f ../k8s/mongodb/01-configs.yml \
-              -f ../k8s/mongodb/02-scripts.yml \
-              -f ../k8s/mongodb/03-secrets.yml \
-              -f ../k8s/mongodb/04-sts.yml
+kubectl apply -f ../k8s/mongodb/00-stc.yml \
+              -f ../k8s/mongodb/01-pv.yml \
+              -f ../k8s/mongodb/02-pvc.yml \
+              -f ../k8s/mongodb/03-configs.yml \
+              -f ../k8s/mongodb/04-scripts.yml \
+              -f ../k8s/mongodb/05-secrets.yml \
+              -f ../k8s/mongodb/06-sts.yml
 
 # Generate certificates for docker registry, services and ingress
 echo -e "${GREEN}Generate certificates for docker registry, services and ingress${ENDCOLOR}"

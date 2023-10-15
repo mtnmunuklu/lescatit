@@ -11,7 +11,7 @@ rm -f ../certs/services/*.srl
 echo -e "${GREEN}1. Generate CA's private key and self-signed certificate${ENDCOLOR}"
 openssl req -x509 -newkey rsa:4096 -days 365 -nodes \
     -keyout ../certs/services/ca-key.pem -out ../certs/services/ca-cert.pem \
-    -addext "subjectAltName = DNS:localhost, DNS:auth-service, DNS:crawl-service, DNS:catze-service, DNS:cat-service, IP:0.0.0.0" \
+    -addext "subjectAltName = DNS:localhost, DNS:auth-service, DNS:crawl-service, DNS:catze-service, DNS:cat-service, DNS:api-service, IP:0.0.0.0" \
     -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"
 
 # CA's self-signed certificate
@@ -22,7 +22,7 @@ openssl x509 -in ../certs/services/ca-cert.pem -noout -text
 echo -e "${GREEN}2. Generate web server's private key and certificate signing request (CSR)${ENDCOLOR}"
 openssl req -newkey rsa:4096 -nodes -keyout ../certs/services/server-key.pem \
     -out ../certs/services/server-req.pem \
-    -addext "subjectAltName = DNS:localhost, DNS:auth-service, DNS:crawl-service, DNS:catze-service, DNS:cat-service, IP:0.0.0.0" \
+    -addext "subjectAltName = DNS:localhost, DNS:auth-service, DNS:crawl-service, DNS:catze-service, DNS:cat-service, DNS:api-service, IP:0.0.0.0" \
     -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"
 
 # 3. Use CA's private key to sign web server's CSR and get back the signed certificate
@@ -40,5 +40,5 @@ echo -e "${GREEN}Creation of certificates for ingress${ENDCOLOR}"
 openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
     -out ../certs/api/lescatit-cert.pem \
     -keyout ../certs/api/lescatit-key.pem \
-    -addext "subjectAltName = DNS:lescatit.com, DNS:api.lescatit.com, DNS:api-service, DNS:hugo-service" \
+    -addext "subjectAltName = DNS:lescatit.com, DNS:api.lescatit.com, DNS:api-service" \
     -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"
