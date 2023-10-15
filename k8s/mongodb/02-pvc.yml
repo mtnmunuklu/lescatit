@@ -4,9 +4,9 @@ metadata:
   name: mongodb-pvc
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
   volumeMode: Filesystem
-  storageClassName: common-stc
+  storageClassName: mongodb-stc

@@ -8,7 +8,6 @@ spec:
   tls:
   - hosts:
       - api.lescatit.com
-      - lescatit.com
     secretName: ingress-certs
   rules:
   - host: api.lescatit.com
@@ -21,13 +20,3 @@ spec:
             name: api-service
             port:
               number: 9000
-  - host: lescatit.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: hugo-service
-            port:
-              number: 8081

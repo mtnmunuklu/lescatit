@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: common-pv
+  name: mongodb-pv
 spec:
   capacity:
     storage: 10Gi
   volumeMode: Filesystem
   accessModes:
-    - ReadWriteMany
-  storageClassName: common-stc
+    - ReadWriteOnce
+  storageClassName: mongodb-stc
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /data
+    path: /lescatit
   nodeAffinity:
     required:
       nodeSelectorTerms:
