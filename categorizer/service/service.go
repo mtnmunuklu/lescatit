@@ -242,28 +242,6 @@ func (s *CatzeService) DeleteClassificationModel(ctx context.Context, req *pb.De
 	return &pb.DeleteClassificationModelResponse{Name: classifier.Name}, nil
 }
 
-// DeleteClassificationModels performs delete the classification models.
-func (s *CatzeService) DeleteClassificationModels(req *pb.DeleteClassificationModelsRequest, stream pb.CatzeService_DeleteClassificationModelsServer) error {
-	err := util.ValidateNames(req.GetNames())
-	if err != nil {
-		return err
-	}
-
-	for _, name := range req.GetNames() {
-		classifier, err := s.classifiersRepository.GetByName(name)
-		if err == nil {
-			err = s.classifiersRepository.DeleteById(classifier.Id.Hex())
-			if err == nil {
-				err = stream.Send(&pb.DeleteClassificationModelResponse{Name: name})
-				if err != nil {
-					return err
-				}
-			}
-		}
-	}
-	return nil
-}
-
 // ListClassificationModels performs list all classification models.
 func (s *CatzeService) ListClassificationModels(req *pb.ListClassificationModelsRequest, stream pb.CatzeService_ListClassificationModelsServer) error {
 	err := util.ValidateCategories(req.GetCategories())

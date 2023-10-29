@@ -2,42 +2,34 @@ package middlewares
 
 import (
 	"log"
-	"net/http"
-	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/mtnmunuklu/lescatit/api/util"
 	"github.com/mtnmunuklu/lescatit/security"
 )
 
-// LogRequests provides logging of incoming requests.
-func LogRequests(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		t := time.Now()
-		next(w, r)
-		log.Printf(`{"proto": "%s", "method": "%s", "route": "%s%s", "request_time": "%v"}`, r.Proto, r.Method, r.Host, r.URL.Path, time.Since(t))
-	}
-}
-
-// Authenticate provides the authentication process.
-func Authenticate(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		tokenString, err := security.ExtractToken(r)
+// Authenticate provides the authentication process middleware.
+func Authenticate(next fiber.Handler) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		tokenString, err := security.ExtractToken(c)
 		if err != nil {
-			util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
-			return
+			util.WriteError(c, fiber.StatusUnauthorized, util.ErrUnauthorized)
+			return nil
 		}
+
 		token, err := security.ParseToken(tokenString)
 		if err != nil {
 			log.Println("error on parse token:", err.Error())
-			util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
-			return
-		}
-		if !token.Valid {
-			log.Println("invalid token:", tokenString)
-			util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
-			return
+			util.WriteError(c, fiber.StatusUnauthorized, util.ErrUnauthorized)
+			return nil
 		}
 
-		next(w, r)
+		if !token.Valid {
+			log.Println("invalid token:", tokenString)
+			util.WriteError(c, fiber.StatusUnauthorized, util.ErrUnauthorized)
+			return nil
+		}
+
+		return next(c)
 	}
 }

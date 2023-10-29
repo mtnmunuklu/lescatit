@@ -3,11 +3,11 @@ package security
 import (
 	"errors"
 	"fmt"
-	"net/http"
 	"os"
 	"strings"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -32,9 +32,9 @@ func NewToken(userId string) (string, error) {
 }
 
 // ExtractToken extracts the JWT token from the request header.
-func ExtractToken(r *http.Request) (string, error) {
+func ExtractToken(c *fiber.Ctx) (string, error) {
 	// Authorization: Bearer token...
-	header := r.Header.Get("Authorization")
+	header := c.Get("Authorization")
 	tokenString := strings.TrimPrefix(header, "Bearer ")
 	if tokenString == header {
 		return "", ErrInvalidToken

@@ -1,334 +1,218 @@
 package handlers
 
 import (
-	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/mtnmunuklu/lescatit/api/util"
 	"github.com/mtnmunuklu/lescatit/pb"
 )
 
 // AuthHandlers is the interface of the authentication operation.
 type AuthHandlers interface {
-	SignUp(w http.ResponseWriter, r *http.Request)
-	SignIn(w http.ResponseWriter, r *http.Request)
-	GetUser(w http.ResponseWriter, r *http.Request)
-	DeleteUser(w http.ResponseWriter, r *http.Request)
-	ChangeUserRole(w http.ResponseWriter, r *http.Request)
-	UpdateUserPassword(w http.ResponseWriter, r *http.Request)
-	UpdateUserEmail(w http.ResponseWriter, r *http.Request)
-	UpdateUserName(w http.ResponseWriter, r *http.Request)
-	GetUsers(w http.ResponseWriter, r *http.Request)
+	SignUp(c *fiber.Ctx) error
+	SignIn(c *fiber.Ctx) error
+	GetUser(c *fiber.Ctx) error
+	DeleteUser(c *fiber.Ctx) error
+	ChangeUserRole(c *fiber.Ctx) error
+	UpdateUserPassword(c *fiber.Ctx) error
+	UpdateUserEmail(c *fiber.Ctx) error
+	UpdateUserName(c *fiber.Ctx) error
+	GetUsers(c *fiber.Ctx) error
 }
 
-// AHandlers provides a connection with authentication service over proto buffer.
-type AHandlers struct {
+// authHandlers provides a connection with authentication service over proto buffer.
+type authHandlers struct {
 	authSvcClient pb.AuthServiceClient
 }
 
 // NewAuthHandlers creates a new AuthHandlers instance.
 func NewAuthHandlers(authSvcClient pb.AuthServiceClient) AuthHandlers {
-	return &AHandlers{authSvcClient: authSvcClient}
+	return &authHandlers{authSvcClient: authSvcClient}
 }
 
 // SignUp performs the user registration process.
-func (h *AHandlers) SignUp(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
-	}
-
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
+func (h *authHandlers) SignUp(c *fiber.Ctx) error {
 	signUpRequest := new(pb.SignUpRequest)
-	err = json.Unmarshal(body, signUpRequest)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+	if err := c.BodyParser(signUpRequest); err != nil {
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	signUp, err := h.authSvcClient.SignUp(r.Context(), signUpRequest)
+	signUp, err := h.authSvcClient.SignUp(c.Context(), signUpRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	util.WriteAsJson(w, http.StatusCreated, signUp)
+	return util.WriteAsJSON(c, http.StatusCreated, signUp)
 }
 
 // SignIn performs the user login process.
-func (h *AHandlers) SignIn(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
-	}
-
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
+func (h *authHandlers) SignIn(c *fiber.Ctx) error {
 	signInRequest := new(pb.SignInRequest)
-	err = json.Unmarshal(body, signInRequest)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+	if err := c.BodyParser(signInRequest); err != nil {
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	signIn, err := h.authSvcClient.SignIn(r.Context(), signInRequest)
+	signIn, err := h.authSvcClient.SignIn(c.Context(), signInRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, signIn)
+	return util.WriteAsJSON(c, http.StatusOK, signIn)
 }
 
-// GetUser performs return the user by email.
-func (h *AHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
-	// check user role
-	userId, err := util.GetUserIdFromToken(r)
+// GetUser returns the user by email.
+func (h *authHandlers) GetUser(c *fiber.Ctx) error {
+	userId, err := util.GetUserIDFromToken(c)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	getedUserRole, err := h.authSvcClient.GetUserRole(c.Context(), &pb.GetUserRoleRequest{Id: userId})
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
 	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
 	if !userIsAdmin {
-		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
-		return
+		return util.WriteError(c, http.StatusUnauthorized, util.ErrUnauthorized)
 	}
 
-	// get user
-	email := r.Header.Get("Email")
-	user := new(pb.GetUserRequest)
-	user.Email = email
+	email := c.Get("Email")
+	user := &pb.GetUserRequest{Email: email}
 
-	getedUser, err := h.authSvcClient.GetUser(r.Context(), user)
+	getedUser, err := h.authSvcClient.GetUser(c.Context(), user)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, getedUser)
+	return util.WriteAsJSON(c, http.StatusOK, getedUser)
 }
 
-// DeleteUser performs delete the user by email.
-func (h *AHandlers) DeleteUser(w http.ResponseWriter, r *http.Request) {
-	// check user role
-	userId, err := util.GetUserIdFromToken(r)
+// DeleteUser deletes the user by email.
+func (h *authHandlers) DeleteUser(c *fiber.Ctx) error {
+	userId, err := util.GetUserIDFromToken(c)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	getedUserRole, err := h.authSvcClient.GetUserRole(c.Context(), &pb.GetUserRoleRequest{Id: userId})
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
 	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
 	if !userIsAdmin {
-		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
-		return
+		return util.WriteError(c, http.StatusUnauthorized, util.ErrUnauthorized)
 	}
 
-	// delete user
-	email := r.Header.Get("Email")
-	user := new(pb.DeleteUserRequest)
-	user.Email = email
+	email := c.Get("Email")
+	user := &pb.DeleteUserRequest{Email: email}
 
-	deletedUser, err := h.authSvcClient.DeleteUser(r.Context(), user)
+	deletedUser, err := h.authSvcClient.DeleteUser(c.Context(), user)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, deletedUser)
+	return util.WriteAsJSON(c, http.StatusOK, deletedUser)
 }
 
-// ChangeUserRole performs change the user role.
-func (h *AHandlers) ChangeUserRole(w http.ResponseWriter, r *http.Request) {
-	// check user role
-	userId, err := util.GetUserIdFromToken(r)
+// ChangeUserRole changes the user role.
+func (h *authHandlers) ChangeUserRole(c *fiber.Ctx) error {
+	userId, err := util.GetUserIDFromToken(c)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	getedUserRole, err := h.authSvcClient.GetUserRole(c.Context(), &pb.GetUserRoleRequest{Id: userId})
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
 	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
 	if !userIsAdmin {
-		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
-		return
+		return util.WriteError(c, http.StatusUnauthorized, util.ErrUnauthorized)
 	}
 
-	// change user role
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
+	changeUserRoleRequest := new(pb.ChangeUserRoleRequest)
+	if err := c.BodyParser(changeUserRoleRequest); err != nil {
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
+	changedUser, err := h.authSvcClient.ChangeUserRole(c.Context(), changeUserRoleRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	user := new(pb.ChangeUserRoleRequest)
-	err = json.Unmarshal(body, user)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
-	changedUser, err := h.authSvcClient.ChangeUserRole(r.Context(), user)
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-
-	util.WriteAsJson(w, http.StatusOK, changedUser)
+	return util.WriteAsJSON(c, http.StatusOK, changedUser)
 }
 
-// UpdateUser performs update the user password.
-func (h *AHandlers) UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
-	}
-
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
+// UpdateUserPassword updates the user password.
+func (h *authHandlers) UpdateUserPassword(c *fiber.Ctx) error {
 	updatePasswordRequest := new(pb.UpdateUserPasswordRequest)
-	err = json.Unmarshal(body, updatePasswordRequest)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+	if err := c.BodyParser(updatePasswordRequest); err != nil {
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	updatedUser, err := h.authSvcClient.UpdateUserPassword(r.Context(), updatePasswordRequest)
+	updatedUser, err := h.authSvcClient.UpdateUserPassword(c.Context(), updatePasswordRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, updatedUser)
+	return util.WriteAsJSON(c, http.StatusOK, updatedUser)
 }
 
-// UpdateUser performs update the user email.
-func (h *AHandlers) UpdateUserEmail(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
-	}
-
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
+// UpdateUserEmail updates the user email.
+func (h *authHandlers) UpdateUserEmail(c *fiber.Ctx) error {
 	updateEmailRequest := new(pb.UpdateUserEmailRequest)
-	err = json.Unmarshal(body, updateEmailRequest)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+	if err := c.BodyParser(updateEmailRequest); err != nil {
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	updatedUser, err := h.authSvcClient.UpdateUserEmail(r.Context(), updateEmailRequest)
+	updatedUser, err := h.authSvcClient.UpdateUserEmail(c.Context(), updateEmailRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, updatedUser)
+	return util.WriteAsJSON(c, http.StatusOK, updatedUser)
 }
 
-// UpdateUser performs update the user name.
-func (h *AHandlers) UpdateUserName(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
-	}
-
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
+// UpdateUserName updates the user name.
+func (h *authHandlers) UpdateUserName(c *fiber.Ctx) error {
 	updateNameRequest := new(pb.UpdateUserNameRequest)
-	err = json.Unmarshal(body, updateNameRequest)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+	if err := c.BodyParser(updateNameRequest); err != nil {
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	updatedUser, err := h.authSvcClient.UpdateUserName(r.Context(), updateNameRequest)
+	updatedUser, err := h.authSvcClient.UpdateUserName(c.Context(), updateNameRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, updatedUser)
+	return util.WriteAsJSON(c, http.StatusOK, updatedUser)
 }
 
 // GetUsers lists all users.
-func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
-	// check user role
-	userId, err := util.GetUserIdFromToken(r)
+func (h *authHandlers) GetUsers(c *fiber.Ctx) error {
+	userId, err := util.GetUserIDFromToken(c)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	getedUserRole, err := h.authSvcClient.GetUserRole(r.Context(), &pb.GetUserRoleRequest{Id: userId})
+	getedUserRole, err := h.authSvcClient.GetUserRole(c.Context(), &pb.GetUserRoleRequest{Id: userId})
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
 	userIsAdmin := util.CheckUserIsAdmin(getedUserRole.Role)
 	if !userIsAdmin {
-		util.WriteError(w, http.StatusUnauthorized, util.ErrUnauthorized)
-		return
+		return util.WriteError(c, http.StatusUnauthorized, util.ErrUnauthorized)
 	}
 
-	// get users
-	stream, err := h.authSvcClient.ListUsers(r.Context(), &pb.ListUsersRequest{})
+	stream, err := h.authSvcClient.ListUsers(c.Context(), &pb.ListUsersRequest{})
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
 	var getedUsers []*pb.User
@@ -339,12 +223,11 @@ func (h *AHandlers) GetUsers(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if err != nil {
-			util.WriteError(w, http.StatusBadRequest, err)
-			return
+			return util.WriteError(c, http.StatusBadRequest, err)
 		}
 
 		getedUsers = append(getedUsers, user)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, getedUsers)
+	return util.WriteAsJSON(c, http.StatusOK, getedUsers)
 }

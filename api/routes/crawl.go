@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/mtnmunuklu/lescatit/api/handlers"
 )
 
@@ -10,27 +11,35 @@ import (
 func NewCrawlRoutes(crawlHandlers handlers.CrawlHandlers) []*Route {
 	return []*Route{
 		{
-			Path:         "/url_data",
-			Method:       http.MethodGet,
-			Handler:      crawlHandlers.GetURLData,
+			Method: http.MethodGet,
+			Path:   "/url_data",
+			Handler: func(c *fiber.Ctx) error {
+				return crawlHandlers.GetURLData(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/urls_data",
-			Method:       http.MethodGet,
-			Handler:      crawlHandlers.GetURLsData,
+			Method: http.MethodGet,
+			Path:   "/urls_data",
+			Handler: func(c *fiber.Ctx) error {
+				return crawlHandlers.GetURLsData(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/url_crawl",
-			Method:       http.MethodPost,
-			Handler:      crawlHandlers.CrawlURL,
+			Method: http.MethodPost,
+			Path:   "/url_crawl",
+			Handler: func(c *fiber.Ctx) error {
+				return crawlHandlers.CrawlURL(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/urls_crawl",
-			Method:       http.MethodPost,
-			Handler:      crawlHandlers.CrawlURLs,
+			Method: http.MethodPost,
+			Path:   "/urls_crawl",
+			Handler: func(c *fiber.Ctx) error {
+				return crawlHandlers.CrawlURLs(c)
+			},
 			AuthRequired: true,
 		},
 	}

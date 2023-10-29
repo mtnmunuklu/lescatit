@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/mtnmunuklu/lescatit/api/handlers"
 )
 
@@ -10,45 +11,51 @@ import (
 func NewCatRoutes(catHandlers handlers.CatHandlers) []*Route {
 	return []*Route{
 		{
-			Path:         "/category",
-			Method:       http.MethodGet,
-			Handler:      catHandlers.GetCategory,
+			Method: http.MethodGet,
+			Path:   "/category",
+			Handler: func(c *fiber.Ctx) error {
+				return catHandlers.GetCategory(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/category",
-			Method:       http.MethodPost,
-			Handler:      catHandlers.UpdateCategory,
+			Method: http.MethodPost,
+			Path:   "/category",
+			Handler: func(c *fiber.Ctx) error {
+				return catHandlers.UpdateCategory(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/url",
-			Method:       http.MethodPut,
-			Handler:      catHandlers.AddURL,
+			Method: http.MethodPut,
+			Path:   "/url",
+			Handler: func(c *fiber.Ctx) error {
+				return catHandlers.AddURL(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/url",
-			Method:       http.MethodDelete,
-			Handler:      catHandlers.DeleteURL,
+			Method: http.MethodDelete,
+			Path:   "/url",
+			Handler: func(c *fiber.Ctx) error {
+				return catHandlers.DeleteURL(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/url_report",
-			Method:       http.MethodPost,
-			Handler:      catHandlers.ReportMiscategorization,
+			Method: http.MethodPost,
+			Path:   "/url_report",
+			Handler: func(c *fiber.Ctx) error {
+				return catHandlers.ReportMiscategorization(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/urls",
-			Method:       http.MethodDelete,
-			Handler:      catHandlers.DeleteURLs,
-			AuthRequired: true,
-		},
-		{
-			Path:         "/urls",
-			Method:       http.MethodGet,
-			Handler:      catHandlers.GetURLs,
+			Method: http.MethodGet,
+			Path:   "/urls",
+			Handler: func(c *fiber.Ctx) error {
+				return catHandlers.GetURLs(c)
+			},
 			AuthRequired: true,
 		},
 	}

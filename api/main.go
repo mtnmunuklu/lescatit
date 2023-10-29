@@ -4,15 +4,16 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/mtnmunuklu/lescatit/api/handlers"
 	"github.com/mtnmunuklu/lescatit/api/routes"
 	"github.com/mtnmunuklu/lescatit/pb"
 	"github.com/mtnmunuklu/lescatit/security"
 
-	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
@@ -95,13 +96,15 @@ func main() {
 	catHandlers := handlers.NewCatHandlers(autSvcClient, crawlSvcClient, catzeSvcClient, catSvcClient)
 	catRoutes := routes.NewCatRoutes(catHandlers)
 
-	router := mux.NewRouter().StrictSlash(true)
-	routes.Install(router, authRoutes)
-	routes.Install(router, crawlRoutes)
-	routes.Install(router, catzeRoutes)
-	routes.Install(router, catRoutes)
+	app := fiber.New()
+	app.Use(cors.New())
+	app.Use(logger.New())
+	routes.Install(app, authRoutes)
+	routes.Install(app, crawlRoutes)
+	routes.Install(app, catzeRoutes)
+	routes.Install(app, catRoutes)
 
 	log.Printf("API service running on [::]:%d\n", port)
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), routes.WithCORS(router)))
+	log.Fatal(app.Listen(fmt.Sprintf(":%d", port)))
 }

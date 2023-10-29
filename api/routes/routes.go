@@ -1,43 +1,25 @@
 package routes
 
 import (
-	"net/http"
-
+	"github.com/gofiber/fiber/v2"
 	"github.com/mtnmunuklu/lescatit/api/middlewares"
-
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
 )
 
 // Route provides the route instance for routing operation.
 type Route struct {
 	Method       string
 	Path         string
-	Handler      http.HandlerFunc
+	Handler      fiber.Handler
 	AuthRequired bool
 }
 
 // Install registers a new route with a matcher for the URL path.
-func Install(router *mux.Router, routeList []*Route) {
+func Install(app *fiber.App, routeList []*Route) {
 	for _, route := range routeList {
+		handler := route.Handler
 		if route.AuthRequired {
-			router.
-				HandleFunc(route.Path, middlewares.LogRequests(
-					middlewares.Authenticate(route.Handler),
-				)).
-				Methods(route.Method)
-		} else {
-			router.
-				HandleFunc(route.Path, middlewares.LogRequests(route.Handler)).
-				Methods(route.Method)
+			handler = middlewares.Authenticate(handler)
 		}
+		app.Add(route.Method, route.Path, handler)
 	}
-}
-
-// WithCORS provides Cross-Origin Resource Sharing middleware.
-func WithCORS(router *mux.Router) http.Handler {
-	headers := handlers.AllowedHeaders([]string{"X-Requested-with", "Content-Type", "Accept", "Authorization"})
-	origins := handlers.AllowedOrigins([]string{"*"})
-	methods := handlers.AllowedMethods([]string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete})
-	return handlers.CORS(headers, origins, methods)(router)
 }

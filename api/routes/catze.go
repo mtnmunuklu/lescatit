@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/mtnmunuklu/lescatit/api/handlers"
 )
 
@@ -10,51 +11,59 @@ import (
 func NewCatzeRoutes(catzeHandlers handlers.CatzeHandlers) []*Route {
 	return []*Route{
 		{
-			Path:         "/url_catze",
-			Method:       http.MethodPost,
-			Handler:      catzeHandlers.CategorizeURL,
+			Method: http.MethodPost,
+			Path:   "/url_catze",
+			Handler: func(c *fiber.Ctx) error {
+				return catzeHandlers.CategorizeURL(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/urls_catze",
-			Method:       http.MethodPost,
-			Handler:      catzeHandlers.CategorizeURLs,
+			Method: http.MethodPost,
+			Path:   "/urls_catze",
+			Handler: func(c *fiber.Ctx) error {
+				return catzeHandlers.CategorizeURLs(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel",
-			Method:       http.MethodPut,
-			Handler:      catzeHandlers.GenerateClassificationModel,
+			Method: http.MethodPut,
+			Path:   "/cmodel",
+			Handler: func(c *fiber.Ctx) error {
+				return catzeHandlers.GenerateClassificationModel(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel",
-			Method:       http.MethodGet,
-			Handler:      catzeHandlers.GetClassificationModel,
+			Method: http.MethodGet,
+			Path:   "/cmodel",
+			Handler: func(c *fiber.Ctx) error {
+				return catzeHandlers.GetClassificationModel(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel",
-			Method:       http.MethodPost,
-			Handler:      catzeHandlers.UpdateClassificationModel,
+			Method: http.MethodPost,
+			Path:   "/cmodel",
+			Handler: func(c *fiber.Ctx) error {
+				return catzeHandlers.UpdateClassificationModel(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodel",
-			Method:       http.MethodDelete,
-			Handler:      catzeHandlers.DeleteClassificationModel,
+			Method: http.MethodDelete,
+			Path:   "/cmodel",
+			Handler: func(c *fiber.Ctx) error {
+				return catzeHandlers.DeleteClassificationModel(c)
+			},
 			AuthRequired: true,
 		},
 		{
-			Path:         "/cmodels",
-			Method:       http.MethodDelete,
-			Handler:      catzeHandlers.DeleteClassificationModels,
-			AuthRequired: true,
-		},
-		{
-			Path:         "/cmodels",
-			Method:       http.MethodGet,
-			Handler:      catzeHandlers.ListClassificationModels,
+			Method: http.MethodGet,
+			Path:   "/cmodels",
+			Handler: func(c *fiber.Ctx) error {
+				return catzeHandlers.ListClassificationModels(c)
+			},
 			AuthRequired: true,
 		},
 	}

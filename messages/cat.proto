@@ -56,10 +56,6 @@ message ReportMiscategorizationRequest {
     string category = 3;
 }
 
-message DeleteURLsRequest {
-    repeated string urls = 1;
-}
-
 message ListURLsRequest {
     repeated string categories = 1;
     string count = 2;
@@ -71,6 +67,5 @@ service CatService {
     rpc AddURL(AddURLRequest) returns (Category);
     rpc DeleteURL(DeleteURLRequest) returns (DeleteURLResponse);
     rpc ReportMiscategorization(ReportMiscategorizationRequest) returns (Category);
-    rpc DeleteURLs(DeleteURLsRequest) returns (stream DeleteURLResponse);
     rpc ListURLs(ListURLsRequest) returns (stream Category);
 }

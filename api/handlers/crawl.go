@@ -1,71 +1,65 @@
 package handlers
 
 import (
-	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"strings"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/mtnmunuklu/lescatit/api/util"
 	"github.com/mtnmunuklu/lescatit/pb"
 )
 
 // CrawlHandlers is the interface of the crawler operation.
 type CrawlHandlers interface {
-	GetURLData(w http.ResponseWriter, r *http.Request)
-	GetURLsData(w http.ResponseWriter, r *http.Request)
-	CrawlURL(w http.ResponseWriter, r *http.Request)
-	CrawlURLs(w http.ResponseWriter, r *http.Request)
+	GetURLData(c *fiber.Ctx) error
+	GetURLsData(c *fiber.Ctx) error
+	CrawlURL(c *fiber.Ctx) error
+	CrawlURLs(c *fiber.Ctx) error
 }
 
-// CwlHandlers provides a connection with crawler service over proto buffer.
-type CwlHandlers struct {
+// crawlHandlers provides a connection with crawler service over proto buffer.
+type crawlHandlers struct {
 	crawlSvcClient pb.CrawlServiceClient
 }
 
 // NewCrawlHandlers creates a new CrawlHandlers instance.
 func NewCrawlHandlers(crawlSvcClient pb.CrawlServiceClient) CrawlHandlers {
-	return &CwlHandlers{crawlSvcClient: crawlSvcClient}
+	return &crawlHandlers{crawlSvcClient: crawlSvcClient}
 }
 
 // GetURLData provides to get the content in the url address.
-func (h *CwlHandlers) GetURLData(w http.ResponseWriter, r *http.Request) {
-	rUrl := r.Header.Get("Url")
+func (h *crawlHandlers) GetURLData(c *fiber.Ctx) error {
+	url := c.Get("Url")
 
-	url := new(pb.GetURLDataRequest)
-	url.Url = rUrl
+	getURLDataRequest := &pb.GetURLDataRequest{Url: url}
 
-	getedURLData, err := h.crawlSvcClient.GetURLData(r.Context(), url)
+	getedURLData, err := h.crawlSvcClient.GetURLData(c.Context(), getURLDataRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, getedURLData)
+	return util.WriteAsJSON(c, http.StatusOK, getedURLData)
 }
 
 // GetURLsData provides to get the content in the url addresses.
-func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
-	rURLs := r.Header.Get("Urls")
-	rTypes := r.Header.Get("Types")
-	splittedURLs := strings.Split(rURLs, ",")
-	splittedTypes := strings.Split(rTypes, ",")
+func (h *crawlHandlers) GetURLsData(c *fiber.Ctx) error {
+	urls := strings.Split(c.Get("Urls"), ",")
+	types := strings.Split(c.Get("Types"), ",")
 
-	urls := new(pb.GetURLsDataRequest)
-	for index, splittedURL := range splittedURLs {
-		url := new(pb.GetURLDataRequest)
-		url.Url = splittedURL
-		if len(splittedTypes) > index {
-			url.Type = splittedTypes[index]
+	getURLsDataRequest := new(pb.GetURLsDataRequest)
+	for index, url := range urls {
+		getURLDataRequest := new(pb.GetURLDataRequest)
+		getURLDataRequest.Url = url
+		if len(types) > index {
+			getURLDataRequest.Type = types[index]
 		}
-		urls.GetURLsDataRequest = append(urls.GetURLsDataRequest, url)
+		getURLsDataRequest.GetURLsDataRequest = append(getURLsDataRequest.GetURLsDataRequest, getURLDataRequest)
 	}
 
-	stream, err := h.crawlSvcClient.GetURLsData(r.Context(), urls)
+	stream, err := h.crawlSvcClient.GetURLsData(c.Context(), getURLsDataRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
 	var getedURLsData []*pb.GetURLDataResponse
@@ -76,71 +70,40 @@ func (h *CwlHandlers) GetURLsData(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if err != nil {
-			util.WriteError(w, http.StatusBadRequest, err)
-			return
+			return util.WriteError(c, http.StatusUnprocessableEntity, err)
 		}
 
 		getedURLsData = append(getedURLsData, getedURLData)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, getedURLsData)
+	return util.WriteAsJSON(c, http.StatusOK, getedURLsData)
 }
 
 // CrawlURL performs crawl the url.
-func (h *CwlHandlers) CrawlURL(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
+func (h *crawlHandlers) CrawlURL(c *fiber.Ctx) error {
+	crawlURLRequest := new(pb.CrawlURLRequest)
+	if err := c.BodyParser(crawlURLRequest); err != nil {
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
+	crawledURL, err := h.crawlSvcClient.CrawlURL(c.Context(), crawlURLRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
-	url := new(pb.CrawlURLRequest)
-	err = json.Unmarshal(body, url)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
-	crawledURL, err := h.crawlSvcClient.CrawlURL(r.Context(), url)
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-
-	util.WriteAsJson(w, http.StatusOK, crawledURL)
+	return util.WriteAsJSON(c, http.StatusOK, crawledURL)
 }
 
 // CrawlURLs performs crawl the urls.
-func (h *CwlHandlers) CrawlURLs(w http.ResponseWriter, r *http.Request) {
-	if r.Body == nil {
-		util.WriteError(w, http.StatusBadRequest, util.ErrEmptyBody)
-		return
+func (h *crawlHandlers) CrawlURLs(c *fiber.Ctx) error {
+	crawlURLsRequest := new(pb.CrawlURLsRequest)
+	if err := c.BodyParser(crawlURLsRequest); err != nil {
+		return util.WriteError(c, http.StatusBadRequest, err)
 	}
 
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
+	stream, err := h.crawlSvcClient.CrawlURLs(c.Context(), crawlURLsRequest)
 	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
-	urls := new(pb.CrawlURLsRequest)
-	err = json.Unmarshal(body, urls)
-	if err != nil {
-		util.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
-
-	stream, err := h.crawlSvcClient.CrawlURLs(r.Context(), urls)
-	if err != nil {
-		util.WriteError(w, http.StatusUnprocessableEntity, err)
-		return
+		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
 
 	var crawledURLs []*pb.CrawlURLResponse
@@ -151,12 +114,11 @@ func (h *CwlHandlers) CrawlURLs(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if err != nil {
-			util.WriteError(w, http.StatusBadRequest, err)
-			return
+			return util.WriteError(c, http.StatusBadRequest, err)
 		}
 
 		crawledURLs = append(crawledURLs, crawledURL)
 	}
 
-	util.WriteAsJson(w, http.StatusOK, crawledURLs)
+	return util.WriteAsJSON(c, http.StatusOK, crawledURLs)
 }

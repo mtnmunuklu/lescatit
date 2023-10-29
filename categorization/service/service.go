@@ -187,32 +187,6 @@ func (s *CatService) ReportMiscategorization(ctx context.Context, req *pb.Report
 	return reportedURL.ToProtoBuffer(), nil
 }
 
-// DeleteURLs performs delete the urls.
-func (s *CatService) DeleteURLs(req *pb.DeleteURLsRequest, stream pb.CatService_DeleteURLsServer) error {
-	err := util.ValidateURLs(req.GetUrls())
-	if err != nil {
-		return err
-	}
-
-	for _, url := range req.GetUrls() {
-		err := util.ValidateURL(url)
-		if err == nil {
-			base64URL := security.Base64Encode(url)
-			found, err := s.categoriesRepository.GetCategoryByURL(base64URL)
-			if err == nil {
-				err = s.categoriesRepository.DeleteById(found.Id.Hex())
-				if err == nil {
-					err = stream.Send(&pb.DeleteURLResponse{Url: url})
-					if err != nil {
-						return util.ErrNotPerformedOperation
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
 // ListURLs performs list the urls based on categories and count.
 func (s *CatService) ListURLs(req *pb.ListURLsRequest, stream pb.CatService_ListURLsServer) error {
 	err := util.ValidateCategories(req.GetCategories())
