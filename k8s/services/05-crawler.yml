@@ -36,11 +36,6 @@ spec:
               secretKeyRef:
                 name: svc-secrets
                 key: dbPass
-          - name: JWT_SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: svc-secrets
-                key: jwtSecretKey
 
           - name: DATABASE_HOST
             valueFrom:

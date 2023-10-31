@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.ProjectName}}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+        }
+
+        p {
+            font-size: 24px;
+            color: #555;
+            margin: 20px 0;
+        }
+
+        .logo {
+            max-width: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #1E90FF; /* New button color (a shade of blue) */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{.ImageURL}}" alt="Project Logo" style="max-width: 400px; max-height: 400px;">
+        <h1>{{.ProjectName}} <sub><small>({{.ProjectNameExplanation}})</small></sub></h1>
+        <p style="font-size: 20px; color: #777; margin: 20px 0;">{{.Description}}</p>
+        <div class="btn-container">
+            <a href="{{.GithubLink}}" class="btn">GitHub Repository</a>
+            <a href="/swagger/index.html" class="btn">API Documentation</a>
+        </div>
+    </div>
+</body>
+</html>

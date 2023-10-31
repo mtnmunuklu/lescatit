@@ -40,5 +40,5 @@ echo -e "${GREEN}Creation of certificates for ingress${ENDCOLOR}"
 openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
     -out ../certs/api/lescatit-cert.pem \
     -keyout ../certs/api/lescatit-key.pem \
-    -addext "subjectAltName = DNS:lescatit.com, DNS:api.lescatit.com, DNS:api-service" \
+    -addext "subjectAltName = DNS:lescatit.com, DNS:api.lescatit.com, DNS:api-service, DNS:web-service" \
     -subj "/C=TR/ST=Istanbul/L=DavutPasa/O=Lescatit/OU=Software/CN=*.lescatit.com/emailAddress=lescatit@gmail.com"

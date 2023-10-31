@@ -46,13 +46,14 @@ kubectl create secret tls ingress-certs --key ../certs/api/lescatit-key.pem --ce
 # Apply service configuration
 echo -e "${GREEN}Apply service configuration${ENDCOLOR}"
 kubectl apply -f ../k8s/services/00-configs.yml \
-              -f ../k8s/services/01-svc_secrets.yml \
+              -f ../k8s/services/01-secrets.yml \
               -f ../k8s/services/02-authentication.yml \
               -f ../k8s/services/03-categorization.yml \
               -f ../k8s/services/04-categorizer.yml \
               -f ../k8s/services/05-crawler.yml \
               -f ../k8s/services/06-api.yml \
-              -f ../k8s/services/07-tls_ingress.yml
+              -f ../k8s/services/07-web.yml \
+              -f ../k8s/services/08-tls_ingress.yml
 
 # Get all information
 echo -e "${GREEN}Get all information${ENDCOLOR}"

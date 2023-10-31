@@ -7,3 +7,8 @@ data:
   dbPort: "27017"
   dbName: lescatit
   certPath: "/etc/certs"
+  projectName: Lescatit
+  projectNameExplanation: "Let's categorized it"
+  description: elcome to the Lescatit project! You can find more information about this open-source project on its GitHub repository and explore the API documentation.
+  githubLink: https://github.com/mtnmunuklu/lescatit
+  imageURL: https://github.com/mtnmunuklu/lescatit/blob/main/images/logo.png?raw=true

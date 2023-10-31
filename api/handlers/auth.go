@@ -80,9 +80,9 @@ func (h *authHandlers) GetUser(c *fiber.Ctx) error {
 	}
 
 	email := c.Get("Email")
-	user := &pb.GetUserRequest{Email: email}
+	getUserRequest := &pb.GetUserRequest{Email: email}
 
-	getedUser, err := h.authSvcClient.GetUser(c.Context(), user)
+	getedUser, err := h.authSvcClient.GetUser(c.Context(), getUserRequest)
 	if err != nil {
 		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}
@@ -108,9 +108,9 @@ func (h *authHandlers) DeleteUser(c *fiber.Ctx) error {
 	}
 
 	email := c.Get("Email")
-	user := &pb.DeleteUserRequest{Email: email}
+	deleteUserRequest := &pb.DeleteUserRequest{Email: email}
 
-	deletedUser, err := h.authSvcClient.DeleteUser(c.Context(), user)
+	deletedUser, err := h.authSvcClient.DeleteUser(c.Context(), deleteUserRequest)
 	if err != nil {
 		return util.WriteError(c, http.StatusUnprocessableEntity, err)
 	}

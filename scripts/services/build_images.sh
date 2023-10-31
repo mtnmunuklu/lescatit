@@ -7,6 +7,7 @@ cp ../crawler/crawlsvc ../k8s/docker
 cp ../categorizer/catzesvc ../k8s/docker
 cp ../categorization/catsvc ../k8s/docker
 cp ../api/apisvc ../k8s/docker
+cp ../web/websvc ../k8s/docker
 
 # Build app docker file
 echo -e "${GREEN}Build docker file${ENDCOLOR}"

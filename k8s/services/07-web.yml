@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc
+      role: web
+  template:
+    metadata:
+      labels:
+        app: svc
+        role: web
+    spec:
+      nodeSelector:
+        kubernetes.io/role: worker
+      containers:
+      - name: web-svc
+        image: mtnmunuklu/lescatit:v1.0.0
+        ports:
+        - containerPort: 9005
+        command:
+          - sh
+          - -c
+          - /app/websvc -local=false
+        env:
+          - name: PROJECT_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: projectName
+          - name: PROJECT_NAME_EXPLANATION
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: projectNameExplanation
+          - name: DESCRIPTION
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: description
+          - name: GITHUB_LINK
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: githubLink
+          - name: IMAGE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: svc-configs
+                key: imageURL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 9005
+      targetPort: 9005
+  selector:
+    app: svc
+    role: web

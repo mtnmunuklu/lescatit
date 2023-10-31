@@ -6,3 +6,4 @@ go build -o ../crawler/crawlsvc ../crawler/main.go
 go build -o ../categorizer/catzesvc ../categorizer/main.go
 go build -o ../categorization/catsvc ../categorization/main.go
 go build -o ../api/apisvc ../api/main.go
+go build -o ../web/websvc ../web/main.go
