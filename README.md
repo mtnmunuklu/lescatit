@@ -8,7 +8,7 @@
 
 # Lescatit <sub><small><small>(Let's categorized it)</small></small></sub>
 
-Lescatit is a project developed in **go**, **mongo**, **docker**, and **kubernetes** technologies, providing URL crawling and categorization functionality.
+Lescatit is a project developed in **Go**, **Mongo**, **Docker**, **Kubernetes**, **gRPC** and **Fiber** technologies, providing URL crawling and categorization functionality.
 
 ## Table of Contents
 
@@ -81,11 +81,11 @@ To set up Lescatit, follow these steps:
 
 ## Usage
 
-Lescatit consists of 5 different services: [authentication](authentication), [crawler](crawler), [categorizer](categorizer), [categorization](categorization), and [api](api). All incoming requests are first forwarded to the API service. Afterwards, the API service decides to which service the incoming request will be forwarded. The requested URL plays a role in the decision-making process.
+Lescatit consists of 6 different services: [authentication](authentication), [crawler](crawler), [categorizer](categorizer), [categorization](categorization), [api](api) and [web](web).  Unlike the other services, incoming requests to the web service are directly routed without passing through the API service. The requested URL plays a role in the decision-making process.
 
-To understand the features of each service, the available endpoints, how to make requests, and the expected responses, refer to the [api.pdf](docs/api/api.pdf) file under the `docs` folder.
+To understand the features of each service, the available endpoints, how to make requests, and the expected responses, refer to the [api.pdf](docs/api/api.pdf) file under the [docs](docs) folder.
 
-You can also access the documents describing the software structure of each service under the `docs` folder.
+You can also access the documents describing the `software structure` of each service under the [docs](docs) folder.
 
 ## License
 
