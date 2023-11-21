@@ -56,8 +56,10 @@ func main() {
 		return c.Render("index", projectInfo)
 	})
 
-	// Serve Swagger documentation at /swagger/index.html
-	app.Static("/swagger", "./swagger")
+	// Serve a PDF file at /pdf
+	app.Get("/api-doc", func(c *fiber.Ctx) error {
+		return c.SendFile("./pdf/api-documentation.pdf")
+	})
 
 	log.Printf("Web service running on [::]:%d\n", port)
 
